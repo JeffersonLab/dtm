@@ -93,8 +93,14 @@ public class Incidents extends HttpServlet {
                     incBld.add("title", incident.getTitle());
                     incBld.add("summary", incident.getSummary());
                     incBld.add("time_down", formatter.format(incident.getTimeDown()));
-                    incBld.add("time_up", incident.getTimeUp() == null ? null : formatter.format(incident.getTimeUp()));
-                    incBld.add("component", incident.getComponent() == null ? null : incident.getComponent().getName());
+
+                    if(incident.getTimeUp() == null) {
+                        incBld.addNull("time_up");
+                    } else {
+                        incBld.add("time_up", formatter.format(incident.getTimeUp()));
+                    }
+
+                    incBld.add("component", incident.getComponent().getName());
                     incBld.add("event_id", incident.getEvent().getEventId());
 
                     arrBld.add(incBld.build());
