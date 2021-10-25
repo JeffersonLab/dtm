@@ -1,0 +1,13 @@
+#run-list li {
+    display: block;
+    padding-top: 10px;
+}
+tbody th {
+    text-align: left;
+}
+.hidden-table {
+    display: none;
+}
+.legend table td {
+    padding: 0 2px;
+}

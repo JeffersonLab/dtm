@@ -1,0 +1,101 @@
+.print .chart-legend {
+    margin-top: 0.7em;
+}
+.marking-line {
+    border-width: 3px;
+    border-top-style: dashed;
+    border-bottom-style: none;
+}
+.chart-legend td, .chart-legend th {
+    padding: 0.5em;
+}
+.chart-legend tbody td:nth-child(2) {
+    white-space: nowrap;
+    text-align: left;    
+}
+.chart-legend tfoot th:nth-child(2) {
+    text-align: right;
+}
+.marking-line,
+.marking-label-holder {
+    pointer-events: none;
+}
+.chart-legend {
+    margin-left: 4em;
+}
+.chart-footnote {
+    margin-left: 5em;
+}
+.fullscreen .known-markings {
+    width: 95px;
+    right: -100px;
+}
+.known-markings {
+    font-size: 13px;
+    bottom: -9px;    
+    position: absolute;
+    width: 75px;
+    right: -80px;
+    background-color: transparent;
+    color: rgb(84, 84, 84);    
+}
+.print .known-markings {
+    font-size: 18px;
+    bottom: -12px;
+}
+.known-markings.daily-marking {
+    bottom: -16px;
+}
+.print .known-markings.daily-marking {
+    bottom: -23px;
+}
+.known-markings.monthly-marking {
+    bottom: -26px;
+}
+.print .known-markings.monthly-marking {
+    bottom: -34px;
+}
+
+.print:not(.fullscreen) #page {
+    width: 940px !important;
+}
+.print:not(.fullscreen) section {
+    margin: 0;
+}
+body.print:not(.fullscreen),
+.print:not(.fullscreen) #content{
+    background-color: white;
+}
+.print:not(.fullscreen) .chart-legend {
+    font-size: 10px;
+    margin-top: 8px;
+}
+.print:not(.fullscreen) .axis-label {
+    font-size: 14px;
+}
+.print:not(.fullscreen) .flot-x-axis .flot-tick-label {
+    /*max-width: 15em !important;*/
+    /*width: 15em !important;*/
+    margin-top: 12px;
+    margin-right: 22px;
+}
+.print:not(.fullscreen) .has-x-axis-label {
+    margin-bottom: 2em;
+}
+.print:not(.fullscreen) #chart-placeholder .flot-text {
+    font-size: 12px !important;
+}
+.print:not(.fullscreen) #chart-placeholder {
+    height: 500px !important;
+    font-size: 14px !important;
+}
+.print:not(.fullscreen) .known-markings {
+    font-size: 12px;
+    bottom: -12px;
+}
+.print:not(.fullscreen) .known-markings.daily-marking {
+    bottom: -18px;
+}
+.legend-panel { /*If not grouping then leave room for 2nd y axis*/
+    min-width: 100px;
+}

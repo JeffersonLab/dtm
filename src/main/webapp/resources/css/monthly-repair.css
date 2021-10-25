@@ -1,0 +1,303 @@
+.ui-datepicker {
+    width: 20em;
+}
+/*WARNING: having multiple date pickers will be a problem if some need calendar.  However, alternatives don't work on double-click'*/
+/*NOTE: monthpicker does not honor text changed by users in input box while picker dialog is open*/
+.ui-datepicker-calendar {
+    display: none;
+}
+
+.print h3 {
+    text-align: center;
+}
+.print #bar-chart-data-table,
+.print #fsd-table,
+.print #overall-table,
+.print table.downtime-data {
+    margin: 0.1em auto 0 auto;
+}
+.table-footnotes {
+    font-size: 10px;
+}
+.print .table-footnotes {
+    text-align: center;
+}
+.right-fork-option {
+    padding-right: 0.25em;
+}
+.fork-option-pair {
+    box-shadow: 6px 8px 4px -4px #979797;
+    display: inline-block;
+    font-size: 0;
+    left: -26px;
+    letter-spacing: 0;
+    list-style: none outside none;
+    margin: 1em 0;
+    padding: 0;
+    position: relative;
+    top: 16px;
+    word-spacing: 0;
+}
+.fork-option-pair > li {
+    background-color: white;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+    display: inline-block;
+    font-size: 16px;
+    height: 30px;
+    letter-spacing: normal;
+    line-height: 30px;
+    margin: 0;
+    padding: 0 0.5em;
+    position: relative;
+    vertical-align: middle;
+    white-space: nowrap;
+    word-spacing: normal;
+}
+.fork-option-pair > li:first-child {
+    border-left: 1px solid black;
+    padding: 0 0.25em 0 0.5em;
+}
+.fork-option-pair > li:last-child {
+    background-color: inherit;
+}
+.fork-option-pair > li:last-child:after {
+    bottom: 0;
+    box-shadow: 0 8px 4px -4px #979797;
+    content: " ";
+    height: 16px;
+    position: absolute;
+    right: -14px;
+    top: 12px;
+    transform: rotate(-45deg);
+    width: 28px;
+    z-index: 0;
+}
+.fork-option-pair > li .left-fork-option:after {
+    border-bottom: 15px solid transparent;
+    border-left: 15px solid white;
+    border-top: 15px solid transparent;
+    bottom: 0;
+    content: " ";
+    display: block;
+    height: 0;
+    position: absolute;
+    right: -15px;
+    top: 0;
+    width: 0;
+    z-index: 2;
+}
+.fork-option-pair > li .left-fork-option:before {
+    border-bottom: 15px solid transparent;
+    border-left: 15px solid black;
+    border-top: 15px solid transparent;
+    bottom: 0;
+    content: " ";
+    display: block;
+    height: 0;
+    position: absolute;
+    right: -16px;
+    top: 0;
+    width: 0;
+    z-index: 1;
+}
+.fork-option-pair > li .right-fork-option:after {
+    border-bottom: 15px solid transparent;
+    border-right: 15px solid white;
+    border-top: 15px solid transparent;
+    bottom: 0;
+    content: " ";
+    display: block;
+    height: 0;
+    left: -15px;
+    position: absolute;
+    top: 0;
+    width: 0;
+    z-index: 2;
+}
+.fork-option-pair > li .right-fork-option:before {
+    border-bottom: 15px solid transparent;
+    border-right: 15px solid black;
+    border-top: 15px solid transparent;
+    bottom: 0;
+    content: " ";
+    display: block;
+    height: 0;
+    left: -16px;
+    position: absolute;
+    top: 0;
+    width: 0;
+    z-index: 1;
+}
+.fork-option-pair:after {
+    bottom: 0;
+    box-shadow: 0 8px 4px -4px #979797;
+    content: " ";
+    height: 30px;
+    left: 0;
+    position: absolute;
+    width: 15px;
+}
+.quick-nav {
+    float: right;
+    top: -5px;
+}
+.print .quick-nav {
+    display: none;
+}
+.data-table {
+    margin-top: 0.1em;
+    margin-bottom: 0;
+}
+h3 {
+    margin-bottom: 0;
+}
+.two-column-table {
+    width: 100%;
+}
+.two-column-table > tbody > tr > td {
+    vertical-align: top;
+}
+.left-cell {
+    padding-right: 1em;
+}
+.print:not(.fullscreen) .two-column-table {
+    width: 960px !important;
+    margin: 0 auto;
+}
+.print:not(.fullscreen) section {
+    margin: 0;
+}
+.print:not(.fullscreen) h3 {
+    font-size: 14px !important;
+}
+.print:not(.fullscreen) thead th {
+    font-size: 12px !important;
+}
+.print:not(.fullscreen) tbody td {
+    font-size: 12px !important;
+}
+
+
+.print a {
+    color: #1049ad;
+}
+.print thead th {
+    background-color: #1049ad;
+    border: 1px solid white;
+    color: white;
+}
+.print thead th:first-child {
+    border-left: 1px solid #1049ad;
+}
+.print thead th:last-child {
+    border-right: 1px solid #1049ad;
+}
+.print thead tr {
+    border-right: 1px solid #1049ad;
+}
+.print thead tr:first-child th {
+    border-top: 1px solid #1049ad;
+}
+.print #page-header-title {
+    color: #1049ad;
+}
+.trend-same,
+.trend-up,
+.trend-down {
+    display: inline-block;
+    width: 0.7em;
+}
+.trend-up {
+    color: green;
+}
+.trend-down {
+    color: red;
+}
+tbody td.availability {
+    white-space: nowrap;
+}
+#graph-data-table tbody tr td:nth-child(3) {
+    text-align: right;
+}
+.chart-legend tbody td:nth-child(2) {
+    text-align: left;
+    white-space: nowrap;
+}
+.print .chart-legend {
+    margin-top: 11px;
+}
+.print .has-y-axis-label {
+    margin-left: 3em;
+}
+.print .has-x-axis-label {
+    margin-bottom: 3em;
+}
+#second-page {
+    page-break-inside: avoid;
+    page-break-before: always;
+}
+.print #graph-data-table {
+    margin-left: auto;
+    margin-right: auto;
+}
+.chart-footnote ul {
+    list-style-type: none;
+}
+#notes-input,
+.goal-input {
+    display: none;
+}
+#notes-input textarea {
+    width: 500px;
+    height: 200px;
+}
+.print #notes-output {
+    text-align: center;
+}
+#save-button,
+#cancel-button {
+    display: none;
+    vertical-align: top;
+}
+#secondary-page-actions {
+    text-align: right;
+}
+.goal-input input {
+    width: 50px;
+}
+#bar-chart-data-table tfoot,
+#bar-chart-data-table tfoot tr,
+#bar-chart-data-table tfoot td {
+    border-top: 4px solid black;
+}
+
+.category-subcell {
+    position: absolute;
+    font-size: 0.8em;
+    color: #595959;
+    bottom: 26px;
+}
+body:not(.print) td.problem-td {
+    padding-bottom: 3.5em;
+}
+.print .category-subcell {
+    bottom: 8px;
+    right: 0.5em;
+}
+
+body:not(.print) .two-column-table {
+    font-size: 12px;
+}
+
+/*.data-table tbody tr .less-than-goal {
+    background-color: #ffffaa;
+}
+.stripped-table tbody tr:nth-child(2n) .less-than-goal {
+    background-color: #ffffcc;    
+}*/
+
+#notes-output span {
+    white-space: pre;
+}

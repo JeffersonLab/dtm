@@ -1,0 +1,26 @@
+plugins {
+    id 'war'  
+}
+repositories {
+    jcenter()
+    maven {
+        url 'http://build.acc.jlab.org/artifactory/gradle-release'
+    }
+}
+dependencies {
+    compile 'org.jsoup:jsoup:1.12.1',
+            'org.jlab:smoothness-weblib:2.22.0',
+            'org.apache.httpcomponents:httpclient:4.5.10',
+            'org.apache.httpcomponents:httpmime:4.5.10'
+    providedCompile 'javax:javaee-api:7.0',
+        'org.tuckey:urlrewritefilter:4.0.4',    
+        'org.apache.poi:poi:4.1.1',
+        'org.apache.poi:poi-ooxml:4.1.1',
+        'org.hibernate:hibernate-core:5.4.2.Final',
+        'org.hibernate:hibernate-envers:3.6.10.Final',  
+        'org.apache.taglibs:taglibs-standard-impl:1.2.5',
+        'org.jlab:jlog:3.2.0' 
+}
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}

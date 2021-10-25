@@ -1,0 +1,96 @@
+/*We're overriding a few things from smoothness template*/
+body.print,
+.print #content {
+    background-color: white; /*lightgray*/
+}
+.fullscreen { 
+    font-size: 18px; /*20px*/
+}
+.print #page-header-title {
+    color: #338533;
+}
+
+/*Report specific styles*/
+.downtime-data tbody tr td:first-child {
+    text-align: center;
+}
+.left-aligned {
+    text-align: left;
+}
+.center-aligned {
+    text-align: center;
+}
+.downtime-data textarea {
+    resize: none;
+    width: 250px;
+}
+.div-cell {
+    display: table-cell;
+    padding: 0.5em;
+}
+td.problem-td {
+    position: relative;
+    padding-bottom: 2.5em;
+}
+.start-time-subcell {
+    position: absolute;
+    bottom: 8px;
+    font-size: 0.8em;
+    color: #595959;
+}
+.print table.downtime-data {
+    width: auto;
+    max-width: 1200px;
+    margin: 1em auto;
+}
+.print .downtime-data td {
+    border-top: none;
+    border-bottom: none;
+}
+.print thead th {
+    background-color: #338533;
+    color: white;
+    border: 1px solid white;
+}
+.print thead th:first-child {
+    border-left: 1px solid #338533;
+}
+.print thead th:last-child {
+    border-right: 1px solid #338533;
+}            
+.print thead tr {
+    border-right: 1px solid #338533;
+}
+.print thead tr:first-child th {
+    border-top: 1px solid #338533;
+}
+.print .message-box {
+    margin-top: 0.5em;
+}
+.total-repair-row {
+    border-right: 1px solid white;
+}
+table .unused-cells {
+    background-color: white;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+}
+.repeat-offender {
+    background-color: #ffffaa;
+}
+tr:nth-child(2n) .repeat-offender {
+    background-color: #ffffcc;    
+}
+.print .selected-row {
+    outline: none;
+}
+#ui-datepicker-div {
+    z-index: 103 !important;
+}
+.print:not(.fullscreen) #page {
+    width: 960px !important;
+}
+.print:not(.fullscreen) section {
+    margin: 0;
+    font-size: 10px;
+}

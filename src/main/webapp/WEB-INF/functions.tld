@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib 
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+    version="2.1">
+
+    <display-name>Custom Functions</display-name>    
+    <tlib-version>1.0</tlib-version>
+    <short-name>dtm</short-name>
+    <uri>http://jlab.org/dtm/functions</uri>
+
+    <function>
+        <name>getTimelineTickDate</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.util.Date getTimelineTickDate(double, long, java.util.Date)</function-signature>
+    </function> 
+    <function>
+        <name>millisToHumanReadable</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.lang.String millisToHumanReadable(long, boolean)</function-signature>
+    </function>  
+    <function>
+        <name>millisToAbbreviatedHumanReadable</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.lang.String millisToAbbreviatedHumanReadable(long)</function-signature>
+    </function>      
+    <function>
+        <name>urlEncodeDateTime</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.lang.String urlEncodeDateTime(java.util.Date)</function-signature>
+    </function>
+    <function>
+        <name>formatLogbookDate</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.lang.String formatLogbookDate(java.util.Date, int)</function-signature>
+    </function>
+    <function>
+        <name>formatSmartDate</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.lang.String formatSmartDate(java.util.Date)</function-signature>
+    </function>   
+    <function>
+        <name>formatConciseSmartDate</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.lang.String formatConciseSmartDate(java.util.Date)</function-signature>
+    </function>        
+    <function>
+        <name>nDaysAgo</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.util.Date nDaysAgo(int)</function-signature>
+    </function>
+    <function>
+        <name>elapsedClasses</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.lang.String elapsedClasses(long)</function-signature>
+    </function>                      
+    <function>
+        <name>getHostnameFromIp</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.lang.String getHostnameFromIp(java.lang.String)</function-signature>
+    </function>  
+    <function>
+        <name>formatStaff</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.lang.String formatStaff(org.jlab.dtm.persistence.entity.Staff)</function-signature>
+    </function>
+    <function>
+        <name>formatGroupList</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.lang.String formatGroupList(java.lang.String, java.util.List)</function-signature>
+    </function>    
+    <function>
+        <name>addS</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.lang.String addS(int)</function-signature>
+    </function>
+    <function>
+        <name>getLocalTime</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>long getLocalTime(java.util.Date)</function-signature>
+    </function>           
+</taglib>

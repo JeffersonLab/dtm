@@ -1,0 +1,105 @@
+#page-header-logo {
+    background: url("../img/logo32x32.png") 0 0;
+}
+#role-form {
+    display: inline-block;
+}
+button,
+.ui-widget button,
+.ui-dialog {
+    font-size: 14px;
+}
+.dialog-button-panel button { 
+    min-width: 68px;
+    vertical-align: top;
+}
+body .now-button,
+body .me-button {
+    width: 45px;
+    min-width: 45px;
+    max-width: 45px;
+    font-size: 12px;
+}
+.table-cell-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.table-cell-list-item {
+    margin: 0.5em 0 0.5em 0;
+}
+.ui-widget-content a {
+    color: blue;
+}
+/*For placeholder and input mask to line-up the font needs to be monospace*/
+.date-field {
+    font-family: monospace !important;
+}
+/*Hide time input labels and internal now button*/
+.ui-datepicker-current,
+.ui_tpicker_time_label,
+.ui_tpicker_time {
+    display: none;
+}
+/*Report Styles*/
+.right-aligned {
+    text-align: right;
+}
+.print .paginator-button-panel {
+    display: none;
+}
+/*
+.ui-priority-secondary,
+.ui-widget-content .ui-priority-secondary {
+    opacity: 1 !important;
+}
+.tooltip {
+    color: blue;
+    cursor: default;
+}
+*/
+#export-menu {
+    z-index: 3;
+}
+#revision-table {
+    table-layout: fixed;
+    width: 100%;
+}
+#revision-table th, #revision-table td {
+    width: 100px;
+    word-wrap: break-word;
+}
+#revision-table th:first-child {
+    text-align: right;
+}
+#revision-table thead td, #revision-table tfoot td {
+    background-color: lightgray;
+    font-weight: bold;
+}
+.date-note {
+    font-size: 12px;
+}
+.horizontal-key-value-table th, td {
+    padding: 0 2em;
+}
+/*This may be a bug with jQuery UI with no good solution: an autocomplete inside a dialog sometimes is hidden behind the dialog*/
+.ui-autocomplete {
+    z-index: 105;
+}
+.sub-key label {
+    font-weight: bold;
+}
+.sub-key > label::after {
+    content: ':';
+}
+.sub-table {
+    display: table;
+}
+.sub-key,
+.sub-value {
+    display: table-cell;
+    padding: 4px;
+}
+.sub-level-symbol {
+    font-size: 1.1em;
+}

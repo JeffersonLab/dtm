@@ -1,0 +1,35 @@
+.label-note {
+    color: blue;
+}
+.flot-tick-label {
+    z-index: 2;
+}
+#ui-datepicker-div {
+    z-index: 3 !important;
+}
+.summary-table {
+    margin-top: 0;
+}
+.summary-table tbody th {
+    text-align: right;
+    background-color: white;
+    border: none;
+    border-bottom: 1px solid black;
+}
+.summary-table td {
+    background-color: white;
+    border: none;
+    border-bottom: 1px solid black;
+    text-align: right;
+}
+.major-cell,
+.major-row {
+    box-shadow: 0 0 3px 2px #000000;
+    font-weight: bold;
+}
+.sort-desc {
+    display: none;
+}
+.selected-column .sort-desc {
+    display: inline-block;
+}

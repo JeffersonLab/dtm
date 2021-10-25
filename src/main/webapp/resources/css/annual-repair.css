@@ -1,0 +1,84 @@
+#graph-data-table tbody tr td:nth-child(3),
+#program-table tbody tr td:nth-child(2) {
+    text-align: right;
+}
+.print #graph-data-table {
+    margin: 16px auto;
+}
+.chart-legend {
+    margin-top: 0.7em;
+}
+.chart-legend tbody td:nth-child(2) {
+    white-space: nowrap;
+    text-align: left;    
+}
+.flot-x-axis .flot-tick-label {
+  -ms-transform: translate(-4.1em, 3.6em) rotate(315deg);
+  -moz-transform: translate(-4.1em, 3.6em) rotate(315deg);
+  -webkit-transform: translate(-4.1em, 3.6em) rotate(315deg);
+  -o-transform: translate(-4.1em, 3.6em) rotate(315deg);
+  transform: translate(-4.1em, 4em) rotate(315deg);
+  overflow: hidden;
+  width: 13em !important;
+  max-width: 13em !important;
+  height: 1.5em !important;
+  /*background-color: red;*/
+  text-align: right !important;
+  white-space: nowrap;
+}
+.marking-line {
+    border-width: 3px;
+    border-top-style: dashed;
+    border-bottom-style: none;
+    pointer-events: none;
+}
+.chart-legend tfoot th:nth-child(2) {
+    text-align: right;
+}
+.has-y-axis-label {
+    margin-left: 3em;
+}
+.print .has-y-axis-label {
+    margin-left: 5em;
+}
+.print:not(.fullscreen) .chart-legend-panel {
+    width: 960px !important;
+}
+.print:not(.fullscreen) section {
+    margin: 0;
+}
+body.print:not(.fullscreen),
+.print:not(.fullscreen) #content{
+    background-color: white;
+}
+.print .chart-legend {
+    margin-left: 0;
+    font-size: 12px;
+    margin-top: 12px;
+}
+.print:not(.fullscreen) .chart-legend {
+    font-size: 10px;
+    margin-top: 8px;
+}
+.print:not(.fullscreen) .axis-label {
+    font-size: 14px;
+}
+.print:not(.fullscreen) .flot-x-axis .flot-tick-label {
+    max-width: 15em !important;
+    width: 15em !important;
+    margin-top: 12px;
+    margin-right: 22px;
+}
+.print:not(.fullscreen) .x-axis-label {
+    bottom: 2em;
+}
+.print:not(.fullscreen) .has-x-axis-label {
+    margin-bottom: 0;
+}
+.print:not(.fullscreen) #chart-placeholder .flot-text {
+    font-size: 12px !important;
+}
+.print:not(.fullscreen) #chart-placeholder {
+    height: 640px !important;
+    font-size: 14px !important;
+}

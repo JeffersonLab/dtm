@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+   http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+    <welcome-file-list>
+        <welcome-file>open-events</welcome-file>
+    </welcome-file-list>
+    <context-param>
+        <param-name>appName</param-name>
+        <param-value>Downtime Manager</param-value>
+    </context-param>
+    <context-param>
+        <param-name>appShortName</param-name>
+        <param-value>DTM</param-value>
+    </context-param>
+    <context-param>
+        <param-name>resourceVersionNumber</param-name>
+        <param-value>180</param-value>
+    </context-param>
+    <context-param>
+        <param-name>releaseNumber</param-name>
+        <param-value>3.18.1</param-value>
+    </context-param>
+    <context-param>
+        <param-name>releaseDate</param-name>
+        <param-value>10 Sep 2020</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contentContact</param-name>
+        <param-value>Randy Michaud (rmichuad)</param-value>
+    </context-param>
+    <context-param>
+        <param-name>technicalContact</param-name>
+        <param-value>Ryan Slominski (ryans)</param-value>
+    </context-param>
+    <context-param>
+        <param-name>feedbackFromAddress</param-name>
+        <param-value>dtm@jlab.org</param-value>
+    </context-param>
+    <context-param>
+        <param-name>feedbackToAddressCsv</param-name>
+        <param-value>ryans@jlab.org,rmichaud@jlab.org</param-value>
+    </context-param>
+    <filter>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuditFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>EffectiveRoleFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error</location>
+    </error-page>
+    <session-config>
+        <session-timeout>480</session-timeout>
+        <cookie-config>
+            <http-only>true</http-only>
+            <secure>true</secure>
+        </cookie-config>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+    <security-constraint>
+        <display-name>Enforce Authenticated on SSO Redirect Page</display-name>
+        <web-resource-collection>
+            <web-resource-name>SSO Page</web-resource-name>
+            <url-pattern>/sso</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ipausers</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Enforce Admin on setup pages</display-name>
+        <web-resource-collection>
+            <web-resource-name>Setup Pages</web-resource-name>
+            <url-pattern>/setup/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>dtreview</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>KEYCLOAK</auth-method>
+        <realm-name>jlab</realm-name>
+    </login-config>
+    <security-role>
+        <role-name>dtreview</role-name>
+    </security-role>
+    <security-role>
+        <role-name>ipausers</role-name>
+    </security-role>
+    <distributable/>
+</web-app>

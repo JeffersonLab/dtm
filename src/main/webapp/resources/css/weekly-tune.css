@@ -1,0 +1,20 @@
+.print #page-header-title {
+    color: #F88017;
+}
+.print thead th {
+    background-color: #F88017;
+    color: white;
+    border: 1px solid white;
+}
+.print thead th:first-child {
+    border-left: 1px solid #F88017;
+}
+.print thead th:last-child {
+    border-right: 1px solid #F88017;
+}            
+.print thead tr {
+    border-right: 1px solid #F88017;
+}
+.print thead tr:first-child th {
+    border-top: 1px solid #F88017;
+}

@@ -1,0 +1,80 @@
+<%@tag description="The Site Page Template Tag" pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions" %>
+<%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness" %>
+<jsp:useBean id="now" class="java.util.Date"/>
+<%@attribute name="title" %>
+<%@attribute name="category" %>
+<%@attribute name="stylesheets" fragment="true" %>
+<%@attribute name="scripts" fragment="true" %>
+<%@attribute name="secondaryNavigation" fragment="true" %>
+<s:tabbed-page title="${title}" category="${category}" keycloakClientIdKey="KEYCLOAK_CLIENT_ID_DTM" resourceLocation="CDN">
+    <jsp:attribute name="stylesheets">
+        <link rel="stylesheet" type="text/css"
+              href="${cdnContextPath}/jquery-plugins/timepicker/jquery-ui-timepicker-1.5.0.css"/>
+        <link rel="stylesheet" type="text/css" href="${cdnContextPath}/jquery-plugins/select2/3.5.2/select2.css"/>
+        <link rel="stylesheet" type="text/css"
+              href="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/css/dtm.css"/>
+        <jsp:invoke fragment="stylesheets"/>
+    </jsp:attribute>
+    <jsp:attribute name="scripts">
+        <script src="${cdnContextPath}/jquery-plugins/timepicker/jquery-ui-timepicker-1.5.0.min.js"></script>
+        <script src="${cdnContextPath}/jquery-plugins/maskedinput/jquery.maskedinput-1.3.1.min.js"></script>
+        <script src="${cdnContextPath}/uri/uri-1.14.1.min.js"></script>
+        <script src="${cdnContextPath}/jquery-plugins/select2/3.5.2/select2.min.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/js/dtm.js"></script>
+        <jsp:invoke fragment="scripts"/>
+    </jsp:attribute>
+    <jsp:attribute name="userExtra">
+        <c:choose>
+            <c:when test="${pageContext.request.isUserInRole('dtreview')}">
+                <form id="role-form" action="${pageContext.request.contextPath}/change-role" method="post">
+                    <select class="change-submit" name="role">
+                        <option value="REVIEWER"${sessionScope.effectiveRole eq 'REVIEWER' ? ' selected="selected"' : ''}>
+                            Reviewer
+                        </option>
+                        <option value="OPERATOR"${sessionScope.effectiveRole ne 'REVIEWER' ? ' selected="selected"' : ''}>
+                            Operator
+                        </option>
+                    </select>
+                    <input type="hidden" name="returnUrl"
+                           value="${fn:escapeXml(domainRelativeReturnUrl)}"/>
+                </form>
+            </c:when>
+            <c:otherwise>
+                Operator
+            </c:otherwise>
+        </c:choose>
+    </jsp:attribute>
+    <jsp:attribute name="primaryNavigation">
+                    <ul>
+                        <li${'/open-events' eq currentPath ? ' class="current-primary"' : ''}><a
+                                href="${pageContext.request.contextPath}/open-events">Open Events</a></li>
+                        <li${'/all-events' eq currentPath ? ' class="current-primary"' : ''}><a
+                                href="${pageContext.request.contextPath}/all-events">Events</a></li>
+                        <li${'/trips' eq currentPath ? ' class="current-primary"' : ''}><a
+                                href="${pageContext.request.contextPath}/trips">Trips</a></li>
+                        <li${fn:startsWith(currentPath, '/reports') ? ' class="current-primary"' : ''}><a
+                                href="${pageContext.request.contextPath}/reports/downtime-summary">Reports</a></li>
+                        <li${fn:startsWith(currentPath, '/operability') ? ' class="current-primary"' : ''}><a
+                                href="${pageContext.request.contextPath}/operability/weekly-repair">Operability</a></li>
+                        <li${'/rar' eq currentPath ? ' class="current-primary"' : ''}><a
+                                href="${pageContext.request.contextPath}/rar">RAR</a></li>
+                        <li${fn:startsWith(currentPath, '/beam-team') ? ' class="current-primary"' : ''}><a
+                                href="${pageContext.request.contextPath}/beam-team/weekly-tune">Beam Team</a></li>
+                        <c:if test="${pageContext.request.isUserInRole('dtreview')}">
+                            <li${fn:startsWith(currentPath, '/setup') ? ' class="current-primary"' : ''}><a
+                                    href="${pageContext.request.contextPath}/setup/subsystem-expert">Setup</a></li>
+                            </c:if>
+                        <li${'/help' eq currentPath ? ' class="current-primary"' : ''}><a
+                                href="${pageContext.request.contextPath}/help">Help</a></li>
+                    </ul>
+    </jsp:attribute>
+    <jsp:attribute name="secondaryNavigation">
+        <jsp:invoke fragment="secondaryNavigation"/>
+    </jsp:attribute>
+    <jsp:body>
+        <jsp:doBody/>
+    </jsp:body>
+</s:tabbed-page>
