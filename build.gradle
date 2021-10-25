@@ -2,7 +2,7 @@ plugins {
     id 'war'  
 }
 
-description = 'Downtime app'
+description = 'Down time manager app'
 group 'org.jlab'
 version '4.0.0'
 ext.releaseDate = 'Oct 25 2021'
