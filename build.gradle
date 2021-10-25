@@ -1,26 +1,64 @@
 plugins {
     id 'war'  
 }
+
+description = 'Downtime app'
+group 'org.jlab'
+version '2.11.0'
+ext.releaseDate = 'Oct 25 2021'
+ext.resourceVersion = '32'
+
 repositories {
-    jcenter()
-    maven {
-        url 'http://build.acc.jlab.org/artifactory/gradle-release'
-    }
+    mavenCentral()
 }
+
 dependencies {
-    compile 'org.jsoup:jsoup:1.12.1',
-            'org.jlab:smoothness-weblib:2.22.0',
-            'org.apache.httpcomponents:httpclient:4.5.10',
-            'org.apache.httpcomponents:httpmime:4.5.10'
-    providedCompile 'javax:javaee-api:7.0',
-        'org.tuckey:urlrewritefilter:4.0.4',    
-        'org.apache.poi:poi:4.1.1',
-        'org.apache.poi:poi-ooxml:4.1.1',
-        'org.hibernate:hibernate-core:5.4.2.Final',
-        'org.hibernate:hibernate-envers:3.6.10.Final',  
-        'org.apache.taglibs:taglibs-standard-impl:1.2.5',
-        'org.jlab:jlog:3.2.0' 
+    if (project.hasProperty("provided")) {
+        providedCompile 'org.jsoup:jsoup:1.11.3',
+                'org.jlab:smoothness-weblib:3.0.0',
+                'org.tuckey:urlrewritefilter:4.0.4',
+                'org.hibernate:hibernate-core:5.4.2.Final',
+                'org.hibernate:hibernate-envers:3.6.10.Final',
+                'org.jlab:jlog:5.0.0',
+                'org.apache.poi:poi:4.1.1',
+                'org.apache.poi:poi-ooxml:4.1.1',
+                'org.apache.httpcomponents:httpclient:4.5.10',
+                'org.apache.httpcomponents:httpmime:4.5.10'
+    } else {
+        implementation 'org.jsoup:jsoup:1.11.3',
+                'org.jlab:smoothness-weblib:3.0.0',
+                'org.tuckey:urlrewritefilter:4.0.4',
+                'org.hibernate:hibernate-core:5.4.2.Final',
+                'org.hibernate:hibernate-envers:3.6.10.Final',
+                'org.jlab:jlog:5.0.0',
+                'org.apache.poi:poi:4.1.1',
+                'org.apache.poi:poi-ooxml:4.1.1',
+                'org.apache.httpcomponents:httpclient:4.5.10',
+                'org.apache.httpcomponents:httpmime:4.5.10'
+    }
+
+    //'org.apache.taglibs:taglibs-standard-impl:1.2.5'
+
+    // No matter what the Java EE API is provided by the application server
+    providedCompile 'javax:javaee-api:8.0'
 }
-tasks.withType(JavaCompile) {
+
+compileJava {
     options.encoding = 'UTF-8'
+    options.compilerArgs += ["-Xlint:deprecation", "-Xlint:unchecked"]
+}
+
+war {
+    archiveName 'dtm.war'
+    filesMatching('WEB-INF/web.xml') {
+        filter {
+            String line -> line.replaceAll("@VERSION@", project.version)
+        }
+        filter {
+            String line -> line.replaceAll("@RELEASE_DATE@", releaseDate)
+        }
+        filter {
+            String line -> line.replaceAll("@RESOURCE_VERSION@", resourceVersion)
+        }
+    }
 }
