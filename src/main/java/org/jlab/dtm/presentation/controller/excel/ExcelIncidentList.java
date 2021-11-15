@@ -88,7 +88,7 @@ public class ExcelIncidentList extends HttpServlet {
 
         String component = request.getParameter("component");
 
-        Boolean beamTransport = ParamUtil.convertAndValidateYNBoolean(request, "transport");
+        Boolean beamTransport = ParamConverter.convertYNBoolean(request, "transport");
 
         String filters = FilterSelectionMessage.getReportMessage(start, end, type, selectedSystem, null, null, component, beamTransport, false);
 
