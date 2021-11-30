@@ -154,6 +154,12 @@ public class FsdRootCauseLogic {
         if ("Safety Systems".equals(cause)) {
             cause = "MPS (Multi/Other)"; // Simple rename (HCO PSS system likely won't cause trip so MPS is more accurate)
 
+            // Ignore DiffuserCard DFHLC3A echo trip
+            if(cedTypeSet.size() > 1 && cedNameSet.remove("DFHLC3A")) {
+                // We removed DFHLC3A so remove DiffuserCard Type
+                cedTypeSet.remove("DiffuserCard");
+            }
+
             if (cedTypeSet.size() == 1) { // If only one type cause...
                 String type = cedTypeSet.iterator().next();
                 if ("BeamLossMonitor".equals(type)) {
