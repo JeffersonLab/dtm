@@ -1,4 +1,4 @@
-# dtm [![Java CI with Gradle](https://github.com/JeffersonLab/dtm/workflows/Java%20CI%20with%20Gradle/badge.svg)](https://github.com/JeffersonLab/dtm/actions?query=workflow%3A%22Java+CI+with+Gradle%22)
+# dtm [![Java CI with Gradle](https://github.com/JeffersonLab/dtm/actions/workflows/gradle.yml/badge.svg)](https://github.com/JeffersonLab/dtm/actions/workflows/gradle.yml)
 A [Java EE 8](https://en.wikipedia.org/wiki/Jakarta_EE) web application for managing downtime at Jefferson Lab built with the [Smoothness](https://github.com/JeffersonLab/smoothness) web template.
 
 ![Screenshot](https://github.com/JeffersonLab/dtm/raw/main/Screenshot.png?raw=true "Screenshot")
