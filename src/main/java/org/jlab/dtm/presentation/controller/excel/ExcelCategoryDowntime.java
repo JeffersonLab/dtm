@@ -73,9 +73,9 @@ public class ExcelCategoryDowntime extends HttpServlet {
             type = eventTypeFacade.find(eventTypeId);
         }
 
-        Boolean beamTransport = ParamUtil.convertAndValidateYNBoolean(request, "transport");
+        Boolean beamTransport = ParamConverter.convertYNBoolean(request, "transport");
 
-        boolean packed = ParamUtil.convertAndValidateYNBoolean(request, "transport", true);
+        boolean packed = ParamUtil.convertAndValidateYNBoolean(request, "packed", true);
         
         String filters = FilterSelectionMessage.getReportMessage(start, end, type, null, null, null, null, beamTransport, packed);
 

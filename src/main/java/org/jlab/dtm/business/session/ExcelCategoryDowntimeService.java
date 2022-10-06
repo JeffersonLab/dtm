@@ -74,6 +74,7 @@ public class ExcelCategoryDowntimeService {
         wb.write(out);
     }
 
+    @PermitAll
     public void exportAsCsv(OutputStream out, List<CategoryDowntime> downtimeList,
             String trim, double periodDurationHours, double grandTotalDuration) {
 
