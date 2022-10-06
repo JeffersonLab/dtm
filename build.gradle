@@ -4,8 +4,8 @@ plugins {
 
 description = 'Down time manager app'
 group 'org.jlab'
-version '4.1.0'
-ext.releaseDate = 'Nov 30 2021'
+version '4.1.1'
+ext.releaseDate = 'Oct 6 2022'
 ext.resourceVersion = '181'
 
 repositories {
