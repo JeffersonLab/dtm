@@ -6,16 +6,25 @@ description = 'Down time manager app'
 group 'org.jlab'
 version '4.1.1'
 ext.releaseDate = 'Oct 6 2022'
-ext.resourceVersion = '181'
+
+tasks.withType(JavaCompile) {
+    options.release = 11
+    options.encoding = 'UTF-8'
+    options.compilerArgs += ["-Xlint:deprecation", "-Xlint:unchecked"]
+}
 
 repositories {
     mavenCentral()
+
+    maven {
+        url "https://s01.oss.sonatype.org/content/repositories/releases/"
+    }
 }
 
 dependencies {
     if (project.hasProperty("provided")) {
         providedCompile 'org.jsoup:jsoup:1.11.3',
-                'org.jlab:smoothness-weblib:3.0.0',
+                'org.jlab:smoothness-weblib:3.7.1',
                 'org.tuckey:urlrewritefilter:4.0.4',
                 'org.hibernate:hibernate-core:5.4.2.Final',
                 'org.hibernate:hibernate-envers:5.4.2.Final',
@@ -26,7 +35,7 @@ dependencies {
                 'org.apache.httpcomponents:httpmime:4.5.10'
     } else {
         implementation 'org.jsoup:jsoup:1.11.3',
-                'org.jlab:smoothness-weblib:3.0.0',
+                'org.jlab:smoothness-weblib:3.7.1',
                 'org.tuckey:urlrewritefilter:4.0.4',
                 'org.hibernate:hibernate-core:5.4.2.Final',
                 'org.hibernate:hibernate-envers:5.4.2.Final',
@@ -37,34 +46,18 @@ dependencies {
                 'org.apache.httpcomponents:httpmime:4.5.10'
     }
 
-    providedCompile('antlr:antlr') {
-        version {
-            strictly "2.7.7"
-        }
-    }
-
-    //'org.apache.taglibs:taglibs-standard-impl:1.2.5'
-
     // No matter what the Java EE API is provided by the application server
-    providedCompile 'javax:javaee-api:8.0'
-}
-
-compileJava {
-    options.encoding = 'UTF-8'
-    options.compilerArgs += ["-Xlint:deprecation", "-Xlint:unchecked"]
+    providedCompile 'javax:javaee-api:8.0.1'
 }
 
 war {
-    archiveName 'dtm.war'
+    archiveFileName = 'dtm.war'
     filesMatching('WEB-INF/web.xml') {
         filter {
             String line -> line.replaceAll("@VERSION@", project.version)
         }
         filter {
             String line -> line.replaceAll("@RELEASE_DATE@", releaseDate)
-        }
-        filter {
-            String line -> line.replaceAll("@RESOURCE_VERSION@", resourceVersion)
         }
     }
 }
