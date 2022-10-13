@@ -4,8 +4,8 @@ plugins {
 
 description = 'Down time manager app'
 group 'org.jlab'
-version '4.1.1'
-ext.releaseDate = 'Oct 6 2022'
+version '4.2.0-alpha0'
+ext.releaseDate = 'Oct 13 2022'
 
 tasks.withType(JavaCompile) {
     options.release = 11
