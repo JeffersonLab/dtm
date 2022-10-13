@@ -6,7 +6,7 @@ create tablespace DTM;
 
 create user "DTM_OWNER" profile "DEFAULT" identified by "password" default tablespace "DTM" account unlock;
 
-grant connect to BAM_OWNER;
+grant connect to DTM_OWNER;
 grant unlimited tablespace to DTM_OWNER;
 
 grant create view to DTM_OWNER;
