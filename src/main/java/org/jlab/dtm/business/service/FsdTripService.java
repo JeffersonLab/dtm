@@ -163,10 +163,10 @@ public class FsdTripService {
 
         // Join dependencies
         sql
-                = "select fsd_trip_id, fsd_fault_id, fsd_device_exception_id, start_utc, end_utc, acc_state, hla_state, hlb_state, hlc_state, hld_state, node, channel, disjoint_yn, category.name as category, hco_system_name, ced_type, ced_name, fault_confirmation_yn, cause, area, hco_owner.region.name as region from ("
+                = "select fsd_trip_id, fsd_fault_id, fsd_device_exception_id, start_utc, end_utc, acc_state, hla_state, hlb_state, hlc_state, hld_state, node, channel, disjoint_yn, category.name as category, hco_system_name, ced_type, ced_name, fault_confirmation_yn, cause, area, dtm_owner.region.name as region from ("
                 + sql
-                + ") left join fsd_fault using(fsd_trip_id) left join fsd_device_exception using(fsd_fault_id) left join dtm_owner.system s on s.name = hco_system_name left join system_alpha_category_plus on s.system_id = system_alpha_category_plus.system_id left join hco_owner.category on system_alpha_category_plus.category_id = category.category_id "
-                + "left join hco_owner.component on fsd_device_exception.ced_name = component.name left join hco_owner.region on region.region_id = component.region_id ";
+                + ") left join fsd_fault using(fsd_trip_id) left join fsd_device_exception using(fsd_fault_id) left join dtm_owner.system s on s.name = hco_system_name left join system_alpha_category_plus on s.system_id = system_alpha_category_plus.system_id left join dtm_owner.category on system_alpha_category_plus.category_id = category.category_id "
+                + "left join dtm_owner.component on fsd_device_exception.ced_name = component.name left join dtm_owner.region on region.region_id = component.region_id ";
 
         // Order result set
         sql = sql + "order by start_utc desc, fsd_trip_id desc, hco_system_name desc, ced_name desc";
