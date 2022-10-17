@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jlab.dtm.persistence.entity.ResponsibleGroup;
+import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.persistence.entity.Staff;
 import org.jlab.smoothness.business.util.TimeUtil;
 
@@ -187,7 +187,7 @@ public final class DtmFunctions {
         return builder.toString();
     }
 
-    public static String formatGroupList(String idCsv, List<ResponsibleGroup> groupList) {
+    public static String formatGroupList(String idCsv, List<Workgroup> groupList) {
         String groups = null;
         if (idCsv != null && !idCsv.trim().isEmpty()) {
             String[] tokens = idCsv.split(",");
@@ -197,8 +197,8 @@ public final class DtmFunctions {
 
                     BigInteger id = new BigInteger(tokens[0]);
 
-                    for (ResponsibleGroup group : groupList) {
-                        if (group.getGroupId().equals(id)) {
+                    for (Workgroup group : groupList) {
+                        if (group.getWorkgroupId().equals(id)) {
                             groups = group.getName();
                             break;
                         }
@@ -212,8 +212,8 @@ public final class DtmFunctions {
 
                         BigInteger id = new BigInteger(tokens[i]);
 
-                        for (ResponsibleGroup group : groupList) {
-                            if (group.getGroupId().equals(id)) {
+                        for (Workgroup group : groupList) {
+                            if (group.getWorkgroupId().equals(id)) {
                                 groups = groups + group.getName();
                                 break;
                             }

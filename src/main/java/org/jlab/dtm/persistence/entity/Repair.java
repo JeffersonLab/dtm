@@ -34,9 +34,9 @@ public class Repair implements Serializable {
     @JoinColumn(name = "INCIDENT_ID", referencedColumnName = "INCIDENT_ID", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)    
     private Incident incident;    
-    @JoinColumn(name = "REPAIRED_BY", referencedColumnName = "GROUP_ID", nullable = true)
+    @JoinColumn(name = "REPAIRED_BY", referencedColumnName = "WORKGROUP_ID", nullable = true)
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    private ResponsibleGroup repairedBy;
+    private Workgroup repairedBy;
 
     public Repair() {
     }
@@ -57,11 +57,11 @@ public class Repair implements Serializable {
         this.incident = incident;
     }
 
-    public ResponsibleGroup getRepairedBy() {
+    public Workgroup getRepairedBy() {
         return repairedBy;
     }
 
-    public void setRepairedBy(ResponsibleGroup repairedBy) {
+    public void setRepairedBy(Workgroup repairedBy) {
         this.repairedBy = repairedBy;
     }
 

@@ -14,39 +14,35 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Entity
 @Audited(targetAuditMode = NOT_AUDITED)
-@Table(name = "RESPONSIBLE_GROUP", schema = "HCO_OWNER")
-public class ResponsibleGroup implements Serializable {
+@Table(name = "WORKGROUP", schema = "DTM_OWNER")
+public class Workgroup implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "GROUP_ID", nullable = false, precision = 22, scale = 0)
-    private BigInteger groupId;
+    @Column(name = "WORKGROUP_ID", nullable = false, precision = 22, scale = 0)
+    private BigInteger workgroupId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 128)
     @Column(nullable = false, length = 128)
     private String name;
 
-    public ResponsibleGroup() {
+    public Workgroup() {
     }
 
-    public ResponsibleGroup(BigInteger groupId) {
-        this.groupId = groupId;
-    }
-
-    public ResponsibleGroup(BigInteger groupId, String name) {
-        this.groupId = groupId;
+    public Workgroup(BigInteger workgroupId, String name) {
+        this.workgroupId = workgroupId;
         this.name = name;
     }
 
-    public BigInteger getGroupId() {
-        return groupId;
+    public BigInteger getWorkgroupId() {
+        return workgroupId;
     }
 
-    public void setGroupId(BigInteger groupId) {
-        this.groupId = groupId;
+    public void setWorkgroupId(BigInteger workgroupId) {
+        this.workgroupId = workgroupId;
     }
 
     public String getName() {
@@ -60,18 +56,18 @@ public class ResponsibleGroup implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (groupId != null ? groupId.hashCode() : 0);
+        hash += (workgroupId != null ? workgroupId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ResponsibleGroup)) {
+        if (!(object instanceof Workgroup)) {
             return false;
         }
-        ResponsibleGroup other = (ResponsibleGroup) object;
-        if ((this.groupId == null && other.groupId != null) || (this.groupId != null && !this.groupId.equals(other.groupId))) {
+        Workgroup other = (Workgroup) object;
+        if ((this.workgroupId == null && other.workgroupId != null) || (this.workgroupId != null && !this.workgroupId.equals(other.workgroupId))) {
             return false;
         }
         return true;
@@ -79,7 +75,7 @@ public class ResponsibleGroup implements Serializable {
 
     @Override
     public String toString() {
-        return "org.jlab.hco.persistence.entity.ResponsibleGroup[ groupId=" + groupId + " ]";
+        return "org.jlab.dtm.persistence.entity.WorkGroup[ workgroupId=" + workgroupId + " ]";
     }
 
 }

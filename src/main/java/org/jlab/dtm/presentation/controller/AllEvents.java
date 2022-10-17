@@ -20,7 +20,7 @@ import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.entity.Event;
 import org.jlab.dtm.persistence.entity.EventType;
-import org.jlab.dtm.persistence.entity.ResponsibleGroup;
+import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.presentation.params.AllEventsUrlParamHandler;
 import org.jlab.smoothness.presentation.util.Paginator;
 
@@ -95,7 +95,7 @@ public class AllEvents extends HttpServlet {
         
         selectionMessage = selectionMessage + paginationMessage;
         
-        List<ResponsibleGroup> groupList = groupFacade.findAll(new OrderDirective("name"));        
+        List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
         
         request.setAttribute("start", params.getStart());
         request.setAttribute("end", params.getEnd());

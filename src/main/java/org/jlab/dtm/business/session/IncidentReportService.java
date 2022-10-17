@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.jlab.dtm.business.params.IncidentDowntimeReportParams;
 import org.jlab.dtm.persistence.entity.IncidentReview;
-import org.jlab.dtm.persistence.entity.ResponsibleGroup;
+import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.persistence.entity.Staff;
 import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
 import org.jlab.dtm.persistence.filter.IncidentFilter;
@@ -61,7 +61,7 @@ public class IncidentReportService {
         private final String rootCause;
         private final BigInteger rarId;
 
-        private List<ResponsibleGroup> repairedByList;
+        private List<Workgroup> repairedByList;
         private List<IncidentReview> incidentReviewList;
 
         public IncidentSummary(Number incidentId, Number eventId, Number eventTypeId,
@@ -189,11 +189,11 @@ public class IncidentReportService {
             return explanation;
         }
 
-        public List<ResponsibleGroup> getRepairedByList() {
+        public List<Workgroup> getRepairedByList() {
             return repairedByList;
         }
 
-        public void setRepairedByList(List<ResponsibleGroup> repairedByList) {
+        public void setRepairedByList(List<Workgroup> repairedByList) {
             this.repairedByList = repairedByList;
         }
 
@@ -204,8 +204,8 @@ public class IncidentReportService {
                 BigInteger[] idArray = new BigInteger[repairedByList.size()];
 
                 for (int i = 0; i < idArray.length; i++) {
-                    ResponsibleGroup group = repairedByList.get(i);
-                    idArray[i] = group.getGroupId();
+                    Workgroup group = repairedByList.get(i);
+                    idArray[i] = group.getWorkgroupId();
                 }
 
                 csv = IOUtil.toCsv(idArray);
@@ -420,7 +420,7 @@ public class IncidentReportService {
         Date end = params.getEnd();
         BigInteger eventTypeId = params.getEventTypeId();
         BigInteger systemId = params.getSystemId();
-        BigInteger groupId = params.getGroupId();
+        BigInteger groupId = params.getWorkgroupId();
         String component = params.getComponent();
         Boolean beamTransport = params.getBeamTransport();
         Boolean overnightOpened = params.getOvernightOpended();

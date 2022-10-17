@@ -23,7 +23,7 @@ import org.jlab.dtm.business.session.IncidentReportService;
 import org.jlab.dtm.business.session.IncidentReportService.IncidentSummary;
 import org.jlab.dtm.business.session.ResponsibleGroupFacade;
 import org.jlab.dtm.persistence.entity.Category;
-import org.jlab.dtm.persistence.entity.ResponsibleGroup;
+import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.business.util.TimeUtil;
 import org.jlab.smoothness.presentation.util.ParamUtil;
@@ -113,7 +113,7 @@ public class WeeklyTune extends HttpServlet {
         BigInteger eventTypeId = BigInteger.ONE;
 
         Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L), BigInteger.valueOf(2L));
-        List<ResponsibleGroup> groupList = groupFacade.findAll(new OrderDirective("name"));
+        List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
 
         IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
         params.setStart(start);
@@ -132,7 +132,7 @@ public class WeeklyTune extends HttpServlet {
 
             for (IncidentSummary incident : incidentList) {
                 topDowntime = topDowntime + incident.getDowntimeHoursBounded();
-                List<ResponsibleGroup> repairedByList = groupFacade.findRepairedBy(incident.getIncidentId());
+                List<Workgroup> repairedByList = groupFacade.findRepairedBy(incident.getIncidentId());
                 incident.setRepairedByList(repairedByList);
             }
         }

@@ -128,7 +128,7 @@ public class RARReport extends HttpServlet {
 
         String paginationMessage = " {" + paginator.getStartNumber() + " - " + paginator.getEndNumber() + " of " + formatter.format(totalRecords) + "}";
 
-        List<ResponsibleGroup> groupList = groupFacade.findAll(new OrderDirective("name"));
+        List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
 
         EventType eventType = null;
 

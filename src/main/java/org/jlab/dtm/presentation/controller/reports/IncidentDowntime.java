@@ -20,9 +20,8 @@ import org.jlab.dtm.business.session.IncidentReportService.IncidentSummary;
 import org.jlab.dtm.business.session.ResponsibleGroupFacade;
 import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.EventType;
-import org.jlab.dtm.persistence.entity.ResponsibleGroup;
+import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.persistence.entity.SystemEntity;
-import org.jlab.dtm.persistence.enumeration.Shift;
 import org.jlab.dtm.presentation.params.IncidentDowntimeReportUrlParamHandler;
 import org.jlab.smoothness.business.util.DateIterator;
 import org.jlab.smoothness.business.util.TimeUtil;
@@ -81,7 +80,7 @@ public class IncidentDowntime extends HttpServlet {
             return;
         }
 
-        List<ResponsibleGroup> groupList = groupFacade.findAll(new OrderDirective("name"));
+        List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
         List<SystemEntity> systemList = systemFacade.findAll(new AbstractFacade.OrderDirective("weight"), new AbstractFacade.OrderDirective("name"));
         List<EventType> eventTypeList = eventTypeFacade.findAll(new AbstractFacade.OrderDirective("weight"));
 
@@ -110,7 +109,7 @@ public class IncidentDowntime extends HttpServlet {
 
             itParams.setEventTypeId(params.getEventTypeId());
             itParams.setSystemId(params.getSystemId());
-            itParams.setGroupId(params.getGroupId());
+            itParams.setWorkgroupId(params.getWorkgroupId());
             itParams.setComponent(params.getComponent());
             itParams.setBeamTransport(params.getBeamTransport());
             itParams.setMaxDuration(params.getMaxDuration());

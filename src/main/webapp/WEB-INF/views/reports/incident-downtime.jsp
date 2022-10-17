@@ -131,7 +131,7 @@
                                     <select id="group" name="group">
                                         <option value=""> </option>
                                         <c:forEach items="${groupList}" var="group">
-                                            <option value="${group.groupId}"${param.group eq group.groupId ? ' selected="selected"' : ''}><c:out value="${group.name}"/></option>
+                                            <option value="${group.workgroupId}"${param.group eq group.workgroupId ? ' selected="selected"' : ''}><c:out value="${group.name}"/></option>
                                         </c:forEach>
                                     </select> 
                                 </div>

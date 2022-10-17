@@ -39,8 +39,8 @@ public class IncidentFilter extends RequestFilter<IncidentDowntimeReportParams> 
             filters.add("a.system_id = " + params.getSystemId());
         }
 
-        if (params.getGroupId() != null) {
-            filters.add(params.getGroupId() + " in (select repaired_by from incident_repair where incident_id = a.incident_id)");
+        if (params.getWorkgroupId() != null) {
+            filters.add(params.getWorkgroupId() + " in (select repaired_by from incident_repair where incident_id = a.incident_id)");
         }
 
         if (params.getComponent() != null && !params.getComponent().trim().isEmpty()) {

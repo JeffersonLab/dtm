@@ -25,7 +25,7 @@ import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.Incident;
-import org.jlab.dtm.persistence.entity.ResponsibleGroup;
+import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.persistence.enumeration.IncidentSortKey;
 import org.jlab.dtm.persistence.enumeration.ReviewLevel;
 import org.jlab.dtm.persistence.enumeration.Shift;
@@ -164,7 +164,7 @@ public class RootCauseReport extends HttpServlet {
 
         String paginationMessage = " {" + paginator.getStartNumber() + " - " + paginator.getEndNumber() + " of " + formatter.format(totalRecords) + "}";
 
-        List<ResponsibleGroup> groupList = groupFacade.findAll(new OrderDirective("name"));
+        List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
 
         EventType eventType = null;
 

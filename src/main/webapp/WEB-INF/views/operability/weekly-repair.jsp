@@ -132,7 +132,7 @@
                                                 <span style="display: none;" class="write-field">
                                                 <select class="repaired-by-select" multiple="multiple">
                                                         <c:forEach items="${groupList}" var="group">
-                                                        <option value="${group.groupId}"${s:inArray(incident.repairedByList.toArray(), group) ? ' selected="selected"' : ''}><c:out value="${group.name}"/></option>
+                                                        <option value="${group.workgroupId}"${s:inArray(incident.repairedByList.toArray(), group) ? ' selected="selected"' : ''}><c:out value="${group.name}"/></option>
                                                         </c:forEach>
                                                 </select>
                                                 </span>

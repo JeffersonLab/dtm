@@ -25,7 +25,7 @@ import org.jlab.dtm.business.session.IncidentReviewFacade;
 import org.jlab.dtm.business.session.ResponsibleGroupFacade;
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.entity.IncidentReview;
-import org.jlab.dtm.persistence.entity.ResponsibleGroup;
+import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.business.util.TimeUtil;
 import org.jlab.smoothness.presentation.util.ParamUtil;
@@ -124,7 +124,7 @@ public class WeeklyRepair extends HttpServlet {
         Category cryoRoot = categoryFacade.findBranch(BigInteger.valueOf(4L), BigInteger.valueOf(2L));
         Category facilitiesRoot = categoryFacade.findBranch(BigInteger.valueOf(5L), BigInteger.valueOf(2L));
         Category hallRoot = categoryFacade.findBranch(BigInteger.valueOf(465L), BigInteger.valueOf(2L));
-        List<ResponsibleGroup> groupList = groupFacade.findAll(new OrderDirective("name"));
+        List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
 
         IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
         params.setStart(start);
@@ -143,7 +143,7 @@ public class WeeklyRepair extends HttpServlet {
 
             for (IncidentSummary incident : incidentList) {
                 topDowntime = topDowntime + incident.getDowntimeHoursBounded();
-                List<ResponsibleGroup> repairedByList = groupFacade.findRepairedBy(incident.getIncidentId());
+                List<Workgroup> repairedByList = groupFacade.findRepairedBy(incident.getIncidentId());
                 incident.setRepairedByList(repairedByList);
 
                 List<IncidentReview> reviewList = reviewFacade.findByIncident(incident.getIncidentId());
