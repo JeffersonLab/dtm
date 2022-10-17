@@ -45,8 +45,6 @@ public class ScheduledEmailer {
     private TimerService timerService;
     private Timer timer;
     @EJB
-    DtmSettingsFacade settingsFacade;
-    @EJB
     IncidentFacade incidentFacade;
     @EJB
     StaffFacade staffFacade;
@@ -59,7 +57,9 @@ public class ScheduledEmailer {
 
         timer = null;
 
-        if (settingsFacade.findSettings().isAutoEmail()) {
+        String expertEmail = System.getenv("DTM_EXPERT_EMAIL");
+
+        if ("true".equals(expertEmail)) {
             LOGGER.log(Level.FINE, "Creating New Timer");
             setEnabled(true);
         }
@@ -82,7 +82,6 @@ public class ScheduledEmailer {
     }
 
     private void enable() {
-        settingsFacade.setAutoEmail(true);
         if (!isEnabled()) {
             ScheduleExpression schedExp = new ScheduleExpression();
             schedExp.second("0");
@@ -96,7 +95,6 @@ public class ScheduledEmailer {
     }
 
     private void disable() {
-        settingsFacade.setAutoEmail(false);
         if (isEnabled()) {
             timer.cancel();
             timer = null;
@@ -148,15 +146,8 @@ public class ScheduledEmailer {
     }
 
     private void sendExpertMail(Staff s, int numberOfHours) throws UserFriendlyException, MalformedURLException, IOException, AddressException, MessagingException {
-        //String url = "http://localhost:8080/hco/group-daily-email?email=Y&groupId=" + group.getGroupId();
-
-        //Document doc = Jsoup.connect(url).get();
-        //if (!doc.select("#doNotSend").text().trim().isEmpty()) {
-        //    LOGGER.log(Level.FINE, "Skipping email for group: {0}", group.getName());
-        //} else {
         LOGGER.log(Level.FINE, "Sending email for expert: {0}", s.getUsername());
 
-        //String html = doc.outerHtml();
         IncidentParams params = new IncidentParams();
         params.setReviewed(false);
         params.setSmeUsername(s.getUsername());
@@ -167,10 +158,9 @@ public class ScheduledEmailer {
 
         List<Incident> incidentList = incidentFacade.filterList(params);
 
-        String proxyServerName = System.getenv("PROXY_SERVER_NAME");
-        // If null or empty set to sensible (production) default
+        String proxyServerName = System.getenv("PROXY_SERVER");
         if (proxyServerName == null || proxyServerName.trim().isEmpty()) {
-            proxyServerName = "accweb.acc.jlab.org";
+            throw new RuntimeException("PROXY_SERVER env unset; unable to send expert emails");
         }
 
         String html = "";

@@ -1,13 +1,10 @@
 package org.jlab.dtm.presentation.controller;
 
 import org.jlab.dtm.business.params.IncidentParams;
-import org.jlab.dtm.business.service.RootCauseOverallMetricService;
-import org.jlab.dtm.business.service.RootCauseOverallMetricService.RootCauseOverallMetrics;
 import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
 import org.jlab.dtm.business.session.*;
 import org.jlab.dtm.persistence.entity.*;
 import org.jlab.dtm.persistence.enumeration.IncidentSortKey;
-import org.jlab.dtm.persistence.enumeration.ReviewLevel;
 import org.jlab.dtm.persistence.enumeration.Shift;
 import org.jlab.dtm.presentation.params.IncidentUrlParamHandler;
 import org.jlab.smoothness.business.exception.WebApplicationException;
@@ -44,8 +41,6 @@ public class RARReport extends HttpServlet {
     SystemFacade systemFacade;
     @EJB
     CategoryFacade categoryFacade;
-    @EJB
-    DtmSettingsFacade settingsFacade;
     @EJB
     ResponsibleGroupFacade groupFacade;
 
@@ -133,8 +128,6 @@ public class RARReport extends HttpServlet {
 
         String paginationMessage = " {" + paginator.getStartNumber() + " - " + paginator.getEndNumber() + " of " + formatter.format(totalRecords) + "}";
 
-        DtmSettings settings = settingsFacade.findSettings();
-
         List<ResponsibleGroup> groupList = groupFacade.findAll(new OrderDirective("name"));
 
         EventType eventType = null;
@@ -146,7 +139,6 @@ public class RARReport extends HttpServlet {
         request.setAttribute("incidentMask", params.getMask());
         request.setAttribute("start", params.getStart());
         request.setAttribute("end", params.getEnd());
-        request.setAttribute("settings", settings);
         request.setAttribute("categoryRoot", categoryRoot);
         request.setAttribute("eventType", eventType);
         request.setAttribute("eventTypeList", eventTypeList);

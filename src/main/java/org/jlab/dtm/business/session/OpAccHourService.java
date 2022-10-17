@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.jlab.dtm.persistence.entity.DtmSettings;
 import org.jlab.dtm.persistence.model.BeamSummaryTotals;
 import org.jlab.smoothness.business.util.DateIterator;
 import org.jlab.smoothness.business.util.TimeUtil;
@@ -22,7 +21,7 @@ import org.jlab.smoothness.persistence.util.JPAUtil;
  * @author ryans
  */
 @Stateless
-public class OpAccHourService extends AbstractFacade<DtmSettings> {
+public class OpAccHourService extends AbstractFacade<Object> {
 
     private final static Logger logger = Logger.getLogger(OpAccHourService.class.getName());
 
@@ -35,7 +34,7 @@ public class OpAccHourService extends AbstractFacade<DtmSettings> {
     }
 
     public OpAccHourService() {
-        super(DtmSettings.class);
+        super(Object.class);
     }
 
     @PermitAll

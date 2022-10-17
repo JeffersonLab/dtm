@@ -18,13 +18,11 @@ import org.jlab.dtm.business.service.RootCauseOverallMetricService;
 import org.jlab.dtm.business.service.RootCauseOverallMetricService.RootCauseOverallMetrics;
 import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
 import org.jlab.dtm.business.session.CategoryFacade;
-import org.jlab.dtm.business.session.DtmSettingsFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.business.session.IncidentFacade;
 import org.jlab.dtm.business.session.ResponsibleGroupFacade;
 import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.Category;
-import org.jlab.dtm.persistence.entity.DtmSettings;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.Incident;
 import org.jlab.dtm.persistence.entity.ResponsibleGroup;
@@ -52,8 +50,6 @@ public class RootCauseReport extends HttpServlet {
     SystemFacade systemFacade;
     @EJB
     CategoryFacade categoryFacade;
-    @EJB
-    DtmSettingsFacade settingsFacade;
     @EJB
     ResponsibleGroupFacade groupFacade;
 
@@ -168,8 +164,6 @@ public class RootCauseReport extends HttpServlet {
 
         String paginationMessage = " {" + paginator.getStartNumber() + " - " + paginator.getEndNumber() + " of " + formatter.format(totalRecords) + "}";
 
-        DtmSettings settings = settingsFacade.findSettings();
-
         List<ResponsibleGroup> groupList = groupFacade.findAll(new OrderDirective("name"));
 
         EventType eventType = null;
@@ -181,7 +175,6 @@ public class RootCauseReport extends HttpServlet {
         request.setAttribute("incidentMask", params.getMask());
         request.setAttribute("start", params.getStart());
         request.setAttribute("end", params.getEnd());
-        request.setAttribute("settings", settings);
         request.setAttribute("categoryRoot", categoryRoot);
         request.setAttribute("eventType", eventType);
         request.setAttribute("eventTypeList", eventTypeList);

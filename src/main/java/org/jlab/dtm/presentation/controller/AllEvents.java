@@ -3,8 +3,6 @@ package org.jlab.dtm.presentation.controller;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -15,19 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.params.AllEventsParams;
 import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
 import org.jlab.dtm.business.session.CategoryFacade;
-import org.jlab.dtm.business.session.DtmSettingsFacade;
 import org.jlab.dtm.business.session.EventFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.business.session.ResponsibleGroupFacade;
 import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.Category;
-import org.jlab.dtm.persistence.entity.DtmSettings;
 import org.jlab.dtm.persistence.entity.Event;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.ResponsibleGroup;
-import org.jlab.dtm.persistence.enumeration.Shift;
 import org.jlab.dtm.presentation.params.AllEventsUrlParamHandler;
-import org.jlab.smoothness.business.util.TimeUtil;
 import org.jlab.smoothness.presentation.util.Paginator;
 
 /**
@@ -45,8 +39,6 @@ public class AllEvents extends HttpServlet {
     SystemFacade systemFacade;
     @EJB
     CategoryFacade categoryFacade;
-    @EJB
-    DtmSettingsFacade settingsFacade;
     @EJB
     ResponsibleGroupFacade groupFacade;
     
@@ -78,13 +70,6 @@ public class AllEvents extends HttpServlet {
             return;
         }
 
-        /*EventType eventType = null;
-        
-        if(eventTypeId != null) {
-            eventType = eventTypeFacade.find(eventTypeId);
-        }*/
-        
-        //Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L), BigInteger.valueOf(2L));
         Category cebafRoot = categoryFacade.findBranch(BigInteger.valueOf(1L), BigInteger.valueOf(2L));
         Category lerfRoot = categoryFacade.findBranch(BigInteger.valueOf(2L), BigInteger.valueOf(2L));
         Category otherRoot = categoryFacade.findBranch(BigInteger.valueOf(3L), BigInteger.valueOf(2L));
@@ -92,7 +77,6 @@ public class AllEvents extends HttpServlet {
         Category facilitiesRoot = categoryFacade.findBranch(BigInteger.valueOf(5L), BigInteger.valueOf(2L));
         Category hallRoot = categoryFacade.findBranch(BigInteger.valueOf(465L), BigInteger.valueOf(2L));
         List<EventType> eventTypeList = eventTypeFacade.findAll(new OrderDirective("weight"));
-        //List<SystemEntity> systemList = systemFacade.findAllWithCategory();
         List<Event> eventList = eventFacade.filterList(params);
         Long totalRecords = eventFacade.countFilterList(params);
 
@@ -109,16 +93,12 @@ public class AllEvents extends HttpServlet {
         
         String paginationMessage = " {" + paginator.getStartNumber() + " - " + paginator.getEndNumber() + " of " + formatter.format(totalRecords) + "}";
         
-        selectionMessage = selectionMessage + paginationMessage;     
-        
-        DtmSettings settings = settingsFacade.findSettings();
+        selectionMessage = selectionMessage + paginationMessage;
         
         List<ResponsibleGroup> groupList = groupFacade.findAll(new OrderDirective("name"));        
         
         request.setAttribute("start", params.getStart());
         request.setAttribute("end", params.getEnd());
-        request.setAttribute("settings", settings);
-        //request.setAttribute("categoryRoot", categoryRoot);
         request.setAttribute("cebafRoot", cebafRoot);
         request.setAttribute("lerfRoot", lerfRoot);
         request.setAttribute("otherRoot", otherRoot);

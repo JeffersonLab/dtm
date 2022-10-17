@@ -13,13 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
 import org.jlab.dtm.business.session.CategoryFacade;
-import org.jlab.dtm.business.session.DtmSettingsFacade;
 import org.jlab.dtm.business.session.EventFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.business.session.ResponsibleGroupFacade;
-import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.Category;
-import org.jlab.dtm.persistence.entity.DtmSettings;
 import org.jlab.dtm.persistence.entity.Event;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.ResponsibleGroup;
@@ -38,11 +35,7 @@ public class OpenEvents extends HttpServlet {
     @EJB
     EventTypeFacade eventTypeFacade;
     @EJB
-    SystemFacade systemFacade;
-    @EJB
     CategoryFacade categoryFacade;
-    @EJB
-    DtmSettingsFacade settingsFacade;
     @EJB
     ResponsibleGroupFacade groupFacade;
 
@@ -58,7 +51,6 @@ public class OpenEvents extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         logger.log(Level.FINEST, "Querying category tree");
-        //Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L), BigInteger.valueOf(2L));
         Category cebafRoot = categoryFacade.findBranch(BigInteger.valueOf(1L), BigInteger.valueOf(2L));
         Category lerfRoot = categoryFacade.findBranch(BigInteger.valueOf(2L), BigInteger.valueOf(2L));
         Category otherRoot = categoryFacade.findBranch(BigInteger.valueOf(3L), BigInteger.valueOf(2L));
@@ -80,16 +72,11 @@ public class OpenEvents extends HttpServlet {
         eventFacade.loadRepairedBy(openEventList);
 
         // Expert Reviews
-        eventFacade.loadReviewedBy(openEventList);        
-        
-        logger.log(Level.FINEST, "Querying settings");
-        DtmSettings settings = settingsFacade.findSettings();
+        eventFacade.loadReviewedBy(openEventList);
 
         logger.log(Level.FINEST, "Querying group list");
         List<ResponsibleGroup> groupList = groupFacade.findAll(new OrderDirective("name"));
 
-        request.setAttribute("settings", settings);
-        //request.setAttribute("categoryRoot", categoryRoot);
         request.setAttribute("cebafRoot", cebafRoot);
         request.setAttribute("lerfRoot", lerfRoot);
         request.setAttribute("otherRoot", otherRoot);
