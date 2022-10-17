@@ -359,7 +359,7 @@ e.TIME_UP,
 FROM EVENT e
 );
 
-CREATE OR REPLACE VIEW EVENT_FIRST_INCIDENT AS
+CREATE OR REPLACE VIEW DTM_OWNER.EVENT_FIRST_INCIDENT AS
 (
 SELECT e.event_id, e.title as event_title, e.time_up, e.event_type_id, i.incident_id, i.title, i.time_down, c.number_of_incidents
 FROM dtm_owner.event e,
