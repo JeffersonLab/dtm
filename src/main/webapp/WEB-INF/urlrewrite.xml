@@ -10,7 +10,7 @@
     
     <!-- Rewrite resource link to strip off directory version -->
     <rule>
-        <from>^/resources/v([0-9]+)/(.*)$</from>
+        <from>^/resources/v([^/]*)/(.*)$</from>
         <to>/resources/$2</to>
     </rule>
 

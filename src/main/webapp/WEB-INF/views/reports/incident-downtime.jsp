@@ -9,7 +9,7 @@
 <c:set var="title" value="Incident Downtime"/>
 <t:reports-page title="${title}">  
     <jsp:attribute name="stylesheets">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/css/downtime-report.css"/>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/downtime-report.css"/>
     </jsp:attribute>
     <jsp:attribute name="scripts">
         <script type="text/javascript">

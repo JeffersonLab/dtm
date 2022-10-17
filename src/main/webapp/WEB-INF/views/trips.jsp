@@ -8,7 +8,7 @@
 <c:set value="FSD Trips" var="title"/>
 <t:page title="${title}">  
     <jsp:attribute name="stylesheets"> 
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/css/event-list.css"/> 
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/event-list.css"/>
         <style type="text/css">
             .state-panel {
                 border: 1px dashed black;
@@ -35,7 +35,7 @@
         </style>
     </jsp:attribute>
     <jsp:attribute name="scripts">      
-        <script type="text/javascript" src="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/js/trips.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/trips.js"></script>
     </jsp:attribute>        
     <jsp:body>       
         <section>
