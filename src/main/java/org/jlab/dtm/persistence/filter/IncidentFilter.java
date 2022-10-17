@@ -86,9 +86,9 @@ public class IncidentFilter extends RequestFilter<IncidentDowntimeReportParams> 
         // Null means don't filter beam transport specially
         if (params.getBeamTransport() != null) {
             if (params.getBeamTransport()) {
-                filters.add("d.system_id = (select system_id from hco_owner.all_systems where name = 'Beam Transport')");
+                filters.add("d.system_id = (select system_id from dtm_owner.system where name = 'Beam Transport')");
             } else {
-                filters.add("d.system_id != (select system_id from hco_owner.all_systems where name = 'Beam Transport')");
+                filters.add("d.system_id != (select system_id from dtm_owner.system where name = 'Beam Transport')");
             }
         }
 

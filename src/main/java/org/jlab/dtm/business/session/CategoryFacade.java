@@ -114,7 +114,7 @@ public class CategoryFacade extends AbstractFacade<Category> {
     @SuppressWarnings("unchecked")
     private List<BigInteger> findCategoryIdList(BigInteger applicationId) {
         Query q = em.createNativeQuery(
-                "select distinct category_id from category z start with z.category_id in (select category_id from hco_owner.all_systems a where system_id in (select system_id from system_application where application_id = :applicationId)) connect by prior z.parent_id = z.category_id");
+                "select distinct category_id from category z start with z.category_id in (select category_id from dtm_owner.system a where system_id in (select system_id from system_application where application_id = :applicationId)) connect by prior z.parent_id = z.category_id");
 
         q.setParameter("applicationId", applicationId);
 

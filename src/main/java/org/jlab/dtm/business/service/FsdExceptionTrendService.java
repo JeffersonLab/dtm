@@ -84,7 +84,7 @@ public class FsdExceptionTrendService {
 
         sql = sql
                 + "from "
-                + "fsd_trip a join fsd_fault b using (fsd_trip_id) join fsd_device_exception c using (fsd_fault_id) join hco_owner.all_systems d on (nvl(c.hco_system_name, 'Unknown/Missing') = d.name) join system_alpha_category e using(system_id) join category f on (e.category_id = f.category_id) "
+                + "fsd_trip a join fsd_fault b using (fsd_trip_id) join fsd_device_exception c using (fsd_fault_id) join dtm_owner.system d on (nvl(c.hco_system_name, 'Unknown/Missing') = d.name) join system_alpha_category e using(system_id) join category f on (e.category_id = f.category_id) "
                 + "where "
                 + "cast((from_tz(cast(a.start_utc as timestamp), '+00:00') at time zone 'America/New_York') as date) "
                 + "< n.day_date + 1 "
@@ -197,7 +197,7 @@ public class FsdExceptionTrendService {
 
         sql = sql
                 + "from "
-                + "fsd_trip a join fsd_fault b using (fsd_trip_id) join fsd_device_exception c using (fsd_fault_id) join hco_owner.all_systems d on (nvl(c.hco_system_name, 'Unknown/Missing') = d.name) join system_alpha_category e using(system_id) join category f on (e.category_id = f.category_id) "
+                + "fsd_trip a join fsd_fault b using (fsd_trip_id) join fsd_device_exception c using (fsd_fault_id) join dtm_owner.system d on (nvl(c.hco_system_name, 'Unknown/Missing') = d.name) join system_alpha_category e using(system_id) join category f on (e.category_id = f.category_id) "
                 + "where "
                 + "cast((from_tz(cast(a.start_utc as timestamp), '+00:00') at time zone 'America/New_York') as date) "
                 + "< ? "

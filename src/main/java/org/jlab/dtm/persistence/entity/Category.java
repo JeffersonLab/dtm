@@ -26,7 +26,7 @@ import org.jlab.dtm.persistence.model.Node;
  * @author ryans
  */
 @Entity
-@Table(name = "ALL_CATEGORIES", schema = "HCO_OWNER", uniqueConstraints = {
+@Table(name = "CATEGORY", schema = "DTM_OWNER", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"NAME"})})
 @NamedQueries({
     @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c")})

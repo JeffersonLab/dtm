@@ -338,7 +338,7 @@ public class IncidentReportService {
 
         sql = sql
                 + ") as frequency, a.missing_explanation, a.expert_acknowledged, a.root_cause, a.rar_id "
-                + "from (incident a left outer join hco_owner.all_components d on a.component_id = d.component_id) inner join system_alpha_category v on v.system_id = a.system_id inner join hco_owner.category w on v.category_id = w.category_id inner join event b on a.event_id = b.event_id inner join hco_owner.all_systems c on a.system_id = c.system_id inner join event_type e on b.event_type_id = e.event_type_id left outer join staff f on a.reviewed_by = f.staff_id ";
+                + "from (incident a left outer join hco_owner.all_components d on a.component_id = d.component_id) inner join system_alpha_category v on v.system_id = a.system_id inner join hco_owner.category w on v.category_id = w.category_id inner join event b on a.event_id = b.event_id inner join dtm_owner.system c on a.system_id = c.system_id inner join event_type e on b.event_type_id = e.event_type_id left outer join staff f on a.reviewed_by = f.staff_id ";
 
         IncidentFilter filter = new IncidentFilter(params);
         sql = sql + filter.getSqlWhereClause();
@@ -383,7 +383,7 @@ public class IncidentReportService {
 
         String sql
                 = "select count(*) "
-                + "from (incident a left outer join hco_owner.all_components d on a.component_id = d.component_id) inner join system_alpha_category v on v.system_id = a.system_id inner join hco_owner.category w on v.category_id = w.category_id inner join event b on a.event_id = b.event_id inner join hco_owner.all_systems c on a.system_id = c.system_id inner join event_type e on b.event_type_id = e.event_type_id left outer join staff f on a.reviewed_by = f.staff_id ";
+                + "from (incident a left outer join hco_owner.all_components d on a.component_id = d.component_id) inner join system_alpha_category v on v.system_id = a.system_id inner join hco_owner.category w on v.category_id = w.category_id inner join event b on a.event_id = b.event_id inner join dtm_owner.system c on a.system_id = c.system_id inner join event_type e on b.event_type_id = e.event_type_id left outer join staff f on a.reviewed_by = f.staff_id ";
 
         IncidentFilter filter = new IncidentFilter(params);
         sql = sql + filter.getSqlWhereClause();
@@ -477,10 +477,10 @@ public class IncidentReportService {
         if (beamTransport != null) {
             if (beamTransport) {
                 sql = sql
-                        + "and d.system_id = (select system_id from hco_owner.all_systems where name = 'Beam Transport') ";
+                        + "and d.system_id = (select system_id from dtm_owner.system where name = 'Beam Transport') ";
             } else {
                 sql = sql
-                        + "and d.system_id != (select system_id from hco_owner.all_systems where name = 'Beam Transport') ";
+                        + "and d.system_id != (select system_id from dtm_owner.system where name = 'Beam Transport') ";
             }
         }
 
