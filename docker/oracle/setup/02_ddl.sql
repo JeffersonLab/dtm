@@ -382,3 +382,18 @@ CREATE OR REPLACE VIEW DTM_OWNER.SYSTEM_ALPHA_CATEGORY_PLUS AS
 (
 SELECT SYSTEM_ID, CATEGORY_ID from DTM_OWNER.LOCAL_SYSTEM
 );
+
+-- Virtual Columns
+alter table dtm_owner.incident add duration_seconds number generated always as (
+        ((extract(day from time_up - time_down)) * 86400) +
+        ((extract(hour from time_up - time_down)) * 3600) +
+        ((extract(minute from time_up - time_down)) * 60) +
+        ((extract(second from time_up - time_down)))
+    ) virtual;
+
+alter table dtm_owner.incident add reviewed char(1) generated always as ((case when (time_up - time_down) < NUMTODSINTERVAL(30, 'minute') and expert_acknowledged = 'Y' then 'Y' when (time_up - time_down) < NUMTODSINTERVAL(4, 'hour') and root_cause is not null then 'Y' when rar_ext is not null then 'Y' else 'N' end)) virtual;
+
+alter table dtm_owner.incident add review_level varchar2(10) generated always as ((case when (time_up - time_down) < NUMTODSINTERVAL(30, 'minute') then 'ONE' when (time_up - time_down) < NUMTODSINTERVAL(4, 'hour') then 'TWO' else 'THREE_PLUS' end)) virtual;
+
+-- Performance Index
+create index incident_perf1 on dtm_owner.incident(event_id);
