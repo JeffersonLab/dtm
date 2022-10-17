@@ -383,6 +383,24 @@ CREATE OR REPLACE VIEW DTM_OWNER.SYSTEM_ALPHA_CATEGORY_PLUS AS
 SELECT SYSTEM_ID, CATEGORY_ID from DTM_OWNER.LOCAL_SYSTEM
 );
 
+create or replace view dtm_owner.restore_time (event_id, time_down, time_up) as
+(
+SELECT * FROM (SELECT event_id, MAX(nvl(time_up, sysdate)) OVER (partition by event_id ORDER BY time_down) as time_down, LEAD(time_down) OVER (partition by event_id ORDER BY time_down) as time_up FROM incident) WHERE time_down < time_up
+union
+select a.event_id, b.time_up as time_down, nvl(a.time_up, sysdate) as time_up
+from event a,
+(select event_id, max(nvl(time_up, sysdate)) as time_up from incident group by event_id) b
+where a.event_id = b.event_id
+and b.time_up != nvl(a.time_up, sysdate)
+);
+
+-- Functions
+create FUNCTION DTM_OWNER.interval_to_seconds (p_interval INTERVAL DAY TO SECOND) RETURN NUMBER IS
+BEGIN
+    RETURN EXTRACT(DAY FROM p_interval)*86400 + EXTRACT(HOUR FROM p_interval)*3600 + EXTRACT(MINUTE FROM p_interval)*60 + EXTRACT(SECOND FROM p_interval);
+END interval_to_seconds;
+/
+
 -- Virtual Columns
 alter table dtm_owner.incident add duration_seconds number generated always as (
         ((extract(day from time_up - time_down)) * 86400) +
