@@ -71,7 +71,7 @@ public class IncidentTrendFacade extends AbstractFacade<Incident> {
         
         if (!includeBeamTransport) {
             sql = sql
-                    + "and d.system_id != (select system_id from hco_owner.all_systems where name = 'Beam Transport') ";
+                    + "and d.system_id != (select system_id from dtm_owner.system where name = 'Beam Transport') ";
         }
         
         String categoryCsv = IOUtil.toCsv(categoryIdArray);

@@ -15,8 +15,8 @@
         <param-value>DTM</param-value>
     </context-param>
     <context-param>
-        <param-name>resourceVersionNumber</param-name>
-        <param-value>@RESOURCE_VERSION@</param-value>
+        <param-name>appSpecificEnvPrefix</param-name>
+        <param-value>DTM</param-value>
     </context-param>
     <context-param>
         <param-name>releaseNumber</param-name>
@@ -25,22 +25,6 @@
     <context-param>
         <param-name>releaseDate</param-name>
         <param-value>@RELEASE_DATE@</param-value>
-    </context-param>
-    <context-param>
-        <param-name>contentContact</param-name>
-        <param-value>Randy Michaud (rmichuad)</param-value>
-    </context-param>
-    <context-param>
-        <param-name>technicalContact</param-name>
-        <param-value>Ryan Slominski (ryans)</param-value>
-    </context-param>
-    <context-param>
-        <param-name>feedbackFromAddress</param-name>
-        <param-value>dtm@jlab.org</param-value>
-    </context-param>
-    <context-param>
-        <param-name>feedbackToAddressCsv</param-name>
-        <param-value>ryans@jlab.org,rmichaud@jlab.org</param-value>
     </context-param>
     <filter>
         <filter-name>UrlRewriteFilter</filter-name>
@@ -83,7 +67,7 @@
             <url-pattern>/sso</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>ipausers</role-name>
+            <role-name>**</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
@@ -100,14 +84,10 @@
         </auth-constraint>
     </security-constraint>
     <login-config>
-        <auth-method>KEYCLOAK</auth-method>
-        <realm-name>jlab</realm-name>
+        <auth-method>OIDC</auth-method>
     </login-config>
     <security-role>
         <role-name>dtreview</role-name>
-    </security-role>
-    <security-role>
-        <role-name>ipausers</role-name>
     </security-role>
     <distributable/>
 </web-app>

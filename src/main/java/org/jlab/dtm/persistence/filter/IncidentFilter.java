@@ -39,8 +39,8 @@ public class IncidentFilter extends RequestFilter<IncidentDowntimeReportParams> 
             filters.add("a.system_id = " + params.getSystemId());
         }
 
-        if (params.getGroupId() != null) {
-            filters.add(params.getGroupId() + " in (select repaired_by from incident_repair where incident_id = a.incident_id)");
+        if (params.getWorkgroupId() != null) {
+            filters.add(params.getWorkgroupId() + " in (select repaired_by from incident_repair where incident_id = a.incident_id)");
         }
 
         if (params.getComponent() != null && !params.getComponent().trim().isEmpty()) {
@@ -86,9 +86,9 @@ public class IncidentFilter extends RequestFilter<IncidentDowntimeReportParams> 
         // Null means don't filter beam transport specially
         if (params.getBeamTransport() != null) {
             if (params.getBeamTransport()) {
-                filters.add("d.system_id = (select system_id from hco_owner.all_systems where name = 'Beam Transport')");
+                filters.add("d.system_id = (select system_id from dtm_owner.system where name = 'Beam Transport')");
             } else {
-                filters.add("d.system_id != (select system_id from hco_owner.all_systems where name = 'Beam Transport')");
+                filters.add("d.system_id != (select system_id from dtm_owner.system where name = 'Beam Transport')");
             }
         }
 

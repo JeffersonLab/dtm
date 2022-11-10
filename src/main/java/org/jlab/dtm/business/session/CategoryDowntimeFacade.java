@@ -43,10 +43,10 @@ public class CategoryDowntimeFacade extends AbstractFacade<Category> {
                 + "from ";
         
         if (packed) {
-            sql = sql + "alpha_cat_packed_incidents b inner join hco_owner.all_categories e on e.category_id = b.category_id ";
+            sql = sql + "alpha_cat_packed_incidents b inner join dtm_owner.category e on e.category_id = b.category_id ";
         } else {
             sql = sql
-                    + "hco_owner.all_systems a inner join system_alpha_category d using(system_id) inner join hco_owner.all_categories e on e.category_id = d.category_id inner join incident b using(system_id) inner join event c using(event_id) ";
+                    + "dtm_owner.system a inner join system_alpha_category d using(system_id) inner join dtm_owner.category e on e.category_id = d.category_id inner join incident b using(system_id) inner join event c using(event_id) ";
         }
         
         sql = sql
@@ -67,10 +67,10 @@ public class CategoryDowntimeFacade extends AbstractFacade<Category> {
         if (beamTransport != null && !packed) { // Only if not packed can you filter by beam transport
             if (beamTransport) {
                 sql = sql
-                        + "and system_id = (select system_id from hco_owner.all_systems where name = 'Beam Transport') ";
+                        + "and system_id = (select system_id from dtm_owner.system where name = 'Beam Transport') ";
             } else {
                 sql = sql
-                        + "and system_id != (select system_id from hco_owner.all_systems where name = 'Beam Transport') ";
+                        + "and system_id != (select system_id from dtm_owner.system where name = 'Beam Transport') ";
             }
         }
 

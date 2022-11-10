@@ -1,16 +1,55 @@
-# dtm [![Java CI with Gradle](https://github.com/JeffersonLab/dtm/actions/workflows/gradle.yml/badge.svg)](https://github.com/JeffersonLab/dtm/actions/workflows/gradle.yml)
+# dtm [![CI](https://github.com/JeffersonLab/dtm/actions/workflows/ci.yml/badge.svg)](https://github.com/JeffersonLab/dtm/actions/workflows/ci.yml) [![Docker](https://img.shields.io/docker/v/slominskir/dtm?sort=semver&label=DockerHub)](https://hub.docker.com/r/slominskir/dtm)
 A [Java EE 8](https://en.wikipedia.org/wiki/Jakarta_EE) web application for managing downtime at Jefferson Lab built with the [Smoothness](https://github.com/JeffersonLab/smoothness) web template.
 
 ![Screenshot](https://github.com/JeffersonLab/dtm/raw/main/Screenshot.png?raw=true "Screenshot")
 
 ---
- - [Build](https://github.com/JeffersonLab/dtm#build)
+ - [Overview](https://github.com/JeffersonLab/dtm#overview)
+ - [Quick Start with Compose](https://github.com/JeffersonLab/dtm#quick-start-with-compose)
+ - [Install](https://github.com/JeffersonLab/dtm#install) 
  - [Configure](https://github.com/JeffersonLab/dtm#configure)
- - [Install](https://github.com/JeffersonLab/dtm#install)
+ - [Build](https://github.com/JeffersonLab/dtm#build)
+ - [Release](https://github.com/JeffersonLab/dtm#release)
 ---
 
+## Overview
+The Downtime application allows Operators to log machine downtime events.  Downtime events are caused by one or more incidents, and incidents may occur concurrently.  The machine requires time to recover after all incidents are resolved, and this time is also part of an event.  Short temporary "trips" caused by Fast Shutdown System (FSD) faults, are also recorded.   A trip that lasts longer than five minutes is considered eligible to be a downtime event.  Most downtime events start off as trips.
+
+## Quick Start with Compose
+1. Grab project
+```
+git clone https://github.com/JeffersonLab/dtm
+cd dtm
+```
+2. Launch Docker
+```
+docker compose up
+```
+3. Navigate to page
+```
+http://localhost:8080/dtm
+```
+See: [Docker Compose Strategy](https://gist.github.com/slominskir/a7da801e8259f5974c978f9c3091d52c)
+
+## Install
+This application requires a Java 11+ JVM and standard library to run, plus a Java EE 8+ application server (developed with Wildfly).
+
+   1. Download [Wildfly 26.1.2](https://www.wildfly.org/downloads/)
+   1. Download [dtm.war](https://github.com/JeffersonLab/dtm/releases) and deploy it to Wildfly
+   1. Navigate your web browser to localhost:8080/dtm
+
+**Note:** The application requires [configuration](https://github.com/JeffersonLab/dtm#configure) before running and an Oracle 21+ database with the following [schema](https://github.com/JeffersonLab/dtm/tree/main/docker/oracle/setup) installed.
+
+## Configure
+
+### Configtime
+Wildfly must be pre-configured before the first deployment of the app. The [smoothness bash scripts](https://github.com/JeffersonLab/smoothness#configtime) can be used to accomplish this. See the [Dockerfile](https://github.com/JeffersonLab/dtm/blob/main/Dockerfile) for an example.
+
+### Runtime
+Uses the [Smoothness Environment Variables](https://github.com/JeffersonLab/smoothness#environment-variables).
+
 ## Build
-This [Java 11](https://adoptopenjdk.net/) project uses the [Gradle 5](https://gradle.org/) build tool to automatically download dependencies and build the project from source:
+This project is built with [Java 17](https://adoptium.net/) (compiled to Java 11 bytecode), and uses the [Gradle 7](https://gradle.org/) build tool to automatically download dependencies and build the project from source:
 
 ```
 git clone https://github.com/JeffersonLab/dtm
@@ -19,24 +58,16 @@ gradlew build
 ```
 **Note**: If you do not already have Gradle installed, it will be installed automatically by the wrapper script included in the source
 
-**Note**: Jefferson Lab has an intercepting [proxy](https://gist.github.com/slominskir/92c25a033db93a90184a5994e71d0b78)
+**Note for JLab On-Site Users**: Jefferson Lab has an intercepting [proxy](https://gist.github.com/slominskir/92c25a033db93a90184a5994e71d0b78)
 
-## Configure
-
-### Environment Variables
-Uses the [Smoothness Environment Variables](https://github.com/JeffersonLab/smoothness#environment-variables).
-
-### Database
-The Downtime application requires an Oracle 18 database with the following [schema](https://github.com/JeffersonLab/dtm/tree/main/schema) installed.   The application server hosting the Downtime app must also be configured with a JNDI datasource.
-
-## Install
-   1. Download [Wildfly 16](https://www.wildfly.org/downloads/)
-   1. Download [dtm.war](https://github.com/JeffersonLab/dtm/releases) and deploy it to Wildfly
-   1. Navigate your web browser to localhost:8080/dtm
-
-**Note:** dtm presumably works with any Java EE 8 compatible server such as [GlassFish](https://javaee.github.io/glassfish/) or [TomEE](https://tomee.apache.org/).
-
-**Note:** The dependency jars (except Java EE 8 jars required to be available in the server) are included in the _war_ file that is generated by the build by default, but you can optionally exclude them (if you intend to install them into your application server) with the flag _-Pprovided_ like so:
+**Note**: The dependency jars (except Java EE 8 jars required to be available in the server) are included in the war file that is generated by the build by default, but you can optionally exclude them (if you intend to install them into the application server) with the flag -Pprovided like so:
 ```
 gradlew -Pprovided build
 ```
+See: [Docker Development Quick Reference](https://gist.github.com/slominskir/a7da801e8259f5974c978f9c3091d52c#development-quick-reference)
+
+### Release
+1. Bump the version number in build.gradle and commit and push to GitHub (using [Semantic Versioning](https://semver.org/)).
+2. Create a new release on the GitHub Releases page corresponding to the same version in the build.gradle. The release should enumerate changes and link issues. A war artifact can be attached to the release to facilitate easy install by users.
+3. Build and publish a new Docker image [from the GitHub tag](https://gist.github.com/slominskir/a7da801e8259f5974c978f9c3091d52c#8-build-an-image-based-of-github-tag).
+4. Bump and commit quick start [image version](https://github.com/JeffersonLab/dtm/blob/main/docker-compose.override.yml)

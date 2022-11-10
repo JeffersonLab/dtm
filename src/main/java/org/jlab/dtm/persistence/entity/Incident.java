@@ -2,7 +2,6 @@ package org.jlab.dtm.persistence.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -32,7 +31,6 @@ import org.hibernate.envers.NotAudited;
 import org.jlab.dtm.persistence.enumeration.ReviewLevel;
 import org.jlab.dtm.presentation.util.DtmFunctions;
 import org.jlab.smoothness.business.util.IOUtil;
-import org.jlab.smoothness.business.util.TimeUtil;
 
 /**
  *
@@ -282,8 +280,8 @@ public class Incident implements Serializable {
 
             for (int i = 0; i < idArray.length; i++) {
                 Repair repair = repairedByList.get(i);
-                ResponsibleGroup group = repair.getRepairedBy();
-                idArray[i] = group.getGroupId();
+                Workgroup group = repair.getRepairedBy();
+                idArray[i] = group.getWorkgroupId();
             }
 
             csv = IOUtil.toCsv(idArray);

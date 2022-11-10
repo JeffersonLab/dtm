@@ -9,21 +9,14 @@
 <%@attribute name="stylesheets" fragment="true" %>
 <%@attribute name="scripts" fragment="true" %>
 <%@attribute name="secondaryNavigation" fragment="true" %>
-<s:tabbed-page title="${title}" category="${category}" keycloakClientIdKey="KEYCLOAK_CLIENT_ID_DTM" resourceLocation="CDN">
+<s:tabbed-page title="${title}" category="${category}">
     <jsp:attribute name="stylesheets">
         <link rel="stylesheet" type="text/css"
-              href="${cdnContextPath}/jquery-plugins/timepicker/jquery-ui-timepicker-1.5.0.css"/>
-        <link rel="stylesheet" type="text/css" href="${cdnContextPath}/jquery-plugins/select2/3.5.2/select2.css"/>
-        <link rel="stylesheet" type="text/css"
-              href="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/css/dtm.css"/>
+              href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/dtm.css"/>
         <jsp:invoke fragment="stylesheets"/>
     </jsp:attribute>
     <jsp:attribute name="scripts">
-        <script src="${cdnContextPath}/jquery-plugins/timepicker/jquery-ui-timepicker-1.5.0.min.js"></script>
-        <script src="${cdnContextPath}/jquery-plugins/maskedinput/jquery.maskedinput-1.3.1.min.js"></script>
-        <script src="${cdnContextPath}/uri/uri-1.14.1.min.js"></script>
-        <script src="${cdnContextPath}/jquery-plugins/select2/3.5.2/select2.min.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/js/dtm.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/dtm.js"></script>
         <jsp:invoke fragment="scripts"/>
     </jsp:attribute>
     <jsp:attribute name="userExtra">

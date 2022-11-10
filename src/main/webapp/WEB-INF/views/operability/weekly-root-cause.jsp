@@ -8,10 +8,10 @@
 <c:set var="title" value="${eventType.name} Root Cause Report"/>
 <t:operability-page title="${title}">
     <jsp:attribute name="stylesheets"> 
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/css/root-cause.css"/> 
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/root-cause.css"/>
     </jsp:attribute>
     <jsp:attribute name="scripts">      
-        <script src="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/js/root-cause.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/root-cause.js"></script>
     </jsp:attribute>        
     <jsp:body>
         <section>

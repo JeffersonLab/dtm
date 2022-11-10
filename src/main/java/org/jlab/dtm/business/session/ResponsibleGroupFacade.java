@@ -7,13 +7,13 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.jlab.dtm.persistence.entity.ResponsibleGroup;
+import org.jlab.dtm.persistence.entity.Workgroup;
 /**
  *
  * @author ryans
  */
 @Stateless
-public class ResponsibleGroupFacade extends AbstractFacade<ResponsibleGroup> {
+public class ResponsibleGroupFacade extends AbstractFacade<Workgroup> {
 
     @PersistenceContext(unitName = "dtmPU")
     private EntityManager em;
@@ -24,17 +24,17 @@ public class ResponsibleGroupFacade extends AbstractFacade<ResponsibleGroup> {
     }
 
     public ResponsibleGroupFacade() {
-        super(ResponsibleGroup.class);
+        super(Workgroup.class);
     }
 
     @SuppressWarnings("unchecked")
     @PermitAll
-    public List<ResponsibleGroup> findBySystem(BigInteger systemId) {
+    public List<Workgroup> findBySystem(BigInteger systemId) {
         if (systemId == null) {
             return findAll(new OrderDirective("name"));
         }
 
-        Query q = em.createNativeQuery("select a.* from responsible_group a, group_responsibility b where a.group_id = b.group_id and b.system_id = :systemId order by b.weight, a.name asc", ResponsibleGroup.class);
+        Query q = em.createNativeQuery("select a.* from responsible_group a, group_responsibility b where a.group_id = b.group_id and b.system_id = :systemId order by b.weight, a.name asc", Workgroup.class);
 
         q.setParameter("systemId", systemId);
 
@@ -43,8 +43,8 @@ public class ResponsibleGroupFacade extends AbstractFacade<ResponsibleGroup> {
 
     @SuppressWarnings("unchecked")
     @PermitAll
-    public List<ResponsibleGroup> findRepairedBy(BigInteger incidentId) {
-        Query q = em.createNativeQuery("select * from responsible_group where group_id in (select repaired_by from incident_repair where incident_id  = :incidentId)", ResponsibleGroup.class);
+    public List<Workgroup> findRepairedBy(BigInteger incidentId) {
+        Query q = em.createNativeQuery("select * from responsible_group where group_id in (select repaired_by from incident_repair where incident_id  = :incidentId)", Workgroup.class);
 
         q.setParameter("incidentId", incidentId);
 

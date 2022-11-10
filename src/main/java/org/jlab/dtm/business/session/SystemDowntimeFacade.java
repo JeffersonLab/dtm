@@ -41,7 +41,7 @@ public class SystemDowntimeFacade extends AbstractFacade<SystemEntity> {
         
         String sql
                 = "select a.name, a.system_id, count(a.name) as incident_count, sum(interval_to_seconds(least(nvl(b.time_up, sysdate), :end) - greatest(b.time_down, :start))) / 60 / 60 / 24 as duration "
-                + "from hco_owner.all_systems a, ";
+                + "from dtm_owner.system a, ";
 
         if (packed) {
             sql = sql + "system_packed_incidents b, ";
@@ -67,11 +67,11 @@ public class SystemDowntimeFacade extends AbstractFacade<SystemEntity> {
         if (beamTransport != null) {
             if (beamTransport) {
                 sql = sql
-                        + "and b.system_id = (select system_id from hco_owner.all_systems where name = 'Beam Transport') ";
+                        + "and b.system_id = (select system_id from dtm_owner.system where name = 'Beam Transport') ";
             }
             if (!beamTransport) {
                 sql = sql
-                        + "and b.system_id != (select system_id from hco_owner.all_systems where name = 'Beam Transport') ";
+                        + "and b.system_id != (select system_id from dtm_owner.system where name = 'Beam Transport') ";
             }
         }
 

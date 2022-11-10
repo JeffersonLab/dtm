@@ -13,10 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.jlab.dtm.persistence.enumeration.BulletinBoardCategory;
-import org.jlab.dtm.persistence.entity.DtmSettings;
 import org.jlab.dtm.persistence.enumeration.BulletinBoardPriority;
 
 /**
@@ -30,43 +28,51 @@ public class BulletinBoardService {
 
     private static final Logger logger = Logger.getLogger(
             BulletinBoardService.class.getName());
-
-    @EJB
-    private DtmSettingsFacade settingsFacade;
     
     private String execPath;
     private String category;
+
+    private boolean bbEnabled = false;
     
     @PostConstruct
     private void init() {
-        DtmSettings settings = settingsFacade.findSettings();
-
-        execPath = settings.getBulletinBoardPath();
+        execPath = System.getenv("DTM_BBMSG_PATH");
 
         if (execPath == null || execPath.isEmpty()) {
-            execPath = System.getenv("bbmsg");
-
-            if (execPath == null || execPath.isEmpty()) {
-                throw new RuntimeException("Path to bbmsg executable must be specified in an environment variable 'bbmsg' or in the DTM_SETTINGS database table");
-            }
+            logger.log(Level.INFO, "BB Disabled; DTM_BBMSG_PATH empty");
+            return;
         }
 
-        logger.log(Level.FINE, "execPath: {0}", execPath);
+        logger.log(Level.FINE, "DTM_BBMSG_PATH: {0}", execPath);
 
         File exec = new File(execPath);
 
         if (!exec.exists()) {
-            throw new RuntimeException("Executable bbmsg does not exist");
+            logger.log(Level.INFO, "BB Disabled; executable bbmsg does not exist");
+            return;
         }
         
-        category = settings.getBulletinBoardCategory();
-        
+        category = System.getenv("DTM_BBMSG_CATEGORY");
+
+        if (category == null || category.isEmpty()) {
+            logger.log(Level.INFO, "BB Disabled; DTM_BBMSG_CATEGORY empty");
+            return;
+        }
+
         // Throws IllegalArgumentException if category isn't in enum list
         BulletinBoardCategory.valueOf(category);
+
+        logger.log(Level.FINE, "DTM_BBMSG_CATEGORY: {0}", category);
+
+        bbEnabled = true;
     }
 
     @PermitAll
     public void postMessage(String message, BulletinBoardPriority priority) throws IOException {
+
+        if(!bbEnabled) {
+            return;
+        }
 
         List<String> command = new ArrayList<String>();
         command.add(execPath);

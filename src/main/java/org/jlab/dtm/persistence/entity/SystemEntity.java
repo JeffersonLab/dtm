@@ -29,7 +29,7 @@ import org.hibernate.envers.RelationTargetAuditMode;
  */
 @Entity
 @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-@Table(name = "ALL_SYSTEMS", schema = "HCO_OWNER", uniqueConstraints = {
+@Table(name = "SYSTEM", schema = "DTM_OWNER", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"NAME"})})
 @NamedQueries({
     @NamedQuery(name = "SystemEntity.findAll", query = "SELECT s FROM SystemEntity s")})

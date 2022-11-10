@@ -10,7 +10,7 @@
     <jsp:attribute name="stylesheets">        
     </jsp:attribute>
     <jsp:attribute name="scripts">       
-        <script type="text/javascript" src="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/js/availability-trend.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/availability-trend.js"></script>
     </jsp:attribute>        
     <jsp:body>
         <section>

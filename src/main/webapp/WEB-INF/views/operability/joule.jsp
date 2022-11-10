@@ -8,15 +8,15 @@
 <c:set var="title" value="Joule Report"/>
 <t:operability-page title="${title}">  
     <jsp:attribute name="stylesheets">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/css/summary-table.css"/>
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/css/joule.css"/>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/summary-table.css"/>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/joule.css"/>
     </jsp:attribute>
     <jsp:attribute name="scripts">
         <script src="${cdnContextPath}/jquery-plugins/flot/0.8.3/jquery.flot.min.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/js/flot-time.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/js/jquery.flot.dashes.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/flot-time.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/jquery.flot.dashes.js"></script>
         <script src="${cdnContextPath}/jquery-plugins/flot/0.8.3/jquery.flot.resize.min.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/v${initParam.resourceVersionNumber}/js/joule.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/joule.js"></script>
     </jsp:attribute>
     <jsp:body>
         <section>

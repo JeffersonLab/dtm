@@ -37,7 +37,7 @@ import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.entity.CategoryMonthlyGoal;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.MonthlyNote;
-import org.jlab.dtm.persistence.entity.ResponsibleGroup;
+import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.persistence.model.CategoryDowntime;
 import org.jlab.dtm.persistence.model.MonthlyRepairReportRecord;
 import org.jlab.dtm.persistence.model.TrendRecord;
@@ -163,7 +163,7 @@ public class MonthlyRepair extends HttpServlet {
 
         Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L),
                 BigInteger.valueOf(2L));
-        List<ResponsibleGroup> groupList = groupFacade.findAll(new OrderDirective("name"));
+        List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
 
         IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
         params.setStart(start);
@@ -181,7 +181,7 @@ public class MonthlyRepair extends HttpServlet {
 
             for (IncidentSummary incident : incidentList) {
                 topDowntime = topDowntime + incident.getDowntimeHoursBounded();
-                List<ResponsibleGroup> repairedByList = groupFacade.findRepairedBy(
+                List<Workgroup> repairedByList = groupFacade.findRepairedBy(
                         incident.getIncidentId());
                 incident.setRepairedByList(repairedByList);
             }

@@ -242,7 +242,7 @@
                             <div class="li-value">
                                 <select id="repaired-by" multiple="multiple">
                                     <c:forEach items="${groupList}" var="group">
-                                        <option value="${group.groupId}"${s:inArray(incident.repairedByList.toArray(), group) ? ' selected="selected"' : ''}><c:out value="${group.name}"/></option>
+                                        <option value="${group.workgroupId}"${s:inArray(incident.repairedByList.toArray(), group) ? ' selected="selected"' : ''}><c:out value="${group.name}"/></option>
                                     </c:forEach>
                                 </select>
                             </div>

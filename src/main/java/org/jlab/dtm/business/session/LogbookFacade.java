@@ -12,7 +12,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.security.PermitAll;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -47,13 +46,6 @@ public class LogbookFacade extends AbstractFacade<Staff> {
     private static final Logger LOGGER = Logger.getLogger(
             LogbookFacade.class.getName());
 
-    @EJB
-    DtmSettingsFacade settingsFacade;
-    @EJB
-    EventFacade eventFacade;
-    @EJB
-    IncidentFacade incidentFacade;
-
     public LogbookFacade() {
         super(Staff.class);
     }
@@ -63,14 +55,6 @@ public class LogbookFacade extends AbstractFacade<Staff> {
         return null;
     }
 
-    /*TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public void silentlyCreateEventCloseELog(Event event) {
-        try {
-            createEventCloseELog(event);
-        } catch (InternalException e) {
-            logger.log(Level.SEVERE, "Unable to create close event elog", e);
-        }
-    }*/
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     @PermitAll
     public void silentlyCreateIncidentELog(Incident incident, IncidentEditType type) {

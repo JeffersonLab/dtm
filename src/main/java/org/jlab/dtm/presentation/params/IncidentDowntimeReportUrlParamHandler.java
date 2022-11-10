@@ -15,7 +15,7 @@ import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.business.session.ResponsibleGroupFacade;
 import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.EventType;
-import org.jlab.dtm.persistence.entity.ResponsibleGroup;
+import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.business.util.IOUtil;
@@ -86,7 +86,7 @@ public class IncidentDowntimeReportUrlParamHandler implements
         params.setEnd(end);
         params.setEventTypeId(eventTypeId);
         params.setBeamTransport(beamTransport);
-        params.setGroupId(groupId);
+        params.setWorkgroupId(groupId);
         params.setSystemId(systemId);
         params.setComponent(component);
         params.setChart(chart);
@@ -128,7 +128,7 @@ public class IncidentDowntimeReportUrlParamHandler implements
         session.setAttribute("eventTypeId[]", new BigInteger[]{params.getEventTypeId()});
         session.setAttribute("transport[]", new Boolean[]{params.getBeamTransport()});
         session.setAttribute("systemId[]", new BigInteger[]{params.getSystemId()});
-        session.setAttribute("group[]", new BigInteger[]{params.getGroupId()});
+        session.setAttribute("group[]", new BigInteger[]{params.getWorkgroupId()});
         session.setAttribute("component[]", new String[]{params.getComponent()});        
         session.setAttribute("chart[]", new String[]{params.getChart()});
         session.setAttribute("data[]", new String[]{params.getData()});
@@ -181,7 +181,7 @@ public class IncidentDowntimeReportUrlParamHandler implements
         BigInteger eventTypeId = defaultValues.getEventTypeId();
         Boolean transport = defaultValues.getBeamTransport();
         BigInteger systemId = defaultValues.getSystemId();
-        BigInteger groupId = defaultValues.getGroupId();
+        BigInteger groupId = defaultValues.getWorkgroupId();
         String component = defaultValues.getComponent();
         String chart = defaultValues.getChart();
         String data = defaultValues.getData();
@@ -248,7 +248,7 @@ public class IncidentDowntimeReportUrlParamHandler implements
         params.setEnd(end);
         params.setEventTypeId(eventTypeId);
         params.setBeamTransport(transport);
-        params.setGroupId(groupId);
+        params.setWorkgroupId(groupId);
         params.setSystemId(systemId);
         params.setComponent(component);
         params.setChart(chart);
@@ -285,10 +285,10 @@ public class IncidentDowntimeReportUrlParamHandler implements
             selectedSystem = systemFacade.find(params.getSystemId());
         }
         
-        ResponsibleGroup selectedGroup = null;
+        Workgroup selectedGroup = null;
         
-        if(params.getGroupId() != null) {
-           selectedGroup = groupFacade.find(params.getGroupId());
+        if(params.getWorkgroupId() != null) {
+           selectedGroup = groupFacade.find(params.getWorkgroupId());
         }        
         
         if (params.getStart() != null && params.getEnd() != null) {
@@ -368,7 +368,7 @@ public class IncidentDowntimeReportUrlParamHandler implements
         builder.add("type", IOUtil.nullOrString(params.getEventTypeId()));
         builder.add("transport", IOUtil.nullOrBoolean(params.getBeamTransport()));
         builder.add("system", IOUtil.nullOrString(params.getSystemId()));
-        builder.add("group", IOUtil.nullOrString(params.getGroupId()));
+        builder.add("group", IOUtil.nullOrString(params.getWorkgroupId()));
         builder.add("component", IOUtil.nullOrString(params.getComponent()));
         builder.add("chart", IOUtil.nullOrString(params.getChart()));
         builder.add("data", IOUtil.nullOrString(params.getData()));

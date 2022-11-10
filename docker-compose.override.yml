@@ -1,0 +1,3 @@
+services:
+  dtm:
+    image: slominskir/dtm:4.2.0-alpha0

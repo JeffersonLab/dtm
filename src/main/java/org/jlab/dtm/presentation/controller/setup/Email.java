@@ -7,9 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.jlab.dtm.business.session.DtmSettingsFacade;
 import org.jlab.dtm.business.session.ScheduledEmailer;
-import org.jlab.dtm.persistence.entity.DtmSettings;
 import org.jlab.smoothness.presentation.util.ParamUtil;
 
 /**
@@ -21,8 +19,6 @@ public class Email extends HttpServlet {
 
     @EJB
     ScheduledEmailer emailer;
-    @EJB
-    DtmSettingsFacade settingsFacade;
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -35,8 +31,6 @@ public class Email extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        DtmSettings settings = settingsFacade.findSettings();
     
         request.setAttribute("schedulerEnabled", emailer.isEnabled());
 

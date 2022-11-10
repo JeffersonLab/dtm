@@ -39,7 +39,7 @@ import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.Incident;
 import org.jlab.dtm.persistence.entity.IncidentReview;
 import org.jlab.dtm.persistence.entity.Repair;
-import org.jlab.dtm.persistence.entity.ResponsibleGroup;
+import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.persistence.entity.Staff;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.persistence.entity.SystemExpert;
@@ -257,12 +257,12 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     }
 
     private void validateAndSetRepairedBy(Incident incident, BigInteger[] repairedByGroupIdArray) {
-        List<ResponsibleGroup> groupList = new ArrayList<>();
+        List<Workgroup> groupList = new ArrayList<>();
 
         if (repairedByGroupIdArray != null) {
             for (int j = 0; j < repairedByGroupIdArray.length; j++) {
                 if (repairedByGroupIdArray[j] != null) {
-                    ResponsibleGroup group = groupFacade.find(repairedByGroupIdArray[j]);
+                    Workgroup group = groupFacade.find(repairedByGroupIdArray[j]);
                     groupList.add(group);
                 }
             }
@@ -270,7 +270,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
         List<Repair> requestedRepairList = new ArrayList<>();
 
-        for (ResponsibleGroup group : groupList) {
+        for (Workgroup group : groupList) {
             Repair repair = new Repair();
             repair.setRepairedBy(group);
             repair.setIncident(incident);
@@ -859,7 +859,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         List<Incident> incidentList = filterList(params);
         for (Incident incident : incidentList) {
             for (Repair r : incident.getRepairedByList()) {
-                r.getRepairedBy().getGroupId();
+                r.getRepairedBy().getWorkgroupId();
             }
 
             JPAUtil.initialize(incident.getIncidentReviewList());

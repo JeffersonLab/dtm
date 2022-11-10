@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.jlab.dtm.business.params.IncidentDowntimeReportParams;
 import org.jlab.dtm.persistence.entity.IncidentReview;
-import org.jlab.dtm.persistence.entity.ResponsibleGroup;
+import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.persistence.entity.Staff;
 import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
 import org.jlab.dtm.persistence.filter.IncidentFilter;
@@ -61,7 +61,7 @@ public class IncidentReportService {
         private final String rootCause;
         private final BigInteger rarId;
 
-        private List<ResponsibleGroup> repairedByList;
+        private List<Workgroup> repairedByList;
         private List<IncidentReview> incidentReviewList;
 
         public IncidentSummary(Number incidentId, Number eventId, Number eventTypeId,
@@ -189,11 +189,11 @@ public class IncidentReportService {
             return explanation;
         }
 
-        public List<ResponsibleGroup> getRepairedByList() {
+        public List<Workgroup> getRepairedByList() {
             return repairedByList;
         }
 
-        public void setRepairedByList(List<ResponsibleGroup> repairedByList) {
+        public void setRepairedByList(List<Workgroup> repairedByList) {
             this.repairedByList = repairedByList;
         }
 
@@ -204,8 +204,8 @@ public class IncidentReportService {
                 BigInteger[] idArray = new BigInteger[repairedByList.size()];
 
                 for (int i = 0; i < idArray.length; i++) {
-                    ResponsibleGroup group = repairedByList.get(i);
-                    idArray[i] = group.getGroupId();
+                    Workgroup group = repairedByList.get(i);
+                    idArray[i] = group.getWorkgroupId();
                 }
 
                 csv = IOUtil.toCsv(idArray);
@@ -338,7 +338,7 @@ public class IncidentReportService {
 
         sql = sql
                 + ") as frequency, a.missing_explanation, a.expert_acknowledged, a.root_cause, a.rar_id "
-                + "from (incident a left outer join hco_owner.all_components d on a.component_id = d.component_id) inner join system_alpha_category v on v.system_id = a.system_id inner join hco_owner.category w on v.category_id = w.category_id inner join event b on a.event_id = b.event_id inner join hco_owner.all_systems c on a.system_id = c.system_id inner join event_type e on b.event_type_id = e.event_type_id left outer join staff f on a.reviewed_by = f.staff_id ";
+                + "from (incident a left outer join hco_owner.all_components d on a.component_id = d.component_id) inner join system_alpha_category v on v.system_id = a.system_id inner join hco_owner.category w on v.category_id = w.category_id inner join event b on a.event_id = b.event_id inner join dtm_owner.system c on a.system_id = c.system_id inner join event_type e on b.event_type_id = e.event_type_id left outer join staff f on a.reviewed_by = f.staff_id ";
 
         IncidentFilter filter = new IncidentFilter(params);
         sql = sql + filter.getSqlWhereClause();
@@ -383,7 +383,7 @@ public class IncidentReportService {
 
         String sql
                 = "select count(*) "
-                + "from (incident a left outer join hco_owner.all_components d on a.component_id = d.component_id) inner join system_alpha_category v on v.system_id = a.system_id inner join hco_owner.category w on v.category_id = w.category_id inner join event b on a.event_id = b.event_id inner join hco_owner.all_systems c on a.system_id = c.system_id inner join event_type e on b.event_type_id = e.event_type_id left outer join staff f on a.reviewed_by = f.staff_id ";
+                + "from (incident a left outer join hco_owner.all_components d on a.component_id = d.component_id) inner join system_alpha_category v on v.system_id = a.system_id inner join hco_owner.category w on v.category_id = w.category_id inner join event b on a.event_id = b.event_id inner join dtm_owner.system c on a.system_id = c.system_id inner join event_type e on b.event_type_id = e.event_type_id left outer join staff f on a.reviewed_by = f.staff_id ";
 
         IncidentFilter filter = new IncidentFilter(params);
         sql = sql + filter.getSqlWhereClause();
@@ -420,7 +420,7 @@ public class IncidentReportService {
         Date end = params.getEnd();
         BigInteger eventTypeId = params.getEventTypeId();
         BigInteger systemId = params.getSystemId();
-        BigInteger groupId = params.getGroupId();
+        BigInteger groupId = params.getWorkgroupId();
         String component = params.getComponent();
         Boolean beamTransport = params.getBeamTransport();
         Boolean overnightOpened = params.getOvernightOpended();
@@ -477,10 +477,10 @@ public class IncidentReportService {
         if (beamTransport != null) {
             if (beamTransport) {
                 sql = sql
-                        + "and d.system_id = (select system_id from hco_owner.all_systems where name = 'Beam Transport') ";
+                        + "and d.system_id = (select system_id from dtm_owner.system where name = 'Beam Transport') ";
             } else {
                 sql = sql
-                        + "and d.system_id != (select system_id from hco_owner.all_systems where name = 'Beam Transport') ";
+                        + "and d.system_id != (select system_id from dtm_owner.system where name = 'Beam Transport') ";
             }
         }
 

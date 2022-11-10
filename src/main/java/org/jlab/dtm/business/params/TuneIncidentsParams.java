@@ -10,7 +10,7 @@ public class TuneIncidentsParams {
     private BigInteger eventTypeId;
     private Boolean beamTransport;
     private Boolean overnightOpended;
-    private BigInteger groupId;
+    private BigInteger workgroupId;
     private BigInteger systemId;
     private String component;
     private String chart;
@@ -104,12 +104,12 @@ public class TuneIncidentsParams {
         this.systemId = systemId;
     }
 
-    public BigInteger getGroupId() {
-        return groupId;
+    public BigInteger getWorkgroupId() {
+        return workgroupId;
     }
 
-    public void setGroupId(BigInteger groupId) {
-        this.groupId = groupId;
+    public void setWorkgroupId(BigInteger workgroupId) {
+        this.workgroupId = workgroupId;
     }
 
     public String getComponent() {
