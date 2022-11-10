@@ -21,9 +21,9 @@
     <jsp:body>
         <section>
             <div id="report-page-actions">
-                <a target="_blank" href="http://opsntsrv.acc.jlab.org/ops_docs/online_document_files/ACC_online_files/repair_escalation_reporting.pdf" id="procedure-button">Procedure</a>
-                <a target="_blank" href="http://opsdocs.acc.jlab.org/ops_docs/online_document_files/ACC_online_files/repair_assessment_report_template_Level_III.docx" id="template-3-button">Level Ⅲ Template</a>
-                <a target="_blank" href="http://opsdocs.acc.jlab.org/ops_docs/online_document_files/ACC_online_files/repair_assessment_report_template_Level_IV.docx" id="template-4-button">Level Ⅳ Template</a>
+                <a target="_blank" href="https://opsdocs.acc.jlab.org/ops_docs/online_document_files/ACC_online_files/repair_escalation_reporting.pdf" id="procedure-button">Procedure</a>
+                <a target="_blank" href="https://opsdocs.acc.jlab.org/ops_docs/online_document_files/ACC_online_files/repair_assessment_report_template_Level_III.docx" id="template-3-button">Level Ⅲ Template</a>
+                <a target="_blank" href="https://opsdocs.acc.jlab.org/ops_docs/online_document_files/ACC_online_files/repair_assessment_report_template_Level_IV.docx" id="template-4-button">Level Ⅳ Template</a>
                 <button id="fullscreen-button">Full Screen</button>
             </div>
             <s:filter-flyout-widget ribbon="true" clearButton="true" resetButton="true">
