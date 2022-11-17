@@ -21,7 +21,7 @@ The Downtime application allows Operators to log machine downtime events.  Downt
 git clone https://github.com/JeffersonLab/dtm
 cd dtm
 ```
-2. Launch Docker
+2. Launch [Compose](https://github.com/docker/compose)
 ```
 docker compose up
 ```
