@@ -396,6 +396,74 @@ select component_id,
 from dtm_owner.component
 );
 
+CREATE OR REPLACE VIEW DTM_OWNER.SYSTEM_PACKED_INCIDENTS as
+WITH C0 AS
+         (
+             select incident_id, system_id, event_type_id, time_down, nvl(a.time_up, sysdate) as time_up
+             from dtm_owner.incident a inner join dtm_owner.event using(event_id)
+         ),
+     C1 AS
+         (
+             SELECT incident_id, system_id, event_type_id, time_down AS ts, +1 AS type, 1 AS sub
+             FROM C0
+             UNION ALL
+             SELECT incident_id, system_id, event_type_id, time_up AS ts, -1 AS type, 0 AS sub
+             FROM C0
+         ),
+     C2 AS
+         (
+             SELECT C1.*,
+                    SUM(type) OVER(PARTITION BY system_id, event_type_id ORDER BY ts, type DESC
+                        ROWS BETWEEN UNBOUNDED PRECEDING
+                        AND CURRENT ROW) - sub AS cnt
+             FROM C1
+         ),
+     C3 AS
+         (
+             SELECT incident_id, system_id, event_type_id, ts,
+                    FLOOR((ROW_NUMBER() OVER(PARTITION BY system_id, event_type_id ORDER BY ts) - 1) / 2 + 1)
+                        AS grpnum
+             FROM C2
+             WHERE cnt = 0
+         )
+SELECT min(incident_id) as first_incident_id, system_id, event_type_id, MIN(ts) AS time_down, max(ts) AS time_up
+FROM C3
+GROUP BY system_id, event_type_id, grpnum;
+
+CREATE OR REPLACE VIEW DTM_OWNER.ALPHA_CAT_PACKED_INCIDENTS as
+WITH C0 AS
+         (
+             select incident_id, category_id, event_type_id, time_down, nvl(a.time_up, sysdate) as time_up
+             from dtm_owner.incident a inner join dtm_owner.event using(event_id) inner join dtm_owner.system_alpha_category using(system_id)
+         ),
+     C1 AS
+         (
+             SELECT incident_id, category_id, event_type_id, time_down AS ts, +1 AS type, 1 AS sub
+             FROM C0
+             UNION ALL
+             SELECT incident_id, category_id, event_type_id, time_up AS ts, -1 AS type, 0 AS sub
+             FROM C0
+         ),
+     C2 AS
+         (
+             SELECT C1.*,
+                    SUM(type) OVER(PARTITION BY category_id, event_type_id ORDER BY ts, type DESC
+                        ROWS BETWEEN UNBOUNDED PRECEDING
+                        AND CURRENT ROW) - sub AS cnt
+             FROM C1
+         ),
+     C3 AS
+         (
+             SELECT incident_id, category_id, event_type_id, ts,
+                    FLOOR((ROW_NUMBER() OVER(PARTITION BY category_id, event_type_id ORDER BY ts) - 1) / 2 + 1)
+                        AS grpnum
+             FROM C2
+             WHERE cnt = 0
+         )
+SELECT min(incident_id) as first_incident_id, category_id, event_type_id, MIN(ts) AS time_down, max(ts) AS time_up
+FROM C3
+GROUP BY category_id, event_type_id, grpnum;
+
 
 CREATE OR REPLACE VIEW DTM_OWNER.EVENT_TIME_DOWN AS
 (
