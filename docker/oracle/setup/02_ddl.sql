@@ -339,6 +339,49 @@ CREATE TABLE DTM_OWNER.WORKGROUP
     NAME             VARCHAR2(128 CHAR) NOT NULL CONSTRAINT WORKGROUP_AK1 UNIQUE
 );
 
+CREATE TABLE DTM_OWNER.OP_ACC_HOUR
+(
+    OP_ACC_HOUR_ID  NUMBER                            not null
+        constraint OP_ACC_HOUR_PK
+            primary key,
+    DAY_AND_HOUR    TIMESTAMP(0) WITH LOCAL TIME ZONE not null
+        constraint OP_ACC_HOUR_AK1
+            unique
+        constraint OP_ACC_HOUR_CK1
+            check (EXTRACT(MINUTE FROM DAY_AND_HOUR) = 0 AND EXTRACT(SECOND FROM DAY_AND_HOUR) = 0),
+    UP_SECONDS      NUMBER(4) default 0               not null
+        constraint OP_ACC_HOUR_CK2
+            check (UP_SECONDS BETWEEN 0 AND 3600),
+    SAD_SECONDS     NUMBER(4) default 0               not null
+        constraint OP_ACC_HOUR_CK3
+            check (SAD_SECONDS BETWEEN 0 AND 3600),
+    DOWN_SECONDS    NUMBER(4) default 0               not null
+        constraint OP_ACC_HOUR_CK4
+            check (DOWN_SECONDS BETWEEN 0 AND 3600),
+    STUDIES_SECONDS NUMBER(4) default 0               not null
+        constraint OP_ACC_HOUR_CK5
+            check (STUDIES_SECONDS BETWEEN 0 AND 3600),
+    ACC_SECONDS     NUMBER(4) default 0               not null
+        constraint OP_ACC_HOUR_CK6
+            check (ACC_SECONDS BETWEEN 0 AND 3600),
+    RESTORE_SECONDS NUMBER(4) default 0               not null
+        constraint OP_ACC_HOUR_CK7
+            check (RESTORE_SECONDS BETWEEN 0 AND 3600),
+    constraint OP_ACC_HOUR_CK8
+        check (UP_SECONDS + SAD_SECONDS + DOWN_SECONDS + STUDIES_SECONDS + RESTORE_SECONDS + ACC_SECONDS = 3600)
+)
+
+CREATE OR REPLACE VIEW DTM_OWNER.ALL_COMPONENTS as
+/*select distinct(component_id), name, system_id, data_source, data_source_id, region_id, masked, masked_comment,
+               masked_date, masked_by, mask_expiration_date, weight, added_date, unpowered_yn, mask_type_id
+from component_aud inner join application_revision_info using(rev)
+where revtype = 2
+union*/
+select component_id, name, system_id, data_source, data_source_id, region_id, masked, masked_comment, masked_date,
+       masked_by, mask_expiration_date, weight, added_date, unpowered_yn, mask_type_id
+from dtm_owner.component;
+
+
 CREATE OR REPLACE VIEW DTM_OWNER.EVENT_TIME_DOWN AS
 (
 SELECT
