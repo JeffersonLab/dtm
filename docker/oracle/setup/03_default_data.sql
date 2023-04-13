@@ -10,6 +10,6 @@ insert into dtm_owner.event_type (event_type_id, name, weight, abbreviation) val
 insert into dtm_owner.event_type (event_type_id, name, weight, abbreviation) values(7, 'Non-Program', 7, 'NP');
 
 -- Populate Workgroup
-insert into DTM_OWNER.LOCAL_WORKGROUP (WORKGROUP_ID, NAME) values (1, 'Group 1');
-insert into DTM_OWNER.LOCAL_WORKGROUP (WORKGROUP_ID, NAME) values (2, 'Group 2');
-insert into DTM_OWNER.LOCAL_WORKGROUP (WORKGROUP_ID, NAME) values (3, 'Group 3');
+insert into DTM_OWNER.WORKGROUP (WORKGROUP_ID, NAME) values (1, 'Group 1');
+insert into DTM_OWNER.WORKGROUP (WORKGROUP_ID, NAME) values (2, 'Group 2');
+insert into DTM_OWNER.WORKGROUP (WORKGROUP_ID, NAME) values (3, 'Group 3');
