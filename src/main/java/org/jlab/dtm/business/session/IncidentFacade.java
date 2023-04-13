@@ -23,14 +23,14 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.apache.http.HttpEntity;
+/*import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClientBuilder;*/
 import org.jlab.dtm.business.params.IncidentParams;
 import org.jlab.dtm.business.service.MigrateOldRarService;
 import org.jlab.dtm.persistence.entity.Component;
@@ -997,7 +997,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
     @RolesAllowed("oability")
     public void migrateOldRarAttachments(List<TransitionRecord> recordList) throws SQLException, IOException {
-        MigrateOldRarService old = new MigrateOldRarService();
+        /*MigrateOldRarService old = new MigrateOldRarService();
 
         for(TransitionRecord record: recordList) {
             MigrateOldRarService.AttachmentRecord attach = old.getAttachment(record.rarId);
@@ -1021,7 +1021,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
             } else {
                 System.err.println("no attachment found");
             }
-        }
+        }*/
     }
 
     public class TransitionRecord {
