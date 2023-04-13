@@ -369,17 +369,32 @@ CREATE TABLE DTM_OWNER.OP_ACC_HOUR
             check (RESTORE_SECONDS BETWEEN 0 AND 3600),
     constraint OP_ACC_HOUR_CK8
         check (UP_SECONDS + SAD_SECONDS + DOWN_SECONDS + STUDIES_SECONDS + RESTORE_SECONDS + ACC_SECONDS = 3600)
-)
+);
 
 CREATE OR REPLACE VIEW DTM_OWNER.ALL_COMPONENTS as
+(
 /*select distinct(component_id), name, system_id, data_source, data_source_id, region_id, masked, masked_comment,
                masked_date, masked_by, mask_expiration_date, weight, added_date, unpowered_yn, mask_type_id
 from component_aud inner join application_revision_info using(rev)
 where revtype = 2
 union*/
-select component_id, name, system_id, data_source, data_source_id, region_id, masked, masked_comment, masked_date,
-       masked_by, mask_expiration_date, weight, added_date, unpowered_yn, mask_type_id
-from dtm_owner.component;
+select component_id,
+       name,
+       system_id,
+       data_source,
+       data_source_id,
+       region_id,
+       masked,
+       masked_comment,
+       masked_date,
+       masked_by,
+       mask_expiration_date,
+       weight,
+       added_date,
+       unpowered_yn,
+       mask_type_id
+from dtm_owner.component
+);
 
 
 CREATE OR REPLACE VIEW DTM_OWNER.EVENT_TIME_DOWN AS
