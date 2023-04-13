@@ -12,8 +12,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jlab.dtm.persistence.entity.Workgroup;
-import org.jlab.dtm.persistence.entity.Staff;
+import org.jlab.smoothness.business.service.UserAuthorizationService;
 import org.jlab.smoothness.business.util.TimeUtil;
+import org.jlab.smoothness.persistence.view.User;
 
 /**
  *
@@ -172,16 +173,40 @@ public final class DtmFunctions {
         return hostname;
     }
 
-    public static String formatStaff(Staff staff) {
+    public static User lookupUserByUsername(String username) {
+        UserAuthorizationService auth = UserAuthorizationService.getInstance();
+
+        return auth.getUserFromUsername(username);
+    }
+
+    // TODO: This should be moved to smoothness weblib
+    public static String formatUsername(String username) {
+        User user = lookupUserByUsername(username);
+
+        if(user != null) {
+            return formatUser(user);
+        } else {
+            return username;
+        }
+    }
+
+    public static String formatUser(User user) {
         StringBuilder builder = new StringBuilder();
 
-        if (staff != null) {
-            builder.append(staff.getLastname());
-            builder.append(", ");
-            builder.append(staff.getFirstname());
-            builder.append(" (");
-            builder.append(staff.getUsername());
-            builder.append(")");
+        if (user != null && user.getUsername() != null && !user.getUsername().isEmpty()) {
+            if(user.getFirstname() == null || user.getLastname() == null ||
+                    user.getFirstname().isEmpty() || user.getLastname().isEmpty()) {
+                builder.append("(");
+                builder.append(user.getUsername());
+                builder.append(")");
+            } else {
+                builder.append(user.getLastname());
+                builder.append(", ");
+                builder.append(user.getFirstname());
+                builder.append(" (");
+                builder.append(user.getUsername());
+                builder.append(")");
+            }
         }
 
         return builder.toString();

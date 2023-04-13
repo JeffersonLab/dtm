@@ -22,7 +22,6 @@ import javax.json.JsonReader;
 import javax.persistence.EntityManager;
 
 import org.jlab.dtm.persistence.entity.Incident;
-import org.jlab.dtm.persistence.entity.Staff;
 import org.jlab.dtm.persistence.enumeration.IncidentEditType;
 import org.jlab.dtm.presentation.util.DtmFunctions;
 import org.jlab.jlog.Body;
@@ -41,13 +40,13 @@ import org.jlab.smoothness.presentation.util.ServletUtil;
  * @author ryans
  */
 @Stateless
-public class LogbookFacade extends AbstractFacade<Staff> {
+public class LogbookFacade extends AbstractFacade<Object> {
 
     private static final Logger LOGGER = Logger.getLogger(
             LogbookFacade.class.getName());
 
     public LogbookFacade() {
-        super(Staff.class);
+        super(Object.class);
     }
 
     @Override

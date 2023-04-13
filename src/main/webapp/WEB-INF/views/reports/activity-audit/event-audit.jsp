@@ -71,7 +71,7 @@
                                 <th>Modified By:</th>
                                     <c:forEach items="${eventList}" var="event">
                                     <th>
-                                        <c:out value="${event.revision.staff != null ? dtm:formatStaff(event.revision.staff) : event.revision.username}"/>
+                                        <c:out value="${event.revision.user != null ? dtm:formatUser(event.revision.user) : event.revision.username}"/>
                                     </th>
                                 </c:forEach>
                             </tr>

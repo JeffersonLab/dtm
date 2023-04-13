@@ -25,7 +25,6 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import org.jlab.dtm.business.params.IncidentParams;
 import org.jlab.dtm.persistence.entity.Incident;
-import org.jlab.dtm.persistence.entity.Staff;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.service.EmailService;
 import org.jlab.smoothness.business.util.TimeUtil;
@@ -46,8 +45,6 @@ public class ScheduledEmailer {
     private Timer timer;
     @EJB
     IncidentFacade incidentFacade;
-    @EJB
-    StaffFacade staffFacade;
 
     @PostConstruct
     private void init() {
@@ -134,9 +131,9 @@ public class ScheduledEmailer {
             numberOfHours = 72;
         }
 
-        List<Staff> expertList = incidentFacade.findAllExpertsWithRecentUnreviewedIncidents(numberOfHours);
+        List<String> expertList = incidentFacade.findAllExpertsWithRecentUnreviewedIncidents(numberOfHours);
 
-        for (Staff s : expertList) {
+        for (String s : expertList) {
             try {
                 sendExpertMail(s, numberOfHours);
             } catch (Exception e) {
@@ -145,12 +142,12 @@ public class ScheduledEmailer {
         }
     }
 
-    private void sendExpertMail(Staff s, int numberOfHours) throws UserFriendlyException, MalformedURLException, IOException, AddressException, MessagingException {
-        LOGGER.log(Level.FINE, "Sending email for expert: {0}", s.getUsername());
+    private void sendExpertMail(String s, int numberOfHours) throws UserFriendlyException, MalformedURLException, IOException, AddressException, MessagingException {
+        LOGGER.log(Level.FINE, "Sending email for expert: {0}", s);
 
         IncidentParams params = new IncidentParams();
         params.setReviewed(false);
-        params.setSmeUsername(s.getUsername());
+        params.setSmeUsername(s);
         params.setMax(Integer.MAX_VALUE);
         
         // Just things that have occurred in last "numberOfHours" hours
@@ -180,7 +177,7 @@ public class ScheduledEmailer {
         }
 
         html = html + "<br/><b>Please conduct a repair assessment and review the incident(s) here:</b>";
-        html = html + "<br/><b><a href=\"https://" + proxyServerName + "/dtm/all-events?acknowledged=N&smeUsername=" + s.getUsername() + "&qualified=\">DTM-RAR Review</a></b>";
+        html = html + "<br/><b><a href=\"https://" + proxyServerName + "/dtm/all-events?acknowledged=N&smeUsername=" + s + "&qualified=\">DTM-RAR Review</a></b>";
 
         html = html + "<br/><br/><h3>Action Level Reference</h3><table style=\"border-bottom: 1px solid black; border-collapse: collapse;\"><tbody>";
         html = html + "<tr style=\"background-color: rgb(128,0,0); color: white;\"><th style=\"border-right: 1px solid white;\"></th><th style=\"border-right: 1px solid white;\">Triggers</th><th style=\"border-right: 1px solid white;\">Action</th><th style=\"border-right: 1px solid white;\">Time</th><th></th></tr>";
@@ -195,8 +192,8 @@ public class ScheduledEmailer {
 
         List<InternetAddress> addresses = new ArrayList<>();
 
-        String subject = "DTM - SME " + s.getLastname() + " Action Needed";
-        String toCsv = s.getUsername() + "@jlab.org";
+        String subject = "DTM - SME " + s + " Action Needed";
+        String toCsv = s + "@jlab.org";
 
         EmailService emailService = new EmailService();
 
@@ -206,18 +203,12 @@ public class ScheduledEmailer {
 
     @PermitAll
     public void sendExpertActionNeededEmail(String username) throws UserFriendlyException, MalformedURLException, IOException, AddressException, MessagingException {
-        Staff s = staffFacade.findByUsername(username);
-
-        if (s == null) {
-            throw new UserFriendlyException("User not found");
-        }
-
         int numberOfHours = 24;
 
         if (TimeUtil.isMonday()) {
             numberOfHours = 72;
         }
 
-        sendExpertMail(s, numberOfHours);
+        sendExpertMail(username, numberOfHours);
     }
 }

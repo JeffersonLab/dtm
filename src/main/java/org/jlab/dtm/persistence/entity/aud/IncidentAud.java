@@ -20,7 +20,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.envers.RevisionType;
 import org.jlab.dtm.persistence.entity.ApplicationRevisionInfo;
 import org.jlab.dtm.persistence.entity.Component;
-import org.jlab.dtm.persistence.entity.Staff;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
 
@@ -74,10 +73,9 @@ public class IncidentAud implements Serializable {
     private String summary;
     @Size(max = 2048)
     @Column(name= "RESOLUTION", nullable = true, length = 2048)    
-    private String resolution;    
-    @JoinColumn(name = "REVIEWED_BY", referencedColumnName = "STAFF_ID")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Staff reviewedBy;  
+    private String resolution;
+    @Column(name = "REVIEWED_USERNAME", nullable = true, length = 64)
+    private String reviewedUsername;
     @Size(max = 512)
     @Column(name= "ROOT_CAUSE", nullable = true, length = 512)    
     private String rootCause;      
@@ -100,12 +98,12 @@ public class IncidentAud implements Serializable {
         this.rootCause = rootCause;
     }
 
-    public Staff getReviewedBy() {
-        return reviewedBy;
+    public String getReviewedUsername() {
+        return reviewedUsername;
     }
 
-    public void setReviewedBy(Staff reviewedBy) {
-        this.reviewedBy = reviewedBy;
+    public void setReviewedBy(String reviewedUsername) {
+        this.reviewedUsername = reviewedUsername;
     }
 
     public Date getTimeDown() {

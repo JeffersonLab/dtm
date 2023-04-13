@@ -59,11 +59,21 @@
         <name>getHostnameFromIp</name>
         <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
         <function-signature>java.lang.String getHostnameFromIp(java.lang.String)</function-signature>
-    </function>  
+    </function>
     <function>
-        <name>formatStaff</name>
+        <name>lookupUserByUsername</name>
         <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
-        <function-signature>java.lang.String formatStaff(org.jlab.dtm.persistence.entity.Staff)</function-signature>
+        <function-signature>org.jlab.smoothness.persistence.view.User lookupUserByUsername(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>formatUsername</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.lang.String formatUsername(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>formatUser</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.lang.String formatUser(org.jlab.smoothness.persistence.view.User)</function-signature>
     </function>
     <function>
         <name>formatGroupList</name>

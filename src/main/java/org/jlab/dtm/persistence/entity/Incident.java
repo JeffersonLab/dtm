@@ -84,9 +84,8 @@ public class Incident implements Serializable {
     @Size(max = 2048)
     @Column(name = "RESOLUTION", nullable = true, length = 2048)
     private String resolution;
-    @JoinColumn(name = "REVIEWED_BY", referencedColumnName = "STAFF_ID")
-    @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    private Staff reviewedBy;
+    @Column(name = "REVIEWED_USERNAME", nullable = true, length = 64)
+    private String reviewedUsername;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "incident", fetch = FetchType.LAZY)
     @NotAudited
     private List<Repair> repairedByList;
@@ -128,12 +127,12 @@ public class Incident implements Serializable {
         this.rootCause = rootCause;
     }
 
-    public Staff getReviewedBy() {
-        return reviewedBy;
+    public String getReviewedUsername() {
+        return reviewedUsername;
     }
 
-    public void setReviewedBy(Staff reviewedBy) {
-        this.reviewedBy = reviewedBy;
+    public void setReviewedUsername(String reviewedUsername) {
+        this.reviewedUsername = reviewedUsername;
     }
 
     public BigInteger getIncidentId() {
@@ -300,8 +299,8 @@ public class Incident implements Serializable {
 
             for (int i = 0; i < usernameArray.length; i++) {
                 IncidentReview review = incidentReviewList.get(i);
-                Staff reviewer = review.getReviewer();
-                usernameArray[i] = reviewer.getUsername();
+                String reviewer = review.getReviewer();
+                usernameArray[i] = reviewer;
             }
 
             ssv = IOUtil.toSsv(usernameArray);
@@ -316,10 +315,10 @@ public class Incident implements Serializable {
         String value = "";
 
         if (incidentReviewList != null && !incidentReviewList.isEmpty()) {
-            value = DtmFunctions.formatStaff(incidentReviewList.get(0).getReviewer());
+            value = DtmFunctions.formatUsername(incidentReviewList.get(0).getReviewer());
 
             for (int i = 1; i < incidentReviewList.size(); i++) {
-                value = value + "\t" + DtmFunctions.formatStaff(incidentReviewList.get(i).getReviewer());
+                value = value + "\t" + DtmFunctions.formatUsername(incidentReviewList.get(i).getReviewer());
             }
         }
 

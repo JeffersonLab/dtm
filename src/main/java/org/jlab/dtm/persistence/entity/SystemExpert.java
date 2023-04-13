@@ -33,9 +33,8 @@ public class SystemExpert implements Serializable {
     @Column(name = "SYSTEM_EXPERT_ID", nullable = false, precision = 38, scale = 0)
     private BigInteger systemExpertId;
     @NotNull
-    @JoinColumn(name = "STAFF_ID", referencedColumnName = "STAFF_ID", foreignKey = @javax.persistence.ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)      
-    private Staff expert;
+    @Column(name = "USERNAME", nullable = false, length = 64)
+    private String username;
     @JoinColumn(name = "SYSTEM_ID", referencedColumnName = "SYSTEM_ID", nullable = false)
     @ManyToOne(optional = false)
     private SystemEntity system;
@@ -51,12 +50,12 @@ public class SystemExpert implements Serializable {
         this.systemExpertId = systemExpertId;
     }
 
-    public Staff getExpert() {
-        return expert;
+    public String getUsername() {
+        return username;
     }
 
-    public void setExpert(Staff expert) {
-        this.expert = expert;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public SystemEntity getSystem() {

@@ -28,7 +28,6 @@ import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.Incident;
 import org.jlab.dtm.persistence.entity.IncidentReview;
 import org.jlab.dtm.persistence.entity.Repair;
-import org.jlab.dtm.persistence.entity.Staff;
 import org.jlab.dtm.persistence.entity.aud.EventAud;
 import org.jlab.dtm.persistence.entity.view.EventTimeDown;
 import org.jlab.dtm.persistence.enumeration.IncidentEditType;
@@ -223,8 +222,8 @@ public class EventFacade extends AbstractFacade<Event> {
 
             // Clear reviewed by field of all incidents as not supposed to be able to review incidents in an open event
             for (Incident incident : event.getIncidentList()) {
-                if (incident.getReviewedBy() != null) {
-                    incident.setReviewedBy(null);
+                if (incident.getReviewedUsername() != null) {
+                    incident.setReviewedUsername(null);
                 }
             }
 
@@ -363,7 +362,7 @@ public class EventFacade extends AbstractFacade<Event> {
         
         if(params.getSmeUsername() != null && !params.getSmeUsername().isEmpty()) {
             Join<Incident, IncidentReview> reviewList = incidentList.join("incidentReviewList");
-            Join<IncidentReview, Staff> reviewerList = reviewList.join("reviewer");
+            Join<IncidentReview, String> reviewerList = reviewList.join("reviewer");
 
            filters.add(cb.in(reviewerList.get("username")).value(params.getSmeUsername()));
         }
@@ -448,7 +447,7 @@ public class EventFacade extends AbstractFacade<Event> {
         
         if(params.getSmeUsername() != null && !params.getSmeUsername().isEmpty()) {
             Join<Incident, IncidentReview> reviewList = incidentList.join("incidentReviewList");
-            Join<IncidentReview, Staff> reviewerList = reviewList.join("reviewer");
+            Join<IncidentReview, String> reviewerList = reviewList.join("reviewer");
 
            filters.add(cb.in(reviewerList.get("username")).value(params.getSmeUsername()));
         }        
@@ -541,7 +540,7 @@ public class EventFacade extends AbstractFacade<Event> {
 
         if (aud != null) {
             revisionFacade.loadStaff(aud.getRevision());
-            event.setClosedBy(aud.getRevision().getStaff());
+            event.setClosedBy(aud.getRevision().getUser());
         }
     }
 

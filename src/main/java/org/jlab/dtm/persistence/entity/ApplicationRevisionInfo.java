@@ -20,6 +20,7 @@ import org.jlab.dtm.persistence.entity.aud.EventAud;
 import org.jlab.dtm.persistence.entity.aud.IncidentAud;
 import org.jlab.dtm.persistence.model.AuditedEntityChange;
 import org.jlab.dtm.presentation.util.ApplicationRevisionInfoListener;
+import org.jlab.smoothness.persistence.view.User;
 
 /**
  * An Envers entity auditing revision information record.
@@ -53,7 +54,7 @@ public class ApplicationRevisionInfo implements Serializable {
     @OneToMany(mappedBy = "revision", fetch = FetchType.LAZY)
     private List<IncidentAud> incidentList;    
     @Transient
-    private Staff staff;
+    private User user;
     
     @Override
     public int hashCode() {
@@ -115,11 +116,11 @@ public class ApplicationRevisionInfo implements Serializable {
         this.changeList = changeList;
     }
 
-    public Staff getStaff() {
-        return staff;
+    public User getUser() {
+        return user;
     }
 
-    public void setStaff(Staff staff) {
-        this.staff = staff;
+    public void setUser(User staff) {
+        this.user = user;
     }
 }

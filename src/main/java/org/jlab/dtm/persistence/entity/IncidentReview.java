@@ -36,13 +36,9 @@ public class IncidentReview implements Serializable {
     @NotNull
     @Column(name = "INCIDENT_REVIEW_ID", nullable = false, precision = 38, scale = 0)
     private BigInteger incidentReviewId;
-    /*@Basic(optional = false)
     @NotNull
-    @Column(name = "REVIEWER_ID", nullable = false)
-    private BigInteger reviewerId;*/  
-    @JoinColumn(name = "REVIEWER_ID", referencedColumnName = "STAFF_ID", foreignKey = @javax.persistence.ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
-    @ManyToOne(optional = true, fetch = FetchType.EAGER)    
-    private Staff reviewer;    
+    @Column(name = "REVIEWER_USERNAME", nullable = false)
+    private String reviewer;
     @JoinColumn(name = "INCIDENT_ID", referencedColumnName = "INCIDENT_ID", nullable = false)
     @ManyToOne(optional = false)
     private Incident incident;
@@ -62,11 +58,11 @@ public class IncidentReview implements Serializable {
         this.incidentReviewId = incidentReviewId;
     }
 
-    public Staff getReviewer() {
+    public String getReviewer() {
         return reviewer;
     }
 
-    public void setReviewer(Staff reviewer) {
+    public void setReviewer(String reviewer) {
         this.reviewer = reviewer;
     }
 

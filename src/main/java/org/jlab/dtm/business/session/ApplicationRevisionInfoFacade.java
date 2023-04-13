@@ -22,10 +22,11 @@ import org.hibernate.envers.RevisionType;
 import org.jlab.dtm.persistence.entity.ApplicationRevisionInfo;
 import org.jlab.dtm.persistence.entity.Event;
 import org.jlab.dtm.persistence.entity.Incident;
-import org.jlab.dtm.persistence.entity.Staff;
 import org.jlab.dtm.persistence.entity.aud.EventAud;
 import org.jlab.dtm.persistence.entity.aud.IncidentAud;
 import org.jlab.dtm.persistence.model.AuditedEntityChange;
+import org.jlab.dtm.presentation.util.DtmFunctions;
+import org.jlab.smoothness.persistence.view.User;
 
 /**
  *
@@ -36,8 +37,6 @@ public class ApplicationRevisionInfoFacade extends AbstractFacade<ApplicationRev
 
     @PersistenceContext(unitName = "dtmPU")
     private EntityManager em;
-    @EJB
-    StaffFacade staffFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -271,9 +270,9 @@ public class ApplicationRevisionInfoFacade extends AbstractFacade<ApplicationRev
             String username = revision.getUsername();
 
             if (username != null) {
-                Staff staff = staffFacade.findByUsername(username);
+                User user = DtmFunctions.lookupUserByUsername(username);
 
-                revision.setStaff(staff);
+                revision.setUser(user);
             }
         }
     }

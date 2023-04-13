@@ -13,7 +13,6 @@ import javax.persistence.Query;
 import org.jlab.dtm.business.params.IncidentDowntimeReportParams;
 import org.jlab.dtm.persistence.entity.IncidentReview;
 import org.jlab.dtm.persistence.entity.Workgroup;
-import org.jlab.dtm.persistence.entity.Staff;
 import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
 import org.jlab.dtm.persistence.filter.IncidentFilter;
 import org.jlab.smoothness.business.util.IOUtil;
@@ -248,8 +247,8 @@ public class IncidentReportService {
 
                 for (int i = 0; i < usernameArray.length; i++) {
                     IncidentReview review = incidentReviewList.get(i);
-                    Staff reviewer = review.getReviewer();
-                    usernameArray[i] = reviewer.getUsername();
+                    String reviewer = review.getReviewer();
+                    usernameArray[i] = reviewer;
                 }
 
                 ssv = IOUtil.toSsv(usernameArray);

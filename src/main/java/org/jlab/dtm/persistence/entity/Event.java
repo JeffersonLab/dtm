@@ -28,6 +28,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.envers.Audited;
 import org.jlab.dtm.persistence.entity.view.EventTimeDown;
+import org.jlab.smoothness.persistence.view.User;
 
 /**
  *
@@ -69,7 +70,7 @@ public class Event implements Serializable {
     @Transient
     private long restoreMillis = 0;
     @Transient
-    private Staff closedBy = null;
+    private User closedBy = null;
 
     public Event() {
     }
@@ -88,11 +89,11 @@ public class Event implements Serializable {
         this.restoreMillis = restoreMillis;
     }
 
-    public Staff getClosedBy() {
+    public User getClosedBy() {
         return closedBy;
     }
 
-    public void setClosedBy(Staff closedBy) {
+    public void setClosedBy(User closedBy) {
         this.closedBy = closedBy;
     }
 
@@ -117,7 +118,7 @@ public class Event implements Serializable {
 
         if (incidentList != null && !incidentList.isEmpty()) {
             for (Incident incident : incidentList) {
-                if (incident.getReviewedBy() == null) {
+                if (incident.getReviewedUsername() == null) {
                     reviewed = false;
                     break;
                 }
@@ -132,7 +133,7 @@ public class Event implements Serializable {
 
         if (incidentList != null && !incidentList.isEmpty()) {
             for (Incident incident : incidentList) {
-                if (incident.getReviewedBy() != null) {
+                if (incident.getReviewedUsername() != null) {
                     atLeastOne = true;
                     break;
                 }

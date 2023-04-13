@@ -40,7 +40,6 @@ import org.jlab.dtm.persistence.entity.Incident;
 import org.jlab.dtm.persistence.entity.IncidentReview;
 import org.jlab.dtm.persistence.entity.Repair;
 import org.jlab.dtm.persistence.entity.Workgroup;
-import org.jlab.dtm.persistence.entity.Staff;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.persistence.entity.SystemExpert;
 import org.jlab.dtm.persistence.enumeration.IncidentEditType;
@@ -67,8 +66,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     @EJB
     EventFacade eventFacade;
     @EJB
-    SystemFacade systemFacade;
-    @EJB
     ComponentFacade componentFacade;
     @EJB
     EventTypeFacade eventTypeFacade;
@@ -80,8 +77,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     EscalationService escalationService;
     @EJB
     ResponsibleGroupFacade groupFacade;
-    @EJB
-    StaffFacade staffFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -198,8 +193,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
             throw new UserFriendlyException("Incident time up cannot be in the future");
         }
 
-        Staff reviewedByStaff = null;
-
         AuditContext auditCtx = AuditContext.getCurrentInstance();
         boolean reviewer = "REVIEWER".equals(auditCtx.getExtra("EffectiveRole"));
 
@@ -214,12 +207,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
                 throw new UserFriendlyException(
                         "You cannot review an incident belonging to an open event (Reviewed By field must be empty)");
             } // NOTE: if you re-open an event we clear all reviewed by fields of sibling incidents automatically
-
-            reviewedByStaff = staffFacade.findByUsername(reviewedBy);
-
-            if (reviewedByStaff == null) {
-                throw new UserFriendlyException("Reviewed by username not found");
-            }
         }
 
         if (incident.getExpertAcknowledged() == null) {
@@ -236,7 +223,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
             List<String> usernameList = new ArrayList<>();
             if (expertList != null) {
                 for (SystemExpert se : expertList) {
-                    usernameList.add(se.getExpert().getUsername());
+                    usernameList.add(se.getUsername());
                 }
             }
             expertUsernameArray = usernameList.toArray(new String[]{});
@@ -250,7 +237,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         incident.setTimeDown(timeDown);
         incident.setTimeUp(timeUp);
         incident.setResolution(solution);
-        incident.setReviewedBy(reviewedByStaff);
+        incident.setReviewedUsername(reviewedBy);
 
         validateAndSetRepairedBy(incident, repairedBy);
         validateAndSetExpertReviewedBy(incident, expertUsernameArray);
@@ -287,29 +274,14 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     }
 
     private void validateAndSetExpertReviewedBy(Incident incident, String[] expertUsernameArray) throws UserFriendlyException {
-        List<Staff> staffList = new ArrayList<>();
-
-        if (expertUsernameArray != null) {
-            for (int i = 0; i < expertUsernameArray.length; i++) {
-                if (expertUsernameArray[i] != null && !expertUsernameArray[i].isEmpty()) {
-                    Staff staff = staffFacade.findByUsername(expertUsernameArray[i]);
-
-                    if (staff == null) {
-                        throw new UserFriendlyException("Unknown username: " + expertUsernameArray[i]);
-                    }
-
-                    staffList.add(staff);
-                }
-            }
-        }
-
         List<IncidentReview> reviewList = new ArrayList<>();
-
-        for (Staff s : staffList) {
-            IncidentReview review = new IncidentReview();
-            review.setReviewer(s);
-            review.setIncident(incident);
-            reviewList.add(review);
+        if (expertUsernameArray != null) {
+            for (String s : expertUsernameArray) {
+                IncidentReview review = new IncidentReview();
+                review.setReviewer(s);
+                review.setIncident(incident);
+                reviewList.add(review);
+            }
         }
 
         if (incident.getIncidentId() != null) {
@@ -356,7 +328,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
         Event event = incident.getEvent();
 
-        checkCanEditIncidentOrEvent(incident.getReviewedBy() != null, event);
+        checkCanEditIncidentOrEvent(incident.getReviewedUsername() != null, event);
 
         event.getIncidentList().remove(incident);
 
@@ -506,7 +478,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
         Event event = incident.getEvent();
 
-        checkCanEditIncidentOrEvent(incident.getReviewedBy() != null, event);
+        checkCanEditIncidentOrEvent(incident.getReviewedUsername() != null, event);
 
         boolean wasPreviouslyClosed = incident.getTimeUp() != null;
 
@@ -704,7 +676,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
         if (params.getSmeUsername() != null && !params.getSmeUsername().isEmpty()) {
             Join<Incident, IncidentReview> reviewList = root.join("incidentReviewList");
-            Join<IncidentReview, Staff> reviewerList = reviewList.join("reviewer");
+            Join<IncidentReview, String> reviewerList = reviewList.join("reviewer");
 
             filters.add(cb.in(reviewerList.get("username")).value(params.getSmeUsername()));
         }
@@ -797,7 +769,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
         if (params.getSmeUsername() != null && !params.getSmeUsername().isEmpty()) {
             Join<Incident, IncidentReview> reviewList = root.join("incidentReviewList");
-            Join<IncidentReview, Staff> reviewerList = reviewList.join("reviewer");
+            Join<IncidentReview, String> reviewerList = reviewList.join("reviewer");
 
             filters.add(cb.in(reviewerList.get("username")).value(params.getSmeUsername()));
         }
@@ -838,8 +810,8 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
     @SuppressWarnings("unchecked")
     @PermitAll
-    public List<Staff> findAllExpertsWithRecentUnreviewedIncidents(int numberOfHours) {
-        Query q = em.createNativeQuery("select unique staff.* from staff, incident_review, incident where staff.staff_id = incident_review.reviewer_id and incident_review.incident_id = incident.incident_id and expert_acknowledged = 'N' and time_up is not null and time_up > :timeUp", Staff.class);
+    public List<String> findAllExpertsWithRecentUnreviewedIncidents(int numberOfHours) {
+        Query q = em.createNativeQuery("select unique reviewer from incident_review, incident where incident_review.incident_id = incident.incident_id and expert_acknowledged = 'N' and time_up is not null and time_up > :timeUp", String.class);
 
         Calendar c = Calendar.getInstance();
         //Date now = new Date();
@@ -883,7 +855,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     public List<TransitionRecord> migrateOldRarRecords(int year) throws SQLException, WebApplicationException, IOException, InterruptedException {
         List<TransitionRecord> transitionRecordList = new ArrayList<>();
 
-        MigrateOldRarService old = new MigrateOldRarService();
+        /*MigrateOldRarService old = new MigrateOldRarService();
         List<MigrateOldRarService.OldRARRecord> recordList = old.getOldRecords(year);
 
         Map<Date, Integer> dateMap = new HashMap<>();
@@ -990,7 +962,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
             transitionRecord.rarId = record.rarId;
             transitionRecord.incidentId = incidentId;
             transitionRecordList.add(transitionRecord);
-        }
+        }*/
 
         return transitionRecordList;
     }

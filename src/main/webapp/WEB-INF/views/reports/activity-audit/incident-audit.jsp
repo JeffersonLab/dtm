@@ -71,7 +71,7 @@
                                 <th>Modified By:</th>
                                     <c:forEach items="${incidentList}" var="incident">
                                     <th>
-                                        <c:out value="${incident.revision.staff != null ? dtm:formatStaff(incident.revision.staff) : incident.revision.username}"/>
+                                        <c:out value="${incident.revision.user != null ? dtm:formatUser(incident.revision.user) : incident.revision.username}"/>
                                     </th>
                                 </c:forEach>
                             </tr>
@@ -169,7 +169,7 @@
                                 <th>Reviewed By:</th>
                                     <c:forEach items="${incidentList}" var="incident">
                                     <td>
-                                        <c:out value="${incident.reviewedBy != null ? dtm:formatStaff(incident.reviewedBy) : ''}"/>
+                                        <c:out value="${incident.reviewedUsername != null ? dtm:formatUsername(incident.reviewedUsername) : ''}"/>
                                     </td>
                                 </c:forEach>
                             </tr>

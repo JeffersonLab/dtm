@@ -6,7 +6,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.jlab.dtm.persistence.entity.Staff;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.persistence.entity.SystemExpert;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
@@ -23,8 +22,6 @@ public class SystemExpertFacade extends AbstractFacade<SystemExpert> {
 
     @EJB
     SystemFacade systemFacade;
-    @EJB
-    StaffFacade staffFacade;
     
     @Override
     protected EntityManager getEntityManager() {
@@ -51,16 +48,10 @@ public class SystemExpertFacade extends AbstractFacade<SystemExpert> {
             throw new UserFriendlyException("Subsytem with ID: " + systemId + " not found");
         }
         
-        Staff expert = staffFacade.findByUsername(username);
-        
-        if(expert == null) {
-            throw new UserFriendlyException("Expert with username: " + username + " not found");
-        }
-        
         SystemExpert se = new SystemExpert();
         
         se.setSystem(system);        
-        se.setExpert(expert);
+        se.setUsername(username);
         
         se = em.merge(se);
         
