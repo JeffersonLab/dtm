@@ -345,8 +345,8 @@ SELECT
 e.EVENT_ID,
 e.EVENT_TYPE_ID,
 e.TIME_UP,
-(SELECT MIN(i.TIME_DOWN) FROM INCIDENT i WHERE i.EVENT_ID = e.EVENT_ID) AS TIME_DOWN
-FROM EVENT e
+(SELECT MIN(i.TIME_DOWN) FROM DTM_OWNER.INCIDENT i WHERE i.EVENT_ID = e.EVENT_ID) AS TIME_DOWN
+FROM DTM_OWNER.EVENT e
 );
 
 CREATE OR REPLACE VIEW DTM_OWNER.EVENT_FIRST_INCIDENT AS
@@ -375,11 +375,11 @@ SELECT SYSTEM_ID, CATEGORY_ID from DTM_OWNER.SYSTEM
 
 create or replace view dtm_owner.restore_time (event_id, time_down, time_up) as
 (
-SELECT * FROM (SELECT event_id, MAX(nvl(time_up, sysdate)) OVER (partition by event_id ORDER BY time_down) as time_down, LEAD(time_down) OVER (partition by event_id ORDER BY time_down) as time_up FROM incident) WHERE time_down < time_up
+SELECT * FROM (SELECT event_id, MAX(nvl(time_up, sysdate)) OVER (partition by event_id ORDER BY time_down) as time_down, LEAD(time_down) OVER (partition by event_id ORDER BY time_down) as time_up FROM dtm_owner.incident) WHERE time_down < time_up
 union
 select a.event_id, b.time_up as time_down, nvl(a.time_up, sysdate) as time_up
-from event a,
-(select event_id, max(nvl(time_up, sysdate)) as time_up from incident group by event_id) b
+from dtm_owner.event a,
+(select event_id, max(nvl(time_up, sysdate)) as time_up from dtm_owner.incident group by event_id) b
 where a.event_id = b.event_id
 and b.time_up != nvl(a.time_up, sysdate)
 );
