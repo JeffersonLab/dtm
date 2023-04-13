@@ -409,11 +409,6 @@ public class EventFacade extends AbstractFacade<Event> {
             JPAUtil.initialize(e.getIncidentList());
             loadCategories(e);
             eventList.add(e);
-            
-            /*for (Incident incident : event.getIncidentList()) {
-             Staff s = incident.getReviewedBy();
-             JPAUtil.initObject(s);
-             }*/
         }
 
         return eventList;
