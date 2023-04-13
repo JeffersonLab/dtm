@@ -36,7 +36,7 @@ public class ComponentDowntimeFacade extends AbstractFacade<Component> {
     public List<ComponentDowntime> findByPeriodAndType(Date start, Date end, EventType type, Boolean beamTransport, BigInteger systemId) {
         String sql =
                 "select a.component_id, a.name, d.name as systemName, count(a.name) as incident_count, sum(interval_to_seconds(least(nvl(b.time_up, sysdate), :end) - greatest(b.time_down, :start))) / 60 / 60 / 24 as duration "
-                + "from hco_owner.all_components a, incident b, event c, dtm_owner.system d "
+                + "from dtm_owner.all_components a, incident b, event c, dtm_owner.system d "
                 + "where a.component_id = b.component_id "
                 + "and a.system_id = d.system_id "
                 + "and b.event_id = c.event_id "

@@ -21,7 +21,7 @@ import javax.validation.constraints.Size;
  * @author ryans
  */
 @Entity
-@Table(schema = "HCO_OWNER", uniqueConstraints = {
+@Table(schema = "DTM_OWNER", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"NAME"})})
 public class Application implements Serializable {
 

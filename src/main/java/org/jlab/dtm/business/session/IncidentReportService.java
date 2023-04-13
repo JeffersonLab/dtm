@@ -441,7 +441,7 @@ public class IncidentReportService {
 
         sql = sql
                 + ")) / 60 / 60 "
-                + "from incident a left join hco_owner.all_components d on a.component_id = d.component_id, event b "
+                + "from incident a left join dtm_owner.all_components d on a.component_id = d.component_id, event b "
                 + "where a.event_id = b.event_id ";
 
         if (end != null) {

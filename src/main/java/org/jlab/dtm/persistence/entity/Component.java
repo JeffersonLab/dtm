@@ -25,7 +25,7 @@ import org.hibernate.envers.RelationTargetAuditMode;
  */
 @Entity
 @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-@Table(name= "ALL_COMPONENTS", schema = "HCO_OWNER", uniqueConstraints = {
+@Table(name= "ALL_COMPONENTS", schema = "DTM_OWNER", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"NAME", "SYSTEM_ID"}),
     @UniqueConstraint(columnNames = {"DATA_SOURCE"}),
     @UniqueConstraint(columnNames = {"SYSTEM_ID", "COMPONENT_ID"})})

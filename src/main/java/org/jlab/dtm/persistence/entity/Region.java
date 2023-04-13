@@ -25,7 +25,7 @@ import javax.validation.constraints.Size;
  * @author ryans
  */
 @Entity
-@Table(schema = "HCO_OWNER")
+@Table(schema = "DTM_OWNER")
 @NamedQueries({
     @NamedQuery(name = "Region.findAll", query = "SELECT r FROM Region r")})
 public class Region implements Serializable {
