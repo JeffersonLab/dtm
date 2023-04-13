@@ -8,11 +8,12 @@ services:
       - "5500:5500"
     environment:
       ORACLE_PASSWORD: testing
+      TZ: 'America/New_York'
     volumes:
       - ./docker/oracle/setup:/container-entrypoint-initdb.d
 
   keycloak:
-    image: quay.io/keycloak/keycloak:19.0.2
+    image: quay.io/keycloak/keycloak:20.0.5
     hostname: keycloak
     container_name: keycloak
     ports:
@@ -28,6 +29,7 @@ services:
       KEYCLOAK_REALM: 'test-realm'
       KEYCLOAK_RESOURCE: 'dtm'
       KEYCLOAK_SECRET: 'yHi6W2raPmLvPXoxqMA7VWbLAA2WN0eB'
+      TZ: 'America/New_York'
     volumes:
       - ./docker/keycloak:/scripts
     entrypoint: /scripts/docker-entrypoint.sh
@@ -38,6 +40,8 @@ services:
     container_name: puppet
     ports:
       - "3000:3000"
+    environment:
+      TZ: 'America/New_York'
 
   mailhog:
     image: mailhog/mailhog:v1.0.1
@@ -46,3 +50,5 @@ services:
     ports:
       - "1025:1025"
       - "8025:8025"
+    environment:
+      TZ: 'America/New_York'
