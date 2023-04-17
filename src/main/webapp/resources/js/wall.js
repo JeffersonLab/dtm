@@ -83,7 +83,7 @@ jlab.refreshEvents = function() {
         }
     });
 
-    request.error(function(xhr, textStatus) {
+    request.fail(function(xhr, textStatus) {
         window.console && console.log('Unable to query for events: Text Status: ' + textStatus + ', Ready State: ' + xhr.readyState + ', HTTP Status Code: ' + xhr.status);
         $("#event-block").empty().append('<span class="error">Unable to query for events: server did not handle request: ' + xhr.status + '</span>');
     });

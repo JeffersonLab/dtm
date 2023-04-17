@@ -28,7 +28,7 @@ jlab.dtm.ondemand = function(username) {
             
     });
 
-    request.error(function(xhr, textStatus) {
+    request.fail(function(xhr, textStatus) {
         window.console && console.log('Unable to send email: Text Status: ' + textStatus + ', Ready State: ' + xhr.readyState + ', HTTP Status Code: ' + xhr.status);
         alert('Unable to send email');
     });

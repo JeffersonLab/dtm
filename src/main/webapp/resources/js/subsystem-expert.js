@@ -51,7 +51,7 @@ jlab.dtm.deleteRow = function () {
 
     });
 
-    request.error(function (xhr, textStatus) {
+    request.fail(function (xhr, textStatus) {
         window.console && console.log('Unable to delete expert: Text Status: ' + textStatus + ', Ready State: ' + xhr.readyState + ', HTTP Status Code: ' + xhr.status);
         alert('Unable to delete expert; server did not handle request');
     });

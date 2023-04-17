@@ -21,7 +21,7 @@ jlab.uploadRARFile = function(incidentId, form) {
         $("#rar-link").append('<a href="' + jlab.contextPath + jlab.rarLink + incidentId + '">RAR Document</a>');
     });
 
-    promise.error(function(xhr, textStatus){
+    promise.fail(function(xhr, textStatus){
         window.console && console.log('Unable to upload file: Text Status: ' + textStatus + ', Ready State: ' + xhr.readyState + ', HTTP Status Code: ' + xhr.status);
         alert('Unable to upload file: server did not handle request');
     });
@@ -162,7 +162,7 @@ jlab.filterSystemListByCategory = function (categoryId, systemSelectSelector, ap
 
     });
 
-    request.error(function (xhr, textStatus) {
+    request.fail(function (xhr, textStatus) {
         window.console && console.log('Unable to filter system list: Text Status: ' + textStatus + ', Ready State: ' + xhr.readyState + ', HTTP Status Code: ' + xhr.status);
         alert('Unable to filter system list; server did not handle request');
     });

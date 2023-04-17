@@ -67,7 +67,7 @@ jlab.dtm.updateEventInPlace = function (eventId) {
         }
     });
 
-    request.error(function (xhr, textStatus) {
+    request.fail(function (xhr, textStatus) {
         window.console && console.log('Unable to Update Event: Text Status: ' + textStatus + ', Ready State: ' + xhr.readyState + ', HTTP Status Code: ' + xhr.status);
         alert('Unable to Update Event: server did not handle request');
     });
@@ -231,7 +231,7 @@ jlab.dtm.doIncidentAction = function (reload) {
 
     });
 
-    request.error(function (xhr, textStatus) {
+    request.fail(function (xhr, textStatus) {
         window.console && console.log('Unable to ' + friendlyActionName + ': Text Status: ' + textStatus + ', Ready State: ' + xhr.readyState + ', HTTP Status Code: ' + xhr.status);
         alert('Unable to ' + friendlyActionName + ': server did not handle request');
     });
@@ -283,7 +283,7 @@ jlab.dtm.removeIncident = function () {
 
     });
 
-    request.error(function (xhr, textStatus) {
+    request.fail(function (xhr, textStatus) {
         window.console && console.log('Unable to delete incident: Text Status: ' + textStatus + ', Ready State: ' + xhr.readyState + ', HTTP Status Code: ' + xhr.status);
         alert('Unable to delete incident: server did not handle request');
     });
@@ -348,7 +348,7 @@ jlab.dtm.editSystemExpertReview = function () {
 
     });
 
-    request.error(function (xhr, textStatus) {
+    request.fail(function (xhr, textStatus) {
         window.console && console.log('Unable to edit root cause: Text Status: ' + textStatus + ', Ready State: ' + xhr.readyState + ', HTTP Status Code: ' + xhr.status);
         alert('Unable to edit root cause: server did not handle request');
     });
@@ -465,7 +465,7 @@ jlab.dtm.removeEvent = function () {
 
     });
 
-    request.error(function (xhr, textStatus) {
+    request.fail(function (xhr, textStatus) {
         window.console && console.log('Unable to delete event: Text Status: ' + textStatus + ', Ready State: ' + xhr.readyState + ', HTTP Status Code: ' + xhr.status);
         alert('Unable to delete event: server did not handle request');
     });
@@ -731,7 +731,7 @@ jlab.dtm.editEvent = function () {
 
     });
 
-    request.error(function (xhr, textStatus) {
+    request.fail(function (xhr, textStatus) {
         window.console && console.log('Unable to edit event: Text Status: ' + textStatus + ', Ready State: ' + xhr.readyState + ', HTTP Status Code: ' + xhr.status);
         alert('Unable to edit event: server did not handle request');
     });
