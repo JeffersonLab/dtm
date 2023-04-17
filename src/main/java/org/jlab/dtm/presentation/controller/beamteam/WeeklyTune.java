@@ -112,7 +112,7 @@ public class WeeklyTune extends HttpServlet {
         double topDowntime = 0;
         BigInteger eventTypeId = BigInteger.ONE;
 
-        Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L), BigInteger.valueOf(2L));
+        Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L));
         List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
 
         IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();

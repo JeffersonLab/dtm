@@ -118,12 +118,12 @@ public class WeeklyRepair extends HttpServlet {
         BigInteger eventTypeId = BigInteger.ONE;
 
         //Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L), BigInteger.valueOf(2L));
-        Category cebafRoot = categoryFacade.findBranch(BigInteger.valueOf(1L), BigInteger.valueOf(2L));
-        Category lerfRoot = categoryFacade.findBranch(BigInteger.valueOf(2L), BigInteger.valueOf(2L));
-        Category otherRoot = categoryFacade.findBranch(BigInteger.valueOf(3L), BigInteger.valueOf(2L));
-        Category cryoRoot = categoryFacade.findBranch(BigInteger.valueOf(4L), BigInteger.valueOf(2L));
-        Category facilitiesRoot = categoryFacade.findBranch(BigInteger.valueOf(5L), BigInteger.valueOf(2L));
-        Category hallRoot = categoryFacade.findBranch(BigInteger.valueOf(465L), BigInteger.valueOf(2L));
+        Category cebafRoot = categoryFacade.findBranch(BigInteger.valueOf(1L));
+        Category lerfRoot = categoryFacade.findBranch(BigInteger.valueOf(2L));
+        Category otherRoot = categoryFacade.findBranch(BigInteger.valueOf(3L));
+        Category cryoRoot = categoryFacade.findBranch(BigInteger.valueOf(4L));
+        Category facilitiesRoot = categoryFacade.findBranch(BigInteger.valueOf(5L));
+        Category hallRoot = categoryFacade.findBranch(BigInteger.valueOf(465L));
         List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
 
         IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();

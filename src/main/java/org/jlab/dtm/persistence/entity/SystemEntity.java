@@ -53,8 +53,6 @@ public class SystemEntity implements Serializable, Comparable<SystemEntity> {
     private Category category;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "system")
     private List<Component> componentList;
-    @ManyToMany(mappedBy = "systemList", fetch = FetchType.EAGER)
-    private List<Application> applicationList;      
     @NotAudited
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "system")
     private List<SystemExpert> systemExpertList;   
@@ -119,17 +117,6 @@ public class SystemEntity implements Serializable, Comparable<SystemEntity> {
         this.componentList = componentList;
     }
 
-    public List<Application> getApplicationList() {
-        return applicationList;
-    }
-
-    public void setApplicationList(List<Application> applicationList) {
-        this.applicationList = applicationList;
-    }
-    
-    public boolean isHcoSystem() {
-        return applicationList.contains(Application.CHECKOUT);
-    }
 
     public List<SystemExpert> getSystemExpertList() {
         return systemExpertList;

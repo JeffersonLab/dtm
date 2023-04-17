@@ -97,7 +97,7 @@ public class RARReport extends HttpServlet {
             return;
         }
 
-        Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L), BigInteger.valueOf(2L));
+        Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L));
         List<EventType> eventTypeList = eventTypeFacade.findAll(new OrderDirective("weight"));
 
         double periodDurationHours = 0.0;

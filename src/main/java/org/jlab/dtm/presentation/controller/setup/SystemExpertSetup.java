@@ -45,8 +45,8 @@ public class SystemExpertSetup extends HttpServlet {
         BigInteger systemId = ParamConverter.convertBigInteger(
                 request, "systemId");
 
-        Category categoryRoot = categoryFacade.findBranch(null, null);        
-        List<SystemEntity> systemList = systemFacade.findWithCategory(categoryId, null);
+        Category categoryRoot = categoryFacade.findBranch(null);
+        List<SystemEntity> systemList = systemFacade.findWithCategory(categoryId);
         
         String selectionMessage = null;
         Category selectedCategory = null;

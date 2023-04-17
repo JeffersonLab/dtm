@@ -291,6 +291,18 @@ CREATE TABLE DTM_OWNER.CATEGORY
     WEIGHT      NUMBER
 );
 
+/*create view CATEGORY as
+(
+select distinct category_id, name, parent_id, weight
+from hco_owner.category z
+start with z.category_id in
+           (select category_id
+            from hco_owner.system a
+            where system_id in
+                  (select system_id from hco_owner.system_application where application_id = 2))
+connect by prior z.parent_id = z.category_id
+);*/
+
 CREATE TABLE DTM_OWNER.SYSTEM
 (
     SYSTEM_ID   NUMBER NOT NULL CONSTRAINT SYSTEM_PK PRIMARY KEY,
@@ -298,6 +310,11 @@ CREATE TABLE DTM_OWNER.SYSTEM
     CATEGORY_ID NUMBER NOT NULL CONSTRAINT SYSTEM_FK1 REFERENCES DTM_OWNER.CATEGORY ON DELETE SET NULL,
     WEIGHT      NUMBER
 );
+
+/*create view dtm_owner.system as
+(
+select * from hco_owner.system where system_id in (select system_id from hco_owner.system_application where application_id = 2)
+);*/
 
 CREATE TABLE DTM_OWNER.REGION
 (

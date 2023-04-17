@@ -13,7 +13,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.jlab.dtm.persistence.entity.Application;
+
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.smoothness.persistence.util.JPAUtil;
@@ -47,7 +47,7 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
     }
 
     @PermitAll
-    public List<SystemEntity> findWithCategory(BigInteger categoryId, BigInteger applicationId) {
+    public List<SystemEntity> findWithCategory(BigInteger categoryId) {
         List<SystemEntity> systemList;
 
         if (categoryId == null) {
@@ -56,19 +56,19 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
             // Just load entire hierarchy of categories and cache in em
             categoryFacade.findAllViaCartesianProduct();
 
-            systemList = fetchHierarchy(categoryId, applicationId);
+            systemList = fetchHierarchy(categoryId);
         }
 
         return systemList;
     }
 
     @PermitAll
-    public List<SystemEntity> fetchHierarchy(BigInteger categoryId, BigInteger applicationId) {
+    public List<SystemEntity> fetchHierarchy(BigInteger categoryId) {
         List<SystemEntity> systemList;
 
         Category category = categoryFacade.find(categoryId);
         if (category != null) {
-            systemList = gatherDescendents(category, applicationId);
+            systemList = gatherDescendents(category);
             Collections.sort(systemList);
         } else {
             systemList = new ArrayList<>();
@@ -78,7 +78,7 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
     }
 
     @PermitAll
-    public List<SystemEntity> gatherDescendents(Category category, BigInteger applicationId) {
+    public List<SystemEntity> gatherDescendents(Category category) {
         List<SystemEntity> systemList;
 
         if (category.getSystemList() == null || category.getSystemList().isEmpty()) {
@@ -86,15 +86,13 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
         } else {
             systemList = new ArrayList<>();
             for (SystemEntity system : category.getSystemList()) {
-                if (applicationId == null || system.getApplicationList().contains(Application.FROM_ID(applicationId))) {
-                    systemList.add(system);
-                }
+                systemList.add(system);
             }
         }
 
         if (category.getCategoryList() != null && !category.getCategoryList().isEmpty()) {
             for (Category child : category.getCategoryList()) {
-                systemList.addAll(gatherDescendents(child, applicationId));
+                systemList.addAll(gatherDescendents(child));
             }
         }
 
