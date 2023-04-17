@@ -48,7 +48,7 @@ public class EffectiveRoleFilter implements Filter {
         // Over SSL though...
         if (username != null && !username.trim().isEmpty() && (effectiveRole == null
                 || effectiveRole.trim().isEmpty())) {
-            boolean reviewer = httpRequest.isUserInRole("dtreview");
+            boolean reviewer = httpRequest.isUserInRole("dtm-reviewer");
 
             //System.out.println("isUserInRole('REVIEWER'): " + reviewer);
             if (reviewer) {

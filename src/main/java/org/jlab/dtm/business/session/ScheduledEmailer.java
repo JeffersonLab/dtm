@@ -34,7 +34,7 @@ import org.jlab.smoothness.business.util.TimeUtil;
  * @author ryans
  */
 @Singleton
-@DeclareRoles({"dtreview"})
+@DeclareRoles({"dtm-reviewer"})
 @Startup
 public class ScheduledEmailer {
 
@@ -67,7 +67,7 @@ public class ScheduledEmailer {
         return timer != null;
     }
 
-    @RolesAllowed("dtreview")
+    @RolesAllowed("dtm-reviewer")
     public void setEnabled(Boolean enabled) {
         if (enabled) {
             enable();
@@ -123,7 +123,7 @@ public class ScheduledEmailer {
         }
     }
 
-    @RolesAllowed("dtreview")
+    @RolesAllowed("dtm-reviewer")
     public void sendExpertActionNeededEmails() throws IOException, MessagingException {
         int numberOfHours = 24;
 

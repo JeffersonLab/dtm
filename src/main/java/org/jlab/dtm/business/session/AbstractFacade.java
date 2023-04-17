@@ -23,7 +23,7 @@ import org.jlab.smoothness.presentation.filter.AuditContext;
  *
  * @author ryans
  */
-@DeclareRoles({"dtreview"})
+@DeclareRoles({"dtm-reviewer"})
 public abstract class AbstractFacade<T> {
     @Resource
     protected SessionContext context;

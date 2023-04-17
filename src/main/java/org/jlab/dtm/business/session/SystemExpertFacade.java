@@ -32,7 +32,7 @@ public class SystemExpertFacade extends AbstractFacade<SystemExpert> {
         super(SystemExpert.class);
     }
     
-    @RolesAllowed("dtreview")
+    @RolesAllowed("dtm-admin")
     public BigInteger add(BigInteger systemId, String username) throws UserFriendlyException {
         if(systemId == null) {
             throw new UserFriendlyException("Subsystem must be specified");
@@ -58,7 +58,7 @@ public class SystemExpertFacade extends AbstractFacade<SystemExpert> {
         return se.getSystemExpertId();
     }
 
-    @RolesAllowed("dtreview")
+    @RolesAllowed("dtm-admin")
     public void delete(BigInteger expertId) throws UserFriendlyException {
         if(expertId == null) {
             throw new UserFriendlyException("Expert ID must be specified");

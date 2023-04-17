@@ -80,14 +80,14 @@
             <url-pattern>/setup/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>dtreview</role-name>
+            <role-name>dtm-reviewer</role-name>
         </auth-constraint>
     </security-constraint>
     <login-config>
         <auth-method>OIDC</auth-method>
     </login-config>
     <security-role>
-        <role-name>dtreview</role-name>
+        <role-name>dtm-reviewer</role-name>
     </security-role>
     <distributable/>
 </web-app>

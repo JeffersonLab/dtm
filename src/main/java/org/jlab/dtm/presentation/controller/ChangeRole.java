@@ -37,7 +37,7 @@ public class ChangeRole extends HttpServlet {
 
         String effectiveRole;
 
-        boolean reviewer = request.isUserInRole("dtreview");
+        boolean reviewer = request.isUserInRole("dtm-reviewer");
 
         if (reviewer && "REVIEWER".equals(role)) {
             effectiveRole = "REVIEWER";

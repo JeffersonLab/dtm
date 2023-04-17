@@ -28,3 +28,10 @@ echo "----------------------------"
 ${KEYCLOAK_HOME}/bin/kcadm.sh add-roles -r "${KEYCLOAK_REALM}" --uusername user1 --rolename group1Leaders
 ${KEYCLOAK_HOME}/bin/kcadm.sh add-roles -r "${KEYCLOAK_REALM}" --uusername user2 --rolename group2Leaders
 ${KEYCLOAK_HOME}/bin/kcadm.sh add-roles -r "${KEYCLOAK_REALM}" --uusername user3 --rolename group3Leaders
+
+echo "----------------------------"
+echo "| Step IV: Config Reviewer |"
+echo "----------------------------"
+# Assign tbrown as a reviewer
+${KEYCLOAK_HOME}/bin/kcadm.sh create roles -r "${KEYCLOAK_REALM}" -s name=${KEYCLOAK_RESOURCE}-reviewer
+${KEYCLOAK_HOME}/bin/kcadm.sh add-roles -r "${KEYCLOAK_REALM}" --uusername tbrown --rolename ${KEYCLOAK_RESOURCE}-reviewer

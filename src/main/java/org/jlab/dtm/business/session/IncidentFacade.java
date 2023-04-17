@@ -851,7 +851,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         }
     }
 
-    @RolesAllowed("oability")
+    @RolesAllowed("dtm-admin")
     public List<TransitionRecord> migrateOldRarRecords(int year) throws SQLException, WebApplicationException, IOException, InterruptedException {
         List<TransitionRecord> transitionRecordList = new ArrayList<>();
 
@@ -967,7 +967,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         return transitionRecordList;
     }
 
-    @RolesAllowed("oability")
+    @RolesAllowed("dtm-admin")
     public void migrateOldRarAttachments(List<TransitionRecord> recordList) throws SQLException, IOException {
         /*MigrateOldRarService old = new MigrateOldRarService();
 
