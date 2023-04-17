@@ -292,7 +292,7 @@ public class IncidentReportService {
         int max = params.getMax();
 
         String sql
-                = "select a.incident_id, a.event_id, b.event_type_id, b.title as event_title, a.title, a.summary, e.abbreviation as type, resolution, f.username as reviewed_by_username, ";
+                = "select a.incident_id, a.event_id, b.event_type_id, b.title as event_title, a.title, a.summary, e.abbreviation as type, resolution, a.reviewed_username as reviewed_by_username, ";
 
         if (end != null) {
             sql = sql + "interval_to_seconds(least(coalesce(a.time_up, sysdate), :end) - ";
