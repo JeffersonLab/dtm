@@ -490,7 +490,7 @@ $(function () {
 
             $.ajax({
                 data: params,
-                url: '/hco/data/components',
+                url: '/dtm/data/components',
                 success: function (json) {
                     response($.map(json.data, function (item) {
                         return {
