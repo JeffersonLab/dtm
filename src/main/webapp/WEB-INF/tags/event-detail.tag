@@ -100,7 +100,7 @@
                                 </c:choose>                                
                                 <span title="Operability">OPR:</span>
                                 <c:choose>
-                                    <c:when test="${incident.reviewedBy ne null}">
+                                    <c:when test="${incident.reviewedUsername ne null}">
                                         <span class="reviewed-link">Yes</span>
                                     </c:when>
                                     <c:otherwise>
@@ -110,7 +110,7 @@
                             </span>
                         </span>                         
                         <span>
-                            <c:if test="${(pageContext.request.userPrincipal ne null) and ((incident.reviewedBy == null and !event.closedLongAgo()) || sessionScope.effectiveRole eq 'REVIEWER')}">
+                            <c:if test="${(pageContext.request.userPrincipal ne null) and ((incident.reviewedUsername == null and !event.closedLongAgo()) || sessionScope.effectiveRole eq 'REVIEWER')}">
                                 <hr/>
                                 <button type="button" class="open-edit-incident-dialog-button">Edit${incident.timeUp == null ? '/Close' : ''} Incident</button>
                                 <button type="button" class="remove-incident-button">Delete Incident</button>

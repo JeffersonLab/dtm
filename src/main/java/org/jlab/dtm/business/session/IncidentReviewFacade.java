@@ -31,7 +31,7 @@ public class IncidentReviewFacade extends AbstractFacade<IncidentReview> {
     @PermitAll
     public List<IncidentReview> findByIncident(BigInteger incidentId) {
         TypedQuery<IncidentReview> q = em.createQuery(
-                "select r from IncidentReview r left join fetch r.reviewer where r.incident.incidentId = :incidentId",
+                "select r from IncidentReview r where r.incident.incidentId = :incidentId",
                 IncidentReview.class);
         q.setParameter("incidentId", incidentId);
         return q.getResultList();

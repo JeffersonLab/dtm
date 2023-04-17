@@ -126,6 +126,10 @@ public class SystemEntity implements Serializable, Comparable<SystemEntity> {
         this.systemExpertList = systemExpertList;
     }
 
+    public boolean isHcoSystem() {
+        return false;
+    }
+
     @Override
     public int compareTo(SystemEntity c) {
         return getName().compareTo(c.getName()); //TODO: look at weight as well

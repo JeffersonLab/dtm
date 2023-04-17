@@ -54,11 +54,17 @@ public class EscalationService {
         Collection<Timer> timerCollection = timerService.getAllTimers();
 
         for (Timer timer : timerCollection) {
-            EscalationInfo info = (EscalationInfo) timer.getInfo();
+            Object o = timer.getInfo();
 
-            if (info != null && event.getEventId() != null && event.getEventId().equals(info.getEventId())) {
-                timer.cancel();
-                break;
+            if(o instanceof EscalationInfo) {
+                EscalationInfo info = (EscalationInfo) timer.getInfo();
+
+                if (info != null && event.getEventId() != null && event.getEventId().equals(info.getEventId())) {
+                    timer.cancel();
+                    break;
+                }
+            } else {
+                logger.warning("Escalation info is not of correct type: " + o);
             }
         }
     }

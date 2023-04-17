@@ -92,9 +92,9 @@ public class IncidentAction extends HttpServlet {
             LOGGER.log(Level.SEVERE, "Unable to perform incident action", e);
             Throwable rootCause = DtmSqlUtil.getFirstNestedSqlException(e);
 
-            LOGGER.log(Level.WARNING, "Root Cause: {0}", rootCause.getClass());
+            if (rootCause != null) {
+                LOGGER.log(Level.WARNING, "Root Cause: {0}", rootCause.getClass());
 
-            if (rootCause instanceof SQLException) {
                 SQLException dbException = (SQLException) rootCause;
 
                 if (dbException.getErrorCode() == 20001) {
