@@ -316,6 +316,7 @@ CREATE TABLE DTM_OWNER.SYSTEM
 select * from hco_owner.system where system_id in (select system_id from hco_owner.system_application where application_id = 2)
 );*/
 
+-- TODO: Remove region completely
 CREATE TABLE DTM_OWNER.REGION
 (
     REGION_ID NUMBER NOT NULL CONSTRAINT REGION_PK PRIMARY KEY,
@@ -324,6 +325,12 @@ CREATE TABLE DTM_OWNER.REGION
     WEIGHT    NUMBER
 );
 
+/*create or replace view dtm_owner.region as
+(
+select REGION_ID,NAME,ALIAS,WEIGHT from hco_owner.region
+);*/
+
+-- TODO: Remove unused columns
 CREATE TABLE DTM_OWNER.COMPONENT
 (
     COMPONENT_ID         NUMBER NOT NULL CONSTRAINT COMPONENT_PK PRIMARY KEY,
@@ -349,6 +356,11 @@ CREATE TABLE DTM_OWNER.COMPONENT
                (DATA_SOURCE_ID IS NOT NULL AND DATA_SOURCE = 'UED') OR
                (DATA_SOURCE_ID IS NULL AND DATA_SOURCE = 'INTERNAL'))
 );
+
+/*create or replace view dtm_owner.component as
+(
+select * from hco_owner.component where system_id in (select system_id from hco_owner.system_application where application_id = 2)
+);*/
 
 CREATE TABLE DTM_OWNER.WORKGROUP
 (
