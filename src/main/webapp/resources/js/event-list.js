@@ -580,7 +580,7 @@ jlab.dtm.filterSystemSelect = function (setToSystemId) {
     }
 
     var request = jQuery.ajax({
-        url: "/hco/data/systems",
+        url: "/dtm/data/systems",
         type: "GET",
         data: params,
         dataType: "json"
@@ -640,7 +640,7 @@ jlab.dtm.selectCategoryBasedOnSystem = function (refreshSystemList) {
     $("#category-indicator").html("<span class=\"button-indicator\"></span>");
 
     var request = jQuery.ajax({
-        url: "/hco/data/systems",
+        url: "/dtm/data/systems",
         type: "GET",
         data: params,
         dataType: "json"

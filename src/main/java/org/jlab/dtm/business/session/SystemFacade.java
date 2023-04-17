@@ -5,16 +5,16 @@
 package org.jlab.dtm.business.session;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.*;
 
 import org.jlab.dtm.persistence.entity.Category;
+import org.jlab.dtm.persistence.entity.Component;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.smoothness.persistence.util.JPAUtil;
 
@@ -60,6 +60,71 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
         }
 
         return systemList;
+    }
+
+    @PermitAll
+    public List<SystemEntity> findWithCategory(BigInteger[] categoryIdArray, BigInteger componentId, BigInteger systemId) {
+        List<SystemEntity> systemList = new ArrayList<>();
+
+        // Just load entire hierarchy of categories and cache in em
+        categoryFacade.findAllViaCartesianProduct();
+
+        if(categoryIdArray != null && (categoryIdArray.length == 0 || categoryIdArray[0] == null)) {
+            categoryIdArray = null;
+        }
+
+        // If searching by component, or by system_id, or for all systems (no filter)
+        if (componentId != null || systemId != null || (componentId == null && systemId == null && categoryIdArray == null)) {
+
+            // Zero or one (first) category are used if searching by componentId or systemId
+            BigInteger categoryId = categoryIdArray == null ? null : categoryIdArray[0];
+
+            systemList = findByComponentCategoryAndSystem(componentId, categoryId, systemId);
+        } else {
+            // componentId == null && systemId == null && categoryId != null && recurse == true
+            // Search for systems by category using recursion
+
+            Set<SystemEntity> systemSet = new LinkedHashSet<>(); // Prevent duplicates
+            for(BigInteger categoryId: categoryIdArray) {
+                if(categoryId != null) {
+                    systemSet.addAll(fetchHierarchy(categoryId));
+                }
+            }
+            systemList.addAll(systemSet);
+        }
+
+        return systemList;
+    }
+
+    @PermitAll
+    public List<SystemEntity> findByComponentCategoryAndSystem(BigInteger componentId, BigInteger categoryId, BigInteger systemId) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<SystemEntity> cq = cb.createQuery(SystemEntity.class);
+        Root<SystemEntity> root = cq.from(SystemEntity.class);
+        cq.select(root);
+
+        List<Predicate> filters = new ArrayList<>();
+
+        if (componentId != null) {
+            Join<SystemEntity, Component> components = root.join("componentList");
+            filters.add(components.in(componentId));
+        }
+        if (categoryId != null) {
+            filters.add(cb.equal(root.get("category").get("categoryId"), categoryId));
+        }
+        if (systemId != null) {
+            filters.add(cb.equal(root.get("systemId"), systemId));
+        }
+        if (!filters.isEmpty()) {
+            cq.where(cb.and(filters.toArray(new Predicate[]{})));
+        }
+        List<Order> orders = new ArrayList<>();
+        Path p0 = root.get("name");
+        Order o0 = cb.asc(p0);
+        orders.add(o0);
+        cq.orderBy(orders);
+
+        return getEntityManager().createQuery(cq).getResultList();
     }
 
     @PermitAll
