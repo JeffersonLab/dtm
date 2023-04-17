@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.jlab.dtm.business.session;
 
 import java.math.BigInteger;
@@ -169,9 +165,8 @@ public class ComponentFacade extends AbstractFacade<Component> {
 
 
                 Predicate p1 = cb.like(cb.upper(root.get("name")), searchString);
-                Predicate p2 = cb.like(cb.upper(root.get("nameAlias")), searchString);
 
-                filters.add(cb.or(p1, p2));
+                filters.add(p1);
             }
             if (componentId != null) {
                 filters.add(cb.equal(root.get("componentId"), componentId));

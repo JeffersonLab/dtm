@@ -27,14 +27,14 @@ alter session set container = XEPDB1;
 --DROP TABLE DTM_OWNER.EVENT_TYPE CASCADE CONSTRAINTS PURGE;
 --DROP TABLE DTM_OWNER.SYSTEM_EXPERT CASCADE CONSTRAINTS PURGE;
 
-CREATE SEQUENCE CATEGORY_MONTHLY_GOAL_ID
+CREATE SEQUENCE DTM_OWNER.CATEGORY_MONTHLY_GOAL_ID
     INCREMENT BY 1
     START WITH 1
     NOCYCLE
 	NOCACHE
 	ORDER;
 
-CREATE SEQUENCE EVENT_ID
+CREATE SEQUENCE DTM_OWNER.EVENT_ID
     INCREMENT BY 1
     START WITH 1
     NOCYCLE
@@ -316,45 +316,13 @@ CREATE TABLE DTM_OWNER.SYSTEM
 select * from hco_owner.system where system_id in (select system_id from hco_owner.system_application where application_id = 2)
 );*/
 
--- TODO: Remove region completely
-CREATE TABLE DTM_OWNER.REGION
-(
-    REGION_ID NUMBER NOT NULL CONSTRAINT REGION_PK PRIMARY KEY,
-    NAME      VARCHAR2(128 CHAR) NOT NULL,
-    ALIAS     VARCHAR2(128 CHAR),
-    WEIGHT    NUMBER
-);
-
-/*create or replace view dtm_owner.region as
-(
-select REGION_ID,NAME,ALIAS,WEIGHT from hco_owner.region
-);*/
-
--- TODO: Remove unused columns
 CREATE TABLE DTM_OWNER.COMPONENT
 (
     COMPONENT_ID         NUMBER NOT NULL CONSTRAINT COMPONENT_PK PRIMARY KEY,
     NAME                 VARCHAR2(128 char) NOT NULL CONSTRAINT COMPONENT_CK4 CHECK (INSTR(NAME, '*') = 0),
     SYSTEM_ID            NUMBER NOT NULL CONSTRAINT COMPONENT_FK2 REFERENCES DTM_OWNER.SYSTEM ON DELETE SET NULL,
-    DATA_SOURCE          VARCHAR2(24 CHAR) DEFAULT 'INTERNAL' NOT NULL CONSTRAINT COMPONENT_CK1 CHECK (DATA_SOURCE IN ('INTERNAL', 'CED', 'LED', 'UED')),
-    DATA_SOURCE_ID       NUMBER,
-    REGION_ID            NUMBER NOT NULL CONSTRAINT COMPONENT_FK1 REFERENCES DTM_OWNER.REGION,
-    WEIGHT               NUMBER,
-    MASKED               CHAR(1 CHAR) DEFAULT 'N' NOT NULL CONSTRAINT COMPONENT_CK3 CHECK (MASKED IN ('Y', 'N')),
-    MASKED_COMMENT       VARCHAR2(512 CHAR),
-    MASKED_DATE          DATE,
-    MASKED_BY            NUMBER,
-    ADDED_DATE           DATE DEFAULT SYSDATE NOT NULL,
-    UNPOWERED_YN         CHAR(1 CHAR) DEFAULT 'N' NOT NULL CONSTRAINT COMPONENT_CK5 CHECK (UNPOWERED_YN IN ('Y', 'N')),
-    MASK_EXPIRATION_DATE DATE,
-    MASK_TYPE_ID         NUMBER CONSTRAINT COMPONENT_CK6 CHECK (MASK_TYPE_ID IN (150, 200, 250)),
-    NAME_ALIAS           VARCHAR2(128 CHAR),
     CONSTRAINT COMPONENT_AK1 UNIQUE (NAME, SYSTEM_ID),
-    CONSTRAINT COMPONENT_AK2 UNIQUE (SYSTEM_ID, COMPONENT_ID),
-    CONSTRAINT COMPONENT_TABLE_CK1 CHECK ((DATA_SOURCE_ID IS NOT NULL AND DATA_SOURCE = 'CED') OR
-               (DATA_SOURCE_ID IS NOT NULL AND DATA_SOURCE = 'LED') OR
-               (DATA_SOURCE_ID IS NOT NULL AND DATA_SOURCE = 'UED') OR
-               (DATA_SOURCE_ID IS NULL AND DATA_SOURCE = 'INTERNAL'))
+    CONSTRAINT COMPONENT_AK2 UNIQUE (SYSTEM_ID, COMPONENT_ID)
 );
 
 /*create or replace view dtm_owner.component as
@@ -409,19 +377,7 @@ where revtype = 2
 union*/
 select component_id,
        name,
-       system_id,
-       data_source,
-       data_source_id,
-       region_id,
-       masked,
-       masked_comment,
-       masked_date,
-       masked_by,
-       mask_expiration_date,
-       weight,
-       added_date,
-       unpowered_yn,
-       mask_type_id
+       system_id
 from dtm_owner.component
 );
 

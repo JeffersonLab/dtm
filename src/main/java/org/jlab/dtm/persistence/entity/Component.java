@@ -25,15 +25,11 @@ import org.hibernate.envers.RelationTargetAuditMode;
  */
 @Entity
 @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-@Table(name= "ALL_COMPONENTS", schema = "DTM_OWNER", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"NAME", "SYSTEM_ID"}),
-    @UniqueConstraint(columnNames = {"DATA_SOURCE"}),
-    @UniqueConstraint(columnNames = {"SYSTEM_ID", "COMPONENT_ID"})})
+@Table(name= "COMPONENT", schema = "DTM_OWNER")
 @NamedQueries({
     @NamedQuery(name = "Component.findAll", query = "SELECT c FROM Component c")})
 public class Component implements Serializable {
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
     @NotNull
@@ -44,26 +40,11 @@ public class Component implements Serializable {
     @Size(min = 1, max = 128)
     @Column(nullable = false, length = 128)
     private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 24)
-    @Column(name = "DATA_SOURCE", nullable = false, length = 24)
-    private String dataSource;
-    @Column(name = "DATA_SOURCE_ID")
-    private BigInteger dataSourceId;
-    private BigInteger weight;
-    @Basic(optional = false)
-    @NotNull
-    @Column(nullable = false)
-    private char masked;
     @OneToMany(mappedBy = "component")
     private List<Incident> incidentList;
     @JoinColumn(name = "SYSTEM_ID", referencedColumnName = "SYSTEM_ID", nullable = false)
     @ManyToOne(optional = false)
     private org.jlab.dtm.persistence.entity.SystemEntity system;
-    @JoinColumn(name = "REGION_ID", referencedColumnName = "REGION_ID", nullable = false)
-    @ManyToOne(optional = false)
-    private Region region;
 
     public Component() {
     }
@@ -72,11 +53,9 @@ public class Component implements Serializable {
         this.componentId = componentId;
     }
 
-    public Component(BigInteger componentId, String name, String dataSource, char masked) {
+    public Component(BigInteger componentId, String name) {
         this.componentId = componentId;
         this.name = name;
-        this.dataSource = dataSource;
-        this.masked = masked;
     }
 
     public BigInteger getComponentId() {
@@ -95,38 +74,6 @@ public class Component implements Serializable {
         this.name = name;
     }
 
-    public String getDataSource() {
-        return dataSource;
-    }
-
-    public void setDataSource(String dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    public BigInteger getDataSourceId() {
-        return dataSourceId;
-    }
-
-    public void setDataSourceId(BigInteger dataSourceId) {
-        this.dataSourceId = dataSourceId;
-    }
-
-    public BigInteger getWeight() {
-        return weight;
-    }
-
-    public void setWeight(BigInteger weight) {
-        this.weight = weight;
-    }
-
-    public char getMasked() {
-        return masked;
-    }
-
-    public void setMasked(char masked) {
-        this.masked = masked;
-    }
-
     public List<Incident> getIncidentList() {
         return incidentList;
     }
@@ -141,14 +88,6 @@ public class Component implements Serializable {
 
     public void setSystem(org.jlab.dtm.persistence.entity.SystemEntity system) {
         this.system = system;
-    }
-
-    public Region getRegion() {
-        return region;
-    }
-
-    public void setRegion(Region region) {
-        this.region = region;
     }
 
     @Override

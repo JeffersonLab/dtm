@@ -140,9 +140,8 @@ public abstract class AbstractFacade<T> {
         String username = context.getCallerPrincipal().getName();
         if (username == null || username.isEmpty() || username.equalsIgnoreCase("ANONYMOUS")) {
             throw new EJBAccessException("You must be authenticated to perform the requested operation");
-        } else {
-            username = username.split(":")[2];
         }
+
         return username;
     }
     
