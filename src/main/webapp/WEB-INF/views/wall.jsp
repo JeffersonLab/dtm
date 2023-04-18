@@ -5,8 +5,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>DTM - Wall Display</title>
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/img/favicon.ico"/>
-        <link rel="stylesheet" type="text/css" href="${cdnContextPath}/jquery-ui/1.10.3/theme/smoothness/jquery-ui.min.css"/> 
-        <link rel="stylesheet" type="text/css" href="${cdnContextPath}/jlab-theme/smoothness/1.6/css/smoothness.min.css"/>        
+        <c:choose>
+            <c:when test="${'CDN' eq resourceLocation}">
+                <link rel="stylesheet" type="text/css" href="${cdnContextPath}/jquery-ui/1.13.2/theme/smoothness/jquery-ui.min.css"/>
+                <link rel="stylesheet" type="text/css" href="${cdnContextPath}/jlab-theme/smoothness/${env['CDN_VERSION']}/css/smoothness.min.css"/>
+            </c:when>
+            <c:otherwise><!-- LOCAL -->
+                <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/jquery-ui-1.13.2/jquery-ui.min.css"/>
+                <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/smoothness.css"/>
+            </c:otherwise>
+        </c:choose>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/dtm.css"/>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/wall.css"/>
     </head>
@@ -28,8 +36,16 @@
             <footer>
             </footer>
         </div>
-        <script type="text/javascript" src="${cdnContextPath}/jquery/1.10.2.min.js"></script>
-        <script type="text/javascript" src="${cdnContextPath}/jquery-ui/1.10.3/jquery-ui.min.js"></script>            
+        <c:choose>
+            <c:when test="${'CDN' eq resourceLocation}">
+                <script src="${cdnContextPath}/jquery/3.6.1.min.js"></script>
+                <script src="${cdnContextPath}/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+            </c:when>
+            <c:otherwise><!-- LOCAL -->
+                <script src="${pageContext.request.contextPath}/resources/js/jquery-3.6.1.min.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/jquery-ui-1.13.2/jquery-ui.min.js"></script>
+            </c:otherwise>
+        </c:choose>
         <script type="text/javascript" src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/wall.js"></script>
     </body>
 </html>
