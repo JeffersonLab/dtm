@@ -45,6 +45,9 @@ public class Component implements Serializable {
     @JoinColumn(name = "SYSTEM_ID", referencedColumnName = "SYSTEM_ID", nullable = false)
     @ManyToOne(optional = false)
     private org.jlab.dtm.persistence.entity.SystemEntity system;
+    @JoinColumn(name = "REGION_ID", referencedColumnName = "REGION_ID", nullable = false)
+    @ManyToOne(optional = false)
+    private Region region;
 
     public Component() {
     }

@@ -316,18 +316,33 @@ CREATE TABLE DTM_OWNER.SYSTEM
 select * from hco_owner.system where system_id in (select system_id from hco_owner.system_application where application_id = 2)
 );*/
 
+-- Note: Region is used by FSD Trip reports to map to "area"
+CREATE TABLE DTM_OWNER.REGION
+(
+    REGION_ID NUMBER NOT NULL CONSTRAINT REGION_PK PRIMARY KEY,
+    NAME      VARCHAR2(128 CHAR) NOT NULL,
+    ALIAS     VARCHAR2(128 CHAR),
+    WEIGHT    NUMBER
+);
+
+/*create or replace view dtm_owner.region as
+(
+select REGION_ID,NAME,ALIAS,WEIGHT from hco_owner.region
+);*/
+
 CREATE TABLE DTM_OWNER.COMPONENT
 (
     COMPONENT_ID         NUMBER NOT NULL CONSTRAINT COMPONENT_PK PRIMARY KEY,
     NAME                 VARCHAR2(128 char) NOT NULL CONSTRAINT COMPONENT_CK4 CHECK (INSTR(NAME, '*') = 0),
     SYSTEM_ID            NUMBER NOT NULL CONSTRAINT COMPONENT_FK2 REFERENCES DTM_OWNER.SYSTEM ON DELETE SET NULL,
+    REGION_ID            NUMBER NOT NULL CONSTRAINT COMPONENT_FK1 REFERENCES DTM_OWNER.REGION,
     CONSTRAINT COMPONENT_AK1 UNIQUE (NAME, SYSTEM_ID),
     CONSTRAINT COMPONENT_AK2 UNIQUE (SYSTEM_ID, COMPONENT_ID)
 );
 
 /*create or replace view dtm_owner.component as
 (
-select * from hco_owner.component where system_id in (select system_id from hco_owner.system_application where application_id = 2)
+select component_id, name, system_id, region_id from hco_owner.component where system_id in (select system_id from hco_owner.system_application where application_id = 2)
 );*/
 
 CREATE TABLE DTM_OWNER.WORKGROUP
