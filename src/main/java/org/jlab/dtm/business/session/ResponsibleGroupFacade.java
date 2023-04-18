@@ -27,24 +27,11 @@ public class ResponsibleGroupFacade extends AbstractFacade<Workgroup> {
         super(Workgroup.class);
     }
 
-    @SuppressWarnings("unchecked")
-    @PermitAll
-    public List<Workgroup> findBySystem(BigInteger systemId) {
-        if (systemId == null) {
-            return findAll(new OrderDirective("name"));
-        }
-
-        Query q = em.createNativeQuery("select a.* from responsible_group a, group_responsibility b where a.group_id = b.group_id and b.system_id = :systemId order by b.weight, a.name asc", Workgroup.class);
-
-        q.setParameter("systemId", systemId);
-
-        return q.getResultList();
-    }
 
     @SuppressWarnings("unchecked")
     @PermitAll
     public List<Workgroup> findRepairedBy(BigInteger incidentId) {
-        Query q = em.createNativeQuery("select * from responsible_group where group_id in (select repaired_by from incident_repair where incident_id  = :incidentId)", Workgroup.class);
+        Query q = em.createNativeQuery("select * from dtm_owner.workgroup where workgroup_id in (select repaired_by from incident_repair where incident_id  = :incidentId)", Workgroup.class);
 
         q.setParameter("incidentId", incidentId);
 

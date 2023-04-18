@@ -351,6 +351,11 @@ CREATE TABLE DTM_OWNER.WORKGROUP
     NAME             VARCHAR2(128 CHAR) NOT NULL CONSTRAINT WORKGROUP_AK1 UNIQUE
 );
 
+/*create or replace view dtm_owner.workgroup as
+(
+select responsible_group_id as workgroup_id, name, from hco_owner.responsible_group
+);*/
+
 CREATE TABLE DTM_OWNER.OP_ACC_HOUR
 (
     OP_ACC_HOUR_ID  NUMBER                            not null
