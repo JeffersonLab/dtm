@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +17,9 @@ import org.jlab.dtm.business.session.JouleReportFacade;
 import org.jlab.dtm.business.session.JouleReportFacade.JouleRecord;
 import org.jlab.dtm.business.util.DtmTimeUtil;
 import org.jlab.dtm.persistence.enumeration.BinSize;
+import org.jlab.dtm.presentation.controller.ajax.SaveMonthlyInfo;
 import org.jlab.dtm.presentation.params.JouleReportUrlParamHandler;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.util.TimeUtil;
 
 /**
@@ -24,6 +28,8 @@ import org.jlab.smoothness.business.util.TimeUtil;
  */
 @WebServlet(name = "JouleReport", urlPatterns = {"/operability/joule"})
 public class JouleReport extends HttpServlet {
+
+    private static final Logger logger = Logger.getLogger(JouleReport.class.getName());
 
     @EJB
     JouleReportFacade jouleFacade;
@@ -67,12 +73,11 @@ public class JouleReport extends HttpServlet {
         
         List<JouleRecord> recordList = null;
         
-        if (params.getStart() != null && params.getEnd()
-                != null) {
-
+        if (params.getStart() != null && params.getEnd() != null) {
                 try {
                     recordList = jouleFacade.find(params);
-                }catch (InterruptedException e) {
+                } catch (IOException | InterruptedException e) {
+                    //logger.log(Level.SEVERE, "Unable to query for PAC Schedule", e);
                     throw new ServletException("Unable to query for PAC Schedule");
                 }
         }

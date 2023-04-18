@@ -12,10 +12,18 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/joule.css"/>
     </jsp:attribute>
     <jsp:attribute name="scripts">
-        <script src="${cdnContextPath}/jquery-plugins/flot/0.8.3/jquery.flot.min.js"></script>
+        <c:choose>
+            <c:when test="${'CDN' eq resourceLocation}">
+                <script src="${cdnContextPath}/jquery-plugins/flot/0.8.3/jquery.flot.min.js"></script>
+                <script src="${cdnContextPath}/jquery-plugins/flot/0.8.3/jquery.flot.resize.min.js"></script>
+            </c:when>
+            <c:otherwise><!-- LOCAL -->
+                <script src="${pageContext.request.contextPath}/resources/jquery-plugins/flot/0.8.3/jquery.flot.min.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/jquery-plugins/flot/0.8.3/jquery.flot.resize.min.js"></script>
+            </c:otherwise>
+        </c:choose>
         <script src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/flot-time.js"></script>
         <script src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/jquery.flot.dashes.js"></script>
-        <script src="${cdnContextPath}/jquery-plugins/flot/0.8.3/jquery.flot.resize.min.js"></script>
         <script src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/joule.js"></script>
     </jsp:attribute>
     <jsp:body>
