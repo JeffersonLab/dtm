@@ -47,3 +47,4 @@ services:
       DTM_CONTENT_CONTACT: 'bob@example.com'
       DTM_TECHNICAL_CONTACT: 'larry@example.com'
       DTM_DOC_CSV: 'https://github.com/JeffersonLab/dtm|DTM Home,https://ace.jlab.org/cdn/doc/dtm/UserGuide.pdf|User Guide'
+      RAR_DIR: '/tmp'
