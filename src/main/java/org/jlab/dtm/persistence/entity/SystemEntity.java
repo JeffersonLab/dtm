@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.hibernate.envers.RelationTargetAuditMode;
-import org.jlab.dtm.persistence.util.YnStringToBoolean;
+import org.jlab.smoothness.persistence.util.YnStringToBoolean;
 
 /**
  *

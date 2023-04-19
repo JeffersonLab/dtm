@@ -82,7 +82,7 @@
                                 <tr>
                                     <td><c:out value="${revision.id}"/></td>
                                     <td><fmt:formatDate value="${revision.revisionDate}" pattern="${s:getFriendlyDateTimePattern()}"/></td>
-                                    <td><c:out value="${revision.user != null ? dtm:formatUser(revision.user) : revision.username}"/></td>
+                                    <td><c:out value="${revision.user != null ? s:formatUser(revision.user) : revision.username}"/></td>
                                     <td><c:out value="${dtm:getHostnameFromIp(revision.address)}"/></td>
                                     <td>
                                         <c:if test="${fn:length(revision.changeList) > 0}">

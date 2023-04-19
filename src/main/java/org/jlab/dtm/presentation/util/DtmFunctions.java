@@ -173,45 +173,6 @@ public final class DtmFunctions {
         return hostname;
     }
 
-    public static User lookupUserByUsername(String username) {
-        UserAuthorizationService auth = UserAuthorizationService.getInstance();
-
-        return auth.getUserFromUsername(username);
-    }
-
-    // TODO: This should be moved to smoothness weblib
-    public static String formatUsername(String username) {
-        User user = lookupUserByUsername(username);
-
-        if(user != null) {
-            return formatUser(user);
-        } else {
-            return username;
-        }
-    }
-
-    public static String formatUser(User user) {
-        StringBuilder builder = new StringBuilder();
-
-        if (user != null && user.getUsername() != null && !user.getUsername().isEmpty()) {
-            if(user.getFirstname() == null || user.getLastname() == null ||
-                    user.getFirstname().isEmpty() || user.getLastname().isEmpty()) {
-                builder.append("(");
-                builder.append(user.getUsername());
-                builder.append(")");
-            } else {
-                builder.append(user.getLastname());
-                builder.append(", ");
-                builder.append(user.getFirstname());
-                builder.append(" (");
-                builder.append(user.getUsername());
-                builder.append(")");
-            }
-        }
-
-        return builder.toString();
-    }
-
     public static String formatGroupList(String idCsv, List<Workgroup> groupList) {
         String groups = null;
         if (idCsv != null && !idCsv.trim().isEmpty()) {

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.security.PermitAll;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,8 +24,8 @@ import org.jlab.dtm.persistence.entity.Incident;
 import org.jlab.dtm.persistence.entity.aud.EventAud;
 import org.jlab.dtm.persistence.entity.aud.IncidentAud;
 import org.jlab.dtm.persistence.model.AuditedEntityChange;
-import org.jlab.dtm.presentation.util.DtmFunctions;
 import org.jlab.smoothness.persistence.view.User;
+import org.jlab.smoothness.presentation.util.Functions;
 
 /**
  *
@@ -270,7 +269,7 @@ public class ApplicationRevisionInfoFacade extends AbstractFacade<ApplicationRev
             String username = revision.getUsername();
 
             if (username != null) {
-                User user = DtmFunctions.lookupUserByUsername(username);
+                User user = Functions.lookupUserByUsername(username);
 
                 revision.setUser(user);
             }

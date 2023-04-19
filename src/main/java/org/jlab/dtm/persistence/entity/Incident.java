@@ -29,8 +29,8 @@ import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.jlab.dtm.persistence.enumeration.ReviewLevel;
-import org.jlab.dtm.presentation.util.DtmFunctions;
 import org.jlab.smoothness.business.util.IOUtil;
+import org.jlab.smoothness.presentation.util.Functions;
 
 /**
  *
@@ -315,10 +315,10 @@ public class Incident implements Serializable {
         String value = "";
 
         if (incidentReviewList != null && !incidentReviewList.isEmpty()) {
-            value = DtmFunctions.formatUsername(incidentReviewList.get(0).getReviewer());
+            value = Functions.formatUsername(incidentReviewList.get(0).getReviewer());
 
             for (int i = 1; i < incidentReviewList.size(); i++) {
-                value = value + "\t" + DtmFunctions.formatUsername(incidentReviewList.get(i).getReviewer());
+                value = value + "\t" + Functions.formatUsername(incidentReviewList.get(i).getReviewer());
             }
         }
 

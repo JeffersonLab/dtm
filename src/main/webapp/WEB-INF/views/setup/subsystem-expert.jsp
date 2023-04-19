@@ -63,7 +63,7 @@
                             <tbody>
                                 <c:forEach var="se" items="${selectedSystem.systemExpertList}">
                                     <tr data-expert-id="${se.systemExpertId}" data-username="${se.username}">
-                                        <td><c:out value="${dtm:formatUsername(se.username)}"/></td>
+                                        <td><c:out value="${s:formatUsername(se.username)}"/></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
