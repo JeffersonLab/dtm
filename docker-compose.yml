@@ -42,3 +42,8 @@ services:
       BACKEND_SERVER_URL: 'http://dtm:8080'
       FRONTEND_SERVER_URL: 'https://localhost:8443'
       TZ: 'America/New_York'
+      DTM_FEEDBACK_SENDER_ADDRESS: 'dtm@example.com'
+      DTM_FEEDBACK_TO_ADDRESS_CSV: 'recipient1@example.com,recipient2@example.com'
+      DTM_CONTENT_CONTACT: 'bob@example.com'
+      DTM_TECHNICAL_CONTACT: 'larry@example.com'
+      DTM_DOC_CSV: 'https://github.com/JeffersonLab/dtm|DTM Home,https://ace.jlab.org/cdn/doc/dtm/UserGuide.pdf|User Guide'

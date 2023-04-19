@@ -12,9 +12,7 @@
     </jsp:attribute>            
     <jsp:body>
         <s:help-panel title="${title}">
-            <ul>
-                <li><a href="https://devweb.acc.jlab.org/twiki/pub/SWDocs/DowntimeManager/DowntimeManager.pdf">Guidance</a></li>
-            </ul>
+
         </s:help-panel>
     </jsp:body>         
 </t:page>
