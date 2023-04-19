@@ -184,7 +184,7 @@
                                 <c:param name="signoffStatus" value="Not Ready"/>
                                 <c:param name="comments" value="Downgrade per DTM incident ${incident.incidentId}: ${incident.title}"/>
                             </c:url>
-                            <c:if test="${incident.system.isHcoSystem()}">
+                            <c:if test="${incident.system.isSrmSystem()}">
                                 <div><a href="${url}">Downgrade Readiness</a></div>
                             </c:if>
                         </span> 

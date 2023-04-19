@@ -121,7 +121,7 @@ insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (64
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (653, 'UITF Radiation Control', 643, 100);
 
 -- Populate System
-insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (35, 'Correctors (iron core)', 281, 1000);
+insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT, SRM_YN) values (35, 'Correctors (iron core)', 281, 1000, 'Y');
 insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (36, 'Quads', 31, 1000);
 insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (37, 'Dipoles', 32, 1000);
 insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (38, 'Synchotron Light Monitors', 26, 1000);

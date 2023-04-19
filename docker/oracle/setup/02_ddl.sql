@@ -308,12 +308,18 @@ CREATE TABLE DTM_OWNER.SYSTEM
     SYSTEM_ID   NUMBER NOT NULL CONSTRAINT SYSTEM_PK PRIMARY KEY,
     NAME        VARCHAR2(128 CHAR) NOT NULL CONSTRAINT SYSTEM_AK1 UNIQUE,
     CATEGORY_ID NUMBER NOT NULL CONSTRAINT SYSTEM_FK1 REFERENCES DTM_OWNER.CATEGORY ON DELETE SET NULL,
-    WEIGHT      NUMBER
+    WEIGHT      NUMBER,
+    SRM_YN      CHAR(1 BYTE) DEFAULT 'N' NOT NULL CONSTRAINT SYSTEM_CK1 CHECK (SRM_YN IN ('Y', 'N'))
 );
 
-/*create view dtm_owner.system as
+/*create or replace view dtm_owner.system as
 (
-select * from hco_owner.system where system_id in (select system_id from hco_owner.system_application where application_id = 2)
+select SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT,
+CASE
+  WHEN (select 'Y' from hco_owner.system_application where hco_owner.system_application.system_id = b.system_id and application_id = 1) IS NOT NULL THEN 'Y'
+  ELSE 'N'
+END as SRM_YN
+from hco_owner.system b where system_id in (select system_id from hco_owner.system_application where application_id = 2)
 );*/
 
 -- Note: Region is used by FSD Trip reports to map to "area"
