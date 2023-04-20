@@ -359,7 +359,7 @@ CREATE TABLE DTM_OWNER.WORKGROUP
 
 /*create or replace view dtm_owner.workgroup as
 (
-select responsible_group_id as workgroup_id, name, from hco_owner.responsible_group
+select group_id as workgroup_id, name from hco_owner.responsible_group
 );*/
 
 CREATE TABLE DTM_OWNER.OP_ACC_HOUR
