@@ -394,6 +394,11 @@ CREATE TABLE DTM_OWNER.OP_ACC_HOUR
         check (UP_SECONDS + SAD_SECONDS + DOWN_SECONDS + STUDIES_SECONDS + RESTORE_SECONDS + ACC_SECONDS = 3600)
 );
 
+/* create or replace view dtm_owner.op_acc_hour as
+(
+select * from jbta_owner.op_acc_hour
+);*/
+
 CREATE OR REPLACE VIEW DTM_OWNER.ALL_COMPONENTS as
 (
 /*select distinct(component_id), name, system_id, data_source, data_source_id, region_id, masked, masked_comment,
