@@ -401,17 +401,27 @@ select * from jbta_owner.op_acc_hour
 
 CREATE OR REPLACE VIEW DTM_OWNER.ALL_COMPONENTS as
 (
-/*select distinct(component_id), name, system_id, data_source, data_source_id, region_id, masked, masked_comment,
-               masked_date, masked_by, mask_expiration_date, weight, added_date, unpowered_yn, mask_type_id
-from component_aud inner join application_revision_info using(rev)
-where revtype = 2
-union*/
 select component_id,
        name,
        system_id
 from dtm_owner.component
 );
 
+/*grant select on hco_owner.component_aud to dtm_owner;
+grant select on hco_owner.application_revision_info to dtm_owner;
+
+CREATE OR REPLACE VIEW DTM_OWNER.ALL_COMPONENTS as
+(
+select distinct(component_id), name, system_id, region_id
+from hco_owner.component_aud inner join hco_owner.application_revision_info using(rev)
+where revtype = 2
+union
+select component_id,
+       name,
+       system_id,
+       region_id
+from dtm_owner.component
+);*/
 
 create view dtm_owner.SYSTEM_CATEGORY_CEBAF as
 select system_id, category_id from (
