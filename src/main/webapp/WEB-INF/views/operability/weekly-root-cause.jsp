@@ -62,7 +62,7 @@
                                     <fmt:formatNumber value="${incident.downtimeHours}" var="formattedUnbounded" pattern="#,##0.0"/>
                                     <fmt:formatDate value="${incident.timeDown}" var="formattedIncidentDown" pattern="${s:getFriendlyDateTimePattern()}"/>
                                     <fmt:formatDate value="${incident.timeUp}" var="formattedIncidentUp" pattern="${s:getFriendlyDateTimePattern()}"/>
-                                    <tr data-incident-id="${incident.incidentId}" data-event-id="${incident.event.eventId}" data-event-title="${incident.event.title}" data-incident-down="${formattedIncidentDown}" data-incident-up="${formattedIncidentUp}" data-system-id="${incident.system.systemId}" data-component-name="${fn:escapeXml(incident.component.name)}" data-component-id="${incident.component.componentId}" data-explanation="${fn:escapeXml(incident.explanation)}" data-repaired-by-id-csv="${incident.repairedByIdCsv}" data-reviewed-by="${fn:escapeXml(incident.reviewedBy.username)}">
+                                    <tr data-incident-id="${incident.incidentId}" data-event-id="${incident.event.eventId}" data-event-title="${incident.event.title}" data-incident-down="${formattedIncidentDown}" data-incident-up="${formattedIncidentUp}" data-system-id="${incident.system.systemId}" data-component-name="${fn:escapeXml(incident.component.name)}" data-component-id="${incident.component.componentId}" data-explanation="${fn:escapeXml(incident.explanation)}" data-repaired-by-id-csv="${incident.repairedByIdCsv}" data-reviewed-by="${fn:escapeXml(incident.reviewedUsername)}">
                                         <td class="relative-td">
                                             <div title="Not Bounded: ${formattedUnbounded}"><fmt:formatNumber value="${incident.getDowntimeHoursBounded(request.start, request.end)}" pattern="#,##0.0"/></div>
                                             &nbsp;
@@ -96,14 +96,10 @@
                                         <td class="relative-td repaired-by-field">
                                             <div>
                                                 <c:forEach items="${incident.incidentReviewList}" var="review" varStatus="status">
-                                                    <c:choose>
-                                                        <c:when test="${status.last}">
-                                                            <c:out value="${review.reviewer.lastname}"/>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <c:out value="${review.reviewer.lastname}"/><br/>
-                                                        </c:otherwise>    
-                                                    </c:choose>
+                                                    <c:out value="${s:lookupUserByUsername(review.reviewer).lastname}"/>
+                                                        <c:if test="${not status.last}">
+                                                            <br/>
+                                                        </c:if>
                                                 </c:forEach>
                                             </div>
                                             <div class="absolute-subcell ${incident.expertReviewed ? 'reviewed' : 'not-reviewed'}"><c:out value="${incident.expertReviewed ?  'REVIEWED' : 'NOT REVIEWED'}"/></div>
