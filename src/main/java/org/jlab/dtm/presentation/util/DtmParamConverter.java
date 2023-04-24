@@ -156,7 +156,7 @@ public final class DtmParamConverter {
         String[] valueStrArray = request.getParameterValues(name);
         List<RootCause> valueList = new ArrayList<>();
 
-        if (valueStrArray != null && valueStrArray.length > 0) {
+        if (valueStrArray != null) {
             for (String valueStr : valueStrArray) {
                 if (valueStr != null && !valueStr.isEmpty()) {
                     RootCause value = RootCause.valueOf(valueStr);
@@ -172,7 +172,7 @@ public final class DtmParamConverter {
         String[] valueStrArray = request.getParameterValues(name);
         List<AccMachineState> valueList = new ArrayList<AccMachineState>();
 
-        if (valueStrArray != null && valueStrArray.length > 0) {
+        if (valueStrArray != null) {
             for (String valueStr : valueStrArray) {
                 if (valueStr != null && !valueStr.isEmpty()) {
                     AccMachineState value = AccMachineState.valueOf(valueStr);
@@ -236,7 +236,7 @@ public final class DtmParamConverter {
         String[] valueStrArray = request.getParameterValues(name);
         List<HallMachineState> valueList = new ArrayList<HallMachineState>();
 
-        if (valueStrArray != null && valueStrArray.length > 0) {
+        if (valueStrArray != null) {
             for (String valueStr : valueStrArray) {
                 if (valueStr != null && !valueStr.isEmpty()) {
                     HallMachineState value = HallMachineState.valueOf(valueStr);

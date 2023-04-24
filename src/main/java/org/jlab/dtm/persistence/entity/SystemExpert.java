@@ -80,10 +80,7 @@ public class SystemExpert implements Serializable {
             return false;
         }
         SystemExpert other = (SystemExpert) object;
-        if ((this.systemExpertId == null && other.systemExpertId != null) || (this.systemExpertId != null && !this.systemExpertId.equals(other.systemExpertId))) {
-            return false;
-        }
-        return true;
+        return (this.systemExpertId != null || other.systemExpertId == null) && (this.systemExpertId == null || this.systemExpertId.equals(other.systemExpertId));
     }
 
     @Override

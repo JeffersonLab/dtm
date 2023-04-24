@@ -110,11 +110,8 @@ public class CategoryMonthlyGoal implements Serializable {
             return false;
         }
         CategoryMonthlyGoal other = (CategoryMonthlyGoal) object;
-        if ((this.goalId == null && other.goalId != null) ||
-                (this.goalId != null && !this.goalId.equals(other.goalId))) {
-            return false;
-        }
-        return true;
+        return (this.goalId != null || other.goalId == null) &&
+                (this.goalId == null || this.goalId.equals(other.goalId));
     }
 
     @Override

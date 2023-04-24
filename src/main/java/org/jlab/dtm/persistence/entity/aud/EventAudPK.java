@@ -2,6 +2,7 @@ package org.jlab.dtm.persistence.entity.aud;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -64,12 +65,9 @@ public class EventAudPK implements Serializable {
             return false;
         }
         final EventAudPK other = (EventAudPK) obj;
-        if (this.eventId != other.eventId && (this.eventId == null || !this.eventId.equals(other.eventId))) {
+        if (!Objects.equals(this.eventId, other.eventId)) {
             return false;
         }
-        if (this.rev != other.rev && (this.rev == null || !this.rev.equals(other.rev))) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.rev, other.rev);
     }
 }

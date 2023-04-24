@@ -130,11 +130,8 @@ public class Category implements Serializable, Node {
             return false;
         }
         Category other = (Category) object;
-        if ((this.categoryId == null && other.categoryId != null) || (this.categoryId != null
-                && !this.categoryId.equals(other.categoryId))) {
-            return false;
-        }
-        return true;
+        return (this.categoryId != null || other.categoryId == null) && (this.categoryId == null
+                || this.categoryId.equals(other.categoryId));
     }
 
     @Override

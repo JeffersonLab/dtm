@@ -107,10 +107,7 @@ public class Component implements Serializable {
             return false;
         }
         Component other = (Component) object;
-        if ((this.componentId == null && other.componentId != null) || (this.componentId != null && !this.componentId.equals(other.componentId))) {
-            return false;
-        }
-        return true;
+        return (this.componentId != null || other.componentId == null) && (this.componentId == null || this.componentId.equals(other.componentId));
     }
 
     @Override

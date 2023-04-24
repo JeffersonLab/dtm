@@ -8,8 +8,8 @@ import java.util.NoSuchElementException;
 public class DtmDateIterator implements Iterator<Date>, Iterable<Date> {
         private final Calendar end;
         private final Calendar current;
-        private int field;
-        private int amount;
+        private final int field;
+        private final int amount;
 
         public DtmDateIterator(Date start, Date end, int field, int amount) {
             this.end = Calendar.getInstance();

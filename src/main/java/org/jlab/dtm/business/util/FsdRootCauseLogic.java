@@ -35,7 +35,7 @@ public class FsdRootCauseLogic {
         lookupModuleNames();
     }
 
-    private void lookupModuleNames() throws MalformedURLException, IOException {
+    private void lookupModuleNames() throws IOException {
         URL url = new URL(CED_MODULE_NAMES_JSON_URL);
         InputStream in = url.openStream();
         try (JsonReader reader = Json.createReader(in)) {

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -213,7 +214,7 @@ public class DowntimeSummaryReport extends HttpServlet {
             TripParams tripParams = new TripParams();
             tripParams.setStart(start);
             tripParams.setEnd(end);
-            tripParams.setMaxDuration(BigInteger.valueOf(5l));
+            tripParams.setMaxDuration(BigInteger.valueOf(5L));
             tripParams.setMaxDurationUnits("Minutes");
             tripParams.setAccStateArray(new AccMachineState[]{AccMachineState.NULL, AccMachineState.DOWN, AccMachineState.ACC, AccMachineState.MD, AccMachineState.RESTORE});
             FsdTripFilter fsdFilter = new FsdTripFilter(tripParams);
@@ -390,13 +391,9 @@ public class DowntimeSummaryReport extends HttpServlet {
             typeStr = eventTypeId.toString();
         }
 
-        try {
-            return request.getContextPath() + "/reports/downtime-summary?start="
-                    + URLEncoder.encode(dateFormat.format(
-                            start), "UTF-8") + "&end=" + URLEncoder.encode(
-                            dateFormat.format(end), "UTF-8") + "&type=" + typeStr;
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("JVM doesn't support UTF-8");
-        }
+        return request.getContextPath() + "/reports/downtime-summary?start="
+                + URLEncoder.encode(dateFormat.format(
+                        start), StandardCharsets.UTF_8) + "&end=" + URLEncoder.encode(
+                        dateFormat.format(end), StandardCharsets.UTF_8) + "&type=" + typeStr;
     }
 }

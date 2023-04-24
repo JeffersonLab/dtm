@@ -243,12 +243,8 @@ public class EventFacade extends AbstractFacade<Event> {
 
             em.flush(); // Incidents MUST be closed before you can close an event
 
-            boolean isClose = false;
+            boolean isClose = event.getTimeUp() == null;
             /*we're moving it along timeline if already a timeUp*/
-
-            if (event.getTimeUp() == null) {
-                isClose = true;
-            }
 
             event.setTimeUp(timeUp);
 
@@ -346,7 +342,7 @@ public class EventFacade extends AbstractFacade<Event> {
         Join<Event, Incident> incidentList = event.join("incidentList");  
         
         if (params.getEnd() != null) { // "time_down < ? "
-            filters.add(cb.lessThan((eventTimeDown.<Date>get("timeDown")), params.getEnd()));
+            filters.add(cb.lessThan((eventTimeDown.get("timeDown")), params.getEnd()));
         }
 
         if (params.getStart() != null) { // coalesce(time_up, sysdate) >= ?
@@ -378,7 +374,7 @@ public class EventFacade extends AbstractFacade<Event> {
         if (params.getBeamTransport() != null) {
             Subquery<BigInteger> incidentSubquery = cq.subquery(BigInteger.class);
             Root<Incident> incidentSubRoot = incidentSubquery.from(Incident.class);
-            incidentSubquery.select(incidentSubRoot.<BigInteger>get("event"));
+            incidentSubquery.select(incidentSubRoot.get("event"));
             incidentSubquery.where(cb.equal(incidentSubRoot.get("system"), 616));            
             
             if (params.getBeamTransport()) {
@@ -425,7 +421,7 @@ public class EventFacade extends AbstractFacade<Event> {
         Join<Event, Incident> incidentList = event.join("incidentList");  
         
         if (params.getEnd() != null) { // "time_down < ? "
-            filters.add(cb.lessThan((eventTimeDown.<Date>get("timeDown")), params.getEnd()));
+            filters.add(cb.lessThan((eventTimeDown.get("timeDown")), params.getEnd()));
         }
 
         if (params.getStart() != null) { // coalesce(time_up, sysdate) >= ?
@@ -455,7 +451,7 @@ public class EventFacade extends AbstractFacade<Event> {
         if (params.getBeamTransport() != null) {
             Subquery<BigInteger> incidentSubquery = cq.subquery(BigInteger.class);
             Root<Incident> incidentSubRoot = incidentSubquery.from(Incident.class);
-            incidentSubquery.select(incidentSubRoot.<BigInteger>get("event"));
+            incidentSubquery.select(incidentSubRoot.get("event"));
             incidentSubquery.where(cb.equal(incidentSubRoot.get("system"), 616));            
             
             if (params.getBeamTransport()) {

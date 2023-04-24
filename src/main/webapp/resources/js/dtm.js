@@ -468,7 +468,7 @@ $(function () {
             } else if($("#category").val() > 0) {
                 categoryId = $("#category").val();
             } else if(accDowntime) {
-                categoryId = [1, 4, 5, 3]; /*CEBAF, Cryo, Facilities, Other*/;
+                categoryId = [1, 4, 5, 3]; /*CEBAF, Cryo, Facilities, Other*/
             } else if(lerfDowntime) {
                 categoryId = [2, 3]; /*LERF, Other*/
             }

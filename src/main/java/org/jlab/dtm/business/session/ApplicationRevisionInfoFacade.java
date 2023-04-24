@@ -56,33 +56,33 @@ public class ApplicationRevisionInfoFacade extends AbstractFacade<ApplicationRev
         List<Predicate> filters = new ArrayList<Predicate>();
 
         if (modifiedStart != null) {
-            filters.add(cb.greaterThanOrEqualTo(root.<Long>get("ts"), modifiedStart.getTime()));
+            filters.add(cb.greaterThanOrEqualTo(root.get("ts"), modifiedStart.getTime()));
         }
 
         if (modifiedEnd != null) {
-            filters.add(cb.lessThan(root.<Long>get("ts"), modifiedEnd.getTime()));
+            filters.add(cb.lessThan(root.get("ts"), modifiedEnd.getTime()));
         }
 
         if (incidentId != null) {
             Subquery<Integer> incidentSubSubquery = cq.subquery(Integer.class);
             Root<IncidentAud> incidentSubRoot = incidentSubSubquery.from(IncidentAud.class);
-            incidentSubSubquery.select(incidentSubRoot.<Integer>get("eventId"));
+            incidentSubSubquery.select(incidentSubRoot.get("eventId"));
             incidentSubSubquery.where(cb.equal(incidentSubRoot.get("incidentAudPK").get("incidentId"), incidentId));
 
             Subquery<Integer> incidentSubquery = cq.subquery(Integer.class);
             Root<IncidentAud> incidentRoot = incidentSubquery.from(IncidentAud.class);
-            incidentSubquery.select(incidentRoot.<Integer>get("revision"));
+            incidentSubquery.select(incidentRoot.get("revision"));
             incidentSubquery.where(cb.in(incidentRoot.get("eventId")).value(incidentSubSubquery));
             Predicate incidentPredicate = cb.in(root.get("id")).value(incidentSubquery);
 
             Subquery<Integer> eventSubSubquery = cq.subquery(Integer.class);
             Root<IncidentAud> eventSubRoot = eventSubSubquery.from(IncidentAud.class);
-            eventSubSubquery.select(eventSubRoot.<Integer>get("eventId"));
+            eventSubSubquery.select(eventSubRoot.get("eventId"));
             eventSubSubquery.where(cb.equal(eventSubRoot.get("incidentAudPK").get("incidentId"), incidentId));
 
             Subquery<Integer> eventSubquery = cq.subquery(Integer.class);
             Root<EventAud> eventRoot = eventSubquery.from(EventAud.class);
-            eventSubquery.select(eventRoot.<Integer>get("revision"));
+            eventSubquery.select(eventRoot.get("revision"));
             eventSubquery.where(cb.in(eventRoot.get("eventAudPK").get("eventId")).value(eventSubSubquery));
             Predicate eventPredicate = cb.in(root.get("id")).value(eventSubquery);
 
@@ -92,13 +92,13 @@ public class ApplicationRevisionInfoFacade extends AbstractFacade<ApplicationRev
         if (eventId != null) {
             Subquery<Integer> incidentSubquery = cq.subquery(Integer.class);
             Root<IncidentAud> incidentRoot = incidentSubquery.from(IncidentAud.class);
-            incidentSubquery.select(incidentRoot.<Integer>get("revision"));
+            incidentSubquery.select(incidentRoot.get("revision"));
             incidentSubquery.where(cb.equal(incidentRoot.get("eventId"), eventId));
             Predicate incidentPredicate = cb.in(root.get("id")).value(incidentSubquery);
 
             Subquery<Integer> eventSubquery = cq.subquery(Integer.class);
             Root<EventAud> eventRoot = eventSubquery.from(EventAud.class);
-            eventSubquery.select(eventRoot.<Integer>get("revision"));
+            eventSubquery.select(eventRoot.get("revision"));
             eventSubquery.where(cb.in(eventRoot.get("eventAudPK").get("eventId")).value(eventId));
             Predicate eventPredicate = cb.in(root.get("id")).value(eventSubquery);
 
@@ -134,33 +134,33 @@ public class ApplicationRevisionInfoFacade extends AbstractFacade<ApplicationRev
         List<Predicate> filters = new ArrayList<Predicate>();
 
         if (modifiedStart != null) {
-            filters.add(cb.greaterThanOrEqualTo(root.<Long>get("ts"), modifiedStart.getTime()));
+            filters.add(cb.greaterThanOrEqualTo(root.get("ts"), modifiedStart.getTime()));
         }
 
         if (modifiedEnd != null) {
-            filters.add(cb.lessThan(root.<Long>get("ts"), modifiedEnd.getTime()));
+            filters.add(cb.lessThan(root.get("ts"), modifiedEnd.getTime()));
         }
 
         if (incidentId != null) {
             Subquery<Integer> incidentSubSubquery = cq.subquery(Integer.class);
             Root<IncidentAud> incidentSubRoot = incidentSubSubquery.from(IncidentAud.class);
-            incidentSubSubquery.select(incidentSubRoot.<Integer>get("eventId"));
+            incidentSubSubquery.select(incidentSubRoot.get("eventId"));
             incidentSubSubquery.where(cb.equal(incidentSubRoot.get("incidentAudPK").get("incidentId"), incidentId));
 
             Subquery<Integer> incidentSubquery = cq.subquery(Integer.class);
             Root<IncidentAud> incidentRoot = incidentSubquery.from(IncidentAud.class);
-            incidentSubquery.select(incidentRoot.<Integer>get("revision"));
+            incidentSubquery.select(incidentRoot.get("revision"));
             incidentSubquery.where(cb.in(incidentRoot.get("eventId")).value(incidentSubSubquery));
             Predicate incidentPredicate = cb.in(root.get("id")).value(incidentSubquery);
 
             Subquery<Integer> eventSubSubquery = cq.subquery(Integer.class);
             Root<IncidentAud> eventSubRoot = eventSubSubquery.from(IncidentAud.class);
-            eventSubSubquery.select(eventSubRoot.<Integer>get("eventId"));
+            eventSubSubquery.select(eventSubRoot.get("eventId"));
             eventSubSubquery.where(cb.equal(eventSubRoot.get("incidentAudPK").get("incidentId"), incidentId));
 
             Subquery<Integer> eventSubquery = cq.subquery(Integer.class);
             Root<EventAud> eventRoot = eventSubquery.from(EventAud.class);
-            eventSubquery.select(eventRoot.<Integer>get("revision"));
+            eventSubquery.select(eventRoot.get("revision"));
             eventSubquery.where(cb.in(eventRoot.get("eventAudPK").get("eventId")).value(eventSubSubquery));
             Predicate eventPredicate = cb.in(root.get("id")).value(eventSubquery);
 
@@ -170,13 +170,13 @@ public class ApplicationRevisionInfoFacade extends AbstractFacade<ApplicationRev
         if (eventId != null) {
             Subquery<Integer> incidentSubquery = cq.subquery(Integer.class);
             Root<IncidentAud> incidentRoot = incidentSubquery.from(IncidentAud.class);
-            incidentSubquery.select(incidentRoot.<Integer>get("revision"));
+            incidentSubquery.select(incidentRoot.get("revision"));
             incidentSubquery.where(cb.equal(incidentRoot.get("eventId"), eventId));
             Predicate incidentPredicate = cb.in(root.get("id")).value(incidentSubquery);
 
             Subquery<Integer> eventSubquery = cq.subquery(Integer.class);
             Root<EventAud> eventRoot = eventSubquery.from(EventAud.class);
-            eventSubquery.select(eventRoot.<Integer>get("revision"));
+            eventSubquery.select(eventRoot.get("revision"));
             eventSubquery.where(cb.in(eventRoot.get("eventAudPK").get("eventId")).value(eventId));
             Predicate eventPredicate = cb.in(root.get("id")).value(eventSubquery);
 

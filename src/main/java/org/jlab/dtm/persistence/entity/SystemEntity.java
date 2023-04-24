@@ -141,10 +141,7 @@ public class SystemEntity implements Serializable, Comparable<SystemEntity> {
             return false;
         }
         SystemEntity other = (SystemEntity) object;
-        if ((this.systemId == null && other.systemId != null) || (this.systemId != null && !this.systemId.equals(other.systemId))) {
-            return false;
-        }
-        return true;
+        return (this.systemId != null || other.systemId == null) && (this.systemId == null || this.systemId.equals(other.systemId));
     }
 
     @Override

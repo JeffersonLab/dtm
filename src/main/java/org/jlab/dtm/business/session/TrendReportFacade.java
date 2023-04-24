@@ -42,7 +42,7 @@ public class TrendReportFacade {
 
         EventType eventType = EventType.ACC;
 
-        boolean includeCategories = params.getIncludeCategories() == null ? false : params.getIncludeCategories();
+        boolean includeCategories = params.getIncludeCategories() != null && params.getIncludeCategories();
 
         if ("none".equals(size)) {
             TrendRecord record = load(params.getStart(), params.getEnd(), eventType, includeCategories);
@@ -166,7 +166,7 @@ public class TrendReportFacade {
         TripParams tripParams = new TripParams();
         tripParams.setStart(start);
         tripParams.setEnd(end);
-        tripParams.setMaxDuration(BigInteger.valueOf(5l));
+        tripParams.setMaxDuration(BigInteger.valueOf(5L));
         tripParams.setMaxDurationUnits("Minutes");
         tripParams.setAccStateArray(
                 new AccMachineState[]{AccMachineState.NULL, AccMachineState.DOWN,

@@ -129,11 +129,8 @@ public class MonthlyNote implements Serializable {
             return false;
         }
         MonthlyNote other = (MonthlyNote) object;
-        if ((this.noteId == null && other.noteId != null) ||
-                (this.noteId != null && !this.noteId.equals(other.noteId))) {
-            return false;
-        }
-        return true;
+        return (this.noteId != null || other.noteId == null) &&
+                (this.noteId == null || this.noteId.equals(other.noteId));
     }
 
     @Override

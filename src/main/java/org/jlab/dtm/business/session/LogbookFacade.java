@@ -3,12 +3,7 @@ package org.jlab.dtm.business.session;
 import java.io.StringReader;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.security.PermitAll;
@@ -173,10 +168,10 @@ public class LogbookFacade extends AbstractFacade<Object> {
         List<LogReference> referenceList = new ArrayList<>();
 
         Map<String, List<String>> params = new HashMap<>();
-        params.put("ref_type", Arrays.asList("dtm"));
-        params.put("ref_id", Arrays.asList(incidentId.toString()));
+        params.put("ref_type", List.of("dtm"));
+        params.put("ref_id", Collections.singletonList(incidentId.toString()));
         // TODO: We may be able to remove this cache buster in the future...
-        params.put("cache_buster", Arrays.asList(String.valueOf(IOUtil.randInt(1, Integer.MAX_VALUE))));
+        params.put("cache_buster", List.of(String.valueOf(IOUtil.randInt(1, Integer.MAX_VALUE))));
         String queryString = ServletUtil.buildQueryString(params, "UTF-8");
 
         String logbookServerUrl = System.getenv("LOGBOOK_SERVER_URL");

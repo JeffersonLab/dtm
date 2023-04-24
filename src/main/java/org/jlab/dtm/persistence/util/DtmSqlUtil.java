@@ -16,7 +16,7 @@ public final class DtmSqlUtil {
     private static final Logger logger = Logger.getLogger(
             DtmSqlUtil.class.getName());
 
-    private static DataSource source;
+    private static final DataSource source;
 
     private DtmSqlUtil() {
         // not public

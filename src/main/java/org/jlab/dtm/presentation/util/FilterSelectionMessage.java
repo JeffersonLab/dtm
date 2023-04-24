@@ -186,7 +186,7 @@ public final class FilterSelectionMessage {
         } else if (start != null) {
             timeQualifier = "starting " + TimeUtil.formatSmartSingleTime(start) + " ";
         } else if (end != null) {
-            timeQualifier = "before " + TimeUtil.formatSmartSingleTime(end) + " ";;
+            timeQualifier = "before " + TimeUtil.formatSmartSingleTime(end) + " ";
         }
 
         String message = typeQualifier + packedQualifier + dataQualifier + groupingQualifier

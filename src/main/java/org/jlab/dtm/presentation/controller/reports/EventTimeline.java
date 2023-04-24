@@ -3,6 +3,7 @@ package org.jlab.dtm.presentation.controller.reports;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -142,13 +143,9 @@ public class EventTimeline extends HttpServlet {
     private String getCurrentUrl(HttpServletRequest request, Date start, Date end) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(TimeUtil.getFriendlyDateTimePattern());
 
-        try {
-            return request.getContextPath() + "/reports/event-timeline?start="
-                    + URLEncoder.encode(dateFormat.format(
-                                    start), "UTF-8") + "&end=" + URLEncoder.encode(
-                            dateFormat.format(end), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("JVM doesn't support UTF-8");
-        }
-    }     
+        return request.getContextPath() + "/reports/event-timeline?start="
+                + URLEncoder.encode(dateFormat.format(
+                                start), StandardCharsets.UTF_8) + "&end=" + URLEncoder.encode(
+                        dateFormat.format(end), StandardCharsets.UTF_8);
+    }
 }

@@ -11,7 +11,7 @@ public enum Shift {
 
     private final String label;
 
-    private Shift(String label) {
+    Shift(String label) {
         this.label = label;
     }
 

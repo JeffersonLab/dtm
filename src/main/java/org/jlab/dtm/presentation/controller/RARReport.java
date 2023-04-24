@@ -102,7 +102,7 @@ public class RARReport extends HttpServlet {
 
         double periodDurationHours = 0.0;
         List<Incident> incidentList = null;
-        Long totalRecords = 0l;
+        Long totalRecords = 0L;
         double topDowntime = 0;
 
         if (params.getStart() != null && params.getEnd() != null) {

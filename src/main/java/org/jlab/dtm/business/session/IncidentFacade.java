@@ -623,11 +623,11 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
         if(params.isDateRangeForUploaded()) {
             if (params.getStart() != null) {
-                filters.add(cb.greaterThanOrEqualTo(root.<Date>get("rarUploadedDate"), params.getStart()));
+                filters.add(cb.greaterThanOrEqualTo(root.get("rarUploadedDate"), params.getStart()));
             }
 
             if (params.getEnd() != null) {
-                filters.add(cb.lessThan(root.<Date>get("rarUploadedDate"), params.getEnd()));
+                filters.add(cb.lessThan(root.get("rarUploadedDate"), params.getEnd()));
             }
         } else {
             if (params.getStart() != null) {
@@ -638,7 +638,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
             }
 
             if (params.getEnd() != null) {
-                filters.add(cb.lessThan(root.<Date>get("timeDown"), params.getEnd()));
+                filters.add(cb.lessThan(root.get("timeDown"), params.getEnd()));
             }
         }
 
@@ -655,7 +655,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         }
 
         if (params.getTitle() != null && !params.getTitle().isEmpty()) {
-            filters.add(cb.like(cb.upper(root.<String>get("title")), "%" + params.getTitle().toUpperCase() + "%"));
+            filters.add(cb.like(cb.upper(root.get("title")), "%" + params.getTitle().toUpperCase() + "%"));
         }
 
         if (params.getReviewed() != null) {
@@ -716,11 +716,11 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
         if(params.isDateRangeForUploaded()) {
             if (params.getStart() != null) {
-                filters.add(cb.greaterThanOrEqualTo(root.<Date>get("rarUploadedDate"), params.getStart()));
+                filters.add(cb.greaterThanOrEqualTo(root.get("rarUploadedDate"), params.getStart()));
             }
 
             if (params.getEnd() != null) {
-                filters.add(cb.lessThan(root.<Date>get("rarUploadedDate"), params.getEnd()));
+                filters.add(cb.lessThan(root.get("rarUploadedDate"), params.getEnd()));
             }
         } else {
             if (params.getStart() != null) {
@@ -731,7 +731,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
             }
 
             if (params.getEnd() != null) {
-                filters.add(cb.lessThan(root.<Date>get("timeDown"), params.getEnd()));
+                filters.add(cb.lessThan(root.get("timeDown"), params.getEnd()));
             }
         }
 
@@ -748,7 +748,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         }
 
         if (params.getTitle() != null && !params.getTitle().isEmpty()) {
-            filters.add(cb.like(cb.upper(root.<String>get("title")), "%" + params.getTitle().toUpperCase() + "%"));
+            filters.add(cb.like(cb.upper(root.get("title")), "%" + params.getTitle().toUpperCase() + "%"));
         }
 
         if (params.getReviewed() != null) {

@@ -142,7 +142,7 @@ public class ScheduledEmailer {
         }
     }
 
-    private void sendExpertMail(String s, int numberOfHours) throws UserFriendlyException, MalformedURLException, IOException, AddressException, MessagingException {
+    private void sendExpertMail(String s, int numberOfHours) throws UserFriendlyException, IOException, MessagingException {
         LOGGER.log(Level.FINE, "Sending email for expert: {0}", s);
 
         IncidentParams params = new IncidentParams();
@@ -202,7 +202,7 @@ public class ScheduledEmailer {
     }
 
     @PermitAll
-    public void sendExpertActionNeededEmail(String username) throws UserFriendlyException, MalformedURLException, IOException, AddressException, MessagingException {
+    public void sendExpertActionNeededEmail(String username) throws UserFriendlyException, IOException, MessagingException {
         int numberOfHours = 24;
 
         if (TimeUtil.isMonday()) {

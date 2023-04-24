@@ -339,10 +339,7 @@ public class Incident implements Serializable {
             return false;
         }
         Incident other = (Incident) object;
-        if ((this.incidentId == null && other.incidentId != null) || (this.incidentId != null && !this.incidentId.equals(other.incidentId))) {
-            return false;
-        }
-        return true;
+        return (this.incidentId != null || other.incidentId == null) && (this.incidentId == null || this.incidentId.equals(other.incidentId));
     }
 
     @Override

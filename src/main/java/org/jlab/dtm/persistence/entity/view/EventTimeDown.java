@@ -80,10 +80,7 @@ public class EventTimeDown implements Serializable {
             return false;
         }
         EventTimeDown other = (EventTimeDown) object;
-        if ((this.eventId == null && other.eventId != null) || (this.eventId != null && !this.eventId.equals(other.eventId))) {
-            return false;
-        }
-        return true;
+        return (this.eventId != null || other.eventId == null) && (this.eventId == null || this.eventId.equals(other.eventId));
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -74,11 +75,7 @@ public final class DtmFunctions {
         String str = formatter.format(value);
         String encoded = "";
 
-        try {
-            encoded = URLEncoder.encode(str, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            System.err.println("UTF-8 is unsupported!");
-        }
+        encoded = URLEncoder.encode(str, StandardCharsets.UTF_8);
         return encoded;
     }
 

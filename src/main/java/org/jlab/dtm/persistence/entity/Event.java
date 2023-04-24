@@ -289,11 +289,8 @@ public class Event implements Serializable {
             return false;
         }
         Event other = (Event) object;
-        if ((this.eventId == null && other.eventId != null) || (this.eventId != null
-                && !this.eventId.equals(other.eventId))) {
-            return false;
-        }
-        return true;
+        return (this.eventId != null || other.eventId == null) && (this.eventId == null
+                || this.eventId.equals(other.eventId));
     }
 
     @Override

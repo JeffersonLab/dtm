@@ -8,10 +8,10 @@ import org.hibernate.envers.RevisionType;
  * @author ryans
  */
 public class AuditedEntityChange {
-    private long revision;
-    private RevisionType type;
-    private BigInteger entityId;
-    private Class entityClass;
+    private final long revision;
+    private final RevisionType type;
+    private final BigInteger entityId;
+    private final Class entityClass;
 
     public AuditedEntityChange(long revision, RevisionType type, BigInteger entityId, Class entityClass) {
         this.revision = revision;

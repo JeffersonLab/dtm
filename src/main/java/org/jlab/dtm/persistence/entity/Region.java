@@ -114,10 +114,7 @@ public class Region implements Serializable {
             return false;
         }
         Region other = (Region) object;
-        if ((this.regionId == null && other.regionId != null) || (this.regionId != null && !this.regionId.equals(other.regionId))) {
-            return false;
-        }
-        return true;
+        return (this.regionId != null || other.regionId == null) && (this.regionId == null || this.regionId.equals(other.regionId));
     }
 
     @Override

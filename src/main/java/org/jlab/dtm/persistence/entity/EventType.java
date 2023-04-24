@@ -109,10 +109,7 @@ public class EventType implements Serializable {
             return false;
         }
         EventType other = (EventType) object;
-        if ((this.eventTypeId == null && other.eventTypeId != null) || (this.eventTypeId != null && !this.eventTypeId.equals(other.eventTypeId))) {
-            return false;
-        }
-        return true;
+        return (this.eventTypeId != null || other.eventTypeId == null) && (this.eventTypeId == null || this.eventTypeId.equals(other.eventTypeId));
     }
 
     @Override

@@ -88,10 +88,7 @@ public class IncidentReview implements Serializable {
             return false;
         }
         IncidentReview other = (IncidentReview) object;
-        if ((this.incidentReviewId == null && other.incidentReviewId != null) || (this.incidentReviewId != null && !this.incidentReviewId.equals(other.incidentReviewId))) {
-            return false;
-        }
-        return true;
+        return (this.incidentReviewId != null || other.incidentReviewId == null) && (this.incidentReviewId == null || this.incidentReviewId.equals(other.incidentReviewId));
     }
 
     @Override
