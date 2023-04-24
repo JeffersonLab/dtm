@@ -63,8 +63,6 @@ public class EscalationService {
                     timer.cancel();
                     break;
                 }
-            } else {
-                logger.warning("Escalation info is not of correct type: " + o);
             }
         }
     }
