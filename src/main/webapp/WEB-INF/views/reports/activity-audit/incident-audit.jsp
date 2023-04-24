@@ -71,7 +71,7 @@
                                 <th>Modified By:</th>
                                     <c:forEach items="${incidentList}" var="incident">
                                     <th>
-                                        <c:out value="${incident.revision.user != null ? s:formatUser(incident.revision.user) : incident.revision.username}"/>
+                                        <c:out value="${incident.revision.username != null ? s:formatUsername(incident.revision.username) : incident.revision.username}"/>
                                     </th>
                                 </c:forEach>
                             </tr>

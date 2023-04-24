@@ -255,16 +255,16 @@ public class ApplicationRevisionInfoFacade extends AbstractFacade<ApplicationRev
     }
 
     @PermitAll
-    public void loadStaff(List<ApplicationRevisionInfo> revisionList) {
+    public void loadUser(List<ApplicationRevisionInfo> revisionList) {
         if (revisionList != null) {
             for (ApplicationRevisionInfo revision : revisionList) {
-                loadStaff(revision);
+                loadUser(revision);
             }
         }
     }
 
     @PermitAll
-    public void loadStaff(ApplicationRevisionInfo revision) {
+    public void loadUser(ApplicationRevisionInfo revision) {
         if (revision != null) {
             String username = revision.getUsername();
 

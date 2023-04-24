@@ -180,11 +180,11 @@ $(".username-autocomplete").autocomplete({
                 term: request.term,
                 max: 10
             },
-            url: '/hco/ajax/search-user',
+            url: '/dtm/ajax/search-user',
             success: function (json) {
                 response($.map(json.records, function (item) {
                     return {
-                        id: item.id,
+                        id: item.username,
                         label: item.last + ', ' + item.first + ' (' + item.username + ')',
                         value: item.value,
                         first: item.first,

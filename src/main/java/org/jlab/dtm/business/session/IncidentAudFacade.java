@@ -114,7 +114,7 @@ public class IncidentAudFacade extends AbstractFacade<IncidentAud> {
     public void loadStaff(List<IncidentAud> incidentList) {
         if(incidentList != null) {
             for(IncidentAud incident: incidentList) {
-                revisionFacade.loadStaff(incident.getRevision());
+                revisionFacade.loadUser(incident.getRevision());
             }
         }
     }

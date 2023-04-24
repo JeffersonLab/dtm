@@ -66,7 +66,7 @@ public class ActivityAudit extends HttpServlet {
         List<ApplicationRevisionInfo> revisionList = revisionFacade.filterList(modifiedStart, modifiedEnd, eventId, incidentId, offset, maxPerPage);
         Long totalRecords = revisionFacade.countFilterList(modifiedStart, modifiedEnd, eventId, incidentId);
 
-        revisionFacade.loadStaff(revisionList);
+        revisionFacade.loadUser(revisionList);
         
         Paginator paginator = new Paginator(totalRecords.intValue(), offset, maxPerPage);
 

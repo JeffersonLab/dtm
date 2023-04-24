@@ -534,7 +534,7 @@ public class EventFacade extends AbstractFacade<Event> {
         EventAud aud = eventAudFacade.findLatestCloseRevision(event.getEventId());
 
         if (aud != null) {
-            revisionFacade.loadStaff(aud.getRevision());
+            revisionFacade.loadUser(aud.getRevision());
             event.setClosedBy(aud.getRevision().getUser());
         }
     }

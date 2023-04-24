@@ -139,7 +139,7 @@ public class EventAudFacade extends AbstractFacade<EventAud> {
     public void loadStaff(List<EventAud> eventList) {
         if(eventList != null) {
             for(EventAud event: eventList) {
-                revisionFacade.loadStaff(event.getRevision());
+                revisionFacade.loadUser(event.getRevision());
             }
         }
     }
