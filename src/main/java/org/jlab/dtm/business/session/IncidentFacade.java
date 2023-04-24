@@ -140,7 +140,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
             }
 
             if (!component.getName().equals(componentName)) {
-                throw new UserFriendlyException("Please choose a known name (CED/HCO name)");
+                throw new UserFriendlyException("Please choose a known component name");
             }
         } else {
             // If user doesn't select component from auto-complete list and 

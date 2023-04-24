@@ -173,7 +173,7 @@
                                     <span class="incident-table-component" data-component-id="${incident.component.componentId}"><c:out value="${incident.component.name}"/></span>
                                 </c:otherwise>
                             </c:choose>
-                            <c:url var="url" context="/" value="/hco/signoff">
+                            <c:url var="url" context="/" value="${env['SRM_URL']}/signoff">
                                 <c:param name="systemId" value="${incident.system.systemId}"/>
                                 <c:param name="componentName" value="${incident.component.name}"/>
                                 <c:param name="groupId" value="-1"/>
