@@ -185,31 +185,4 @@ public class RootCauseReport extends HttpServlet {
 
         request.getRequestDispatcher("/WEB-INF/views/reports/root-cause.jsp").forward(request, response);
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        Integer year = ParamConverter.convertInteger(request, "year");
-
-        if(year == null) {
-            throw new ServletException("year must not be empty");
-        }
-
-        try {
-            List<IncidentFacade.TransitionRecord> recordList = incidentFacade.migrateOldRarRecords(year);
-            // Separate transactions so when we go to add attachments by posting to the http endpoint the incidents exist!
-            incidentFacade.migrateOldRarAttachments(recordList);
-        } catch(SQLException | WebApplicationException | InterruptedException e) {
-            throw new ServletException(e);
-        }
-    }
 }

@@ -231,19 +231,6 @@
                         <div id="no-incidents-message">No incidents found.</div>
                     </c:otherwise>
                 </c:choose>
-                <c:if test="${pageContext.request.remoteUser eq 'f:ace-ldap:ryans'}">
-                <h3>RAR Migrate Controls</h3>
-                <form action="root-cause" method="post">
-                    <button type="submit">Migrate</button>
-                    <input type="number" min="1998" max="2013" name="year" value="1998" placeholder="Year"/>
-                </form>
-                <h3>RAR Upload</h3>
-                <form method="post" action="../ajax/rar-upload" enctype="multipart/form-data">
-                    Choose a file: <input type="file" name="rar" />
-                    <input type="text" name="incidentId" value="100" placeholder="Incident ID"/>
-                    <input type="submit" value="Upload" />
-                </form>
-                </c:if>
             </div>                    
         </section>
         <div id="exit-fullscreen-panel">
