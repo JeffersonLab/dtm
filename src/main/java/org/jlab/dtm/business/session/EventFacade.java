@@ -362,9 +362,8 @@ public class EventFacade extends AbstractFacade<Event> {
         
         if(params.getSmeUsername() != null && !params.getSmeUsername().isEmpty()) {
             Join<Incident, IncidentReview> reviewList = incidentList.join("incidentReviewList");
-            Join<IncidentReview, String> reviewerList = reviewList.join("reviewer");
 
-           filters.add(cb.in(reviewerList.get("username")).value(params.getSmeUsername()));
+           filters.add(cb.in(reviewList.get("reviewer")).value(params.getSmeUsername()));
         }
         
         BigInteger[] incidentIdArray = IOUtil.removeNullValues(params.getIncidentIdArray(), BigInteger.class);
@@ -442,9 +441,8 @@ public class EventFacade extends AbstractFacade<Event> {
         
         if(params.getSmeUsername() != null && !params.getSmeUsername().isEmpty()) {
             Join<Incident, IncidentReview> reviewList = incidentList.join("incidentReviewList");
-            Join<IncidentReview, String> reviewerList = reviewList.join("reviewer");
 
-           filters.add(cb.in(reviewerList.get("username")).value(params.getSmeUsername()));
+           filters.add(cb.in(reviewList.get("reviewer")).value(params.getSmeUsername()));
         }        
         
         BigInteger[] incidentIdArray = IOUtil.removeNullValues(params.getIncidentIdArray(), BigInteger.class);
