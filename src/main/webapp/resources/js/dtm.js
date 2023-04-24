@@ -130,7 +130,7 @@ jlab.filterSystemListByCategory = function (categoryId, systemSelectSelector, ap
     jlab.requestStart();
 
     var request = jQuery.ajax({
-        url: "/hco/ajax/filter-system-list-by-category",
+        url: "/dtm/ajax/filter-system-list-by-category",
         type: "GET",
         data: {
             categoryId: categoryId,
