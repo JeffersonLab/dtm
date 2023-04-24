@@ -23,13 +23,13 @@ import javax.persistence.EntityManager;
 
 import org.jlab.dtm.persistence.entity.Incident;
 import org.jlab.dtm.persistence.enumeration.IncidentEditType;
+import org.jlab.dtm.persistence.model.LogReference;
 import org.jlab.dtm.presentation.util.DtmFunctions;
 import org.jlab.jlog.Body;
 import org.jlab.jlog.Library;
 import org.jlab.jlog.LogEntry;
 import org.jlab.jlog.LogEntryAdminExtension;
 import org.jlab.jlog.Reference;
-import org.jlab.jlog.util.SecurityUtil;
 import org.jlab.smoothness.business.exception.InternalException;
 import org.jlab.smoothness.business.util.IOUtil;
 import org.jlab.smoothness.business.util.TimeUtil;
@@ -73,24 +73,23 @@ public class LogbookFacade extends AbstractFacade<Object> {
             throw new InternalException("incident must not be null");
         }
 
-        String logbookHostname = System.getenv("LOGBOOK_HOSTNAME");
+        String logbookServerUrl = System.getenv("LOGBOOK_SERVER_URL");
 
-        if(logbookHostname == null || logbookHostname.isEmpty()) {
-            logbookHostname = "logbooktest.acc.jlab.org";
-            LOGGER.log(Level.WARNING, "Environment variable 'LOGBOOK_HOSTNAME' not found, using default logbooktest.acc.jlab.org");
+        if(logbookServerUrl == null || logbookServerUrl.isEmpty()) {
+            throw new InternalException("LOGBOOK_SERVER_URL env not set");
         }
 
-        List<String> lognumberList = getLogNumbers(incident.getIncidentId());
+        List<LogReference> referenceList = getLogReferences(incident.getIncidentId());
         String body = getIncidentELogHTMLBody(incident);
 
         String subject = "Downtime Incident " + type + ": " + incident.getTitle();
 
-        String logbooks = System.getenv("LOGBOOK_OPS_BOOKS_CSV");
+        String logbooks = System.getenv("DTM_BOOKS_CSV");
 
         if (logbooks == null || logbooks.isEmpty()) {
             logbooks = "TLOG";
             LOGGER.log(Level.WARNING,
-                    "Environment variable 'LOGBOOK_OPS_BOOKS_CSV' not found, using default TLOG");
+                    "Environment variable 'DTM_BOOKS_CSV' not found, using default TLOG");
         }
 
         LogEntry entry = new LogEntry(subject, logbooks);
@@ -103,14 +102,14 @@ public class LogbookFacade extends AbstractFacade<Object> {
         Reference ref = new Reference("dtm", incident.getIncidentId().toString());
         entry.addReference(ref);
 
-        for (String lognumber : lognumberList) {
-            ref = new Reference("logbook", lognumber);
+        for (LogReference reference : referenceList) {
+            ref = new Reference("logbook", reference.getLognumber());
             entry.addReference(ref);
         }
 
         Properties config = Library.getConfiguration();
 
-        config.setProperty("SUBMIT_URL", "https://" + logbookHostname + "/incoming");
+        config.setProperty("SUBMIT_URL", logbookServerUrl + "/incoming");
 
         long logId;
 
@@ -170,8 +169,8 @@ public class LogbookFacade extends AbstractFacade<Object> {
 
     @SuppressWarnings("unchecked")
     @PermitAll
-    public List<String> getLogNumbers(BigInteger incidentId) throws InternalException {
-        List<String> lognumberList = new ArrayList<>();
+    public List<LogReference> getLogReferences(BigInteger incidentId) throws InternalException {
+        List<LogReference> referenceList = new ArrayList<>();
 
         Map<String, List<String>> params = new HashMap<>();
         params.put("ref_type", Arrays.asList("dtm"));
@@ -180,28 +179,19 @@ public class LogbookFacade extends AbstractFacade<Object> {
         params.put("cache_buster", Arrays.asList(String.valueOf(IOUtil.randInt(1, Integer.MAX_VALUE))));
         String queryString = ServletUtil.buildQueryString(params, "UTF-8");
 
-        String logbookHostname = System.getenv("LOGBOOK_HOSTNAME");
+        String logbookServerUrl = System.getenv("LOGBOOK_SERVER_URL");
 
-        if(logbookHostname == null || logbookHostname.isEmpty()) {
-            logbookHostname = "logbooktest.acc.jlab.org";
-            LOGGER.log(Level.WARNING, "Environment variable 'LOGBOOK_HOSTNAME' not set, defaulting to logbooktest");
+        if(logbookServerUrl == null || logbookServerUrl.isEmpty()) {
+            throw new InternalException("LOGBOOK_SERVER_URL env not set");
         }
 
         try {
-            if (logbookHostname.contains("logbooktest")) {
-                SecurityUtil.disableServerCertificateCheck();
-            }
-
-            String query = "https://" + logbookHostname + "/references/json"
+            String query = logbookServerUrl + "/references/json"
                     + queryString;
             String jsonStr = IOUtil.doHtmlGet(query, 2000, 2000);
 
             LOGGER.log(Level.FINEST, "query: {0}", query);
             LOGGER.log(Level.FINEST, "jsonStr: {0}", jsonStr);
-
-            if (logbookHostname.contains("logbooktest")) {
-                SecurityUtil.enableServerCertificateCheck();
-            }
 
             JsonReader reader = Json.createReader(new StringReader(jsonStr));
             JsonObject obj = reader.readObject();
@@ -213,7 +203,8 @@ public class LogbookFacade extends AbstractFacade<Object> {
                     for (int i = 0; i < arr.size(); i++) {
                         JsonObject o = arr.getJsonObject(i);
                         String lognumber = o.getString("lognumber");
-                        lognumberList.add(lognumber);
+                        String title = o.getString("title");
+                        referenceList.add(new LogReference(lognumber, title));
                     }
                 }
             }
@@ -222,6 +213,6 @@ public class LogbookFacade extends AbstractFacade<Object> {
             throw new InternalException("Unable to obtain log numbers", e);
         }
 
-        return lognumberList;
+        return referenceList;
     }
 }

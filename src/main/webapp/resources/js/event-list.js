@@ -488,22 +488,19 @@ jlab.dtm.loadLogbookReference = function () {
 
     var $tr = $(this),
             $td = $tr.find(".log-entry-cell .cell-subfield"),
-            incidentId = $tr.attr("data-incident-id"),
-            logbookHostname = $("#logbookHostname").val();
+            incidentId = $tr.attr("data-incident-id");
 
     $td.html("<span class=\"button-indicator\"></span>");
 
     /*window.console && console.log('Loading log entries for incident: ' + incidentId);*/
 
     var request = jQuery.ajax({
-        url: "https://" + logbookHostname + "/references/json",
+        url: "/dtm/data/references",
         type: "GET",
         data: {
-            'ref_type': 'dtm',
-            'ref_id': incidentId
+            'id': incidentId
         },
-        dataType: "jsonp",
-        jsonp: "jsonp"
+        dataType: "json"
     });
 
     request.done(function (json) {
@@ -528,7 +525,7 @@ jlab.dtm.loadLogbookReference = function () {
                 $td.append('<ul class="table-cell-list"></ul>');
                 var $list = $td.find('.table-cell-list');
                 $(filteredData).each(function () {
-                    $list.append('<li class="table-cell-list-item"><a title="' + this.title.encodeXml() + '" target="_blank" href="https://' + logbookHostname + '/entry/' + this.lognumber + '">' + this.lognumber + '</a><button title="Unlink Log Entry (Coming soon...)" class="unlink-log-entry-button" type="button" style="display:none;">-</button></li>');
+                    $list.append('<li class="table-cell-list-item"><a title="' + this.title.encodeXml() + '" target="_blank" href="' + jlab.logbookServerUrl + '/entry/' + this.lognumber + '">' + this.lognumber + '</a><button title="Unlink Log Entry (Coming soon...)" class="unlink-log-entry-button" type="button" style="display:none;">-</button></li>');
                 });
             }
         }
