@@ -55,6 +55,8 @@ Uses the [Smoothness Environment Variables](https://github.com/JeffersonLab/smoo
 | Name    | Description                                       |
 |---------|---------------------------------------------------|
 | RAR_DIR | Directory path to store Repair Assessment Reports |
+| SRM_URL | Scheme, host, and port to System Readiness Manager (for Downgrade link; formally named HCO) |
+| PAC_SCHEDULE_SERVER_URL | Scheme, host, and port to Program Advisory Committee Schedule (for Joule Report) |
 
 ## Build
 This project is built with [Java 17](https://adoptium.net/) (compiled to Java 11 bytecode), and uses the [Gradle 7](https://gradle.org/) build tool to automatically download dependencies and build the project from source:
