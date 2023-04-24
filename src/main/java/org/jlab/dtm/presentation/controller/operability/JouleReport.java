@@ -77,7 +77,7 @@ public class JouleReport extends HttpServlet {
                 try {
                     recordList = jouleFacade.find(params);
                 } catch (IOException | InterruptedException e) {
-                    //logger.log(Level.SEVERE, "Unable to query for PAC Schedule", e);
+                    logger.log(Level.SEVERE, "Unable to query for PAC Schedule", e);
                     throw new ServletException("Unable to query for PAC Schedule");
                 }
         }
