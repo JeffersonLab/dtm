@@ -203,14 +203,10 @@
                                         <td class="relative-td repaired-by-field">
                                             <div>
                                                 <c:forEach items="${incident.incidentReviewList}" var="review" varStatus="status">
-                                                    <c:choose>
-                                                        <c:when test="${status.last}">
-                                                            <c:out value="${review.reviewer.lastname}"/>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <c:out value="${review.reviewer.lastname}"/><br/>
-                                                        </c:otherwise>    
-                                                    </c:choose>
+                                                    <c:out value="${s:lookupUserByUsername(review.reviewer).lastname}"/>
+                                                        <c:if test="${not status.last}">
+                                                            <br/>
+                                                        </c:if>
                                                 </c:forEach>
                                             </div>
                                             <div class="absolute-subcell ${incident.expertReviewed ? 'reviewed' : 'not-reviewed'}"><c:out value="${incident.expertReviewed ?  'REVIEWED' : 'NOT REVIEWED'}"/></div>
