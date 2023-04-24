@@ -86,6 +86,7 @@ public class ScheduledEmailer {
             schedExp.hour("9");
             schedExp.dayOfWeek("Mon-Fri"); // Exclude Sat and Sun
             TimerConfig config = new TimerConfig();
+            config.setInfo("EmailTimer");
             config.setPersistent(false);
             timer = timerService.createCalendarTimer(schedExp, config);
         }
@@ -108,7 +109,10 @@ public class ScheduledEmailer {
     private void clearAll() {
         /*Timers persist by default and may be hanging around after a redeploy*/
         for (Timer t : timerService.getTimers()) {
-            t.cancel();
+            // Only cancel Email timers
+            if("EmailTimer".equals(t.getInfo())) {
+                t.cancel();
+            }
         }
     }
 
@@ -155,7 +159,7 @@ public class ScheduledEmailer {
 
         List<Incident> incidentList = incidentFacade.filterList(params);
 
-        String proxyServerName = System.getenv("PROXY_SERVER");
+        String proxyServerName = System.getenv("FRONTEND_SERVER_URL");
         if (proxyServerName == null || proxyServerName.trim().isEmpty()) {
             throw new RuntimeException("PROXY_SERVER env unset; unable to send expert emails");
         }
@@ -177,7 +181,7 @@ public class ScheduledEmailer {
         }
 
         html = html + "<br/><b>Please conduct a repair assessment and review the incident(s) here:</b>";
-        html = html + "<br/><b><a href=\"https://" + proxyServerName + "/dtm/all-events?acknowledged=N&smeUsername=" + s + "&qualified=\">DTM-RAR Review</a></b>";
+        html = html + "<br/><b><a href=\"" + proxyServerName + "/dtm/all-events?acknowledged=N&smeUsername=" + s + "&qualified=\">DTM-RAR Review</a></b>";
 
         html = html + "<br/><br/><h3>Action Level Reference</h3><table style=\"border-bottom: 1px solid black; border-collapse: collapse;\"><tbody>";
         html = html + "<tr style=\"background-color: rgb(128,0,0); color: white;\"><th style=\"border-right: 1px solid white;\"></th><th style=\"border-right: 1px solid white;\">Triggers</th><th style=\"border-right: 1px solid white;\">Action</th><th style=\"border-right: 1px solid white;\">Time</th><th></th></tr>";
@@ -188,7 +192,7 @@ public class ScheduledEmailer {
         html = html + "</tbody></table><br/>Upon completion of Level Ⅲ+ reports upload the document to the DTM incident.";
 
         html = html + "<br/><br/>The Repair Assessment Report procedure is available online at the following location:";
-        html = html + "<br/><a href=\"http://opsntsrv.acc.jlab.org/ops_docs/online_document_files/ACC_online_files/repair_escalation_reporting.pdf\">RAR Procedure</a></body></html>";
+        html = html + "<br/><a href=\"https://ace.jlab.org/cdn/doc/dtm/RARProcedure.pdf\">RAR Procedure</a></body></html>";
 
         List<InternetAddress> addresses = new ArrayList<>();
 
