@@ -235,7 +235,7 @@ public class JouleReportFacade {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create("https://accweb.acc.jlab.org/btm/rest/scheduled-count?start=" + startStr + "&end=" + endStr))
+                .uri(URI.create(System.getenv("FRONTEND_SERVER_URL") + "/btm/rest/scheduled-count?start=" + startStr + "&end=" + endStr))
                 .timeout(Duration.ofSeconds(7))
                 .build();
 

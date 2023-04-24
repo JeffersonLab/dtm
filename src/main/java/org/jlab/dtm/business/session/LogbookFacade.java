@@ -154,8 +154,9 @@ public class LogbookFacade extends AbstractFacade<Object> {
         builder.append("</tr>\n");
         builder.append("</tbody></table>\n");
 
-        builder.append(
-                "</div><div>\n\n<b>See:</b> <a href=\"https://accweb.acc.jlab.org/dtm/all-events?incidentId=");
+        builder.append("</div><div>\n\n<b>See:</b> <a href=\"");
+        builder.append(System.getenv("FRONTEND_SERVER_URL"));
+        builder.append("/dtm/all-events?incidentId=");
         builder.append(incident.getIncidentId());
         builder.append("&qualified=\">Downtime Manager</a></div>\n");
 

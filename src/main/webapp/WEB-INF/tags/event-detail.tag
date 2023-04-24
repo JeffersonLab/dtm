@@ -83,7 +83,7 @@
                 <tr data-incident-id="${incident.incidentId}" data-solution="${fn:escapeXml(incident.resolution)}" data-repaired-by-id-csv="${incident.repairedByIdCsv}" data-reviewed-by-username-ssv="${incident.reviewedByUsernameSsv}" data-repaired-by-formatted="${incident.repairedByIdCsv != null ? dtm:formatGroupList(incident.repairedByIdCsv, groupList) : '--None--'}" data-reviewed-by="${fn:escapeXml(incident.reviewedUsername)}" data-reviewed-by-formatted="${incident.reviewedUsername != null ? s:formatUsername(incident.reviewedUsername) : ''}" data-reviewed-by-experts-formatted-tsv="${incident.reviewedByExpertsFormattedTsv}" data-acknowledged="${fn:escapeXml(incident.expertAcknowledged)}" data-root-cause="${fn:escapeXml(incident.rootCause)}" data-rar-id="${incident.rarId}" data-rar-ext="${incident.rarExt}" data-review-level="${incident.reviewLevelString}">
                     <td>
                         <span>
-                            <span class="cell-sublabel">ID:<a title="Incident Link" class="flyout-link" href="https://accweb.acc.jlab.org${pageContext.request.contextPath}/all-events?incidentId=${incident.incidentId}&amp;qualified=">*</a></span>
+                            <span class="cell-sublabel">ID:<a title="Incident Link" class="flyout-link" href="${env['FRONTEND_SERVER_URL']}/dtm/all-events?incidentId=${incident.incidentId}&amp;qualified=">*</a></span>
                             <span><c:out value="${incident.incidentId}"/></span>
                         </span>
                         <span class="cell-subfield">
