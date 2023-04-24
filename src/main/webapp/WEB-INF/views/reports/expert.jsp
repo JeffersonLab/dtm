@@ -2,7 +2,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness"%>
 <c:set var="title" value="Expert"/>
 <t:reports-page title="${title}">  
     <jsp:attribute name="stylesheets">
@@ -27,10 +28,11 @@
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${system.systemExpertList}" var="se">
+                                        <c:set value="${s:lookupUserByUsername(se.username)}" var="user"/>
                                         <tr>
-                                            <td><c:out value="${se.expert.lastname}"/></td>
-                                            <td><c:out value="${se.expert.firstname}"/></td>
-                                            <td><c:out value="${se.expert.username}"/></td>
+                                            <td><c:out value="${user.lastname}"/></td>
+                                            <td><c:out value="${user.firstname}"/></td>
+                                            <td><c:out value="${user.username}"/></td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
