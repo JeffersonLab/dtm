@@ -385,3 +385,15 @@ insert into DTM_OWNER.COMPONENT (COMPONENT_ID, NAME, SYSTEM_ID, REGION_ID) value
 
 -- For testing System.SRM_YN = 'Y'
 insert into DTM_OWNER.COMPONENT (COMPONENT_ID, NAME, SYSTEM_ID, REGION_ID) values (12881, 'MBC1C02V', 35, 20);
+
+-- For testing insert system expert into Cryomodule system
+insert into dtm_owner.system_expert(SYSTEM_EXPERT_ID, SYSTEM_ID, USERNAME) values(dtm_owner.SYSTEM_EXPERT_ID.nextval, 141, 'jsmith');
+
+-- Test event
+insert into dtm_owner.event(EVENT_ID, TIME_UP, EVENT_TYPE_ID, TITLE) values(dtm_owner.event_id.nextval, null, 1, 'Testing');
+
+-- Test Incident
+insert into dtm_owner.incident(INCIDENT_ID, EVENT_ID, TIME_DOWN, TIME_UP, TITLE, SYSTEM_ID, COMPONENT_ID, MISSING_EXPLANATION, SUMMARY, RESOLUTION, REVIEWED_USERNAME, ROOT_CAUSE, RAR_ID, EXPERT_ACKNOWLEDGED, RAR_EXT, RAR_UPLOADED_DATE) values(dtm_owner.incident_id.nextval, 1, sysdate, null, 'Test Incident Title', 141, 2763, null, 'Test Summary', null, null, null, null, 'N', null, null);
+
+-- Test Incident Reviewer Assignment
+insert into dtm_owner.incident_review(INCIDENT_REVIEW_ID, INCIDENT_ID, REVIEWER_USERNAME) values(dtm_owner.INCIDENT_REVIEW_ID.nextval, 1, 'jsmith');
