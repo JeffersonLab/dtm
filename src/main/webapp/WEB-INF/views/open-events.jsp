@@ -26,7 +26,7 @@
             </div>
             <c:choose>
                 <c:when test="${fn:length(openEventList) > 0}">
-                    <t:event-list eventList="${openEventList}" logbookHostname="${env['LOGBOOK_HOSTNAME']}"/>
+                    <t:event-list eventList="${openEventList}"/>
                 </c:when>
                 <c:otherwise>
                     <div class="message-box">There are no open events</div>

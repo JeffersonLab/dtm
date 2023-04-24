@@ -4,7 +4,6 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness"%>
 <%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
-<%@attribute name="logbookHostname" required="true" type="java.lang.String"%>
 <%@attribute name="event" required="true" type="org.jlab.dtm.persistence.entity.Event"%>
 <jsp:useBean id="now" class="java.util.Date"/>
 <c:set var="eventTimeDown" value="${event.timeDown}"/>
@@ -192,15 +191,11 @@
                     <td class="log-entry-cell">
                         <span class="cell-subfield">
                         </span>
-                        <form method="get" action="https://${logbookHostname}/node/add/logentry" target="_blank">
+                        <form method="get" action="${env['LOGBOOK_SERVER_URL']}/node/add/logentry" target="_blank">
                             <input type="hidden" name="reference" value="dtm:${incident.incidentId}"/>
                             <button type="submit">Create New Log Entry</button>
                         </form>
-                        <form method="get" action="https://${logbookHostname}/node/add/logentry" target="_blank">
-                            <input type="hidden" name="reference" value="dtm:${incident.incidentId}"/>
-                            <button type="submit" style="display:none;" title="Coming soon...">Link Existing Log Entry</button>
-                        </form>                            
-                        <form method="get" action="https://${logbookHostname}/entries" target="_blank">
+                        <form method="get" action="${env['LOGBOOK_SERVER_URL']}/entries" target="_blank">
                             <input type="hidden" name="start_date" value="${dtm:formatLogbookDate(incident.timeDown, -1)}"/>
                             <input type="hidden" name="end_date" value="${dtm:formatLogbookDate(incident.timeUp, 1)}"/>
                             <input type="hidden" name="logbooks[0]" value="1"/>

@@ -5,7 +5,6 @@
 <%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness"%>
 <%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
-<%@attribute name="logbookHostname" required="true" type="java.lang.String"%>
 <%@attribute name="eventList" required="true" type="java.util.List"%>
 <div class="event-list">
     <div class="event-header top-event-header">
@@ -41,9 +40,8 @@
                     </span>
             </h3>
             <div id="content-${event.eventId}" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
-                <t:event-detail event="${event}" logbookHostname="${logbookHostname}"/>
+                <t:event-detail event="${event}"/>
             </div>
         </c:forEach>
     </div>
-    <input type="hidden" name="logbookHostname" id="logbookHostname" value="${env['LOGBOOK_HOSTNAME']}"/>
 </div>

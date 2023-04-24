@@ -115,7 +115,7 @@
             <div>
                 <c:if test="${fn:length(eventList) > 0}"> 
                     <div class="dialog-content">
-                        <t:event-list eventList="${eventList}" logbookHostname="${env['LOGBOOK_HOSTNAME']}"/>
+                        <t:event-list eventList="${eventList}"/>
                     </div>
                     <div class="event-controls">
                         <button id="previous-button" type="button" data-offset="${paginator.previousOffset}" value="Previous"${paginator.previous ? '' : ' disabled="disabled"'}>Previous</button>                        
