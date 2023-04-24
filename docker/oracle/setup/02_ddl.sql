@@ -403,7 +403,8 @@ CREATE OR REPLACE VIEW DTM_OWNER.ALL_COMPONENTS as
 (
 select component_id,
        name,
-       system_id
+       system_id,
+       region_id
 from dtm_owner.component
 );
 
