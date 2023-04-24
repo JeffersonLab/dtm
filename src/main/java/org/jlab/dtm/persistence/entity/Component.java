@@ -25,7 +25,7 @@ import org.hibernate.envers.RelationTargetAuditMode;
  */
 @Entity
 @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-@Table(name= "COMPONENT", schema = "DTM_OWNER")
+@Table(name= "ALL_COMPONENTS", schema = "DTM_OWNER")
 @NamedQueries({
     @NamedQuery(name = "Component.findAll", query = "SELECT c FROM Component c")})
 public class Component implements Serializable {
