@@ -34,7 +34,7 @@ public class CategoryFacade extends AbstractFacade<Category> {
     }
 
     public Category findRoot() {
-        return find(BigInteger.ONE);
+        return find(BigInteger.ZERO);
     }
 
     @PermitAll
@@ -56,7 +56,7 @@ public class CategoryFacade extends AbstractFacade<Category> {
         Category category;
 
         if (categoryId == null) {
-            categoryId = BigInteger.valueOf(1L);
+            categoryId = BigInteger.valueOf(0L);
         }
 
         findAllViaCartesianProduct(); // load all categories AND their children relationships
