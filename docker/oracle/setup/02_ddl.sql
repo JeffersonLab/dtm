@@ -291,15 +291,16 @@ CREATE TABLE DTM_OWNER.CATEGORY
     WEIGHT      NUMBER
 );
 
-/*create view CATEGORY as
+/*grant select on srm_owner.category to dtm_owner;
+create or replace view CATEGORY as
 (
 select distinct category_id, name, parent_id, weight
-from hco_owner.category z
+from srm_owner.category z
 start with z.category_id in
            (select category_id
-            from hco_owner.system a
+            from srm_owner.system a
             where system_id in
-                  (select system_id from hco_owner.system_application where application_id = 2))
+                  (select system_id from srm_owner.system_application where application_id = 2))
 connect by prior z.parent_id = z.category_id
 );*/
 
@@ -312,14 +313,16 @@ CREATE TABLE DTM_OWNER.SYSTEM
     SRM_YN      CHAR(1 BYTE) DEFAULT 'N' NOT NULL CONSTRAINT SYSTEM_CK1 CHECK (SRM_YN IN ('Y', 'N'))
 );
 
-/*create or replace view dtm_owner.system as
+/*grant select on srm_owner.system to dtm_owner;
+grant select on srm_owner.system_application to dtm_owner;
+create or replace view dtm_owner.system as
 (
 select SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT,
 CASE
-  WHEN (select 'Y' from hco_owner.system_application where hco_owner.system_application.system_id = b.system_id and application_id = 1) IS NOT NULL THEN 'Y'
+  WHEN (select 'Y' from srm_owner.system_application where srm_owner.system_application.system_id = b.system_id and application_id = 1) IS NOT NULL THEN 'Y'
   ELSE 'N'
 END as SRM_YN
-from hco_owner.system b where system_id in (select system_id from hco_owner.system_application where application_id = 2)
+from srm_owner.system b where system_id in (select system_id from srm_owner.system_application where application_id = 2)
 );*/
 
 -- Note: Region is used by FSD Trip reports to map to "area"
@@ -331,9 +334,10 @@ CREATE TABLE DTM_OWNER.REGION
     WEIGHT    NUMBER
 );
 
-/*create or replace view dtm_owner.region as
+/*grant select on srm_owner.region to dtm_owner;
+create or replace view dtm_owner.region as
 (
-select REGION_ID,NAME,ALIAS,WEIGHT from hco_owner.region
+select REGION_ID,NAME,ALIAS,WEIGHT from srm_owner.region
 );*/
 
 CREATE TABLE DTM_OWNER.COMPONENT
@@ -346,9 +350,10 @@ CREATE TABLE DTM_OWNER.COMPONENT
     CONSTRAINT COMPONENT_AK2 UNIQUE (SYSTEM_ID, COMPONENT_ID)
 );
 
-/*create or replace view dtm_owner.component as
+/*grant select on srm_owner.component to dtm_owner;
+create or replace view dtm_owner.component as
 (
-select component_id, name, system_id, region_id from hco_owner.component where system_id in (select system_id from hco_owner.system_application where application_id = 2)
+select component_id, name, system_id, region_id from srm_owner.component where system_id in (select system_id from srm_owner.system_application where application_id = 2)
 );*/
 
 CREATE TABLE DTM_OWNER.WORKGROUP
@@ -357,9 +362,10 @@ CREATE TABLE DTM_OWNER.WORKGROUP
     NAME             VARCHAR2(128 CHAR) NOT NULL CONSTRAINT WORKGROUP_AK1 UNIQUE
 );
 
-/*create or replace view dtm_owner.workgroup as
+/*grant select on srm_owner.responsible_group to dtm_owner;
+create or replace view dtm_owner.workgroup as
 (
-select group_id as workgroup_id, name from hco_owner.responsible_group
+select group_id as workgroup_id, name from srm_owner.responsible_group
 );*/
 
 CREATE TABLE DTM_OWNER.OP_ACC_HOUR
@@ -408,13 +414,13 @@ select component_id,
 from dtm_owner.component
 );
 
-/*grant select on hco_owner.component_aud to dtm_owner;
-grant select on hco_owner.application_revision_info to dtm_owner;
+/*grant select on srm_owner.component_aud to dtm_owner;
+grant select on srm_owner.application_revision_info to dtm_owner;
 
 CREATE OR REPLACE VIEW DTM_OWNER.ALL_COMPONENTS as
 (
 select distinct(component_id), name, system_id, region_id
-from hco_owner.component_aud inner join hco_owner.application_revision_info using(rev)
+from srm_owner.component_aud inner join srm_owner.application_revision_info using(rev)
 where revtype = 2
 union
 select component_id,
