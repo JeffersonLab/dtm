@@ -26,6 +26,7 @@
 .major-row {
     box-shadow: 0 0 3px 2px #000000;
     font-weight: bold;
+    position: relative;
 }
 .sort-desc {
     display: none;

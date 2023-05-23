@@ -13,11 +13,13 @@
     </jsp:attribute>        
     <jsp:body>
         <section class="always-refresh-page">
-            <ul class="fork-option-pair quick-nav">
-                <li><a class="right-fork-option" id="previous-shift-summary-link" href="#">Previous Shift Summary</a></li>  
-                <li><a class="center-fork-option" id="wall-view-link" href="wall">Real-time (wall) Summary</a></li>
-                <li><a class="left-fork-option" id="current-shift-summary-link" href="#">Current Shift Summary</a></li>
-            </ul>
+            <div class="float-breadbox">
+                <ul>
+                    <li><a id="previous-shift-summary-link" href="#">Previous Shift Summary</a></li>
+                    <li><a id="wall-view-link" href="wall">Real-time (wall) Summary</a></li>
+                    <li><a id="current-shift-summary-link" href="#">Current Shift Summary</a></li>
+                </ul>
+            </div>
             <h2>Open Events</h2>
             <div class="event-controls">
                 <c:if test="${pageContext.request.userPrincipal ne null}">
