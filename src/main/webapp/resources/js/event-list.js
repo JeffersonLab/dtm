@@ -505,7 +505,8 @@ jlab.dtm.loadLogbookReference = function () {
 
     request.done(function (json) {
         if (json.stat === "fail") {
-            alert('Unable to load log entries: ' + json.error);
+            console.log('Unable to load log entries: ' + json.error);
+            $td.html('<span class="error-message">Unable to load</span>');
         } else {
             /* Success */
             $td.html(''); // clear indicator
