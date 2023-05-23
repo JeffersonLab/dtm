@@ -45,11 +45,11 @@ $(document).on("click", ".default-reset-panel", function() {
     $("#hallBState").val('');
     $("#hallCState").val('');
     $("#hallDState").val('');*/
-    $("#accState").select2("val", "");
-    $("#hallAState").select2("val", "");
-    $("#hallBState").select2("val", "");
-    $("#hallCState").select2("val", "");
-    $("#hallDState").select2("val", "");
+    $("#accState").val(null).trigger('change');
+    $("#hallAState").val(null).trigger('change');
+    $("#hallBState").val(null).trigger('change');
+    $("#hallCState").val(null).trigger('change');
+    $("#hallDState").val(null).trigger('change');
     $("#node").val('');
     $("#channel").val('');
     $("#area").val('');

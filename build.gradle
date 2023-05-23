@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
     // No matter what smoothness weblib MUST be included in WAR (https://github.com/JeffersonLab/smoothness/issues/4)
-    implementation 'org.jlab:smoothness-weblib:4.1.0'
+    implementation 'org.jlab:smoothness-weblib:4.3.0'
     //'org.apache.httpcomponents:httpclient:4.5.14',
     //'org.apache.httpcomponents:httpmime:4.5.14'
 

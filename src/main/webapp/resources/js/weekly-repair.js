@@ -50,12 +50,9 @@ jlab.prepareIncidentFormForEdit = function(skipSystemListLoad) {
     $("#explanation").val(explanation);
 
     $("#solution").val(solution);
-    
-    $("#repaired-by").select2("val", repairedByIdCsv.split(","));
-    /*$(repairedByIdCsv.split(",")).each(function(){
-        alert(this);
-        $("#repaired-by").select2("val", this);
-    });*/
+
+    $("#repaired-by").val(repairedByIdCsv.split(",")).trigger('change');
+
     $("#reviewed-by").val(reviewedBy);
     
     $("#edit-incident-dialog-review-level").text(reviewLevel);

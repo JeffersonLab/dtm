@@ -410,7 +410,7 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
     $("#explanation").val(explanation);
 
     $("#solution").val(solution);
-    $("#repaired-by").select2('val', repairedByIdCsv.split(","));
+    $("#repaired-by").val(repairedByIdCsv.split(",")).trigger("change");
     $("#reviewed-by").val(reviewedBy);
     $("#edit-incident-dialog-review-level").text(reviewLevel);
     $("#edit-incident-dialog-sys-reviewer").val(expertReviewers);
@@ -764,7 +764,7 @@ jlab.dtm.clearIncidentForm = function (skipReloadSystem) {
     $("#incident").val('');
 
     $("#solution").val('');
-    $("#repaired-by").select2('val', '');
+    $("#repaired-by").val(null).trigger('change');
     $("#reviewed-by").val('');
 };
 $(document).on("click", ".open-edit-incident-dialog-button", function () {
