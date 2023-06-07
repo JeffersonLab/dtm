@@ -559,7 +559,7 @@
                     <button class="close-bubble">X</button>
                     <div class="definition-bubble-title">Intra-Category Non-Overlapping Incident Downtime</div>
                     <div class="definition-bubble-body">
-                        <p>The amount of downtime in which overlapping incidents of the same category are merged/packed as to avoid over counting the overall category downtime.  This is easier to explain with a picture, so observe the diagram below.  If all three incident have the same category then the non-overlapping downtime is 4 hours.   If the incidents have different categories or we are simply looking at total incident downtime then we have 6 hours.</p>
+                        <p>The amount of downtime in which overlapping incidents of the same category are merged/packed as to avoid over counting the overall category downtime.  This is easier to explain with a picture, so observe the diagram below.  If all three incidents have the same category then the non-overlapping downtime is 4 hours.   If the incidents have different categories or we are simply looking at total incident downtime then we have 6 hours.</p>
                         <p class="explanation-image"><img width="200" height="200" alt="Overlap Diagram" src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/img/overlap-diagram.png"/></p>
                         <p>Note: Although incidents of the same category do not overlap, incidents of different categories still can.  Therefore:</p>
                         <p class="equation">Category Non-Overlapping &#8805; Non-Overlapping Incident</p>
@@ -572,7 +572,7 @@
                     <button class="close-bubble">X</button>
                     <div class="definition-bubble-title">Intra-System Non-Overlapping Incident Downtime</div>
                     <div class="definition-bubble-body">
-                        <p>The amount of downtime in which overlapping incidents of the same system are merged/packed as to avoid over counting the overall system downtime.  This is easier to explain with a picture, so observe the diagram below.  If all three incident have the same system then the non-overlapping downtime is 4 hours.   If the incidents have different systems or we are simply looking at total incident downtime then we have 6 hours.</p>
+                        <p>The amount of downtime in which overlapping incidents of the same system are merged/packed as to avoid over counting the overall system downtime.  This is easier to explain with a picture, so observe the diagram below.  If all three incidents have the same system then the non-overlapping downtime is 4 hours.   If the incidents have different systems or we are simply looking at total incident downtime then we have 6 hours.</p>
                         <p class="explanation-image"><img width="200" height="200" alt="Overlap Diagram" src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/img/overlap-diagram.png"/></p>
                         <p>Note: Although incidents of the same system do not overlap, incidents of different systems still can.  Therefore:</p>
                         <p class="equation">System Non-Overlapping &#8805; Non-Overlapping Incident</p>
