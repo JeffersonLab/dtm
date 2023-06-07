@@ -27,7 +27,7 @@ public class FsdRootCauseLogic {
     private static final String CED_MODULE_NAMES_JSON_URL
             = "http://ced/inventory/?z=&t=CryoModule&p=ModuleType&out=json";
 
-    private final Collection<String> c100Names = new HashSet<>(); // ArrayList.contains may have better performance for small size collection but whatever...
+    private final Collection<String> c75and100Names = new HashSet<>(); // ArrayList.contains may have better performance for small size collection but whatever...
 
     private final Collection<String> otherNames = new HashSet<>();
 
@@ -42,7 +42,7 @@ public class FsdRootCauseLogic {
             JsonObject json = reader.readObject();
             String status = json.getString("stat");
             if (!"ok".equals(status)) {
-                throw new IOException("Unable to lookup C100 Names from CED; response stat not 'ok'");
+                throw new IOException("Unable to lookup cryomodule Names from CED; response stat not 'ok'");
             }
             JsonObject inventory = json.getJsonObject("Inventory");
             JsonArray elements = inventory.getJsonArray("elements");
@@ -50,8 +50,8 @@ public class FsdRootCauseLogic {
                 String name = element.getString("name");
                 JsonObject properties = element.getJsonObject("properties");
                 String type = properties.getString("ModuleType");
-                if ("C100".equals(type)) {
-                    c100Names.add(name);
+                if ("C75".equals(type) || "C100".equals(type)) {
+                    c75and100Names.add(name);
                 } else {
                     otherNames.add(name);
                 }
@@ -105,47 +105,47 @@ public class FsdRootCauseLogic {
 
                     //cause = "RF (Cryomodule)";
                     if (cedNameSet.size() == 1) { // If only one name cause...
-                        cause = "RF (C25/C50)";
+                        cause = "RF (C25/50)";
                         String name = cedNameSet.iterator().next();
-                        if (c100Names.contains(name)) {
-                            cause = "RF (C100)";
+                        if (c75and100Names.contains(name)) {
+                            cause = "RF (C75/100)";
                         }
                     } else if (!cedNameSet.isEmpty()) { // If multiple
-                        int c100Count = 0;
+                        int c75_100Count = 0;
                         int c25_50Count = 0;
 
                         /*Let's count how many of each and if all of one kind then use it; otherwise stay RF (Multi/Other)*/
                         for (String name : cedNameSet) {
-                            if (c100Names.contains(name)) {
-                                c100Count++;
+                            if (c75and100Names.contains(name)) {
+                                c75_100Count++;
                             } else {
                                 c25_50Count++;
                             }
                         }
 
-                        if (c100Count == 0 && c25_50Count > 0) {
-                            cause = "RF (C25/C50)";
-                        } else if (c100Count > 0 && c25_50Count == 0) {
-                            cause = "RF (C100)";
+                        if (c75_100Count == 0 && c25_50Count > 0) {
+                            cause = "RF (C25/50)";
+                        } else if (c75_100Count > 0 && c25_50Count == 0) {
+                            cause = "RF (C75/100)";
                         }
                     }
                 }
-            } else if (cedTypeSet.contains("CryoModule")) { // Jay wants to minimize "RF (Multi/Other)" so if any cryomodule use that, and if any c100 in particular use that.
-                int c100Count = 0;
+            } else if (cedTypeSet.contains("CryoModule")) { // Jay wants to minimize "RF (Multi/Other)" so if any cryomodule use that, and if any module type in particular use that.
+                int c75_100Count = 0;
                 int c25_50Count = 0;
 
                 for (String name : cedNameSet) {
-                    if (c100Names.contains(name)) {
-                        c100Count++;
+                    if (c75and100Names.contains(name)) {
+                        c75_100Count++;
                     } else if (otherNames.contains(name)) {
                         c25_50Count++;
                     }
                 }
 
-                if (c100Count == 0 && c25_50Count > 0) {
-                    cause = "RF (C25/C50)";
-                } else if (c100Count > 0 && c25_50Count == 0) {
-                    cause = "RF (C100)";
+                if (c75_100Count == 0 && c25_50Count > 0) {
+                    cause = "RF (C25/50)";
+                } else if (c75_100Count > 0 && c25_50Count == 0) {
+                    cause = "RF (C75/100)";
                 }
             }
         }

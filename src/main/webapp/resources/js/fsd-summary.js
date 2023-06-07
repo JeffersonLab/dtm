@@ -20,8 +20,8 @@ jlab.getDataSource = function (bar) {
         'Nature': 'gold',
         'Operations': 'orange', /*Change me to something similar*/
         'RF': 'brown',
-        'RF (C100)': '#e31a1c',
-        'RF (C25/C50)': '#ff7f00',
+        'RF (C75/100)': '#e31a1c',
+        'RF (C25/50)': '#ff7f00',
         'RF (Separator)': '#fdbf6f',
         'RF (Multi/Other)': '#fb9a99',
         'Radiation Controls': 'olive', /*Change me to something similar*/
@@ -716,13 +716,13 @@ jlab.doMarkingLines = function (chartData, minX, maxX) {
             rightValue = ($("#chart-placeholder").width() - p2.left);
 
     if (chartData.grouped) {
-        var c100 = chartData.tripPerHourMap['RF (C100)'] || 0,
-                c25_50 = chartData.tripPerHourMap['RF (C25/C50)'] || 0,
+        var c75_100 = chartData.tripPerHourMap['RF (C75/100)'] || 0,
+                c25_50 = chartData.tripPerHourMap['RF (C25/50)'] || 0,
                 separator = chartData.tripPerHourMap['RF (Separator)'] || 0,
                 multi_other = chartData.tripPerHourMap['RF (Multi/Other)'] || 0;
 
 
-        yValue = (c100 + c25_50 + separator + multi_other).toFixed(1) * 1;
+        yValue = (c75_100 + c25_50 + separator + multi_other).toFixed(1) * 1;
 
         hourlyRate = yValue.toFixed(1) + " /Hr";
         dailyRate = "";

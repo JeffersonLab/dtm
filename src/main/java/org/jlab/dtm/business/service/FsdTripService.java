@@ -410,7 +410,7 @@ public class FsdTripService {
             try {
                 logic = new FsdRootCauseLogic();
             } catch (IOException e) {
-                throw new SQLException("Unable to lookup C100 names from CED", e);
+                throw new SQLException("Unable to lookup cryomodule names from CED", e);
             }
 
             for (FsdTrip trip : tripList) {

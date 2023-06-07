@@ -14,8 +14,8 @@ public enum RootCause {
     Magnets("Magents"),
     Unknown("Unknown/Missing"),
     Vacuum("Vacuum"),
-    OldRF("RF (C25/C50)"),
-    C100("RF (C100)"),
+    OldRF("RF (C25/50)"),
+    C100("RF (C75/100)"),
     OtherRF("RF (Multi/Other)"),
     Separator("RF (Separator)");
     
