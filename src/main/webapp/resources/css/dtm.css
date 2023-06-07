@@ -79,7 +79,8 @@ body .me-button {
 .date-note {
     font-size: 12px;
 }
-.horizontal-key-value-table th, td {
+.horizontal-key-value-table th,
+.horizontal-key-value-table td {
     padding: 0 2em;
 }
 /*This may be a bug with jQuery UI with no good solution: an autocomplete inside a dialog sometimes is hidden behind the dialog*/

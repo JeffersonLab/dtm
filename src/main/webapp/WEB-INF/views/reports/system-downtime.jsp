@@ -28,6 +28,8 @@
     </jsp:attribute>        
     <jsp:body>
         <section>
+            <fmt:formatDate var="startFmt" value="${start}" pattern="${s:getFriendlyDateTimePattern()}"/>
+            <fmt:formatDate var="endFmt" value="${end}" pattern="${s:getFriendlyDateTimePattern()}"/>
             <fmt:formatDate var="todayFmt" value="${today}" pattern="${s:getFriendlyDateTimePattern()}"/>
             <fmt:formatDate var="sevenDaysAgoFmt" value="${sevenDaysAgo}" pattern="${s:getFriendlyDateTimePattern()}"/>
             <c:set var="scheduledDowntime" value="0"/>
@@ -38,6 +40,7 @@
                     <ul id="export-menu">
                         <li id="image-menu-item">Image</li>
                         <li id="print-menu-item">Print</li>
+                        <li id="excel-menu-item">Excel</li>
                     </ul>
                 </div>
             </div>            
@@ -253,6 +256,15 @@
                 </c:otherwise>
             </c:choose>
         </section>
+        <form id="excel-form" method="get" action="${pageContext.request.contextPath}/excel/system-downtime.xlsx">
+            <input type="hidden" name="start" value="${startFmt}"/>
+            <input type="hidden" name="end" value="${endFmt}"/>
+            <input type="hidden" name="type" value="${type.eventTypeId}"/>
+            <input type="hidden" name="transport" value="${param.transport}"/>
+            <input type="hidden" name="packed" value="${param.packed}"/>
+            <input type="hidden" name="category" value="${param.category}"/>
+            <button id="excel" type="submit" style="display: none;">Excel</button>
+        </form>
         <div id="exit-fullscreen-panel">
             <button id="exit-fullscreen-button">Exit Full Screen</button>
         </div>            

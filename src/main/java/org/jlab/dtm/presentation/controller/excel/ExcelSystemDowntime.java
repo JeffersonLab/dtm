@@ -1,0 +1,120 @@
+package org.jlab.dtm.presentation.controller.excel;
+
+import org.jlab.dtm.business.session.CategoryFacade;
+import org.jlab.dtm.business.session.EventTypeFacade;
+import org.jlab.dtm.business.session.ExcelSystemDowntimeService;
+import org.jlab.dtm.business.session.SystemDowntimeFacade;
+import org.jlab.dtm.persistence.entity.Category;
+import org.jlab.dtm.persistence.entity.EventType;
+import org.jlab.dtm.persistence.model.SystemDowntime;
+import org.jlab.dtm.presentation.util.DtmParamConverter;
+import org.jlab.dtm.presentation.util.FilterSelectionMessage;
+import org.jlab.smoothness.presentation.util.ParamConverter;
+import org.jlab.smoothness.presentation.util.ParamUtil;
+
+import javax.ejb.EJB;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
+
+/**
+ *
+ * @author ryans
+ */
+@WebServlet(name = "ExcelSystemDowntime", urlPatterns = {"/excel/system-downtime.xlsx"})
+public class ExcelSystemDowntime extends HttpServlet {
+
+    @EJB
+    ExcelSystemDowntimeService excelService;
+    @EJB
+    EventTypeFacade eventTypeFacade;
+    @EJB
+    SystemDowntimeFacade downtimeFacade;
+    @EJB
+    CategoryFacade categoryFacade;
+    
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        Date start = null;
+        Date end = null;
+
+        try {
+            start = DtmParamConverter.convertJLabDateTime(request, "start");
+            end = DtmParamConverter.convertJLabDateTime(request, "end");
+        } catch (ParseException e) {
+            throw new ServletException("Unable to parse date", e);
+        }
+
+        if (start == null) {
+            throw new ServletException("Start date must not be null");
+        }
+
+        if (end == null) {
+            throw new ServletException("End date must not be null");
+        }
+
+        BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
+
+        EventType type = null;
+        
+        if (eventTypeId != null) {
+            type = eventTypeFacade.find(eventTypeId);
+        }
+
+        BigInteger categoryId = ParamConverter.convertBigInteger(request, "category");
+
+        Boolean beamTransport = ParamConverter.convertYNBoolean(request, "transport");
+
+        boolean packed = ParamUtil.convertAndValidateYNBoolean(request, "packed", true);
+
+        Category selectedCategory = null;
+
+        if (categoryId != null) {
+            selectedCategory = categoryFacade.find(categoryId);
+        }
+
+        String filters = FilterSelectionMessage.getReportMessage(start, end, type, null, selectedCategory, null, null, beamTransport, packed);
+
+        List<SystemDowntime> downtimeList = null;
+        double grandTotalDuration = 0.0;
+        double periodDurationHours = 0.0;
+
+        if (start != null && end
+                != null) {
+            if (start.after(end)) {
+                throw new ServletException("start date cannot be after end date");
+            }
+
+            periodDurationHours = (end.getTime() - start.getTime()) / 1000.0 / 60.0 / 60.0;
+
+            downtimeList = downtimeFacade.findByPeriodAndType(start, end, type, beamTransport, categoryId, packed);
+
+            for (int i = 0; i < downtimeList.size(); i++) {
+                SystemDowntime downtime = downtimeList.get(i);
+                grandTotalDuration = grandTotalDuration + downtime.getDuration();
+            }
+        }
+
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("content-disposition", "attachment;filename=\"system-downtime.xlsx\"");
+
+        excelService.export(response.getOutputStream(), downtimeList, filters.trim(), periodDurationHours, grandTotalDuration);
+    }
+}
