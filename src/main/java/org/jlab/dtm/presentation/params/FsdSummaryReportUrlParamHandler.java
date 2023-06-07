@@ -136,7 +136,7 @@ public class FsdSummaryReportUrlParamHandler implements
         defaultParams.setMaxDuration(5);
         defaultParams.setMaxDurationUnits("Minutes");
         defaultParams.setGrouping("cause");
-        defaultParams.setLegendDataArray(new String[]{"rate"});
+        defaultParams.setLegendDataArray(new String[]{"rate","lost"});
         defaultParams.setBinSize(BinSize.DAY);
         defaultParams.setTripRateBasis("program");
         defaultParams.setSadTrips(false);
