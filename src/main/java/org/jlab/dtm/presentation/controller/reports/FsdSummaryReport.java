@@ -14,11 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.params.FsdSummaryReportParams;
-import org.jlab.dtm.business.session.CategoryFacade;
 import org.jlab.dtm.business.service.FsdTripTrendService;
 import org.jlab.dtm.business.service.FsdTripTrendService.TripHistogramBin;
 import org.jlab.dtm.business.session.OpAccHourService;
-import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.enumeration.BinSize;
 import org.jlab.dtm.persistence.enumeration.RootCause;
 import org.jlab.dtm.persistence.model.BeamSummaryTotals;
@@ -36,8 +34,6 @@ public class FsdSummaryReport extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(
             FsdSummaryReport.class.getName());
 
-    @EJB
-    CategoryFacade categoryFacade;
     @EJB
     OpAccHourService accHourService;
 
@@ -81,8 +77,6 @@ public class FsdSummaryReport extends HttpServlet {
         long getStartMillis = System.currentTimeMillis();
 
         Date endInclusive = null;
-
-        List<Category> categoryList = categoryFacade.findAlphaCategoryList();
 
         double programHours = 0.0;
         double periodHours = 0.0;
@@ -146,7 +140,6 @@ public class FsdSummaryReport extends HttpServlet {
         request.setAttribute("endInclusive", endInclusive);
         request.setAttribute("today", today);
         request.setAttribute("sevenDaysAgo", sevenDaysAgo);
-        request.setAttribute("categoryList", categoryList);
         request.setAttribute("subtitle", subtitle);
         request.setAttribute("footnoteList", footnoteList);
         request.setAttribute("trendList", trendList);
