@@ -476,6 +476,8 @@ jlab.doPieChart = function () {
         if (href) {
             $(this).text("");
             $(this).append('<a href="' + href + '" title="' + title + '">' + label + '</a> ' + extra);
+        } else {
+            $(this).text(label + " " + extra);
         }
     });
 
