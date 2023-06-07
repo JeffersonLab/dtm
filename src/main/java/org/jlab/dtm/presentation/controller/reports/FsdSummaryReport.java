@@ -15,14 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.params.FsdSummaryReportParams;
 import org.jlab.dtm.business.session.CategoryFacade;
-import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.business.service.FsdTripTrendService;
 import org.jlab.dtm.business.service.FsdTripTrendService.TripHistogramBin;
 import org.jlab.dtm.business.session.OpAccHourService;
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.enumeration.BinSize;
 import org.jlab.dtm.persistence.enumeration.RootCause;
-import org.jlab.dtm.persistence.enumeration.Shift;
 import org.jlab.dtm.persistence.model.BeamSummaryTotals;
 import org.jlab.dtm.presentation.params.FsdSummaryReportUrlParamHandler;
 import org.jlab.dtm.presentation.util.FilterSelectionMessage;
@@ -38,8 +36,6 @@ public class FsdSummaryReport extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(
             FsdSummaryReport.class.getName());
 
-    @EJB
-    EventTypeFacade eventTypeFacade;
     @EJB
     CategoryFacade categoryFacade;
     @EJB
