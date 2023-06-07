@@ -100,17 +100,17 @@
                         <c:param name="fullscreen" value="${param.fullscreen}"/>
                         <c:param name="qualified" value=""/>
                     </c:url>                     
-                    <div>    
-                        <ul class="fork-option-pair quick-nav">
+                    <div class="float-breadbox">
+                        <ul>
                             <li>
-                                <a href="${previousUrl}" class="right-fork-option">Previous</a>
+                                <a href="${previousUrl}">Previous</a>
                             </li>
                             <li>
-                                <a href="${nextUrl}" class="left-fork-option">Next</a>
+                                <a href="${nextUrl}">Next</a>
                             </li>
                         </ul>
-                        <div class="message-box"><c:out value="${selectionMessage}"/></div>
                     </div>
+                    <div class="message-box"><c:out value="${selectionMessage}"/></div>
                     <table class="two-column-table">   
                         <tbody>
                             <tr>
