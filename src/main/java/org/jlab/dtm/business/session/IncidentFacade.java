@@ -277,10 +277,12 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         List<IncidentReview> reviewList = new ArrayList<>();
         if (expertUsernameArray != null) {
             for (String s : expertUsernameArray) {
-                IncidentReview review = new IncidentReview();
-                review.setReviewer(s);
-                review.setIncident(incident);
-                reviewList.add(review);
+                if(s != null && !s.trim().isEmpty()) {
+                    IncidentReview review = new IncidentReview();
+                    review.setReviewer(s);
+                    review.setIncident(incident);
+                    reviewList.add(review);
+                }
             }
         }
 
