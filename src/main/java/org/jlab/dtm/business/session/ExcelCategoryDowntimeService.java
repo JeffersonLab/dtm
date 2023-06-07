@@ -105,7 +105,7 @@ public class ExcelCategoryDowntimeService {
 
         sheet1.autoSizeColumn(0);
 
-        row0.createCell(0).setCellValue("Bounded By: " + filters);
+        row0.createCell(0).setCellValue("Bounded By: " + filters + " and program hours: " + programHours);
 
         sheet1.autoSizeColumn(1);
         sheet1.autoSizeColumn(2);
