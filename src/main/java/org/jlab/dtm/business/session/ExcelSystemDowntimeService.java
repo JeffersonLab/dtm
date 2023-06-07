@@ -2,6 +2,7 @@ package org.jlab.dtm.business.session;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.model.CategoryDowntime;
 import org.jlab.dtm.persistence.model.SystemDowntime;
 import org.jlab.smoothness.business.util.TimeUtil;
@@ -23,7 +24,7 @@ public class ExcelSystemDowntimeService {
 
     @PermitAll
     public void export(OutputStream out, List<SystemDowntime> downtimeList,
-            String filters, double periodDurationHours, double grandTotalDuration) throws
+                       String filters, double periodDurationHours, double grandTotalDuration, EventType type, double programHours) throws
             IOException {
         Workbook wb = new XSSFWorkbook();
         Sheet sheet1 = wb.createSheet("DTM System Downtime");
@@ -38,6 +39,14 @@ public class ExcelSystemDowntimeService {
         row1.createCell(2).setCellValue("NUMBER OF INCIDENTS");
         row1.createCell(3).setCellValue("MEAN TIME TO RECOVER (HOURS)");
 
+        if(EventType.ACC.equals(type)) {
+            row1.createCell(4).setCellValue("UPTIME (HOURS)");
+            row1.createCell(5).setCellValue("MTBF (HOURS)");
+            row1.createCell(6).setCellValue("HOURLY FAILURE RATE");
+            row1.createCell(7).setCellValue("AVAILABILITY");
+            row1.createCell(8).setCellValue("LOSS");
+        }
+
         CreationHelper createHelper = wb.getCreationHelper();
         CellStyle numberStyle = wb.createCellStyle();
         numberStyle.setDataFormat(createHelper.createDataFormat().getFormat("#,##0.0"));
@@ -47,26 +56,65 @@ public class ExcelSystemDowntimeService {
 
         Cell c;
 
-        for (SystemDowntime incident : downtimeList) {
+        for (SystemDowntime downtime : downtimeList) {
             Row row = sheet1.createRow(rownum++);
 
-            row.createCell(0).setCellValue(incident.getSystemName());
+            row.createCell(0).setCellValue(downtime.getSystemName());
             c = row.createCell(1);
             c.setCellStyle(numberStyle);
-            c.setCellValue(incident.getDuration() * 24);
-            row.createCell(2).setCellValue(incident.getIncidentCount());
+            c.setCellValue(downtime.getDuration() * 24);
+            row.createCell(2).setCellValue(downtime.getIncidentCount());
             c = row.createCell(3);
             c.setCellStyle(numberStyle);
-            c.setCellValue(incident.getDuration() / incident.getIncidentCount() * 24);
+            c.setCellValue(downtime.getDuration() / downtime.getIncidentCount() * 24);
+
+            if(EventType.ACC.equals(type)) {
+
+                double uptime = programHours - (downtime.getDuration() * 24);
+                double mtbf = uptime / downtime.getIncidentCount();
+                Double failureRate = uptime == 0 ? null : downtime.getIncidentCount() / uptime;
+                double availability = programHours == 0 ? 0 : uptime / programHours * 100;
+                double loss = 100 - availability;
+
+                c = row.createCell(4);
+                c.setCellStyle(numberStyle);
+                c.setCellValue(uptime);
+
+                c = row.createCell(5);
+                c.setCellStyle(numberStyle);
+                c.setCellValue(mtbf);
+
+                c = row.createCell(6);
+                c.setCellStyle(numberStyle);
+                if(failureRate != null) {
+                    c.setCellValue(failureRate);
+                }
+
+                c = row.createCell(7);
+                c.setCellStyle(numberStyle);
+                c.setCellValue(availability);
+
+                c = row.createCell(8);
+                c.setCellStyle(numberStyle);
+                c.setCellValue(loss);
+            }
         }
 
         sheet1.autoSizeColumn(0);
 
-        row0.createCell(0).setCellValue("Bounded By: " + filters);
+        row0.createCell(0).setCellValue("Bounded By: " + filters + " and program hours: " + programHours);
 
         sheet1.autoSizeColumn(1);
         sheet1.autoSizeColumn(2);
         sheet1.autoSizeColumn(3);
+
+        if(EventType.ACC.equals(type)) {
+            sheet1.autoSizeColumn(4);
+            sheet1.autoSizeColumn(5);
+            sheet1.autoSizeColumn(6);
+            sheet1.autoSizeColumn(7);
+            sheet1.autoSizeColumn(8);
+        }
 
         wb.write(out);
     }

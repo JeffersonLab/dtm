@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.session.CategoryDowntimeFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.business.session.ExcelCategoryDowntimeService;
+import org.jlab.dtm.business.session.OpAccHourService;
 import org.jlab.dtm.persistence.entity.EventType;
+import org.jlab.dtm.persistence.model.BeamSummaryTotals;
 import org.jlab.dtm.persistence.model.CategoryDowntime;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.dtm.presentation.util.FilterSelectionMessage;
@@ -34,7 +36,9 @@ public class ExcelCategoryDowntime extends HttpServlet {
     EventTypeFacade eventTypeFacade;
     @EJB
     CategoryDowntimeFacade downtimeFacade;
-    
+    @EJB
+    OpAccHourService accHourService;
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -99,9 +103,18 @@ public class ExcelCategoryDowntime extends HttpServlet {
             }
         }
 
+        BeamSummaryTotals beamSummary = null;
+        double programHours = 0.0;
+
+        if (EventType.ACC.equals(type)) {
+            beamSummary = accHourService.reportTotals(start, end);
+
+            programHours = (beamSummary.calculateProgramSeconds() / 3600.0);
+        }
+
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("content-disposition", "attachment;filename=\"category-downtime.xlsx\"");
 
-        excelService.export(response.getOutputStream(), downtimeList, filters.trim(), periodDurationHours, grandTotalDuration);
+        excelService.export(response.getOutputStream(), downtimeList, filters.trim(), periodDurationHours, grandTotalDuration, type, programHours);
     }
 }
