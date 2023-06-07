@@ -450,9 +450,15 @@ jlab.doPieChart = function () {
     });
 
     var mIndex = 0;
+    var i = 0;
 
     $(".legend .legendLabel").each(function () {
         var label = $(this).text();
+
+        var data = jlab.flotplot.getData();
+        var record = data[i++];
+
+        var extra = "[" + (record.data[0][1]).toFixed(1) * 1 + "] (" + record.percent.toFixed(1) + "%)";
 
         var href = false;
         var title = "";
@@ -469,7 +475,7 @@ jlab.doPieChart = function () {
 
         if (href) {
             $(this).text("");
-            $(this).append('<a href="' + href + '" title="' + title + '">' + label + '</a>');
+            $(this).append('<a href="' + href + '" title="' + title + '">' + label + '</a> ' + extra);
         }
     });
 
