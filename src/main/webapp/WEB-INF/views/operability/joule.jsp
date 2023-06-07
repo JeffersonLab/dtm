@@ -239,7 +239,7 @@
                     <button class="close-bubble">X</button>
                     <div class="definition-bubble-title">Delivered Beam Studies</div>
                     <div class="definition-bubble-body">
-                        <p>Time in which the Accelerator division used the machine to study/test/develop it (formally named machine development).</p>
+                        <p>Time in which the Accelerator division used the machine to study/test/develop it (formerly named machine development).</p>
                         <p><b>Note:</b> Recorded directly in BTM by Crew Chief on each shift.</p>
                         <p><b>Note:</b> Often we switch to an alternate program during an extended down, which may result in beam studies replacing down (or the PAC Long Term Schedule / Budget is retroactively updated)</p>
                     </div>
