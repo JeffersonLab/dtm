@@ -854,7 +854,7 @@ $(document).on("click", ".default-reset-panel", function () {
     $("#binSize").val('DAY');
     $("#grouping").val('cause');
     $("#maxY").val(17);
-    $("#legendData").val("rate").trigger('change');
+    $("#legendData").val(["rate", "lost"]).trigger('change');
     $("#cause").val(null).trigger('change');
     return false;
 });
