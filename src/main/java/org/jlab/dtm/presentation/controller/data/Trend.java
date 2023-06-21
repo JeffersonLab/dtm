@@ -1,15 +1,10 @@
 package org.jlab.dtm.presentation.controller.data;
 
-import org.jlab.dtm.business.params.IncidentParams;
 import org.jlab.dtm.business.params.TrendReportParams;
-import org.jlab.dtm.business.session.CategoryFacade;
-import org.jlab.dtm.business.session.IncidentFacade;
 import org.jlab.dtm.business.session.TrendReportFacade;
-import org.jlab.dtm.persistence.entity.Category;
-import org.jlab.dtm.persistence.entity.Incident;
 import org.jlab.dtm.persistence.model.TrendRecord;
 import org.jlab.dtm.presentation.params.TrendReportUrlParamHandler;
-import org.jlab.smoothness.presentation.util.ParamConverter;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 
 import javax.ejb.EJB;
 import javax.json.Json;
@@ -22,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,8 +36,6 @@ public class Trend extends HttpServlet {
             Trend.class.getName());
     @EJB
     TrendReportFacade trendReportFacade;
-    @EJB
-    CategoryFacade categoryFacade;
 
     /**
      * Handles the HTTP
@@ -79,11 +71,9 @@ public class Trend extends HttpServlet {
 
         try {
             recordList = trendReportFacade.find(params);
-        }  catch (SQLException e) {
+        }  catch (SQLException | UserFriendlyException e) {
             errorReason = e.getClass().getSimpleName() + ": " + e.getMessage();
         }
-
-        //List<Category> alphaCatList = categoryFacade.findAlphaCategoryList();
 
         response.setContentType("application/json");
 

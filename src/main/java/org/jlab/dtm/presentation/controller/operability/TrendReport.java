@@ -19,6 +19,7 @@ import org.jlab.dtm.business.util.DtmTimeUtil;
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.model.TrendRecord;
 import org.jlab.dtm.presentation.params.TrendReportUrlParamHandler;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 
 /**
  *
@@ -71,15 +72,18 @@ public class TrendReport extends HttpServlet {
 
         params.setIncludeCategories(true);
 
+        String selectionMessage = paramHandler.message(params);
+        String errorMessage = null;
+
         try {
             recordList = trendReportFacade.find(params);
         }  catch (SQLException e) {
             throw new ServletException("Unable to load data", e);
+        } catch (UserFriendlyException e) {
+           errorMessage = e.getMessage();
         }
 
         List<Category> alphaCatList = categoryFacade.findAlphaCategoryList();
-
-        String selectionMessage = paramHandler.message(params);
 
         Date endInclusive = DtmTimeUtil.getEndInclusive(params.getEnd(), params.getSize());
 
@@ -89,6 +93,7 @@ public class TrendReport extends HttpServlet {
         request.setAttribute("alphaCatList", alphaCatList);
         request.setAttribute("recordList", recordList);
         request.setAttribute("selectionMessage", selectionMessage);
+        request.setAttribute("errorMessage", errorMessage);
 
         request.getRequestDispatcher("/WEB-INF/views/operability/trend.jsp").forward(
                 request,

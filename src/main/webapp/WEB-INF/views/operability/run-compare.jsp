@@ -80,6 +80,10 @@
                 <c:when test="${recordListList.isEmpty()}">
                     <div class="message-box">Select a date range to continue</div>
                 </c:when>
+                <c:when test="${errorMessage ne null}">
+                    <div class="message-box error-message"><c:out value="${errorMessage}"/></div>
+                    <div class="message-box"><c:out value="${selectionMessage}"/></div>
+                </c:when>
                 <c:otherwise>                      
                     <div class="message-box"><c:out value="${selectionMessage}"/></div>
                     <c:if test="${param.type ne 'table'}">

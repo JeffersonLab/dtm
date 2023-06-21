@@ -5,6 +5,7 @@ import org.jlab.dtm.business.session.*;
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.model.TrendRecord;
 import org.jlab.dtm.presentation.params.MultiTrendReportUrlParamHandler;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -82,10 +83,14 @@ public class RunComparisonReport extends HttpServlet {
 
         List<List<TrendRecord>> recordListList = null;
 
+        String errorMessage = null;
+
         try {
             recordListList = trendReportFacade.findMultiple(params);
         }  catch (SQLException e) {
             throw new ServletException("Unable to load data", e);
+        } catch (UserFriendlyException e) {
+            errorMessage = e.getMessage();
         }
 
         List<Category> alphaCatList = null;
@@ -96,6 +101,7 @@ public class RunComparisonReport extends HttpServlet {
         request.setAttribute("alphaCatList", alphaCatList);
         request.setAttribute("recordListList", recordListList);
         request.setAttribute("selectionMessage", selectionMessage);
+        request.setAttribute("errorMessage", errorMessage);
 
         request.getRequestDispatcher("/WEB-INF/views/operability/run-compare.jsp").forward(
                 request,

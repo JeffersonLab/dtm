@@ -25,6 +25,7 @@ import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.model.TrendRecord;
 import org.jlab.dtm.presentation.params.TrendReportUrlParamHandler;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.util.DateIterator;
 import org.jlab.smoothness.business.util.TimeUtil;
 
@@ -89,6 +90,8 @@ public class ExcelTrend extends HttpServlet {
             recordList = trendReportFacade.find(params);
         }  catch (SQLException e) {
             throw new ServletException("Unable to load data", e);
+        } catch (UserFriendlyException e) {
+            throw new ServletException(e.getMessage());
         }
 
         List<Category> alphaCatList = categoryFacade.findAlphaCategoryList();

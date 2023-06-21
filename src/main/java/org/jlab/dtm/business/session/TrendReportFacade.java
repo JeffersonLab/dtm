@@ -14,6 +14,7 @@ import org.jlab.dtm.persistence.model.BeamSummaryTotals;
 import org.jlab.dtm.persistence.model.CategoryDowntime;
 import org.jlab.dtm.persistence.model.EventDowntime;
 import org.jlab.dtm.persistence.model.TrendRecord;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
@@ -35,7 +36,7 @@ public class TrendReportFacade {
     CcAccHourService accHourService;
 
     @PermitAll
-    public List<TrendRecord> find(TrendReportParams params) throws SQLException {
+    public List<TrendRecord> find(TrendReportParams params) throws SQLException, UserFriendlyException {
         List<TrendRecord> recordList = new ArrayList<>();
 
         String size = params.getSize();
@@ -79,6 +80,10 @@ public class TrendReportFacade {
                 Date bin = iterator.next();
 
                 bins.add(bin);
+            }
+
+            if(bins.size() > 53) {
+                throw new UserFriendlyException(bins.size() + " bins requested, but number must be no more than 53, select larger bin size or smaller date range");
             }
 
             for (Date bin : bins) {
@@ -241,7 +246,7 @@ public class TrendReportFacade {
     }
 
     @PermitAll
-    public List<List<TrendRecord>> findMultiple(MultiTrendReportParams params) throws SQLException {
+    public List<List<TrendRecord>> findMultiple(MultiTrendReportParams params) throws SQLException, UserFriendlyException {
         List<List<TrendRecord>> recordListList = new ArrayList<>();
 
         String[] labelArray = params.getLabelArray();
