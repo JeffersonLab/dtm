@@ -1226,4 +1226,6 @@ $(function () {
     });
 
     $("#incident-form-tabs").tabs();
+
+    $(".event-list").show();
 });

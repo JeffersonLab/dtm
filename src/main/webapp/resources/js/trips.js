@@ -100,5 +100,7 @@ $(function() {
     
     $("#accState, #hallAState, #hallBState, #hallCState, #hallDState").select2({
         width: 290
-    });    
+    });
+
+    $(".event-list").show();
 });

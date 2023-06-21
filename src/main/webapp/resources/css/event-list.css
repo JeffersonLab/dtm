@@ -1,3 +1,8 @@
+/*Initially hidden to avoid flicker on init*/
+.event-list {
+    display: none;
+}
+
 /*Incident Timeline*/
 .event-timeline-buffer {
     margin: 5em 3em 0 3em;
