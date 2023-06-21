@@ -400,7 +400,8 @@ CREATE TABLE DTM_OWNER.CC_ACC_HOUR
         check (UP_SECONDS + SAD_SECONDS + DOWN_SECONDS + STUDIES_SECONDS + RESTORE_SECONDS + ACC_SECONDS = 3600)
 );
 
-/* create or replace view dtm_owner.cc_acc_hour as
+/* grant select on btm_owner.cc_acc_hour to dtm_owner;
+create or replace view dtm_owner.cc_acc_hour as
 (
 select * from btm_owner.cc_acc_hour
 );*/
