@@ -368,15 +368,15 @@ create or replace view dtm_owner.workgroup as
 select group_id as workgroup_id, name from srm_owner.responsible_group
 );*/
 
-CREATE TABLE DTM_OWNER.OP_ACC_HOUR
+CREATE TABLE DTM_OWNER.CC_ACC_HOUR
 (
-    OP_ACC_HOUR_ID  NUMBER                            not null
-        constraint OP_ACC_HOUR_PK
+    CC_ACC_HOUR_ID  NUMBER                            not null
+        constraint CC_ACC_HOUR_PK
             primary key,
     DAY_AND_HOUR    TIMESTAMP(0) WITH LOCAL TIME ZONE not null
-        constraint OP_ACC_HOUR_AK1
+        constraint CC_ACC_HOUR_AK1
             unique
-        constraint OP_ACC_HOUR_CK1
+        constraint CC_ACC_HOUR_CK1
             check (EXTRACT(MINUTE FROM DAY_AND_HOUR) = 0 AND EXTRACT(SECOND FROM DAY_AND_HOUR) = 0),
     UP_SECONDS      NUMBER(4) default 0               not null
         constraint OP_ACC_HOUR_CK2
@@ -400,9 +400,9 @@ CREATE TABLE DTM_OWNER.OP_ACC_HOUR
         check (UP_SECONDS + SAD_SECONDS + DOWN_SECONDS + STUDIES_SECONDS + RESTORE_SECONDS + ACC_SECONDS = 3600)
 );
 
-/* create or replace view dtm_owner.op_acc_hour as
+/* create or replace view dtm_owner.cc_acc_hour as
 (
-select * from jbta_owner.op_acc_hour
+select * from btm_owner.cc_acc_hour
 );*/
 
 CREATE OR REPLACE VIEW DTM_OWNER.ALL_COMPONENTS as

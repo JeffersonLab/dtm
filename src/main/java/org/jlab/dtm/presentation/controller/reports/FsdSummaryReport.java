@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.params.FsdSummaryReportParams;
 import org.jlab.dtm.business.service.FsdTripTrendService;
 import org.jlab.dtm.business.service.FsdTripTrendService.TripHistogramBin;
-import org.jlab.dtm.business.session.OpAccHourService;
+import org.jlab.dtm.business.session.CcAccHourService;
 import org.jlab.dtm.persistence.enumeration.BinSize;
 import org.jlab.dtm.persistence.enumeration.RootCause;
 import org.jlab.dtm.persistence.model.BeamSummaryTotals;
@@ -35,7 +35,7 @@ public class FsdSummaryReport extends HttpServlet {
             FsdSummaryReport.class.getName());
 
     @EJB
-    OpAccHourService accHourService;
+    CcAccHourService accHourService;
 
     /**
      * Handles the HTTP <code>GET</code> method.

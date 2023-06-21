@@ -17,16 +17,14 @@ import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
 import org.jlab.dtm.business.session.ComponentDowntimeFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.business.session.IncidentReportService;
-import org.jlab.dtm.business.session.OpAccHourService;
+import org.jlab.dtm.business.session.CcAccHourService;
 import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.SystemEntity;
-import org.jlab.dtm.persistence.enumeration.Shift;
 import org.jlab.dtm.persistence.model.BeamSummaryTotals;
 import org.jlab.dtm.persistence.model.ComponentDowntime;
 import org.jlab.dtm.presentation.params.ComponentDowntimeReportUrlParamHandler;
 import org.jlab.dtm.presentation.util.FilterSelectionMessage;
-import org.jlab.smoothness.business.util.TimeUtil;
 
 /**
  *
@@ -44,7 +42,7 @@ public class ComponentDowntimeReport extends HttpServlet {
     @EJB
     IncidentReportService incidentReportService;
     @EJB
-    OpAccHourService accHourService;
+    CcAccHourService accHourService;
 
     /**
      * Handles the HTTP <code>GET</code> method.

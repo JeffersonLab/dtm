@@ -38,7 +38,7 @@ public class ExcelSystemDowntime extends HttpServlet {
     @EJB
     CategoryFacade categoryFacade;
     @EJB
-    OpAccHourService accHourService;
+    CcAccHourService accHourService;
 
     /**
      * Handles the HTTP <code>GET</code> method.

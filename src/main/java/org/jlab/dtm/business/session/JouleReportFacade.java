@@ -26,14 +26,13 @@ import org.jlab.dtm.business.params.JouleReportParams;
 import org.jlab.dtm.business.util.DtmDateIterator;
 import org.jlab.dtm.business.util.DtmTimeUtil;
 import org.jlab.dtm.persistence.model.BeamSummaryTotals;
-import org.jlab.smoothness.business.util.DateIterator;
 import org.jlab.smoothness.business.util.TimeUtil;
 
 @Stateless
 public class JouleReportFacade {
 
     @EJB
-    OpAccHourService accHourService;    
+    CcAccHourService accHourService;
     
     @EJB
     EventDowntimeFacade eventDowntimeFacade;

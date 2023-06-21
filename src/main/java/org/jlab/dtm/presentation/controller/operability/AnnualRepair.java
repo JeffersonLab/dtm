@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.jlab.dtm.business.service.AnnualRepairReportService;
-import org.jlab.dtm.business.session.OpAccHourService;
+import org.jlab.dtm.business.session.CcAccHourService;
 import org.jlab.dtm.persistence.model.AnnualRepairReportRecord;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.business.util.TimeUtil;
@@ -32,7 +32,7 @@ import org.jlab.smoothness.presentation.util.ServletUtil;
 public class AnnualRepair extends HttpServlet {
 
     @EJB
-    OpAccHourService accHourService;    
+    CcAccHourService accHourService;
     
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -94,7 +94,7 @@ public class AnnualRepair extends HttpServlet {
         Date end = TimeUtil.calculateYearEndDate(start);
 
         List<AnnualRepairReportRecord> recordList = null;
-        List<OpAccHourService.MonthTotals> monthTotals = null;
+        List<CcAccHourService.MonthTotals> monthTotals = null;
         
         if (start != null && end != null) {
             try {

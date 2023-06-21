@@ -1,7 +1,6 @@
 package org.jlab.dtm.presentation.controller.reports;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -26,11 +25,10 @@ import org.jlab.dtm.business.session.CategoryDowntimeFacade;
 import org.jlab.dtm.business.session.EventDowntimeFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.business.session.IncidentReportService;
-import org.jlab.dtm.business.session.OpAccHourService;
+import org.jlab.dtm.business.session.CcAccHourService;
 import org.jlab.dtm.business.session.SystemDowntimeFacade;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.enumeration.AccMachineState;
-import org.jlab.dtm.persistence.enumeration.Shift;
 import org.jlab.dtm.persistence.filter.FsdTripFilter;
 import org.jlab.dtm.persistence.model.BeamSummaryTotals;
 import org.jlab.dtm.persistence.model.CategoryDowntime;
@@ -54,7 +52,7 @@ public class DowntimeSummaryReport extends HttpServlet {
     @EJB
     IncidentReportService incidentReportService;
     @EJB
-    OpAccHourService accHourService;
+    CcAccHourService accHourService;
     @EJB
     CategoryDowntimeFacade categoryDowntimeFacade;
     @EJB

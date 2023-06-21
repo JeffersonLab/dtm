@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.session.CategoryDowntimeFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.business.session.ExcelCategoryDowntimeService;
-import org.jlab.dtm.business.session.OpAccHourService;
+import org.jlab.dtm.business.session.CcAccHourService;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.model.BeamSummaryTotals;
 import org.jlab.dtm.persistence.model.CategoryDowntime;
@@ -37,7 +37,7 @@ public class ExcelCategoryDowntime extends HttpServlet {
     @EJB
     CategoryDowntimeFacade downtimeFacade;
     @EJB
-    OpAccHourService accHourService;
+    CcAccHourService accHourService;
 
     /**
      * Handles the HTTP <code>GET</code> method.

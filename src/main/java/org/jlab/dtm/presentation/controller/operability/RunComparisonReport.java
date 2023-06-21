@@ -1,13 +1,10 @@
 package org.jlab.dtm.presentation.controller.operability;
 
 import org.jlab.dtm.business.params.MultiTrendReportParams;
-import org.jlab.dtm.business.params.TrendReportParams;
 import org.jlab.dtm.business.session.*;
-import org.jlab.dtm.business.util.DtmTimeUtil;
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.model.TrendRecord;
 import org.jlab.dtm.presentation.params.MultiTrendReportUrlParamHandler;
-import org.jlab.dtm.presentation.params.TrendReportUrlParamHandler;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -37,7 +34,7 @@ public class RunComparisonReport extends HttpServlet {
     @EJB
     CategoryDowntimeFacade categoryDowntimeFacade;
     @EJB
-    OpAccHourService accHourService;
+    CcAccHourService accHourService;
     @EJB
     EventDowntimeFacade eventDowntimeFacade;
     @EJB

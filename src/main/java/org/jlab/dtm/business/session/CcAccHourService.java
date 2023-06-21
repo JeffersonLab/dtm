@@ -21,9 +21,9 @@ import org.jlab.smoothness.persistence.util.JPAUtil;
  * @author ryans
  */
 @Stateless
-public class OpAccHourService extends AbstractFacade<Object> {
+public class CcAccHourService extends AbstractFacade<Object> {
 
-    private final static Logger logger = Logger.getLogger(OpAccHourService.class.getName());
+    private final static Logger logger = Logger.getLogger(CcAccHourService.class.getName());
 
     @PersistenceContext(unitName = "dtmPU")
     private EntityManager em;
@@ -33,7 +33,7 @@ public class OpAccHourService extends AbstractFacade<Object> {
         return em;
     }
 
-    public OpAccHourService() {
+    public CcAccHourService() {
         super(Object.class);
     }
 
@@ -42,7 +42,7 @@ public class OpAccHourService extends AbstractFacade<Object> {
         Query q = em.createNativeQuery(
                 "select sum(up_seconds), sum(sad_seconds), sum(down_seconds), sum(studies_seconds), sum(restore_seconds), sum(acc_seconds) "
                 + "from ("
-                + "select up_seconds, sad_seconds, down_seconds, studies_seconds, restore_seconds, acc_seconds from dtm_owner.op_acc_hour "
+                + "select up_seconds, sad_seconds, down_seconds, studies_seconds, restore_seconds, acc_seconds from dtm_owner.cc_acc_hour "
                 + "where day_and_hour >= :start and day_and_hour < :end "
                 + "union all select 0, 0, 0, 0, 0, 0 from dual)");
 

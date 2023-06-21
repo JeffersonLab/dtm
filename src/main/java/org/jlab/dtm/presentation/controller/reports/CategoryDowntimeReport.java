@@ -17,14 +17,12 @@ import org.jlab.dtm.business.service.FsdTripService;
 import org.jlab.dtm.business.session.AbstractFacade;
 import org.jlab.dtm.business.session.CategoryDowntimeFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;
-import org.jlab.dtm.business.session.OpAccHourService;
+import org.jlab.dtm.business.session.CcAccHourService;
 import org.jlab.dtm.persistence.entity.EventType;
-import org.jlab.dtm.persistence.enumeration.Shift;
 import org.jlab.dtm.persistence.model.BeamSummaryTotals;
 import org.jlab.dtm.persistence.model.CategoryDowntime;
 import org.jlab.dtm.presentation.params.CategoryDowntimeReportUrlParamHandler;
 import org.jlab.dtm.presentation.util.FilterSelectionMessage;
-import org.jlab.smoothness.business.util.TimeUtil;
 
 /**
  *
@@ -38,7 +36,7 @@ public class CategoryDowntimeReport extends HttpServlet {
     @EJB
     CategoryDowntimeFacade downtimeFacade;
     @EJB
-    OpAccHourService accHourService;
+    CcAccHourService accHourService;
     
     /**
      * Handles the HTTP <code>GET</code> method.

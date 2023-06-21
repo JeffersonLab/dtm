@@ -32,7 +32,7 @@ public class TrendReportFacade {
     @EJB
     EventDowntimeFacade eventDowntimeFacade;
     @EJB
-    OpAccHourService accHourService;
+    CcAccHourService accHourService;
 
     @PermitAll
     public List<TrendRecord> find(TrendReportParams params) throws SQLException {
