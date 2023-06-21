@@ -82,8 +82,8 @@ public class TrendReportFacade {
                 bins.add(bin);
             }
 
-            if(bins.size() > 53) {
-                throw new UserFriendlyException(bins.size() + " bins requested, but number must be no more than 53, select larger bin size or smaller date range");
+            if(bins.size() > 12) {
+                throw new UserFriendlyException(bins.size() + " bins requested, but number must be no more than 12, select larger bin size or smaller date range");
             }
 
             for (Date bin : bins) {
