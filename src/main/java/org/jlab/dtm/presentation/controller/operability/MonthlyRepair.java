@@ -22,16 +22,13 @@ import javax.servlet.http.HttpSession;
 import org.jlab.dtm.business.params.IncidentDowntimeReportParams;
 import org.jlab.dtm.business.service.MonthlyRepairReportService;
 import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
-import org.jlab.dtm.business.session.CategoryDowntimeFacade;
 import org.jlab.dtm.business.session.CategoryFacade;
 import org.jlab.dtm.business.session.CategoryMonthlyGoalFacade;
-import org.jlab.dtm.business.session.EventDowntimeFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.business.session.IncidentReportService;
 import org.jlab.dtm.business.session.IncidentReportService.IncidentSummary;
 import org.jlab.dtm.business.session.MonthlyNoteFacade;
 import org.jlab.dtm.business.session.TrendReportFacade;
-import org.jlab.dtm.business.session.OpAccHourService;
 import org.jlab.dtm.business.session.ResponsibleGroupFacade;
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.entity.CategoryMonthlyGoal;
@@ -61,12 +58,6 @@ public class MonthlyRepair extends HttpServlet {
     ResponsibleGroupFacade groupFacade;
     @EJB
     CategoryFacade categoryFacade;
-    @EJB
-    CategoryDowntimeFacade categoryDowntimeFacade;
-    @EJB
-    OpAccHourService accHourService;
-    @EJB
-    EventDowntimeFacade eventDowntimeFacade;
     @EJB
     MonthlyNoteFacade noteFacade;
     @EJB
