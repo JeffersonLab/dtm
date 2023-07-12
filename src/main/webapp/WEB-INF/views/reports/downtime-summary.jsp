@@ -548,7 +548,7 @@
                     <button class="close-bubble">X</button>
                     <div class="definition-bubble-title">Accelerator Program Time</div>
                     <div class="definition-bubble-body">
-                        <p>The amount of time the machine is being used for any program.  This information is obtained from the Crew Chief timesheet in the Beam Time Manager (BTM).  Any time other than OFF (SAD) and UNKNOWN (no timesheet) are treated as program time.</p>
+                        <p>The amount of time the machine is being used for any program.  This information is obtained from the Crew Chief timesheet in the Beam Time Manager (BTM).  Any time other than OFF (SAD) and Implicit Off (no timesheet) are treated as program time.</p>
                         <p class="equation">Program Time = PHYSICS + STUDIES + RESTORE + ACC + DOWN</p>
                         <p>Note: BTM (scheduled) Restore is restoration after a SAD and differs from DTM (unscheduled) Restore, which is restoration after a DOWN.  Also, BTM SRA Down is a subset of DTM downtime and only represents downtimes when not doing PHYSICS.</p>
                     </div>
