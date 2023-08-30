@@ -72,7 +72,7 @@ gradlew build
 
 See: [Docker Development Quick Reference](https://gist.github.com/slominskir/a7da801e8259f5974c978f9c3091d52c#development-quick-reference)
 
-### Release
+## Release
 1. Bump the version number and release date in build.gradle and commit and push to GitHub (using [Semantic Versioning](https://semver.org/)).
 2. Create a new release on the GitHub Releases page corresponding to the same version in the build.gradle. The release should enumerate changes and link issues. A war artifact can be attached to the release to facilitate easy install by users.
 3. Build and publish a new Docker image [from the GitHub tag](https://gist.github.com/slominskir/a7da801e8259f5974c978f9c3091d52c#8-build-an-image-based-of-github-tag). GitHub is configured to do this automatically on git push of semver tag (typically part of GitHub release) or the [Publish to DockerHub](https://github.com/JeffersonLab/dtm/actions/workflows/docker-publish.yml) action can be manually triggered after selecting a tag.
