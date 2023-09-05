@@ -52,10 +52,11 @@ Wildfly must be pre-configured before the first deployment of the app. The [wild
 ### Runtime
 Uses the [Smoothness Environment Variables](https://github.com/JeffersonLab/smoothness#environment-variables) plus the following application specific:
 
-| Name    | Description                                       |
-|---------|---------------------------------------------------|
-| RAR_DIR | Directory path to store Repair Assessment Reports |
-| SRM_URL | Scheme, host, and port to System Readiness Manager (for Downgrade link; formally named HCO) |
+| Name          | Description                                       |
+|---------------|---------------------------------------------------|
+| DTM_BOOKS_CSV | Comma Separated Logbooks to post CREATED/DELETED entries to.  Defaults to TLOG.  Generally should be set to ELOG in production. |
+| RAR_DIR       | Directory path to store Repair Assessment Reports |
+| SRM_URL       | Scheme, host, and port to System Readiness Manager (for Downgrade link; formally named HCO) |
 | PAC_SCHEDULE_SERVER_URL | Scheme, host, and port to Program Advisory Committee Schedule (for Joule Report) |
 
 ## Build
