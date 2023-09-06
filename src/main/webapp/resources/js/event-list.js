@@ -426,6 +426,8 @@ jlab.dtm.prepareEventFormForEdit = function () {
     $("#event-dialog-event-type").val($(this).closest(".ui-accordion-content").prev().find(".event-header-type").attr("data-type-id"));
     $("#event-time-up").val($(this).closest(".event-detail").attr("data-event-time-up"));
 
+    $("#event-time-up").datepicker("refresh");
+
     $("#event").val(event);
 };
 jlab.dtm.removeEvent = function () {
