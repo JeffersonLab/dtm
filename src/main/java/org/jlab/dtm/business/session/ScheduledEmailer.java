@@ -45,6 +45,9 @@ public class ScheduledEmailer {
     private Timer timer;
     @EJB
     IncidentFacade incidentFacade;
+    @EJB
+    SettingsFacade settingsFacade;
+
     private final String TIMER_INFO = "ScheduledEmailer";
 
     @PostConstruct
@@ -55,11 +58,9 @@ public class ScheduledEmailer {
 
         timer = null;
 
-        String expertEmail = System.getenv("DTM_EXPERT_EMAIL");
-
-        if ("true".equals(expertEmail)) {
+        if (settingsFacade.findSettings().isAutoEmail()) {
             LOGGER.log(Level.FINE, "Creating New Timer");
-            setEnabled(true);
+            enable();
         }
     }
 
@@ -70,6 +71,9 @@ public class ScheduledEmailer {
 
     @RolesAllowed("dtm-reviewer")
     public void setEnabled(Boolean enabled) {
+
+        settingsFacade.setAutoEmail(enabled);
+
         if (enabled) {
             enable();
         } else {
