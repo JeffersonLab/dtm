@@ -47,6 +47,7 @@
                 <c:param name="qualified" value=""/>
             </c:url>
             <p><a href="${url}">Unreviewed last <c:out value="${numberOfHours}"/> hours</a></p>
+            <p><b>Note</b>: All emails are configured to CC: <c:out value="${ccCsv}"/></p>
         </section>
     </jsp:body>         
 </t:setup-page>  

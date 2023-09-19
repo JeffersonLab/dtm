@@ -175,8 +175,7 @@ public class ScheduledEmailer {
 
             String ccCsv = settingsFacade.findSettings().getExpertEmailCcCsv();
 
-            // String sender, String from, String toCsv, String subject, String body, boolean html
-            emailService.sendEmail("dtm@jlab.org", "dtm@jlab.org", toCsv, subject, html, true);
+            emailService.sendEmail("dtm@jlab.org", "dtm@jlab.org", toCsv, ccCsv, subject, html, true);
         }
     }
 
