@@ -1,11 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
 <c:set var="title" value="Email"/>
 <t:setup-page title="${title}">  
     <jsp:attribute name="stylesheets">
-        <style type="text/css">
+        <style>
             .email-section {
                 background-color: black;
                 color: white;
@@ -35,6 +37,16 @@
                 <button id="email-preview-button" type="button">Preview</button>
                 <button id="email-now-button" type="button">Send Email Now</button>
             </form>
+            <p>If scheduled emails are enabled then each day (Monday - Friday only) a check is done at 9:55 AM.  Any Subject Matter Expert (SME) that has associated incidents that were closed in the last 24 hours (or 72 hours if Monday) is notified via email.</p>
+            <fmt:formatDate pattern="${s:getFriendlyDateTimePattern()}" value="${start}" var="startFmt"/>
+            <fmt:formatDate pattern="${s:getFriendlyDateTimePattern()}" value="${end}" var="endFmt"/>
+            <c:url value="/reports/root-cause" var="url">
+                <c:param name="start" value="${startFmt}"/>
+                <c:param name="end" value="${endFmt}"/>
+                <c:param name="incidentMask" value="DEADBEATS"/>
+                <c:param name="qualified" value=""/>
+            </c:url>
+            <p><a href="${url}">Unreviewed last <c:out value="${numberOfHours}"/> hours</a></p>
         </section>
     </jsp:body>         
 </t:setup-page>  

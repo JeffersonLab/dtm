@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title><c:out value="${initParam.appShortName}"/> - Expert Action Report</title>
+    <title><c:out value="${initParam.appShortName}"/> - Expert Action Needed</title>
     <link rel="shortcut icon" href="${pathPrefix}/resources/v${initParam.releaseNumber}/img/favicon.ico"/>
     <style>
         th {font-weight: normal;}
@@ -22,7 +22,7 @@
     </style>
 </head>
 <body>
-<h2 style="margin-left: 16px;"><c:out value="${initParam.appShortName}"/> - Expert Action Report</h2>
+<h2 style="margin-left: 16px;"><c:out value="${initParam.appShortName}"/> - Expert Action Needed</h2>
 <div style="margin-left: 16px;" id="email-content" class="content-section dialog-content">
     This email is in reference to a system failure recorded in DTM within the last <c:out value="${numberOfHours}"/> hours that requires your review.<br/>
     <c:choose>
@@ -40,9 +40,6 @@
         </c:otherwise>
     </c:choose>
 
-    <c:if test="${param.email eq 'Y'}">
-        <a style="float: right;" href="${pathPrefix}">DTM Home</a>
-    </c:if>
     <b>Please conduct a repair assessment and review the incident(s) here:</b>
     <br/><b><a href="${pathPrefix}/all-events?acknowledged=N&smeUsername=${username}&qualified=">DTM-RAR Review</a></b>
     <br/><br/>

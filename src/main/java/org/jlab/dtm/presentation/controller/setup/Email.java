@@ -1,6 +1,7 @@
 package org.jlab.dtm.presentation.controller.setup;
 
 import java.io.IOException;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.session.ScheduledEmailer;
+import org.jlab.smoothness.business.util.TimeUtil;
 import org.jlab.smoothness.presentation.util.ParamUtil;
 
 /**
@@ -31,8 +33,21 @@ public class Email extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    
+
+        int numberOfHours = 24;
+
+        if (TimeUtil.isMonday()) {
+            numberOfHours = 72;
+        }
+
+        // Just things that have occurred in last "numberOfHours" hours
+        Date end = new Date();
+        Date start = (TimeUtil.addHours(end, numberOfHours * -1));
+
         request.setAttribute("schedulerEnabled", emailer.isEnabled());
+        request.setAttribute("numberOfHours", numberOfHours);
+        request.setAttribute("start", start);
+        request.setAttribute("end", end);
 
         getServletConfig().getServletContext().getRequestDispatcher(
                 "/WEB-INF/views/setup/email.jsp").forward(request, response);

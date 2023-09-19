@@ -40,6 +40,12 @@ jlab.dtm.ondemand = function(username) {
 
 $(document).on("click", "#email-now-button", function() {
     var username = $("#username").val();
+
+    if(username == '') {
+        alert('username is empty');
+        return false;
+    }
+
     if(confirm('Are you sure you want to send email to user ' + username + '?')) {
         jlab.dtm.ondemand.call(this, username);
     }
@@ -48,7 +54,19 @@ $(document).on("click", "#email-now-button", function() {
 $(document).on("click", "#email-preview-button", function() {
     var username = $("#username").val();
 
+    if(username == '') {
+        alert('username is empty');
+        return false;
+    }
+
     jlab.closePageDialogs();
     jlab.openPageInDialog(jlab.contextPath + "/expert-email?username=" + username, "Expert Email Preview");
     return false;
+});
+
+$(document).on("keydown", ":input:not(textarea):not(:submit)", function(event) {
+    if (event.key == "Enter") {
+        event.preventDefault();
+        console.log('blocking enter key; click submit button with mouse');
+    }
 });
