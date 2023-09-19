@@ -44,3 +44,11 @@ $(document).on("click", "#email-now-button", function() {
         jlab.dtm.ondemand.call(this, username);
     }
 });
+
+$(document).on("click", "#email-preview-button", function() {
+    var username = $("#username").val();
+
+    jlab.closePageDialogs();
+    jlab.openPageInDialog(jlab.contextPath + "/expert-email?username=" + username, "Expert Email Preview");
+    return false;
+});

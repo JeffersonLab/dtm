@@ -32,6 +32,7 @@
             <form method="post" action="ajax/email-on-demand">
                 <label for="username">SME</label>
                 <input id="username" type="text" class="username-autocomplete" name="username" placeholder="username"/>
+                <button id="email-preview-button" type="button">Preview</button>
                 <button id="email-now-button" type="button">Send Email Now</button>
             </form>
         </section>

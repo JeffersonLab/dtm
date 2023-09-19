@@ -28,6 +28,8 @@ import org.jlab.dtm.persistence.entity.Incident;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.service.EmailService;
 import org.jlab.smoothness.business.util.TimeUtil;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 /**
  *
@@ -151,63 +153,28 @@ public class ScheduledEmailer {
         }
     }
 
-    private void sendExpertMail(String s, int numberOfHours) throws UserFriendlyException, IOException, MessagingException {
-        LOGGER.log(Level.FINE, "Sending email for expert: {0}", s);
+    private void sendExpertMail(String username, int numberOfHours) throws UserFriendlyException, IOException, MessagingException {
+        LOGGER.log(Level.FINE, "Sending email for expert: {0}", username);
 
-        IncidentParams params = new IncidentParams();
-        params.setReviewed(false);
-        params.setSmeUsername(s);
-        params.setMax(Integer.MAX_VALUE);
-        
-        // Just things that have occurred in last "numberOfHours" hours
-        params.setStart(TimeUtil.addHours(new Date(), numberOfHours * -1));
+        String url = "http://localhost:8080/dtm/expert-email?email=Y&username=" + username;
 
-        List<Incident> incidentList = incidentFacade.filterList(params);
+        Document doc = Jsoup.connect(url).get();
 
-        String proxyServerName = System.getenv("FRONTEND_SERVER_URL");
-        if (proxyServerName == null || proxyServerName.trim().isEmpty()) {
-            throw new RuntimeException("PROXY_SERVER env unset; unable to send expert emails");
-        }
-
-        String html = "";
-
-        if (incidentList != null && !incidentList.isEmpty()) {
-            html = "<html><head><style>th {font-weight: normal;} td {padding: 0.5em;} td {border-right: 1px solid black;} td:last-child {border-right: 1px solid white;}</style></head><body>";
-            html = html +"This email is in reference to a system failure recorded in DTM within the last " + numberOfHours + " hours that requires your review.<br/>";
-            html = html + "<ul>";
-
-            for (int i = 0; i < incidentList.size(); i++) {
-                html = html + "<li>" + incidentList.get(i).getTitle() + "</li>";
-            }
-
-            html = html + "</ul>";
+        if (!doc.select("#doNotSend").text().trim().isEmpty()) {
+            LOGGER.log(Level.FINE, "Skipping expert email: " + username);
         } else {
-            throw new UserFriendlyException("No unacknowledged reviews found");
+            LOGGER.log(Level.FINE, "Sending expert email: " + username);
+
+            String html = doc.outerHtml();
+
+            String subject = "DTM - SME " + username + " Action Needed";
+            String toCsv = username + "@jlab.org";
+
+            EmailService emailService = new EmailService();
+
+            // String sender, String from, String toCsv, String subject, String body, boolean html
+            emailService.sendEmail("dtm@jlab.org", "dtm@jlab.org", toCsv, subject, html, true);
         }
-
-        html = html + "<br/><b>Please conduct a repair assessment and review the incident(s) here:</b>";
-        html = html + "<br/><b><a href=\"" + proxyServerName + "/dtm/all-events?acknowledged=N&smeUsername=" + s + "&qualified=\">DTM-RAR Review</a></b>";
-
-        html = html + "<br/><br/><h3>Action Level Reference</h3><table style=\"border-bottom: 1px solid black; border-collapse: collapse;\"><tbody>";
-        html = html + "<tr style=\"background-color: rgb(128,0,0); color: white;\"><th style=\"border-right: 1px solid white;\"></th><th style=\"border-right: 1px solid white;\">Triggers</th><th style=\"border-right: 1px solid white;\">Action</th><th style=\"border-right: 1px solid white;\">Time</th><th></th></tr>";
-        html = html + "<tr style=\"background-color: rgb(255,255,204);\"><td>Level Ⅰ</td><td>Short repairs (5–30 minutes)</td><td>Group Leader or SME review (check a box)</td><td>2 days</td><td></td></tr>";
-        html = html + "<tr><td>Level Ⅱ</td><td>Single system, >30 minute repair</td><td>Group Leader or SME review and root cause statement (a couple of sentences)</td><td>2 days</td><td></td></tr>";
-        html = html + "<tr style=\"background-color: rgb(255,255,204);\"><td>Level&nbsp;Ⅲ</td><td>4-hour escalation or Director of Operations discretion</td><td>Group Leader or SME root-cause memo (a more lengthy analysis of an event) and a 3–4 minute report at the next Weekly Summary Meeting (Wednesdays at 1330)</td><td>Next Weekly Summary Meeting</td><td><a href=\"https://ace.jlab.org/cdn/doc/dtm/RARTemplate3.docx\">Template</a></td></tr>";
-        html = html + "<tr><td>Level&nbsp;Ⅳ</td><td>Program change, safety issue, compounded event, or Director of Operations discretion</td><td>Formal investigation/report by a Repair Investigation Team and follow-up presentation at the Weekly Summary Meeting</td><td>3 weeks</td><td><a href=\"https://ace.jlab.org/cdn/doc/dtm/RARTemplate4.docx\">Template</a></td></tr>";
-        html = html + "</tbody></table><br/>Upon completion of Level Ⅲ+ reports upload the document to the DTM incident.";
-
-        html = html + "<br/><br/>The Repair Assessment Report procedure is available online at the following location:";
-        html = html + "<br/><a href=\"https://ace.jlab.org/cdn/doc/dtm/RARProcedure.pdf\">RAR Procedure</a></body></html>";
-
-        List<InternetAddress> addresses = new ArrayList<>();
-
-        String subject = "DTM - SME " + s + " Action Needed";
-        String toCsv = s + "@jlab.org";
-
-        EmailService emailService = new EmailService();
-
-        // String sender, String from, String toCsv, String subject, String body, boolean html
-        emailService.sendEmail("dtm@jlab.org", "dtm@jlab.org", toCsv, subject, html, true);
     }
 
     @PermitAll
