@@ -7,8 +7,8 @@
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/img/favicon.ico"/>
         <c:choose>
             <c:when test="${'CDN' eq resourceLocation}">
-                <link rel="stylesheet" type="text/css" href="${cdnContextPath}/jquery-ui/1.13.2/theme/smoothness/jquery-ui.min.css"/>
-                <link rel="stylesheet" type="text/css" href="${cdnContextPath}/jlab-theme/smoothness/${env['CDN_VERSION']}/css/smoothness.min.css"/>
+                <link rel="stylesheet" type="text/css" href="//${env['CDN_SERVER']}/jquery-ui/1.13.2/theme/smoothness/jquery-ui.min.css"/>
+                <link rel="stylesheet" type="text/css" href="//${env['CDN_SERVER']}/jlab-theme/smoothness/${env['CDN_VERSION']}/css/smoothness.min.css"/>
             </c:when>
             <c:otherwise><!-- LOCAL -->
                 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/jquery-ui-1.13.2/jquery-ui.min.css"/>
@@ -38,8 +38,8 @@
         </div>
         <c:choose>
             <c:when test="${'CDN' eq resourceLocation}">
-                <script src="${cdnContextPath}/jquery/3.6.1.min.js"></script>
-                <script src="${cdnContextPath}/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+                <script src="//${env['CDN_SERVER']}/jquery/3.6.1.min.js"></script>
+                <script src="//${env['CDN_SERVER']}/jquery-ui/1.13.2/jquery-ui.min.js"></script>
             </c:when>
             <c:otherwise><!-- LOCAL -->
                 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.6.1.min.js"></script>

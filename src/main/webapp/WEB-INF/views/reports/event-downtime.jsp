@@ -14,9 +14,9 @@
     <jsp:attribute name="scripts">
         <c:choose>
             <c:when test="${'CDN' eq resourceLocation}">
-                <script src="${cdnContextPath}/jquery-plugins/flot/0.8.3/jquery.flot.min.js"></script>
-                <script src="${cdnContextPath}/jquery-plugins/flot/0.8.3/jquery.flot.pie.min.js"></script>
-                <script src="${cdnContextPath}/jquery-plugins/flot/0.8.3/jquery.flot.resize.min.js"></script>
+                <script src="//${env['CDN_SERVER']}/jquery-plugins/flot/0.8.3/jquery.flot.min.js"></script>
+                <script src="//${env['CDN_SERVER']}/jquery-plugins/flot/0.8.3/jquery.flot.pie.min.js"></script>
+                <script src="//${env['CDN_SERVER']}/jquery-plugins/flot/0.8.3/jquery.flot.resize.min.js"></script>
             </c:when>
             <c:otherwise><!-- LOCAL -->
                 <script src="${pageContext.request.contextPath}/resources/jquery-plugins/flot/0.8.3/jquery.flot.min.js"></script>
