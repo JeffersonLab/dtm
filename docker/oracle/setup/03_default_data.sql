@@ -1,7 +1,7 @@
 alter session set container = XEPDB1;
 
 -- Settings
-insert into DTM_OWNER.SETTINGS (SETTINGS_ID, AUTO_EMAIL_YN) values (1, 'Y');
+insert into DTM_OWNER.SETTINGS (SETTINGS_ID, AUTO_EMAIL_YN, EXPERT_EMAIL_CC_CSV) values (1, 'Y', 'tbrown@example.com,someoneelse@example.com');
 
 -- Populate EventType
 insert into dtm_owner.event_type (event_type_id, name, weight, abbreviation) values(1, 'Accelerator', 1, 'ACC');

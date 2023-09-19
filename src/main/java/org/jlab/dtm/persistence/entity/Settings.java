@@ -1,10 +1,15 @@
 package org.jlab.dtm.persistence.entity;
 
+import javax.mail.Address;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author ryans
@@ -23,6 +28,9 @@ public class Settings implements Serializable {
     @Size(min = 1, max = 1)
     @NotNull
     private String autoEmailYn;
+    @Basic(optional = true)
+    @Column(name = "EXPERT_EMAIL_CC_CSV", nullable = true)
+    private String expertEmailCcCsv;
 
     public BigInteger getSettingsId() {
         return settingsId;
@@ -38,5 +46,9 @@ public class Settings implements Serializable {
 
     public void setAutoEmail(boolean autoEmail) {
         this.autoEmailYn = autoEmail ? "Y" : "N";
+    }
+
+    public String getExpertEmailCcCsv() {
+        return expertEmailCcCsv;
     }
 }

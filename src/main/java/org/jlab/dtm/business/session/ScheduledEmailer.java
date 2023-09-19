@@ -20,6 +20,7 @@ import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
+import javax.mail.Address;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -171,6 +172,8 @@ public class ScheduledEmailer {
             String toCsv = username + "@jlab.org";
 
             EmailService emailService = new EmailService();
+
+            String ccCsv = settingsFacade.findSettings().getExpertEmailCcCsv();
 
             // String sender, String from, String toCsv, String subject, String body, boolean html
             emailService.sendEmail("dtm@jlab.org", "dtm@jlab.org", toCsv, subject, html, true);
