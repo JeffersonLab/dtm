@@ -34,7 +34,7 @@ import org.jlab.smoothness.business.util.TimeUtil;
  * @author ryans
  */
 @Singleton
-@DeclareRoles({"dtm-reviewer"})
+@DeclareRoles({"dtm-admin", "dtm-reviewer"})
 @Startup
 public class ScheduledEmailer {
 
@@ -45,6 +45,7 @@ public class ScheduledEmailer {
     private Timer timer;
     @EJB
     IncidentFacade incidentFacade;
+    private final String TIMER_INFO = "ScheduledEmailer";
 
     @PostConstruct
     private void init() {
@@ -86,7 +87,7 @@ public class ScheduledEmailer {
             schedExp.hour("9");
             schedExp.dayOfWeek("Mon-Fri"); // Exclude Sat and Sun
             TimerConfig config = new TimerConfig();
-            config.setInfo("EmailTimer");
+            config.setInfo(TIMER_INFO);
             config.setPersistent(false);
             timer = timerService.createCalendarTimer(schedExp, config);
         }
@@ -110,7 +111,7 @@ public class ScheduledEmailer {
         /*Timers persist by default and may be hanging around after a redeploy*/
         for (Timer t : timerService.getTimers()) {
             // Only cancel Email timers
-            if("EmailTimer".equals(t.getInfo())) {
+            if(TIMER_INFO.equals(t.getInfo())) {
                 t.cancel();
             }
         }
@@ -127,7 +128,7 @@ public class ScheduledEmailer {
         }
     }
 
-    @RolesAllowed("dtm-reviewer")
+    @RolesAllowed({"dtm-admin", "dtm-reviewer"})
     public void sendExpertActionNeededEmails() throws IOException, MessagingException {
         int numberOfHours = 24;
 
