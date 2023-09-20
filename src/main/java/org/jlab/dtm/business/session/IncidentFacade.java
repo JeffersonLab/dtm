@@ -623,6 +623,10 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
         List<Predicate> filters = new ArrayList<>();
 
+        if(params.getClosedOnly() != null && params.getClosedOnly()) {
+            filters.add(root.get("timeUp").isNotNull());
+        }
+
         if(params.isDateRangeForUploaded()) {
             if (params.getStart() != null) {
                 filters.add(cb.greaterThanOrEqualTo(root.get("rarUploadedDate"), params.getStart()));
@@ -812,7 +816,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     @SuppressWarnings("unchecked")
     @PermitAll
     public List<String> findAllExpertsWithRecentUnreviewedIncidents(int numberOfHours) {
-        Query q = em.createNativeQuery("select unique reviewer from incident_review, incident where incident_review.incident_id = incident.incident_id and expert_acknowledged = 'N' and time_up is not null and time_up > :timeUp", String.class);
+        Query q = em.createNativeQuery("select unique reviewer_username from incident_review, incident where incident_review.incident_id = incident.incident_id and expert_acknowledged = 'N' and time_up is not null and time_up > :timeUp");
 
         Calendar c = Calendar.getInstance();
         //Date now = new Date();

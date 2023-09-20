@@ -26,6 +26,16 @@ public class IncidentParams extends PaginationParams {
     private boolean dateRangeForUploaded = false;
     private Boolean hasAttachment;
 
+    private Boolean closedOnly = false;
+
+    public Boolean getClosedOnly() {
+        return closedOnly;
+    }
+
+    public void setClosedOnly(Boolean closedOnly) {
+        this.closedOnly = closedOnly;
+    }
+
     public Date getStart() {
         return start;
     }

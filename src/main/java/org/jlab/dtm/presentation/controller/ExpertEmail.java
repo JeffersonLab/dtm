@@ -53,9 +53,18 @@ public class ExpertEmail extends HttpServlet {
         params.setReviewed(false);
         params.setSmeUsername(username);
         params.setMax(Integer.MAX_VALUE);
+        params.setClosedOnly(true);
 
         // Just things that have occurred in last "numberOfHours" hours
         params.setStart(TimeUtil.addHours(new Date(), numberOfHours * -1));
+
+        /*
+        // This is what ScheduledEmailer does, test code with:
+        List<String> usernames = incidentService.findAllExpertsWithRecentUnreviewedIncidents(numberOfHours);
+        System.err.println(usernames.size());
+        for(String u: usernames) {
+            System.err.println(u);
+        }*/
 
         List<Incident> incidentList = incidentService.filterList(params);
 
