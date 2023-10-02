@@ -62,7 +62,8 @@ public class IncidentRepairTrendService {
 
 
 
-            sql = "select incident_id, time_down, time_up, cast(greatest(a.time_down, ?) as date) as time_down_bounded, cast(least(coalesce(a.time_up, sysdate), ?) as date) as time_up_bounded "
+            sql = "select incident_id, time_down, time_up, cast(greatest(a.time_down, ?) as date) as time_down_bounded, cast(least(coalesce(a.time_up, sysdate), ?) as date) as time_up_bounded, "
+                    + "(select listagg(name, ',') from incident_repair c, workgroup d where c.repaired_by = d.workgroup_id and c.incident_id = a.incident_id) as repaired_by "
                     + "from incident a "
                     + "where time_up is not null and time_down < ? "
                     + "and time_up > ? ";
@@ -110,10 +111,8 @@ public class IncidentRepairTrendService {
                     timeUp = new Date();
                 }
 
+                String repairedBy = rs.getString(6);
 
-
-                //String cause = rs.getString(4);
-                //String area = rs.getString("area");
 
                 Date binStart;
                 Date nextBinStart;
@@ -138,9 +137,7 @@ public class IncidentRepairTrendService {
 
                     long durationMillis = Math.min(timeUp.getTime(), nextBinStart.getTime()) - timeDown.getTime();
 
-                    //long binSizeMillis = nextBinStart.getTime() - binStart.getTime();
-
-                    addIncident(incidentMap, binStart, durationMillis);
+                    addIncident(incidentMap, repairedBy, binStart, durationMillis);
 
                     binStart = nextBinStart;
                     timeDown = nextBinStart;
@@ -187,14 +184,8 @@ public class IncidentRepairTrendService {
         return cal.getTime();
     }
 
-    private void addIncident(LinkedHashMap<Date, HashMap<String, HistogramBin>> incidentMap, Date binDate, long durationMillis) {
+    private void addIncident(LinkedHashMap<Date, HashMap<String, HistogramBin>> incidentMap, String grouping, Date binDate, long durationMillis) {
         /*System.out.println("binDate: " + binDate.getTime());*/
-        String grouping = null;
-                /*if ("cause".equals(params.getGrouping())) {
-                    grouping = cause;
-                } else if("area".equals(params.getGrouping())) {
-                    grouping = area;
-                }*/
 
         HashMap<String, HistogramBin> groupingMap = incidentMap.get(binDate);
 
