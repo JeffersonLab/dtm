@@ -22,6 +22,7 @@
                             <li${'/reports/incident-downtime' eq currentPath ? ' class="current-secondary"' : ''}><a href="${pageContext.request.contextPath}/reports/incident-downtime">Incident Down</a></li>
                             <li${'/reports/event-downtime' eq currentPath ? ' class="current-secondary"' : ''}><a href="${pageContext.request.contextPath}/reports/event-downtime">Event Down</a></li>
                             <li${'/reports/event-timeline' eq currentPath ? ' class="current-secondary"' : ''}><a href="${pageContext.request.contextPath}/reports/event-timeline">Event Timeline</a></li>
+                            <li${'/reports/repair-summary' eq currentPath ? ' class="current-secondary"' : ''}><a href="${pageContext.request.contextPath}/reports/repair-summary">Repair Summary</a></li>
                             <li${'/reports/fsd-summary' eq currentPath ? ' class="current-secondary"' : ''}><a href="${pageContext.request.contextPath}/reports/fsd-summary">FSD Summary</a></li>
                             <li${fn:startsWith(currentPath, '/reports/activity-audit') ? ' class="current-secondary"' : ''}><a href="${pageContext.request.contextPath}/reports/activity-audit">Activity Audit</a></li>
                             <li${'/reports/expert' eq currentPath ? ' class="current-secondary"' : ''}><a href="${pageContext.request.contextPath}/reports/expert">Expert</a></li>

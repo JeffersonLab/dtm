@@ -89,5 +89,10 @@
         <name>getLocalTime</name>
         <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
         <function-signature>long getLocalTime(java.util.Date)</function-signature>
-    </function>           
+    </function>
+    <function>
+        <name>getBinEnd</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.util.Date getBinEnd(java.util.Date, java.lang.String)</function-signature>
+    </function>
 </taglib>

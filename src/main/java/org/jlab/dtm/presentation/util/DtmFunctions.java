@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jlab.dtm.persistence.entity.Workgroup;
+import org.jlab.dtm.persistence.enumeration.BinSize;
 import org.jlab.smoothness.business.service.UserAuthorizationService;
 import org.jlab.smoothness.business.util.TimeUtil;
 import org.jlab.smoothness.persistence.view.User;
@@ -230,5 +231,29 @@ public final class DtmFunctions {
         long localOffset = cal.get(Calendar.ZONE_OFFSET) + cal.get(Calendar.DST_OFFSET);
 
         return cal.getTimeInMillis() + localOffset;
+    }
+
+    public static Date getBinEnd(Date start, String binSize) {
+        Date end = null;
+
+        if(binSize != null && !binSize.isEmpty()) {
+            BinSize size = BinSize.valueOf(binSize);
+
+            switch(size) {
+                case MONTH:
+                    end = TimeUtil.addMonths(start, 1);
+                    break;
+                case DAY:
+                    end = TimeUtil.addDays(start, 1);
+                    break;
+                case HOUR:
+                    end = TimeUtil.addHours(start, 1);
+                    break;
+                default:
+                    throw new RuntimeException("Unknown bin size: " + binSize);
+            }
+        }
+
+        return end;
     }
 }
