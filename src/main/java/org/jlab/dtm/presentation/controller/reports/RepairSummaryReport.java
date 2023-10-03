@@ -1,16 +1,15 @@
 package org.jlab.dtm.presentation.controller.reports;
 
-import org.jlab.dtm.business.params.FsdSummaryReportParams;
-import org.jlab.dtm.business.service.FsdTripTrendService;
-import org.jlab.dtm.business.service.FsdTripTrendService.TripHistogramBin;
+import org.jlab.dtm.business.params.RepairSummaryReportParams;
 import org.jlab.dtm.business.service.IncidentRepairTrendService;
+import org.jlab.dtm.business.session.AbstractFacade;
 import org.jlab.dtm.business.session.CcAccHourService;
+import org.jlab.dtm.business.session.ResponsibleGroupFacade;
+import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.persistence.enumeration.BinSize;
-import org.jlab.dtm.persistence.enumeration.RootCause;
 import org.jlab.dtm.persistence.model.BeamSummaryTotals;
 import org.jlab.dtm.persistence.model.HistogramBin;
-import org.jlab.dtm.presentation.params.FsdSummaryReportUrlParamHandler;
-import org.jlab.dtm.presentation.util.FilterSelectionMessage;
+import org.jlab.dtm.presentation.params.RepairSummaryReportUrlParamHandler;
 import org.jlab.smoothness.business.util.TimeUtil;
 
 import javax.ejb.EJB;
@@ -40,6 +39,9 @@ public class RepairSummaryReport extends HttpServlet {
     @EJB
     CcAccHourService accHourService;
 
+    @EJB
+    ResponsibleGroupFacade groupFacade;
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -62,10 +64,10 @@ public class RepairSummaryReport extends HttpServlet {
         c.add(Calendar.DATE, -7);
         Date sevenDaysAgo = c.getTime();
         
-        FsdSummaryReportUrlParamHandler paramHandler
-                = new FsdSummaryReportUrlParamHandler(request, today, sevenDaysAgo);
+        RepairSummaryReportUrlParamHandler paramHandler
+                = new RepairSummaryReportUrlParamHandler(request, today, sevenDaysAgo);
 
-        FsdSummaryReportParams params;
+        RepairSummaryReportParams params;
 
         if (paramHandler.qualified()) {
             params = paramHandler.convert();
@@ -128,15 +130,12 @@ public class RepairSummaryReport extends HttpServlet {
 
         }
 
+        List<Workgroup> groupList = groupFacade.findAll(new AbstractFacade.OrderDirective("name"));
+
         String subtitle = TimeUtil.formatSmartRangeSeparateTime(params.getStart(), params.getEnd());
-        List<String> footnoteList = FilterSelectionMessage.getFsdTripReportFootnotes(
-                params.getMaxDuration(),
-                params.getMaxDurationUnits(), params.getMaxTypes(), "program".equals(
-                        params.getTripRateBasis()), programHours, periodHours, params.getSadTrips(),
-                params.getCauseArray());
 
         request.setAttribute("binSizeArray", BinSize.values());
-        request.setAttribute("causeArray", RootCause.values());
+        request.setAttribute("groupList", groupList);
         request.setAttribute("chart", params.getChart());
         request.setAttribute("start", params.getStart());
         request.setAttribute("end", params.getEnd());
@@ -144,7 +143,6 @@ public class RepairSummaryReport extends HttpServlet {
         request.setAttribute("today", today);
         request.setAttribute("sevenDaysAgo", sevenDaysAgo);
         request.setAttribute("subtitle", subtitle);
-        request.setAttribute("footnoteList", footnoteList);
         request.setAttribute("trendList", trendList);
         request.setAttribute("programHours", programHours);
         request.setAttribute("periodHours", periodHours);

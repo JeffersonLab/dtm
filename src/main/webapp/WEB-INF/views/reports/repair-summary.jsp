@@ -83,10 +83,7 @@
                                     </div>
                                     <div class="li-value">
                                         <select id="grouping" name="grouping">
-                                            <option value=""> </option>
-                                            <option value="cause"${param.grouping eq 'repairedby' ? ' selected="selected"' : ''}>Repaired By</option>
-                                            <option value="cause"${param.grouping eq 'sme' ? ' selected="selected"' : ''}>SME</option>
-                                            <option value="area"${param.grouping eq 'category' ? ' selected="selected"' : ''}>Category</option>
+                                            <option value="repairedby"${param.grouping eq 'repairedby' ? ' selected="selected"' : ''}>Repaired By</option>
                                         </select>
                                     </div>
                                 </li>
@@ -108,8 +105,8 @@
                                     </div>
                                     <div class="li-value">
                                         <select id="repairedby" name="repairedby" multiple="multiple">
-                                            <c:forEach items="${causeArray}" var="cause">
-                                                <option value="${cause.name()}"${s:inArray(paramValues.cause, cause.name()) ? ' selected="selected"' : ''}><c:out value="${cause.label}"/></option>
+                                            <c:forEach items="${groupList}" var="repairer">
+                                                <option value="${repairer.name}"${s:inArray(paramValues.repairedBy, repairer.name) ? ' selected="selected"' : ''}><c:out value="${repairer.name}"/></option>
                                             </c:forEach>
                                         </select>
                                     </div>

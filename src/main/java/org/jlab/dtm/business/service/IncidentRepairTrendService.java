@@ -1,6 +1,6 @@
 package org.jlab.dtm.business.service;
 
-import org.jlab.dtm.business.params.FsdSummaryReportParams;
+import org.jlab.dtm.business.params.RepairSummaryReportParams;
 import org.jlab.dtm.persistence.enumeration.BinSize;
 import org.jlab.dtm.persistence.model.HistogramBin;
 import org.jlab.dtm.persistence.util.DtmSqlUtil;
@@ -20,7 +20,7 @@ public class IncidentRepairTrendService {
     private static final Logger LOGGER = Logger.getLogger(
             IncidentRepairTrendService.class.getName());
 
-    public List<HistogramBin> findTrendListByPeriodInMemory(FsdSummaryReportParams params) throws
+    public List<HistogramBin> findTrendListByPeriodInMemory(RepairSummaryReportParams params) throws
             SQLException {
 
         // Linked Hash Map maintains insertion order, which we need;  
@@ -35,28 +35,12 @@ public class IncidentRepairTrendService {
         // Note we only grab incidents that are closed for simplicity and to avoid issues with computing duration
         String sql;
 
-        Integer maxDurationMillis = null;
+        String repairedByList = null;
+        if (params.getRepairedByArray() != null && params.getRepairedByArray().length > 0) {
+            repairedByList = "'" + params.getRepairedByArray()[0] + "'";
 
-        final int MILLIS_PER_SECOND = 1000;
-        final int MILLIS_PER_MINUTE = 60000;
-        final int MILLIS_PER_HOUR = 3600000;
-
-        if (params.getMaxDuration() != null) {
-            if ("Seconds".equals(params.getMaxDurationUnits())) {
-                maxDurationMillis = params.getMaxDuration() * MILLIS_PER_SECOND;
-            } else if ("Minutes".equals(params.getMaxDurationUnits())) {
-                maxDurationMillis = params.getMaxDuration() * MILLIS_PER_MINUTE;
-            } else if ("Hours".equals(params.getMaxDurationUnits())) {
-                maxDurationMillis = params.getMaxDuration() * MILLIS_PER_HOUR;
-            }
-        }
-
-        String causeList = null;
-        if (params.getCauseArray() != null && params.getCauseArray().length > 0) {
-            causeList = "'" + params.getCauseArray()[0].getLabel() + "'";
-
-            for (int i = 1; i < params.getCauseArray().length; i++) {
-                causeList = causeList + ",'" + params.getCauseArray()[i].getLabel() + "'";
+            for (int i = 1; i < params.getRepairedByArray().length; i++) {
+                repairedByList = repairedByList + ",'" + params.getRepairedByArray()[i] + "'";
             }
         }
 
@@ -69,8 +53,8 @@ public class IncidentRepairTrendService {
                     + "and time_up > ? ";
 
 
-            if (causeList != null) {
-                sql = sql + "and cause in (" + causeList + ") ";
+            if (repairedByList != null) {
+                sql = sql + "and repaired_by in (" + repairedByList + ") ";
             }
 
         sql = sql + "order by time_down asc";
