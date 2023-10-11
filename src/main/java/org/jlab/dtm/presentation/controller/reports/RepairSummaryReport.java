@@ -183,6 +183,7 @@ public class RepairSummaryReport extends HttpServlet {
         List<String> notes = new ArrayList<>();
 
         notes.add("Repairs can be concurrent (can exceed bin size)");
+        notes.add("A single incident Repaired By can be multi-valued");
         notes.add("A single incident may span multiple bins (only counted once in key)");
 
         return notes;

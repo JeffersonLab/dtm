@@ -67,8 +67,8 @@ jlab.getDataSource = function (bar) {
 
     groupingNames.sort();
 
-    console.log('dataMap', dataMap);
-    console.log('groupingNames', groupingNames);
+    //console.log('dataMap', dataMap);
+    //console.log('groupingNames', groupingNames);
 
 
     /* We must fill in sparse data with zeros to satisfy stacked bars plugin */
@@ -204,7 +204,10 @@ jlab.getDataSource = function (bar) {
             var url = '/dtm/reports/incident-downtime?';
 
             if($("#grouping").val() === 'repairedby') {
-                //url = url + 'group=' + encodeURIComponent(groupingNames[i]);
+                let id = groupMap[groupingNames[i]];
+                if(id) {
+                    url = url + 'group=' + id;
+                }
             }
 
             url = url
@@ -241,7 +244,7 @@ jlab.getDataSource = function (bar) {
     chartData.grouped = grouped;
     chartData.binSize = binSize;
 
-    console.log(chartData);
+    //console.log(chartData);
 
     return chartData;
 };
@@ -422,8 +425,8 @@ jlab.doBarChart = function (stack) {
 
     jlab.flotplot = $.plot($("#chart-placeholder"), ds, options);
 
-    console.log('options', options);
-    console.log('flotplot', jlab.flotplot);
+    //console.log('options', options);
+    //console.log('flotplot', jlab.flotplot);
 
     jlab.addAxisLabels(binSize);
 
@@ -447,8 +450,15 @@ jlab.doBarChart = function (stack) {
 
                 var url = '/dtm/reports/incident-downtime?';
 
+                if($("#grouping").val() === 'repairedby') {
+                    let id = groupMap[item.series.label];
+                    if(id) {
+                        url = url + 'group=' + id;
+                    }
+                }
+
                 url = url
-                    + 'start=' + encodeURIComponent(jlab.dateTimeToGlobalUTCString(start))
+                    + '&start=' + encodeURIComponent(jlab.dateTimeToGlobalUTCString(start))
                     + '&end=' + encodeURIComponent(jlab.dateTimeToGlobalUTCString(end))
                     + '&qualified=';
 

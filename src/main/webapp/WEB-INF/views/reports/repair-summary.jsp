@@ -198,5 +198,11 @@
         <div id="exit-fullscreen-panel">
             <button id="exit-fullscreen-button">Exit Full Screen</button>
         </div>
+        <script>
+            let groupMap = {};
+            <c:forEach items="${groupList}" var="group">
+                groupMap['${group.name}'] = ${group.workgroupId};
+            </c:forEach>
+        </script>
     </jsp:body>         
 </t:reports-page>
