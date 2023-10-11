@@ -5,6 +5,11 @@ import java.util.Date;
 public class HistogramBin {
     private Date start;
     private int count = 0;
+
+    /**
+     * Count of NEW incidents as a single incident may overflow into multiple bins
+     */
+    private int newCount = 0;
     private long durationMillis = 0;
     private String grouping;
 
@@ -42,5 +47,13 @@ public class HistogramBin {
 
     public void incrementCount() {
         this.count++;
+    }
+
+    public void incrementNewCount() {
+        this.newCount++;
+    }
+
+    public int getNewCount() {
+        return newCount;
     }
 }

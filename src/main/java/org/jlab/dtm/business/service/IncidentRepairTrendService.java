@@ -114,6 +114,8 @@ public class IncidentRepairTrendService {
                     binUnit = Calendar.MONTH;
                 }
 
+                int iteration = 0;
+
                 do {
                     nextBinStart = nextBinStart(binStart, binUnit);
 
@@ -121,10 +123,11 @@ public class IncidentRepairTrendService {
 
                     long durationMillis = Math.min(timeUp.getTime(), nextBinStart.getTime()) - timeDown.getTime();
 
-                    addIncident(incidentMap, repairedBy, binStart, durationMillis);
+                    addIncident(iteration, incidentMap, repairedBy, binStart, durationMillis);
 
                     binStart = nextBinStart;
                     timeDown = nextBinStart;
+                    iteration++;
                 } while(overflow);
             }
 
@@ -168,7 +171,7 @@ public class IncidentRepairTrendService {
         return cal.getTime();
     }
 
-    private void addIncident(LinkedHashMap<Date, HashMap<String, HistogramBin>> incidentMap, String grouping, Date binDate, long durationMillis) {
+    private void addIncident(int iteration, LinkedHashMap<Date, HashMap<String, HistogramBin>> incidentMap, String grouping, Date binDate, long durationMillis) {
         /*System.out.println("binDate: " + binDate.getTime());*/
 
         HashMap<String, HistogramBin> groupingMap = incidentMap.get(binDate);
@@ -185,6 +188,10 @@ public class IncidentRepairTrendService {
             bin.setStart(binDate);
             bin.setGrouping(grouping);
             groupingMap.put(grouping, bin);
+        }
+
+        if(iteration == 0) {
+            bin.incrementNewCount();
         }
 
         bin.incrementCount();

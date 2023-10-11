@@ -169,7 +169,7 @@
                                                 <td class="count-data right-aligned"><fmt:formatNumber value="${bin.count}" pattern="#,##0"/></td>
                                                 <td class="duration-data right-aligned"><fmt:formatNumber value="${bin.durationMillis / 3600000}" pattern="#,##0.0000"/></td>
                                                 <td class="group-data"><c:out value="${bin.grouping}"/></td>
-                                                <td></td>
+                                                <td class="new-count-data"><fmt:formatNumber value="${bin.newCount}" pattern="#,##0"/></td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>

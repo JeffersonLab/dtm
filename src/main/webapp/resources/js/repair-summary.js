@@ -43,7 +43,7 @@ jlab.getDataSource = function (bar) {
 
     $("#bar-chart-data-table tbody tr").each(function (index, value) {
         var timestamp = $("td:nth-child(1)", value).attr("data-date-utc"),
-            count = parseFloat($("td." + "count-data", value).text().replace(/,/g, '')),
+            count = parseFloat($("td." + "new-count-data", value).text().replace(/,/g, '')),
             duration = parseFloat($("td." + "duration-data", value).text().replace(/,/g, '')),
             grouping = $("td.group-data", value).text(),
             series = dataMap[grouping] || {};
