@@ -19,11 +19,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -134,6 +132,27 @@ public class RepairSummaryReport extends HttpServlet {
         List<Workgroup> groupList = groupFacade.findAll(new AbstractFacade.OrderDirective("name"));
 
         String subtitle = TimeUtil.formatSmartRangeSeparateTime(params.getStart(), params.getEnd());
+
+        String repairedBySubtitle = "";
+
+        Map<BigInteger, Workgroup> groupMap = new HashMap<>();
+
+        for(Workgroup group: groupList) {
+            groupMap.put(group.getWorkgroupId(), group);
+        }
+
+        if(params.getRepairedByArray() != null && params.getRepairedByArray().length > 0) {
+            repairedBySubtitle = " Repaired By ";
+            for(int i = 0; i < params.getRepairedByArray().length; i++) {
+                String idStr = params.getRepairedByArray()[i];
+                BigInteger idNumber = new BigInteger(idStr);
+                Workgroup group = groupMap.get(idNumber);
+                String name = group == null ? "" : group.getName();
+                repairedBySubtitle = repairedBySubtitle + "\"" + name + "\" ";
+            }
+        }
+
+        subtitle = subtitle + repairedBySubtitle;
 
         List<String> footnoteList = getFootnotes();
 

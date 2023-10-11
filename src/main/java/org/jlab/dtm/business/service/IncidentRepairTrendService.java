@@ -47,14 +47,14 @@ public class IncidentRepairTrendService {
 
 
             sql = "select incident_id, time_down, time_up, cast(greatest(a.time_down, ?) as date) as time_down_bounded, cast(least(coalesce(a.time_up, sysdate), ?) as date) as time_up_bounded, "
-                    + "(select listagg(name, ',') from incident_repair c, workgroup d where c.repaired_by = d.workgroup_id and c.incident_id = a.incident_id) as repaired_by "
+                    + "(select listagg(name, ',') from incident_repair c, workgroup d where c.repaired_by = d.workgroup_id and c.incident_id = a.incident_id) as repairer_name_csv "
                     + "from incident a "
                     + "where time_up is not null and time_down < ? "
                     + "and time_up > ? ";
 
 
             if (repairedByList != null) {
-                sql = sql + "and repaired_by in (" + repairedByList + ") ";
+                sql = sql + "and incident_id in (select incident_id from incident_repair where repaired_by in (" + repairedByList + ") ) ";
             }
 
         sql = sql + "order by time_down asc";

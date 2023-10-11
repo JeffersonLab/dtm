@@ -103,9 +103,9 @@
                                         <label for="repairedby">Repaired By</label>
                                     </div>
                                     <div class="li-value">
-                                        <select id="repairedby" name="repairedby" multiple="multiple">
+                                        <select id="repairedby" name="repairedBy" multiple="multiple">
                                             <c:forEach items="${groupList}" var="repairer">
-                                                <option value="${repairer.name}"${s:inArray(paramValues.repairedBy, repairer.name) ? ' selected="selected"' : ''}><c:out value="${repairer.name}"/></option>
+                                                <option value="${repairer.workgroupId}"${s:inArray(paramValues.repairedBy, repairer.workgroupId.toString()) ? ' selected="selected"' : ''}><c:out value="${repairer.name}"/></option>
                                             </c:forEach>
                                         </select>
                                     </div>
