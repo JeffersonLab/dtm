@@ -95,7 +95,11 @@ public class IncidentRepairTrendService {
                     timeUp = new Date();
                 }
 
-                String repairedBy = rs.getString(6);
+                String repairedByCsv = rs.getString(6);
+
+                if(repairedByCsv == null) {
+                    repairedByCsv = "Unspecified";
+                }
 
 
                 Date binStart;
@@ -123,7 +127,7 @@ public class IncidentRepairTrendService {
 
                     long durationMillis = Math.min(timeUp.getTime(), nextBinStart.getTime()) - timeDown.getTime();
 
-                    addIncident(iteration, incidentMap, repairedBy, binStart, durationMillis);
+                    addIncident(iteration, incidentMap, repairedByCsv, binStart, durationMillis);
 
                     binStart = nextBinStart;
                     timeDown = nextBinStart;
