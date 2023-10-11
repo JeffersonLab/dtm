@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -134,6 +135,9 @@ public class RepairSummaryReport extends HttpServlet {
 
         String subtitle = TimeUtil.formatSmartRangeSeparateTime(params.getStart(), params.getEnd());
 
+        List<String> footnoteList = getFootnotes();
+
+        request.setAttribute("footnoteList", footnoteList);
         request.setAttribute("binSizeArray", BinSize.values());
         request.setAttribute("groupList", groupList);
         request.setAttribute("chart", params.getChart());
@@ -154,5 +158,14 @@ public class RepairSummaryReport extends HttpServlet {
 
         LOGGER.log(Level.FINEST, "Repair report Get method seconds: {0}", (getEndMillis
                 - getStartMillis) / 1000.0f);
+    }
+
+    private List<String> getFootnotes() {
+        List<String> notes = new ArrayList<>();
+
+        notes.add("Repairs can be concurrent (can exceed bin size)");
+        notes.add("A single incident may span multiple bins (only counted once in key)");
+
+        return notes;
     }
 }

@@ -177,7 +177,7 @@ jlab.getDataSource = function (bar) {
             footStr = '<tfoot><th></th><th>Total:</th>';
 
         if (includeCount) {
-            headStr = headStr + '<th>New Incidents</th>';
+            headStr = headStr + '<th>Incidents</th>';
             footStr = footStr + '<th>' + jlab.integerWithCommas(globalCountSum) + '</th>';
         }
         if (includeLost) {
