@@ -49,7 +49,8 @@ public class ExcelIncidentListService {
         row1.createCell(13).setCellValue("COMPONENT NAME");
         row1.createCell(14).setCellValue("COMPONENT ID");
         row1.createCell(15).setCellValue("REVIEWED BY USERNAME");
-        row1.createCell(16).setCellValue("RESOLUTION");        
+        row1.createCell(16).setCellValue("RESOLUTION");
+        row1.createCell(17).setCellValue("REPAIRED_BY");
 
         CreationHelper createHelper = wb.getCreationHelper();
         CellStyle numberStyle = wb.createCellStyle();
@@ -112,6 +113,12 @@ public class ExcelIncidentListService {
             } else {
                 row.createCell(16).setCellValue(incident.getResolution());
             }
+            String repairedByCsv = incident.getRepairedByNameCsv();
+            if (repairedByCsv == null) {
+                row.createCell(17).setCellValue("");
+            } else {
+                row.createCell(17).setCellValue(repairedByCsv);
+            }
         }
 
         /*sheet1.autoSizeColumn(0);*/
@@ -131,6 +138,7 @@ public class ExcelIncidentListService {
         sheet1.autoSizeColumn(14);
         sheet1.autoSizeColumn(15);
         sheet1.autoSizeColumn(16);
+        sheet1.autoSizeColumn(17);
 
         wb.write(out);
     }

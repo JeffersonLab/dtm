@@ -12,13 +12,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.params.IncidentDowntimeReportParams;
-import org.jlab.dtm.business.session.EventTypeFacade;
-import org.jlab.dtm.business.session.ExcelIncidentListService;
-import org.jlab.dtm.business.session.IncidentReportService;
+import org.jlab.dtm.business.session.*;
 import org.jlab.dtm.business.session.IncidentReportService.IncidentSummary;
-import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.SystemEntity;
+import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.dtm.presentation.util.FilterSelectionMessage;
 import org.jlab.smoothness.presentation.util.ParamConverter;
@@ -39,6 +37,8 @@ public class ExcelIncidentList extends HttpServlet {
     EventTypeFacade eventTypeFacade;
     @EJB
     SystemFacade systemFacade;
+    @EJB
+    ResponsibleGroupFacade groupFacade;
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -104,6 +104,12 @@ public class ExcelIncidentList extends HttpServlet {
         params.setSortByDuration(true);
         params.setMax((int) totalRecords);
         List<IncidentSummary> incidentList = incidentReportService.filterList(params);
+
+        for (IncidentSummary incident : incidentList) {
+            List<Workgroup> repairedByList = groupFacade.findRepairedBy(
+                    incident.getIncidentId());
+            incident.setRepairedByList(repairedByList);
+        }
 
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("content-disposition", "attachment;filename=\"incident-list.xlsx\"");

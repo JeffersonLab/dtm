@@ -251,6 +251,7 @@
                                         <th>Downtime (Hours) <span title="Descending">▼</span></th>
                                         <th>System</th>
                                         <th>Component</th>
+                                        <th>Repaired By</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -263,6 +264,7 @@
                                             <td title="Not Bounded: ${formattedUnbounded}" class="right-aligned"><fmt:formatNumber value="${incident.downtimeHoursBounded}" pattern="#,##0.0"/></td>
                                             <td><c:out value="${incident.systemName}"/></td>
                                             <td><c:out value="${incident.componentName}"/></td>
+                                            <td><c:out value="${incident.repairedByNameCsv}"/></td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

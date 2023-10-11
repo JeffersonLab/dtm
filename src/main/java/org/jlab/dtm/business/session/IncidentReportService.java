@@ -215,6 +215,25 @@ public class IncidentReportService {
             return csv;
         }
 
+        public String getRepairedByNameCsv() {
+            String csv;
+
+            if (repairedByList != null) {
+                String[] nameArray = new String[repairedByList.size()];
+
+                for (int i = 0; i < nameArray.length; i++) {
+                    Workgroup group = repairedByList.get(i);
+                    nameArray[i] = group.getName();
+                }
+
+                csv = IOUtil.toCsv(nameArray);
+            } else {
+                csv = "";
+            }
+
+            return csv;
+        }
+
         public String getReviewedByUsername() {
             return reviewedByUsername;
         }

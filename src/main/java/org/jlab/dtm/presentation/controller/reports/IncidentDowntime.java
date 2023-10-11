@@ -101,6 +101,13 @@ public class IncidentDowntime extends HttpServlet {
             incidentList = incidentReportService.filterList(params);
             totalRecords = incidentReportService.countFilterList(params);
 
+
+            for (IncidentSummary incident : incidentList) {
+                List<Workgroup> repairedByList = groupFacade.findRepairedBy(
+                        incident.getIncidentId());
+                incident.setRepairedByList(repairedByList);
+            }
+
             totalRepairTime = incidentReportService.sumTotalBoundedDuration(params);
 
             DateIterator it = new DateIterator(TimeUtil.startOfDay(params.getStart(), Calendar.getInstance()), TimeUtil.startOfDay(params.getEnd(), Calendar.getInstance()));
