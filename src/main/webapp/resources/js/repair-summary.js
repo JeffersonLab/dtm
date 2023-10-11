@@ -37,22 +37,26 @@ jlab.getDataSource = function (bar) {
     var backupColors = ['red', 'blue', 'green', 'pink', 'teal', 'yellow'];
 
     var durationMap = {},
+        countMap = {},
         programBasis = $("#rateBasis").val() === 'program',
         programHours = $("#filter-form").attr("data-program-hours") * 1;
 
     $("#bar-chart-data-table tbody tr").each(function (index, value) {
         var timestamp = $("td:nth-child(1)", value).attr("data-date-utc"),
-            yvalue = parseFloat($("td." + jlab.flotSourceColumnClass, value).text().replace(/,/g, '')),
+            count = parseFloat($("td." + "count-data", value).text().replace(/,/g, '')),
             duration = parseFloat($("td." + "duration-data", value).text().replace(/,/g, '')),
-            grouping = $("td:last-child", value).text(),
+            grouping = $("td.group-data", value).text(),
             series = dataMap[grouping] || {};
 
-        series[timestamp] = yvalue;
+        series[timestamp] = duration;
 
         dataMap[grouping] = series;
 
         var groupDuration = durationMap[grouping] || 0;
         durationMap[grouping] = groupDuration + duration;
+
+        var groupCount = countMap[grouping] || 0;
+        countMap[grouping] = groupCount + count;
     });
 
     var ds = [], groupingNames = [];
@@ -62,6 +66,9 @@ jlab.getDataSource = function (bar) {
     }
 
     groupingNames.sort();
+
+    console.log('dataMap', dataMap);
+    console.log('groupingNames', groupingNames);
 
 
     /* We must fill in sparse data with zeros to satisfy stacked bars plugin */
@@ -141,27 +148,12 @@ jlab.getDataSource = function (bar) {
         }
     } else { /*If more than one grouping then create legend*/
 
-        var countMap = {};
-
         var globalCountSum = 0;
         var globalDurationSum = 0;
 
 
         for (var i = 0; i < groupingNames.length; i++) {
-            var series = fullDataMap[groupingNames[i]],
-                countSum = 0;
-
-            /*console.log('series length: ' + series.length);*/
-
-            for (var j = 0; j < series.length; j++) {
-                countSum = countSum + series[j][1];
-            }
-
-            /*console.log(groupingNames[i] + ' count sum: ' + countSum);*/
-
-            countMap[groupingNames[i]] = countSum;
-
-            globalCountSum = globalCountSum + countSum;
+            globalCountSum = globalCountSum + countMap[groupingNames[i]];
             globalDurationSum = globalDurationSum + durationMap[groupingNames[i]];
         }
 
@@ -185,7 +177,7 @@ jlab.getDataSource = function (bar) {
             footStr = '<tfoot><th></th><th>Total:</th>';
 
         if (includeCount) {
-            headStr = headStr + '<th>Incidents</th>';
+            headStr = headStr + '<th>New Incidents</th>';
             footStr = footStr + '<th>' + jlab.integerWithCommas(globalCountSum) + '</th>';
         }
         if (includeLost) {
@@ -212,11 +204,10 @@ jlab.getDataSource = function (bar) {
             var url = '/dtm/reports/incident-downtime?';
 
             if($("#grouping").val() === 'repairedby') {
-                url = url + 'group=';
+                //url = url + 'group=' + encodeURIComponent(groupingNames[i]);
             }
 
             url = url
-                + encodeURIComponent(groupingNames[i])
                 + '&start=' + encodeURIComponent(startFmt)
                 + '&end=' + encodeURIComponent(endFmt)
                 + '&qualified=';
@@ -306,7 +297,7 @@ jlab.addTooltips = function (stack, includeHours, includeDays) {
 
 jlab.addAxisLabels = function (binSize) {
 
-    var yAxisText = "Number of Incidents",
+    var yAxisText = "Duration (Hours)",
         xAxisText = "Hour";
 
     if (binSize === 'DAY') {
@@ -451,30 +442,12 @@ jlab.doBarChart = function (stack) {
                     end.setUTCMonth(end.getUTCMonth() + 1);
                 }
 
-                var maxDuration = $("#filter-form").attr("data-max-duration"),
-                    maxDurationUnits = $("#filter-form").attr("data-max-duration-units"),
-                    maxTypes = $("#filter-form").attr("data-max-types"),
-                    includeSadTrips = $("#filter-form").attr("data-sad-trips") === 'Y',
-                    url = '/dtm/trips?';
+                var url = '/dtm/reports/incident-downtime?';
 
-                if($("#grouping").val() === 'cause') {
-                    url = url + 'cause=';
-                } else {
-                    url = url + 'area=';
-                }
-
-                url = url + encodeURIComponent(item.series.label)
-                    + '&start=' + encodeURIComponent(jlab.dateTimeToGlobalUTCString(start))
+                url = url
+                    + 'start=' + encodeURIComponent(jlab.dateTimeToGlobalUTCString(start))
                     + '&end=' + encodeURIComponent(jlab.dateTimeToGlobalUTCString(end))
-                    + '&maxDuration=' + encodeURIComponent(maxDuration)
-                    + '&maxDurationUnits=' + encodeURIComponent(maxDurationUnits)
-                    + '&maxTypes=' + encodeURIComponent(maxTypes)
                     + '&qualified=';
-
-
-                if (!includeSadTrips) {
-                    url = url + '&accState=NULL&accState=DOWN&accState=ACC&accState=RESTORE&accState=MD';
-                }
 
                 window.open(url);
             }
@@ -497,7 +470,7 @@ $(function () {
     $("#fullscreen-button, #exit-fullscreen-button").button();
 
     jlab.flotplot = null;
-    jlab.flotSourceColumnClass = 'count-data';
+    jlab.flotSourceColumnClass = 'duration-data';
 
     if ($("#chart-placeholder").length > 0) {
         var selected = $("#chart option:selected").val();

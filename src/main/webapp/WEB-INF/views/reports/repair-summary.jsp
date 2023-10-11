@@ -94,8 +94,7 @@
                                     <div class="li-value">
                                         <select id="legendData" name="legendData" multiple="multiple">
                                             <option value="count" ${s:inArray(paramValues.legendData, 'count') ? 'selected="selected"' : ''}>Incident Count</option>
-                                            <option value="lost" ${s:inArray(paramValues.legendData, 'lost') ? 'selected="selected"' : ''}>Lost Hours</option>
-                                            <option value="mins" ${s:inArray(paramValues.legendData, 'mins') ? 'selected="selected"' : ''}>Average Duration</option>
+                                            <option value="lost" ${s:inArray(paramValues.legendData, 'lost') ? 'selected="selected"' : ''}>Repair Hours</option>
                                         </select>
                                     </div>
                                 </li>
@@ -149,9 +148,10 @@
                                     <thead>
                                         <tr>
                                             <th>Date <span style="display: inline-block;" class="sort-asc" title="Ascending">▲</span></th>
-                                            <th class="${param.data eq 'count' ? 'selected-column' : ''} count-data">Number of Incidents</th>
+                                            <th>Number of Incidents</th>
                                             <th>Duration (Hours)</th>
                                             <th>Grouping</th>
+                                            <th>Number of New Incidents</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -168,7 +168,8 @@
                                                 <td data-date-utc="${dtm:getLocalTime(bin.start)}" title="${dateWithTz}"><a href="${incidentReportUrl}"><fmt:formatDate value="${bin.start}" pattern="dd-MMM-YYYY HH"/></a></td>
                                                 <td class="count-data right-aligned"><fmt:formatNumber value="${bin.count}" pattern="#,##0"/></td>
                                                 <td class="duration-data right-aligned"><fmt:formatNumber value="${bin.durationMillis / 3600000}" pattern="#,##0.0000"/></td>
-                                                <td><c:out value="${bin.grouping}"/></td>
+                                                <td class="group-data"><c:out value="${bin.grouping}"/></td>
+                                                <td></td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
