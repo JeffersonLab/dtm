@@ -297,7 +297,7 @@ jlab.addTooltips = function (stack, includeHours, includeDays) {
 
 jlab.addAxisLabels = function (binSize) {
 
-    var yAxisText = "Duration (Hours)",
+    var yAxisText = "Repair Hours",
         xAxisText = "Hour";
 
     if (binSize === 'DAY') {
@@ -407,7 +407,7 @@ jlab.doBarChart = function (stack) {
         }
     };
 
-    var maxY = $("#maxY").val();
+    var maxY = '';
 
     if (maxY !== '') {
 
@@ -421,6 +421,9 @@ jlab.doBarChart = function (stack) {
     }
 
     jlab.flotplot = $.plot($("#chart-placeholder"), ds, options);
+
+    console.log('options', options);
+    console.log('flotplot', jlab.flotplot);
 
     jlab.addAxisLabels(binSize);
 
