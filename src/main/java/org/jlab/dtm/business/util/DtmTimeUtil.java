@@ -71,4 +71,8 @@ public final class DtmTimeUtil {
 
         return endInclusive;
     }
+
+    public static Date startOfNextHour(Date date, Calendar tz) {
+        return TimeUtil.addHours(TimeUtil.startOfHour(date, tz), 1);
+    }
 }

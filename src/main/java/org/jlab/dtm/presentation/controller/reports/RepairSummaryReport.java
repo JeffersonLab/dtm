@@ -10,6 +10,7 @@ import org.jlab.dtm.persistence.enumeration.BinSize;
 import org.jlab.dtm.persistence.model.BeamSummaryTotals;
 import org.jlab.dtm.persistence.model.HistogramBin;
 import org.jlab.dtm.presentation.params.RepairSummaryReportUrlParamHandler;
+import org.jlab.smoothness.business.util.DateRange;
 import org.jlab.smoothness.business.util.TimeUtil;
 
 import javax.ejb.EJB;
@@ -90,27 +91,16 @@ public class RepairSummaryReport extends HttpServlet {
 
         if (params.getStart() != null && params.getEnd() != null) {
 
+            DateRange range = HistogramBin.adjust(params.getStart(), params.getEnd(), params.getBinSize());
+
+            params.setStart(range.getStart());
+            params.setEnd(range.getEnd());
+
+            endInclusive = HistogramBin.getInclusiveEnd(params.getEnd(), params.getBinSize());
+
             periodHours = (params.getEnd().getTime() - params.getStart().getTime()) / 1000 / 60 / 60;
 
             IncidentRepairTrendService trendService = new IncidentRepairTrendService();
-
-            // ignore hours and minutes if daily graph otherwise ticks won't line up
-            if (BinSize.DAY.equals(params.getBinSize())) {
-                params.setStart(TimeUtil.startOfDay(params.getStart(), Calendar.getInstance()));
-                params.setEnd(TimeUtil.startOfDay(params.getEnd(), Calendar.getInstance()));
-
-                endInclusive = TimeUtil.addDays(params.getEnd(), -1);
-            } else if (BinSize.HOUR.equals(params.getBinSize())) { // ignore minutes if hourly graph
-                params.setStart(TimeUtil.startOfHour(params.getStart(), Calendar.getInstance()));
-                params.setEnd(TimeUtil.startOfHour(params.getEnd(), Calendar.getInstance()));
-
-                endInclusive = TimeUtil.addHours(params.getEnd(), -1);
-            } else { // Monthly
-                params.setStart(TimeUtil.startOfMonth(params.getStart(), Calendar.getInstance()));
-                params.setEnd(TimeUtil.startOfMonth(params.getEnd(), Calendar.getInstance()));
-
-                endInclusive = TimeUtil.addMonths(params.getEnd(), -1);
-            }
 
             try {
                 long serviceCallStart = System.currentTimeMillis();
