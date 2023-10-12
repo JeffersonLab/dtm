@@ -75,8 +75,6 @@ jlab.getDataSource = function (bar) {
         return b[1] - a[1];
     });
 
-    console.log(sortedDurationArray);
-
     let unspecifiedExists = false;
 
     for (var i = 0; i < sortedDurationArray.length; i++) {
