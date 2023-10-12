@@ -6,35 +6,36 @@ jlab.getDataSource = function (bar) {
     /*Keep consistent colors when toggling series*/
     var colorMap = {
         'Alignment': '#33a02c',
-        'CASA': '#6a3d9a',
-        'Cryo': 'silver',
-        'DC Power': 'navy',
+        'CASA': '#FDFF00',
+        'Cryo': 'aqua',
+        'DC Power': 'silver',
         'ENP ESH&Q': 'green',
         'ENP Target': 'silver',
-        'ESH&Q': 'aqua',
+        'ESH&Q': 'navy',
         'Facilities': '#f5f5dc', /*beige*/
         'Gun (CIS)': '#b15928',
-        'HCO Committee': '#008080', /*teal; not recognized by bar chart by name (fill color)!*/
+        'HCO Committee': '#008080',
         'Hall A': 'pink',
         'Hall B': 'fuchsia',
         'Hall C': 'gold',
-        'Hall D': 'orange', /*Change me to something similar*/
+        'Hall D': 'orange',
         'High Level Apps': 'brown',
         'I&C Hardware': '#e31a1c',
-        'Installation': '#ff7f00',
+        'Installation': '#6a3d9a',
         'Low Level Apps': '#fdbf6f',
         'Magnet Measurement': '#fb9a99',
-        'Operability': 'olive', /*Change me to something similar*/
+        'Operability': 'olive',
         'Ops': '#a6cee3',
         'RADCON': '#1f78b4',
-        'RF': 'blue',
+        'RF': '#89CFF0',
         'SRF': '#cab2d6',
-        'SSG': '#ffff99',
-        'SysAdmin': 'lime',
-        'Vacuum': '#f5f5dc' /*beige*/
-    }; /* see: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value*/
+        'SSG': '#f5f5dc',
+        'SysAdmin': 'olive',
+        'Vacuum': 'lime',
+        'Unspecified': '#ffff99'
+    };
 
-    var backupColors = ['red', 'blue', 'green', 'pink', 'teal', 'yellow'];
+    var backupColors = ['yellow', 'brown', 'purple', 'gray', 'red', 'blue', 'green', 'pink', 'orange', 'black', 'white'];
 
     var durationMap = {},
         countMap = {},
