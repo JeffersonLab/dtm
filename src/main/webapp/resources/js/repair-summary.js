@@ -67,6 +67,35 @@ jlab.getDataSource = function (bar) {
 
     groupingNames.sort();
 
+
+    /*Sort by repair hours, but Unspecified always at bottom*/
+    var customSortedNames = [];
+
+    var sortedDurationArray = Object.entries(durationMap).sort(function(a, b) {
+        return b[1] - a[1];
+    });
+
+    console.log(sortedDurationArray);
+
+    let unspecifiedExists = false;
+
+    for (var i = 0; i < sortedDurationArray.length; i++) {
+        let entry = sortedDurationArray[i];
+
+        if(entry[0] === 'Unspecified') {
+            unspecifiedExists = true;
+        } else {
+            customSortedNames.push(entry[0]);
+        }
+    }
+
+    // If exists, add to end
+    if(unspecifiedExists) {
+        customSortedNames.push('Unspecified');
+    }
+
+    groupingNames = customSortedNames;
+
     //console.log('dataMap', dataMap);
     //console.log('groupingNames', groupingNames);
 
@@ -215,7 +244,13 @@ jlab.getDataSource = function (bar) {
                 + '&end=' + encodeURIComponent(endFmt)
                 + '&qualified=';
 
-            var rowStr = '<tr><th><a target="_blank" href="' + url + '"><div class="color-box" style="background-color: ' + colorMap[groupingNames[i]] + ';"></div></a></th><td>' + groupingNames[i] + '</td>';
+            var classDef = '';
+
+            if(groupingNames[i] === 'Unspecified' && groupingNames.length > 1) {
+                classDef = ' class="unspecified-row"';
+            }
+
+            var rowStr = '<tr' + classDef + '><th><a target="_blank" href="' + url + '"><div class="color-box" style="background-color: ' + colorMap[groupingNames[i]] + ';"></div></a></th><td>' + groupingNames[i] + '</td>';
 
             if (includeCount) {
                 rowStr = rowStr + '<td>' + jlab.integerWithCommas(countMap[groupingNames[i]]) + '</td>';
@@ -225,6 +260,7 @@ jlab.getDataSource = function (bar) {
             }
 
             rowStr = rowStr + '</tr>';
+
             $legendTable.find("tbody").append(rowStr);
         }
 
