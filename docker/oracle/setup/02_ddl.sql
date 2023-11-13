@@ -720,3 +720,86 @@ alter table dtm_owner.incident add review_level varchar2(10) generated always as
 
 -- Performance Index
 create index incident_perf1 on dtm_owner.incident(event_id);
+
+-- Triggers
+create trigger dtm_owner.verify_incident_date_range
+    after insert or update
+    on dtm_owner.incident
+declare
+    invalid_count integer;
+begin
+    -- Ensure an incident time down is not after the incident time up
+    select count(*)
+    into invalid_count
+    from incident il
+    where
+        il.time_up is not null
+      and il.time_down is not null
+      and il.time_down > il.time_up;
+    if invalid_count > 0 then
+        raise_application_error(-20000, 'incident time down can not come after time up');
+    end if;
+-- Ensure events do not overlap
+    select count(*)
+    into invalid_count
+    from incident i1, incident i2,
+         event e1, event e2
+    where i1.event_id != i2.event_id
+      and e1.event_type_id = e2.event_type_id
+      and e1.event_id = i1.event_id
+      and e2.event_id = i2.event_id
+      and i1.time_down < nvl(e2.time_up, sysdate)
+      and i2.time_down < nvl(e1.time_up, sysdate);
+    if invalid_count > 0 then
+        raise_application_error(-20001, 'events overlap (incident check)');
+    end if;
+-- Ensure an incident is closed if the event is closed
+    select count(*)
+    into invalid_count
+    from incident i1,
+         event e1
+    where
+            e1.event_id = i1.event_id
+      and e1.time_up is not null
+      and i1.time_up is null;
+    if invalid_count > 0 then
+        raise_application_error(-20002, 'event is closed so incident must be too');
+    end if;
+-- Ensure an incident time up is not after the event time up
+    select count(*)
+    into invalid_count
+    from incident i1,
+         event e1
+    where
+            e1.event_id = i1.event_id
+      and e1.time_up is not null
+      and i1.time_up is not null
+      and i1.time_up > e1.time_up;
+    if invalid_count > 0 then
+        raise_application_error(-20003, 'incident time up can not come after the event time up');
+    end if;
+end;
+/
+
+create trigger dtm_owner.verify_event_date_range
+    after insert or update
+    on dtm_owner.event
+declare
+    invalid_count integer;
+begin
+    -- Ensure events do not overlap
+    select count(*)
+    into invalid_count
+    from incident i1, incident i2,
+         event e1, event e2
+    where i1.event_id != i2.event_id
+      and e1.event_type_id = e2.event_type_id
+      and e1.event_id = i1.event_id
+      and e2.event_id = i2.event_id
+      and i1.time_down < nvl(e2.time_up, sysdate)
+      and i2.time_down < nvl(e1.time_up, sysdate);
+    if invalid_count > 0 then
+        raise_application_error(-20020, 'events overlap (event check)');
+    end if;
+end;
+/

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.session.EventFacade;
+import org.jlab.dtm.persistence.util.DtmSqlUtil;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.util.ExceptionUtil;
@@ -62,8 +63,11 @@ public class EditEvent extends HttpServlet {
             errorReason = e.getMessage();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Unable to perform event action", e);
-            Throwable rootCause = ExceptionUtil.getRootCause(e);
-            if (rootCause instanceof SQLException) {
+            Throwable rootCause = DtmSqlUtil.getFirstNestedSqlException(e);
+
+            if (rootCause != null) {
+                logger.log(Level.WARNING, "Root Cause: {0}", rootCause.getClass());
+
                 SQLException dbException = (SQLException) rootCause;
 
                 if (dbException.getErrorCode() == 20020) {
