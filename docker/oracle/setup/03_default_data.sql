@@ -392,6 +392,9 @@ insert into DTM_OWNER.COMPONENT (COMPONENT_ID, NAME, SYSTEM_ID, REGION_ID) value
 -- For testing insert system expert into Cryomodule system
 insert into dtm_owner.system_expert(SYSTEM_EXPERT_ID, SYSTEM_ID, USERNAME) values(dtm_owner.SYSTEM_EXPERT_ID.nextval, 141, 'jsmith');
 
+-- For testing insert system expert into Unknown/Missing system
+insert into dtm_owner.system_expert(SYSTEM_EXPERT_ID, SYSTEM_ID, USERNAME) values(dtm_owner.SYSTEM_EXPERT_ID.nextval, 538, 'tbrown');
+
 -- Test event
 insert into dtm_owner.event(EVENT_ID, TIME_UP, EVENT_TYPE_ID, TITLE) values(dtm_owner.event_id.nextval, null, 1, 'Testing');
 
