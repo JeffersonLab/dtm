@@ -1,3 +1,3 @@
 services:
   dtm:
-    image: jeffersonlab/dtm:4.9.3
+    image: jeffersonlab/dtm:4.10.0
