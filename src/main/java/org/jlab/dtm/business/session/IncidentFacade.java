@@ -790,7 +790,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
     private void forceAcknowledgeIfCompletedLevelIIPlus(Incident incident) {
         // Force acknowledge if RAR ID or Root Cause set
-        // We filter list of experts to email by acknolwedge field so this is 
+        // We filter list of experts to email by acknowledge field so this is
         // important to prevent emailing experts about completed Level II and III+
         if (incident.getExpertAcknowledged() == SystemExpertAcknowledgement.N) {
             String rootCause = incident.getRootCause();
