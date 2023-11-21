@@ -2,6 +2,7 @@ package org.jlab.dtm.persistence.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -312,13 +313,25 @@ public class Incident implements Serializable {
     }
 
     public String getReviewedByExpertsFormattedTsv() {
+        return getExpertsFormattedTsv(incidentReviewList);
+    }
+
+    public static String getExpertsFormattedTsv(List<IncidentReview> reviewList) {
         String value = "";
 
-        if (incidentReviewList != null && !incidentReviewList.isEmpty()) {
-            value = Functions.formatUsername(incidentReviewList.get(0).getReviewer());
+        if (reviewList != null && !reviewList.isEmpty()) {
 
-            for (int i = 1; i < incidentReviewList.size(); i++) {
-                value = value + "\t" + Functions.formatUsername(incidentReviewList.get(i).getReviewer());
+            reviewList.sort(new Comparator<IncidentReview>() {
+                @Override
+                public int compare(IncidentReview o1, IncidentReview o2) {
+                    return o1.getReviewer().compareTo(o2.getReviewer());
+                }
+            });
+
+            value = Functions.formatUsername(reviewList.get(0).getReviewer());
+
+            for (int i = 1; i < reviewList.size(); i++) {
+                value = value + "\t" + Functions.formatUsername(reviewList.get(i).getReviewer());
             }
         }
 

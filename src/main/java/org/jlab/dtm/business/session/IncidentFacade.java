@@ -218,6 +218,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         this.forceAcknowledgeIfCompletedLevelIIPlus(incident);
 
         // If System is changing then set default expert reviewers
+        // Note: this may overwrite explicit expert list changes made by user in same transaction...
         if (!system.equals(incident.getSystem())) {
             List<SystemExpert> expertList = system.getSystemExpertList();
             List<String> usernameList = new ArrayList<>();
@@ -274,6 +275,10 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     }
 
     private void validateAndSetExpertReviewedBy(Incident incident, String[] expertUsernameArray) throws UserFriendlyException {
+        boolean expertsChanged = false;
+
+        String originalExperts = incident.getReviewedByExpertsFormattedTsv();
+
         List<IncidentReview> reviewList = new ArrayList<>();
         if (expertUsernameArray != null) {
             for (String s : expertUsernameArray) {
@@ -286,8 +291,19 @@ public class IncidentFacade extends AbstractFacade<Incident> {
             }
         }
 
+        String newExperts = Incident.getExpertsFormattedTsv(reviewList);
+
+        if(!originalExperts.equals(newExperts)) {
+            expertsChanged = true;
+        }
+
         if (incident.getIncidentId() != null) {
             clearReviewList(incident.getIncidentId());
+        }
+
+        if(expertsChanged) {
+            // When expert list changes we should reset acknowledged to No.  This catches reassign case too!
+            incident.setExpertAcknowledged(SystemExpertAcknowledgement.N);
         }
 
         incident.setIncidentReviewList(reviewList);
