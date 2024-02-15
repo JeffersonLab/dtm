@@ -75,7 +75,7 @@ public class Incident implements Serializable {
     private Event event;
     @JoinColumn(name = "COMPONENT_ID", referencedColumnName = "COMPONENT_ID")
     @ManyToOne
-    private Component component;
+    private EternalComponent component;
     @Size(min = 1, max = 2048)
     @Column(name = "MISSING_EXPLANATION", nullable = true, length = 2048)
     private String explanation;
@@ -184,11 +184,11 @@ public class Incident implements Serializable {
         this.event = event;
     }
 
-    public Component getComponent() {
+    public EternalComponent getComponent() {
         return component;
     }
 
-    public void setComponent(Component component) {
+    public void setComponent(EternalComponent component) {
         this.component = component;
     }
 

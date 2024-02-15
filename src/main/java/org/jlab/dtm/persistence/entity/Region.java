@@ -46,7 +46,7 @@ public class Region implements Serializable {
     private String alias;
     private BigInteger weight;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "region")
-    private List<Component> componentList;
+    private List<EternalComponent> componentList;
 
     public Region() {
     }
@@ -92,11 +92,11 @@ public class Region implements Serializable {
         this.weight = weight;
     }
 
-    public List<Component> getComponentList() {
+    public List<EternalComponent> getComponentList() {
         return componentList;
     }
 
-    public void setComponentList(List<Component> componentList) {
+    public void setComponentList(List<EternalComponent> componentList) {
         this.componentList = componentList;
     }
 

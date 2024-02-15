@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -19,15 +17,15 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 
 /**
- *
+ * An EternalComponent is either an existing Component or a Component deleted in the past.
+ * Obtained from the ALL_COMPONENTS view that joins the components table (current list of components) with the
+ * history/audit table COMPONENT_AUD on deleted components.
  * @author ryans
  */
 @Entity
 @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-@Table(name= "COMPONENT", schema = "DTM_OWNER")
-@NamedQueries({
-        @NamedQuery(name = "Component.findAll", query = "SELECT c FROM Component c")})
-public class Component implements Serializable {
+@Table(name= "ALL_COMPONENTS", schema = "DTM_OWNER")
+public class EternalComponent implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -48,14 +46,14 @@ public class Component implements Serializable {
     @ManyToOne(optional = false)
     private Region region;
 
-    public Component() {
+    public EternalComponent() {
     }
 
-    public Component(BigInteger componentId) {
+    public EternalComponent(BigInteger componentId) {
         this.componentId = componentId;
     }
 
-    public Component(BigInteger componentId, String name) {
+    public EternalComponent(BigInteger componentId, String name) {
         this.componentId = componentId;
         this.name = name;
     }
@@ -102,16 +100,16 @@ public class Component implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Component)) {
+        if (!(object instanceof EternalComponent)) {
             return false;
         }
-        Component other = (Component) object;
+        EternalComponent other = (EternalComponent) object;
         return (this.componentId != null || other.componentId == null) && (this.componentId == null || this.componentId.equals(other.componentId));
     }
 
     @Override
     public String toString() {
-        return "org.jlab.dtm.persistence.entity.Component[ componentId=" + componentId + " ]";
+        return "org.jlab.dtm.persistence.entity.EternalComponent[ componentId=" + componentId + " ]";
     }
-
+    
 }
