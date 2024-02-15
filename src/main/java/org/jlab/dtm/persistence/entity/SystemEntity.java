@@ -44,7 +44,7 @@ public class SystemEntity implements Serializable, Comparable<SystemEntity> {
     @Convert(converter= YnStringToBoolean.class)
     private boolean inSrm;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "system")
-    private List<Component> componentList;
+    private List<EternalComponent> componentList;
     @NotAudited
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "system")
     private List<SystemExpert> systemExpertList;   
@@ -101,11 +101,11 @@ public class SystemEntity implements Serializable, Comparable<SystemEntity> {
         this.category = category;
     }
 
-    public List<Component> getComponentList() {
+    public List<EternalComponent> getComponentList() {
         return componentList;
     }
 
-    public void setComponentList(List<Component> componentList) {
+    public void setComponentList(List<EternalComponent> componentList) {
         this.componentList = componentList;
     }
 

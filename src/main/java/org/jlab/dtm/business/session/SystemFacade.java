@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.*;
 
 import org.jlab.dtm.persistence.entity.Category;
-import org.jlab.dtm.persistence.entity.Component;
+import org.jlab.dtm.persistence.entity.EternalComponent;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.smoothness.persistence.util.JPAUtil;
 
@@ -106,7 +106,7 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
         List<Predicate> filters = new ArrayList<>();
 
         if (componentId != null) {
-            Join<SystemEntity, Component> components = root.join("componentList");
+            Join<SystemEntity, EternalComponent> components = root.join("componentList");
             filters.add(components.in(componentId));
         }
         if (categoryId != null) {

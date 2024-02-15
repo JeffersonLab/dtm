@@ -8,7 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.jlab.dtm.persistence.entity.Component;
+import org.jlab.dtm.persistence.entity.EternalComponent;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.model.ComponentDowntime;
 import org.jlab.smoothness.persistence.util.JPAUtil;
@@ -18,7 +18,7 @@ import org.jlab.smoothness.persistence.util.JPAUtil;
  * @author ryans
  */
 @Stateless
-public class ComponentDowntimeFacade extends AbstractFacade<Component> {
+public class ComponentDowntimeFacade extends AbstractFacade<EternalComponent> {
 
     @PersistenceContext(unitName = "dtmPU")
     private EntityManager em;
@@ -29,7 +29,7 @@ public class ComponentDowntimeFacade extends AbstractFacade<Component> {
     }
 
     public ComponentDowntimeFacade() {
-        super(Component.class);
+        super(EternalComponent.class);
     }
 
     @PermitAll

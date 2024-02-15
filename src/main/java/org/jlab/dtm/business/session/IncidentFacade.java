@@ -22,18 +22,8 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
-/*import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.HttpClientBuilder;*/
 import org.jlab.dtm.business.params.IncidentParams;
-import org.jlab.dtm.business.service.MigrateOldRarService;
-import org.jlab.dtm.persistence.entity.Component;
+import org.jlab.dtm.persistence.entity.EternalComponent;
 import org.jlab.dtm.persistence.entity.Event;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.Incident;
@@ -48,7 +38,6 @@ import org.jlab.dtm.persistence.model.Period;
 import org.jlab.smoothness.business.exception.InternalException;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.exception.WebApplicationException;
-import org.jlab.smoothness.business.util.TimeUtil;
 import org.jlab.smoothness.persistence.util.JPAUtil;
 import org.jlab.smoothness.presentation.filter.AuditContext;
 
@@ -66,7 +55,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     @EJB
     EventFacade eventFacade;
     @EJB
-    ComponentFacade componentFacade;
+    EternalComponentFacade eternalComponentFacade;
     @EJB
     EventTypeFacade eventTypeFacade;
     @EJB
@@ -131,15 +120,15 @@ public class IncidentFacade extends AbstractFacade<Incident> {
             throw new UserFriendlyException("Incident summary must not be empty");
         }
 
-        Component component = null;
+        EternalComponent eternalComponent = null;
         if (componentId != null) {
-            component = componentFacade.find(componentId);
+            eternalComponent = eternalComponentFacade.find(componentId);
 
-            if (component == null) {
+            if (eternalComponent == null) {
                 throw new UserFriendlyException("Component with ID " + componentId + " not found");
             }
 
-            if (!component.getName().equals(componentName)) {
+            if (!eternalComponent.getName().equals(componentName)) {
                 throw new UserFriendlyException("Please choose a known component name");
             }
         } else {
@@ -148,20 +137,20 @@ public class IncidentFacade extends AbstractFacade<Incident> {
             // component name then componentId will be null
 
             // Attempt to find component by name, this might return multiple results.
-            List<Component> componentList = componentFacade.findByName(componentName);
+            List<EternalComponent> eternalComponentList = eternalComponentFacade.findByName(componentName);
 
-            if (componentList.isEmpty()) {
+            if (eternalComponentList.isEmpty()) {
                 throw new UserFriendlyException("Component not found with name: " + componentName);
             }
 
-            if (componentList.size() != 1) {
+            if (eternalComponentList.size() != 1) {
                 throw new UserFriendlyException("Multiple components with that name found, please filter by Category/System and choose from auto-complete");
             }
 
-            component = componentList.get(0);
+            eternalComponent = eternalComponentList.get(0);
         }
 
-        if (component.getName().equals("Unknown/Missing")) {
+        if (eternalComponent.getName().equals("Unknown/Missing")) {
             if (explanation == null
                     || explanation.isEmpty()) {
                 throw new UserFriendlyException(
@@ -173,7 +162,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
         }
 
-        SystemEntity system = component.getSystem();
+        SystemEntity system = eternalComponent.getSystem();
 
         if (timeDown == null) {
             throw new UserFriendlyException("Incident time down must not be empty");
@@ -234,7 +223,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         incident.setTitle(title);
         incident.setSummary(summary);
         incident.setSystem(system);
-        incident.setComponent(component);
+        incident.setComponent(eternalComponent);
         incident.setTimeDown(timeDown);
         incident.setTimeUp(timeUp);
         incident.setResolution(solution);

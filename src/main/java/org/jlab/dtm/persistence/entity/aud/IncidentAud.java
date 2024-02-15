@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.envers.RevisionType;
 import org.jlab.dtm.persistence.entity.ApplicationRevisionInfo;
-import org.jlab.dtm.persistence.entity.Component;
+import org.jlab.dtm.persistence.entity.EternalComponent;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
 
@@ -53,7 +53,7 @@ public class IncidentAud implements Serializable {
     private SystemEntity system;
     @JoinColumn(name = "COMPONENT_ID", referencedColumnName = "COMPONENT_ID")
     @ManyToOne
-    private Component component;
+    private EternalComponent component;
     @Enumerated(EnumType.ORDINAL)
     @NotNull
     @Column(name = "REVTYPE")
@@ -139,11 +139,11 @@ public class IncidentAud implements Serializable {
         this.system = system;
     }
 
-    public Component getComponent() {
-        return component;
+    public EternalComponent getComponent() {
+        return  component;
     }
 
-    public void setComponent(Component component) {
+    public void setComponent(EternalComponent component) {
         this.component = component;
     }
 
