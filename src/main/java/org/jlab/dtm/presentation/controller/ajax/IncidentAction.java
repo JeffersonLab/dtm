@@ -89,23 +89,28 @@ public class IncidentAction extends HttpServlet {
             LOGGER.log(Level.FINE, "Unable to perform incident action ({0}): {1}", new Object[]{action, e.getMessage()});
             errorReason = e.getMessage();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Unable to perform incident action", e);
             Throwable rootCause = DtmSqlUtil.getFirstNestedSqlException(e);
 
             if (rootCause != null) {
-                LOGGER.log(Level.WARNING, "Root Cause: {0}", rootCause.getClass());
-
                 SQLException dbException = (SQLException) rootCause;
 
-                if (dbException.getErrorCode() == 20001) {
+                if (dbException.getErrorCode() == 20003) {
+                    errorReason = "Action results in incident time up after the event time up";
+                } else if (dbException.getErrorCode() == 20001) {
                     errorReason = "Action results in overlapping events";
                 } else if((dbException.getErrorCode() == 1) && (dbException.getMessage().contains("EVENT_AK1"))) { // If attempt to insert with exact same start and end trigger check won't catch so we do this check instead
                     errorReason = "Action results in overlapping events (Is there already an event during this time?)";
                 } else {
                     errorReason = "Database exception";
+                    // We only log stacktrace of generic exceptions we don't explicitly expect; but actually this is
+                    // unnecessary as by default Hibernate will log exceptions already.  Could set org.hibernate log
+                    // level to FATAL to avoid this.
+                    LOGGER.log(Level.WARNING, "Root Cause: {0}", rootCause.getClass());
+                    LOGGER.log(Level.SEVERE, "Unable to perform incident action (database)", e);
                 }
             } else {
                 errorReason = "Something unexpected happened";
+                LOGGER.log(Level.SEVERE, "Unable to perform incident action (unknown)", e);
             }
         }
 
