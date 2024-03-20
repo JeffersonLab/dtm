@@ -17,7 +17,7 @@ RUN cd /app && gradle build -x test --no-watch-fs $OPTIONAL_CERT_ARG
 
 ################## Stage 1
 FROM ${RUN_IMAGE} as runner
-COPY --from=builder /app/docker/app/app-setup.env /
+COPY --from=builder /app/container/app/app-setup.env /
 USER root
 RUN /server-setup.sh /app-setup.env wildfly_start_and_wait \
      && /app-setup.sh /app-setup.env config_keycloak_client \
