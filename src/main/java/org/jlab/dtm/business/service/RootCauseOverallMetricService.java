@@ -156,7 +156,7 @@ public class RootCauseOverallMetricService {
         }
         
         if(params.getSmeUsername() != null && !params.getSmeUsername().isEmpty()) {
-            filters.add("incident_id in (select incident_id from incident inner join incident_review using(incident_id)) ");
+            filters.add("incident_id in (select incident_id from incident inner join incident_review using(incident_id) where reviewer_username = ?) ");
         }
 
         String filter = "";
