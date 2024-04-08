@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    uses: jeffersonlab/java-workflows/.github/workflows/gh-release.yml@main
+    uses: jeffersonlab/java-workflows/.github/workflows/gh-release.yml@v1
     with:
       files: build/libs/dtm.war
     secrets: inherit
@@ -15,7 +15,17 @@ jobs:
   docker_publish:
     needs:
       - release
-    uses: jeffersonlab/container-workflows/.github/workflows/docker-publish.yml@main
+    uses: jeffersonlab/container-workflows/.github/workflows/docker-publish.yml@v1
     with:
       semvertag: ${{ needs.release.outputs.semvertag }}
+    secrets: inherit
+
+  acctest_deploy:
+    needs:
+      - release
+    uses: jeffersonlab/general-workflows/.github/workflows/jlab-deploy-app.yml@v1
+    with:
+      app: dtm
+      env: acctest
+      ver: ${{ needs.release.outputs.semver }}
     secrets: inherit

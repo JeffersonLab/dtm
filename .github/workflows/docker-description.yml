@@ -9,7 +9,7 @@ on:
       - .github/workflows/docker-description.yml
 jobs:
   dockerHubDescription:
-    uses: jeffersonlab/container-workflows/.github/workflows/docker-description.yml@main
+    uses: jeffersonlab/container-workflows/.github/workflows/docker-description.yml@v1
     with:
       repository: jeffersonlab/${{ github.event.repository.name }}
       description: ${{ github.event.repository.description }}
