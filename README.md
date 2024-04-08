@@ -98,7 +98,7 @@ The [server](https://github.com/JeffersonLab/wildfly/blob/main/scripts/server-se
     - The [Create release](https://github.com/JeffersonLab/java-workflows/blob/main/.github/workflows/gh-release.yml) GitHub Action to tag the source and create release notes summarizing any pull requests.   Edit the release notes to add any missing details.  A war file artifact is attached to the release.
     - The [Publish docker image](https://github.com/JeffersonLab/container-workflows/blob/main/.github/workflows/docker-publish.yml) GitHub Action to create a new demo Docker image, and bump the [compose.override.yaml](https://github.com/JeffersonLab/dtm/blob/main/compose.override.yaml) to use the new image.
     - The [Deploy to JLab](https://github.com/JeffersonLab/general-workflows/blob/main/.github/workflows/jlab-deploy-app.yml) GitHub Action to deploy to the JLab test environment.
-    - 
+
 ## Deploy
 The deploy to JLab's acctest is handled automatically via the release workflow.
 
