@@ -29,7 +29,7 @@
         <c:when test="${fn:length(incidentList) > 0}">
             <ul>
                 <c:forEach items="${incidentList}" var="incident">
-                    <li><c:out value="${incident.title}"/></li>
+                    <li><a href="${pathPrefix}/all-events?qualified=&incidentId=${incident.incidentId}"><c:out value="${incident.title}"/></a></li>
                 </c:forEach>
             </ul>
         </c:when>
