@@ -64,6 +64,9 @@ Uses the [Smoothness Environment Variables](https://github.com/JeffersonLab/smoo
 
 There are some [Settings](https://github.com/JeffersonLab/dtm/blob/33d6890eeda911bfea98edb0b85e6d84c2f7c13b/docker/oracle/setup/02_ddl.sql#L107-L113) in the database as well.
 
+### Database
+This application requires an Oracle 18+ database with the following [schema](https://github.com/JeffersonLab/dtm/tree/main/container/oracle/initdb.d) installed.   The application server hosting this app must also be configured with a JNDI datasource.
+
 ## Build
 This project is built with [Java 17](https://adoptium.net/) (compiled to Java 11 bytecode), and uses the [Gradle 7](https://gradle.org/) build tool to automatically download dependencies and build the project from source:
 
