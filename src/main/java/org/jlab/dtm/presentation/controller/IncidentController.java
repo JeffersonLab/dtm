@@ -1,11 +1,10 @@
 package org.jlab.dtm.presentation.controller;
 
-import org.jlab.dtm.business.session.IncidentFacade;
-import org.jlab.dtm.business.session.IncidentReviewFacade;
-import org.jlab.dtm.business.session.RepairFacade;
+import org.jlab.dtm.business.session.*;
 import org.jlab.dtm.persistence.entity.Incident;
 import org.jlab.dtm.persistence.entity.IncidentReview;
 import org.jlab.dtm.persistence.entity.Repair;
+import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 
 import javax.ejb.EJB;
@@ -31,6 +30,8 @@ public class IncidentController extends HttpServlet {
     RepairFacade repairFacade;
     @EJB
     IncidentReviewFacade reviewFacade;
+    @EJB
+    ResponsibleGroupFacade groupFacade;
 
     /**
      * Handles the HTTP
@@ -46,6 +47,8 @@ public class IncidentController extends HttpServlet {
             throws ServletException, IOException {
         BigInteger incidentId = ParamConverter.convertBigInteger(request, "incidentId");
 
+        List<Workgroup> groupList = groupFacade.findAll(new AbstractFacade.OrderDirective("name"));
+
         Incident incident = incidentFacade.findWithExtras(incidentId);
 
         List<Repair> repairList = repairFacade.findByIncident(incident.getIncidentId());
@@ -54,6 +57,7 @@ public class IncidentController extends HttpServlet {
         List<IncidentReview> reviewList = reviewFacade.findByIncident(incident.getIncidentId());
         incident.setIncidentReviewList(reviewList);
 
+        request.setAttribute("groupList", groupList);
         request.setAttribute("incident", incident);
 
         request.getRequestDispatcher("/WEB-INF/views/incident.jsp").forward(request, response);

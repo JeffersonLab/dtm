@@ -61,10 +61,18 @@
                             </dd>
                         </dl>
                         <h3>Review</h3>
-                        <h4>Subject Matter Expert (SME)</h4>
                         <c:if test="${pageContext.request.userPrincipal ne null}">
-                            <button class="open-edit-expert-review-dialog-button">Edit SME Review</button>
+                        <table>
+                            <tbody>
+                                <tr data-incident-id="${incident.incidentId}" data-solution="${fn:escapeXml(incident.resolution)}" data-repaired-by-id-csv="${incident.repairedByIdCsv}" data-reviewed-by-username-ssv="${incident.reviewedByUsernameSsv}" data-repaired-by-formatted="${incident.repairedByIdCsv != null ? dtm:formatGroupList(incident.repairedByIdCsv, groupList) : '--None--'}" data-reviewed-by="${fn:escapeXml(incident.reviewedUsername)}" data-reviewed-by-formatted="${incident.reviewedUsername != null ? s:formatUsername(incident.reviewedUsername) : ''}" data-reviewed-by-experts-formatted-tsv="${incident.reviewedByExpertsFormattedTsv}" data-acknowledged="${fn:escapeXml(incident.expertAcknowledged)}" data-root-cause="${fn:escapeXml(incident.rootCause)}" data-rar-id="${incident.rarId}" data-rar-ext="${incident.rarExt}" data-review-level="${incident.reviewLevelString}">
+                                    <td>
+                                        <button class="open-edit-expert-review-dialog-button">Edit SME Review</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                         </c:if>
+                        <h4>Subject Matter Expert (SME)</h4>
                         <dl class="indented-dl">
                             <dt>Review Level:</dt>
                             <dd><c:out value="${incident.reviewLevelString}"/></dd>
@@ -112,5 +120,6 @@
                 </c:choose>
             </div>                    
         </section>
+        <t:event-list-dialogs eventTypeList="${eventTypeList}" systemList="${systemList}"/>
     </jsp:body>         
 </t:page>
