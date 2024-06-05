@@ -104,3 +104,8 @@ body .me-button {
 .sub-level-symbol {
     font-size: 1.1em;
 }
+.banner-breadbox li span {
+    position: relative;
+    display: inline-block;
+    z-index: 2;
+}

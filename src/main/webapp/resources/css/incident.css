@@ -1,0 +1,14 @@
+dt {
+    display: block;
+    font-weight: bold;
+}
+
+dd {
+    display: block;
+    margin: 1em;
+}
+
+dd ul {
+    margin: 0;
+    padding: 0 1em;
+}

@@ -42,10 +42,10 @@
     </jsp:attribute>
     <jsp:attribute name="primaryNavigation">
                     <ul>
-                        <li${'/open-events' eq currentPath ? ' class="current-primary"' : ''}><a
-                                href="${pageContext.request.contextPath}/open-events">Open Events</a></li>
-                        <li${'/all-events' eq currentPath ? ' class="current-primary"' : ''}><a
-                                href="${pageContext.request.contextPath}/all-events">Events</a></li>
+                        <li${('/open' eq currentPath) or ('/open-events' eq currentPath) ? ' class="current-primary"' : ''}><a
+                                href="${pageContext.request.contextPath}/open">Open</a></li>
+                        <li${fn:startsWith(currentPath, '/events') or fn:startsWith(currentPath, '/all-events')  ? ' class="current-primary"' : ''}><a
+                                href="${pageContext.request.contextPath}/events">Events</a></li>
                         <li${'/trips' eq currentPath ? ' class="current-primary"' : ''}><a
                                 href="${pageContext.request.contextPath}/trips">Trips</a></li>
                         <li${fn:startsWith(currentPath, '/reports') ? ' class="current-primary"' : ''}><a
