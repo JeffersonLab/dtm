@@ -29,7 +29,7 @@
         <c:when test="${fn:length(incidentList) > 0}">
             <ul>
                 <c:forEach items="${incidentList}" var="incident">
-                    <li><a href="${pathPrefix}/all-events?qualified=&incidentId=${incident.incidentId}"><c:out value="${incident.title}"/></a></li>
+                    <li><a href="${pathPrefix}/incidents/${incident.incidentId}"><c:out value="${incident.title}"/></a></li>
                 </c:forEach>
             </ul>
         </c:when>
@@ -41,7 +41,7 @@
     </c:choose>
 
     <b>Please conduct a repair assessment and review the incident(s) here:</b>
-    <br/><b><a href="${pathPrefix}/all-events?acknowledged=N&smeUsername=${username}&qualified=">DTM-RAR Review</a></b>
+    <br/><b><a href="${pathPrefix}/events?acknowledged=N&smeUsername=${username}&qualified=">DTM-RAR Review</a></b>
     <br/><br/>
     <h3>Action Level Reference</h3>
     <table style="border-bottom: 1px solid black; border-collapse: collapse;">

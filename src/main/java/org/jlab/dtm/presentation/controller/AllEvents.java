@@ -28,7 +28,7 @@ import org.jlab.smoothness.presentation.util.Paginator;
  *
  * @author ryans
  */
-@WebServlet(name = "AllEvents", urlPatterns = {"/all-events"})
+@WebServlet(name = "AllEvents", urlPatterns = {"/events", "/all-events"})
 public class AllEvents extends HttpServlet {
 
     @EJB

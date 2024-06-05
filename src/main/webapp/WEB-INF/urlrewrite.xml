@@ -14,4 +14,14 @@
         <to>/resources/$2</to>
     </rule>
 
+    <rule>
+        <from>^/incidents/(.*)$</from>
+        <to>/incident?incidentId=$1</to>
+    </rule>
+
+    <rule>
+        <from>^/events/(.*)$</from>
+        <to>/events?eventId=$1&amp;qualified=</to>
+    </rule>
+
 </urlrewrite>

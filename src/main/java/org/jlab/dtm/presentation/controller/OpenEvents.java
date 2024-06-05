@@ -25,7 +25,7 @@ import org.jlab.dtm.persistence.entity.Workgroup;
  *
  * @author ryans
  */
-@WebServlet(name = "OpenEvents", urlPatterns = {"/open-events"})
+@WebServlet(name = "OpenEvents", urlPatterns = {"/open", "/open-events"})
 public class OpenEvents extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(
