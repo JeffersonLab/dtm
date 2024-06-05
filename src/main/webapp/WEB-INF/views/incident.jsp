@@ -87,13 +87,13 @@
                             <dt>Acknowledged:</dt>
                             <dd>
                                 <c:choose>
-                                    <c:when test="${ncident.expertAcknowledged eq 'Y'}">
+                                    <c:when test="${incident.expertAcknowledged eq 'Y'}">
                                         Yes
                                     </c:when>
-                                    <c:when test="${ncident.expertAcknowledged eq 'N'}">
+                                    <c:when test="${incident.expertAcknowledged eq 'N'}">
                                         No
                                     </c:when>
-                                    <c:when test="${ncident.expertAcknowledged eq 'R'}">
+                                    <c:when test="${incident.expertAcknowledged eq 'R'}">
                                         Reassign
                                     </c:when>
                                 </c:choose>
