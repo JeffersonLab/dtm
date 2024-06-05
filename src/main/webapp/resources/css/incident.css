@@ -12,3 +12,16 @@ dd ul {
     margin: 0;
     padding: 0 1em;
 }
+
+.dialog-content h3 {
+    background-color: #f0f0f0;
+    padding: 0.5em 1em;
+    border: 1px solid black;
+}
+
+.dialog-content h4 {
+    text-decoration: underline;
+}
+.indented-dl {
+    margin-left: 2em;
+}

@@ -1005,6 +1005,19 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         }*/
     }
 
+    @PermitAll
+    public Incident findWithExtras(BigInteger incidentId) {
+        Incident incident = find(incidentId);
+
+        if(incident != null) {
+            // tickle to load; prob should do fetch join instead if I wasn't so lazy...
+            incident.getSystem().getCategory().getName();
+        }
+
+        return incident;
+
+    }
+
     public class TransitionRecord {
         public int rarId;
         public BigInteger incidentId;

@@ -38,22 +38,72 @@
                             <dd>
                                 <c:out value="${incident.summary}"/>
                             </dd>
-                            <dt>Duration:</dt>
+                            <dt>Period:</dt>
                             <dd>
                                 <c:out value="${dtm:millisToHumanReadable(incident.elapsedMillis, true)}"/>
+                                <div>
+                                    <fmt:formatDate pattern="${s:getFriendlyDateTimePattern()}" value="${incident.timeDown}"/> to
+                                    <c:choose>
+                                        <c:when test="${incident.timeUp ne null}">
+                                            <span class="incident-table-time-up"><fmt:formatDate pattern="${s:getFriendlyDateTimePattern()}" value="${incident.timeUp}"/></span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span>(Open)</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
                             </dd>
-                            <dt>Time Down/Up:</dt>
+                            <dt>Cause:</dt>
                             <dd>
-                                <fmt:formatDate pattern="${s:getFriendlyDateTimePattern()}" value="${incident.timeDown}"/> /
+                                <c:out value="${incident.system.category.name}"/> &gt;
+                                <c:out value="${incident.system.name}"/> &gt;
+                                <c:out value="${incident.component.name}"/>
+                            </dd>
+                        </dl>
+                        <h3>Review</h3>
+                        <h4>Subject Matter Expert (SME)</h4>
+                        <c:if test="${pageContext.request.userPrincipal ne null}">
+                            <button class="open-edit-expert-review-dialog-button">Edit SME Review</button>
+                        </c:if>
+                        <dl class="indented-dl">
+                            <dt>Review Level:</dt>
+                            <dd><c:out value="${incident.reviewLevelString}"/></dd>
+                            <dt>Reviewers:</dt>
+                            <dd>
+                                <ul>
+                                <c:forEach items="${incident.incidentReviewList}" var="review">
+                                    <li><c:out value="${s:formatUsername(review.reviewer)}"/></li>
+                                </c:forEach>
+                                </ul>
+                            </dd>
+                            <dt>Acknowledged:</dt>
+                            <dd><c:out value="${incident.expertAcknowledged eq 'Y' ? 'Yes' : 'No'}"/></dd>
+                            <dt>Root Cause:</dt>
+                            <dd><c:out value="${incident.rootCause}"/></dd>
+                            <dt>Repair Assessment Report (RAR):</dt>
+                            <dd>
                                 <c:choose>
-                                    <c:when test="${incident.timeUp ne null}">
-                                        <span class="incident-table-time-up"><fmt:formatDate pattern="${s:getFriendlyDateTimePattern()}" value="${incident.timeUp}"/></span>
+                                    <c:when test="${incident.rarExt ne null}">
+                                        <a href="${pageContext.request.contextPath}/ajax/rar-download?incidentId=${incident.incidentId}">RAR Document</a>
                                     </c:when>
                                     <c:otherwise>
-                                        <span>(Open)</span>
+                                        None
                                     </c:otherwise>
                                 </c:choose>
                             </dd>
+                        </dl>
+                        <h4>Operability (OPR)</h4>
+                        <dl class="indented-dl">
+                            <dt>Reviewer:</dt>
+                            <dd><c:out value="${s:formatUsername(incident.reviewedUsername)}"/></dd>
+                            <dt>Repairer:</dt>
+                            <ul>
+                                <c:forEach items="${incident.repairedByList}" var="repair">
+                                    <li><c:out value="${repair.repairedBy.name}"/></li>
+                                </c:forEach>
+                            </ul>
+                            <dt>Solution:</dt>
+                            <dd><c:out value="${incident.resolution}"/></dd>
                         </dl>
                     </c:when>
                     <c:otherwise>

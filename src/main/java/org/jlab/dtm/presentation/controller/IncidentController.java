@@ -1,7 +1,11 @@
 package org.jlab.dtm.presentation.controller;
 
 import org.jlab.dtm.business.session.IncidentFacade;
+import org.jlab.dtm.business.session.IncidentReviewFacade;
+import org.jlab.dtm.business.session.RepairFacade;
 import org.jlab.dtm.persistence.entity.Incident;
+import org.jlab.dtm.persistence.entity.IncidentReview;
+import org.jlab.dtm.persistence.entity.Repair;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 
 import javax.ejb.EJB;
@@ -12,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.List;
 
 /**
  *
@@ -22,6 +27,10 @@ public class IncidentController extends HttpServlet {
 
     @EJB
     IncidentFacade incidentFacade;
+    @EJB
+    RepairFacade repairFacade;
+    @EJB
+    IncidentReviewFacade reviewFacade;
 
     /**
      * Handles the HTTP
@@ -37,7 +46,13 @@ public class IncidentController extends HttpServlet {
             throws ServletException, IOException {
         BigInteger incidentId = ParamConverter.convertBigInteger(request, "incidentId");
 
-        Incident incident = incidentFacade.find(incidentId);
+        Incident incident = incidentFacade.findWithExtras(incidentId);
+
+        List<Repair> repairList = repairFacade.findByIncident(incident.getIncidentId());
+        incident.setRepairedByList(repairList);
+
+        List<IncidentReview> reviewList = reviewFacade.findByIncident(incident.getIncidentId());
+        incident.setIncidentReviewList(reviewList);
 
         request.setAttribute("incident", incident);
 
