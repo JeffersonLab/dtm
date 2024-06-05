@@ -85,7 +85,19 @@
                                 </ul>
                             </dd>
                             <dt>Acknowledged:</dt>
-                            <dd><c:out value="${incident.expertAcknowledged eq 'Y' ? 'Yes' : 'No'}"/></dd>
+                            <dd>
+                                <c:choose>
+                                    <c:when test="${ncident.expertAcknowledged eq 'Y'}">
+                                        Yes
+                                    </c:when>
+                                    <c:when test="${ncident.expertAcknowledged eq 'N'}">
+                                        No
+                                    </c:when>
+                                    <c:when test="${ncident.expertAcknowledged eq 'R'}">
+                                        Reassign
+                                    </c:when>
+                                </c:choose>
+                            </dd>
                             <dt>Root Cause:</dt>
                             <dd><c:out value="${incident.rootCause}"/></dd>
                             <dt>Repair Assessment Report (RAR):</dt>
