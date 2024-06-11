@@ -1,4 +1,4 @@
-# dtm [![CI](https://github.com/JeffersonLab/dtm/actions/workflows/ci.yml/badge.svg)](https://github.com/JeffersonLab/dtm/actions/workflows/ci.yml) [![Docker](https://img.shields.io/docker/v/jeffersonlab/dtm?sort=semver&label=DockerHub)](https://hub.docker.com/r/jeffersonlab/dtm)
+# dtm [![CI](https://github.com/JeffersonLab/dtm/actions/workflows/ci.yaml/badge.svg)](https://github.com/JeffersonLab/dtm/actions/workflows/ci.yaml) [![Docker](https://img.shields.io/docker/v/jeffersonlab/dtm?sort=semver&label=DockerHub)](https://hub.docker.com/r/jeffersonlab/dtm)
 A [Java EE 8](https://en.wikipedia.org/wiki/Jakarta_EE) web application for managing downtime at Jefferson Lab built with the [Smoothness](https://github.com/JeffersonLab/smoothness) web template.
 
 ![Screenshot](https://github.com/JeffersonLab/dtm/raw/main/Screenshot.png?raw=true "Screenshot")
