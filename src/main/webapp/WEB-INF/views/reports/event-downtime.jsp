@@ -180,7 +180,7 @@
                                 <tbody>
                                     <c:forEach items="${downtimeList}" var="downtime">
                                         <tr>
-                                            <td><a href="${pageContext.request.contextPath}/all-events?eventId=${downtime.eventId}&amp;qualified=" title="Event Details"><c:out value="${downtime.title}"/></a></td>
+                                            <td><a href="${pageContext.request.contextPath}/events/${downtime.eventId}" title="Event Details"><c:out value="${downtime.title}"/></a></td>
                                                 <fmt:formatNumber value="${downtime.downtimeHours}" var="formattedUnbounded"/>
                                             <td class="downtime right-aligned" title="Not Bounded: ${formattedUnbounded}"><fmt:formatNumber value="${downtime.downtimeHoursBounded}" pattern="#,##0.0"/></td>
                                             <td class="restore right-aligned"><fmt:formatNumber value="${downtime.restoreHoursBounded}" pattern="#,##0.0"/></td>

@@ -258,7 +258,7 @@
                                     <c:forEach items="${incidentList}" var="incident">
                                         <tr>
                                             <td><c:out value="${incident.type}"/></td>
-                                            <td><a href="${pageContext.request.contextPath}/all-events?incidentId=${incident.incidentId}&amp;qualified=" title="Incident Detail"><c:out value="${incident.title}"/></a></td>
+                                            <td><a href="${pageContext.request.contextPath}/incidents/${incident.incidentId}" title="Incident Detail"><c:out value="${incident.title}"/></a></td>
                                                 <fmt:formatNumber value="${incident.downtimeHours}" var="formattedUnbounded" pattern="#,##0.0"/>
                                             <td><c:out value="${incident.summary}"/></td>
                                             <td title="Not Bounded: ${formattedUnbounded}" class="right-aligned"><fmt:formatNumber value="${incident.downtimeHoursBounded}" pattern="#,##0.0"/></td>

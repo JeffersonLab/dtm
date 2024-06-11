@@ -18,7 +18,7 @@
             <ul>
                 <c:forEach items="${incidentList}" var="incident">
                     <li>
-                        <span><a href="${pageContext.request.contextPath}/all-events?incidentId=${incident.incidentId}&amp;qualified=" title="${fn:escapeXml(incident.title)}"><c:out value="${incident.title}"/></a></span>
+                        <span><a href="${pageContext.request.contextPath}/incidents/${incident.incidentId}" title="${fn:escapeXml(incident.title)}"><c:out value="${incident.title}"/></a></span>
                             <fmt:formatNumber value="${incident.downtimeHours}" var="formattedUnbounded"/>
                         (<span title="Total Unbounded Hours: ${formattedUnbounded}"><c:out value="${dtm:millisToAbbreviatedHumanReadable(incident.downtimeHoursBounded * 3600000)}"/></span>)
                     </li>

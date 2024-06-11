@@ -119,7 +119,7 @@
                                             <div class="absolute-subcell"><c:out value="${incident.reviewLevelString}"/></div>
                                         </td>
                                         <td class="relative-td">
-                                            <div><a class="incident-title-link" href="${pageContext.request.contextPath}/all-events?incidentId=${incident.incidentId}&amp;qualified=" title="${fn:escapeXml(incident.summary)}"><c:out value="${incident.title}"/></a></div>
+                                            <div><a class="incident-title-link" href="${pageContext.request.contextPath}/incidents/${incident.incidentId}" title="${fn:escapeXml(incident.summary)}"><c:out value="${incident.title}"/></a></div>
                                             <div><c:out value="${incident.system.name}"/>; <c:out value="${incident.component.name}"/></div>
                                             <div class="absolute-subcell" title="Not Bounded: ${fn:escapeXml(dtm:formatSmartDate(incident.timeDown))}">
                                                 <c:choose>
