@@ -23,7 +23,7 @@ jobs:
   acctest_deploy:
     needs:
       - release
-    uses: jeffersonlab/general-workflows/.github/workflows/jlab-deploy-app.yml@v1
+    uses: jeffersonlab/general-workflows/.github/workflows/jlab-deploy-app.yaml@v2
     with:
       app: dtm
       env: acctest
