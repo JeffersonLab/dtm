@@ -34,12 +34,12 @@ public class IncidentRepairTrendService {
     // duration
     String sql;
 
-    String repairedByList = null;
+    String repairedByListPlaceholders = null;
     if (params.getRepairedByArray() != null && params.getRepairedByArray().length > 0) {
-      repairedByList = "'" + params.getRepairedByArray()[0] + "'";
+      repairedByListPlaceholders = "?";
 
       for (int i = 1; i < params.getRepairedByArray().length; i++) {
-        repairedByList = repairedByList + ",'" + params.getRepairedByArray()[i] + "'";
+        repairedByListPlaceholders = repairedByListPlaceholders + ", ?";
       }
     }
 
@@ -50,11 +50,11 @@ public class IncidentRepairTrendService {
             + "where time_up is not null and time_down < ? "
             + "and time_up > ? ";
 
-    if (repairedByList != null) {
+    if (repairedByListPlaceholders != null) {
       sql =
           sql
               + "and incident_id in (select incident_id from incident_repair where repaired_by in ("
-              + repairedByList
+              + repairedByListPlaceholders
               + ") ) ";
     }
 
@@ -74,6 +74,13 @@ public class IncidentRepairTrendService {
       stmt.setDate(2, endSql);
       stmt.setDate(3, endSql);
       stmt.setDate(4, startSql);
+
+      final int offset = 5;
+      if (repairedByListPlaceholders != null) {
+        for (int i = 0; i < params.getRepairedByArray().length; i++) {
+          stmt.setString(offset + i, params.getRepairedByArray()[i]);
+        }
+      }
 
       stmt.setFetchSize(10000); // Fetch a huge amount at a time.
 
