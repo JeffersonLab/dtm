@@ -53,8 +53,9 @@ public class IncidentRepairTrendService {
     if (repairedByListPlaceholders != null) {
       sql =
           sql
-              + "and incident_id in (select incident_id from incident_repair where repaired_by in (" +
-                  repairedByListPlaceholders + ") ) ";
+              + "and incident_id in (select incident_id from incident_repair where repaired_by in ("
+              + repairedByListPlaceholders
+              + ") ) ";
     }
 
     sql = sql + "order by time_down asc";
@@ -74,9 +75,9 @@ public class IncidentRepairTrendService {
       stmt.setDate(3, endSql);
       stmt.setDate(4, startSql);
 
-      final int offset =  5;
+      final int offset = 5;
       if (repairedByListPlaceholders != null) {
-        for(int i = 0; i < params.getRepairedByArray().length; i++) {
+        for (int i = 0; i < params.getRepairedByArray().length; i++) {
           stmt.setString(offset + i, params.getRepairedByArray()[i]);
         }
       }
