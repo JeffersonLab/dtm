@@ -1,5 +1,7 @@
 plugins {
-    id 'war'  
+    id 'war'
+    id "com.diffplug.spotless" version "6.25.0"
+//    id "com.github.spotbugs" version "6.0.18"
 }
 
 description = 'Down time manager app'
@@ -29,16 +31,16 @@ dependencies {
 
     // Smoothness setup should install these into Wildfly
     providedCompile 'org.tuckey:urlrewritefilter:4.0.4',
-                    'org.jlab:jlog:5.0.0',
-                    'org.apache.poi:poi:5.2.3',
-                    'org.apache.poi:poi-ooxml:5.2.3'
+            'org.jlab:jlog:5.0.0',
+            'org.apache.poi:poi:5.2.3',
+            'org.apache.poi:poi-ooxml:5.2.3'
 
     // Wildfly 26.1.3.Final provides:
     providedCompile 'javax:javaee-api:8.0.1',
-                    'javax.servlet:jstl:1.2',
-                    'org.hibernate:hibernate-core:5.3.28.Final',
-                    'org.hibernate:hibernate-envers:5.3.28.Final',
-                    'org.jsoup:jsoup:1.14.2'
+            'javax.servlet:jstl:1.2',
+            'org.hibernate:hibernate-core:5.3.28.Final',
+            'org.hibernate:hibernate-envers:5.3.28.Final',
+            'org.jsoup:jsoup:1.14.2'
 }
 
 war {
@@ -50,5 +52,11 @@ war {
         filter {
             String line -> line.replaceAll("@RELEASE_DATE@", releaseDate)
         }
+    }
+}
+
+spotless {
+    java {
+        googleJavaFormat()
     }
 }

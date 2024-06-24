@@ -18,170 +18,173 @@ import javax.persistence.criteria.Root;
 import org.jlab.dtm.persistence.entity.aud.EventAud;
 
 /**
- *
  * @author ryans
  */
 @Stateless
 public class EventAudFacade extends AbstractFacade<EventAud> {
-    @PersistenceContext(unitName = "dtmPU")
-    private EntityManager em;
+  @PersistenceContext(unitName = "dtmPU")
+  private EntityManager em;
 
-    @EJB
-    ApplicationRevisionInfoFacade revisionFacade;
-    
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
+  @EJB ApplicationRevisionInfoFacade revisionFacade;
+
+  @Override
+  protected EntityManager getEntityManager() {
+    return em;
+  }
+
+  public EventAudFacade() {
+    super(EventAud.class);
+  }
+
+  @PermitAll
+  public List<EventAud> filterList(BigInteger eventId, BigInteger revisionId, int offset, int max) {
+    CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+    CriteriaQuery<EventAud> cq = cb.createQuery(EventAud.class);
+    Root<EventAud> root = cq.from(EventAud.class);
+    cq.select(root);
+
+    List<Predicate> filters = new ArrayList<Predicate>();
+
+    if (eventId != null) {
+      filters.add(cb.equal(root.get("eventAudPK").get("eventId"), eventId));
     }
 
-    public EventAudFacade() {
-        super(EventAud.class);
+    if (revisionId != null) {
+      filters.add(cb.equal(root.get("revision").get("id"), revisionId));
     }
 
-    @PermitAll
-    public List<EventAud> filterList(BigInteger eventId, BigInteger revisionId, int offset, int max) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<EventAud> cq = cb.createQuery(EventAud.class);
-        Root<EventAud> root = cq.from(EventAud.class);
-        cq.select(root);
+    if (!filters.isEmpty()) {
+      cq.where(cb.and(filters.toArray(new Predicate[] {})));
+    }
+    List<Order> orders = new ArrayList<Order>();
+    Path p0 = root.get("revision").get("id");
+    Order o0 = cb.asc(p0);
+    orders.add(o0);
+    cq.orderBy(orders);
 
-        List<Predicate> filters = new ArrayList<Predicate>();
+    List<EventAud> eventList =
+        getEntityManager()
+            .createQuery(cq)
+            .setFirstResult(offset)
+            .setMaxResults(max)
+            .getResultList();
 
-        if (eventId != null) {            
-            filters.add(cb.equal(root.get("eventAudPK").get("eventId"), eventId));
-        }
-
-        if (revisionId != null) {
-            filters.add(cb.equal(root.get("revision").get("id"), revisionId));            
-        }
-
-        if (!filters.isEmpty()) {
-            cq.where(cb.and(filters.toArray(new Predicate[]{})));
-        }
-        List<Order> orders = new ArrayList<Order>();
-        Path p0 = root.get("revision").get("id");
-        Order o0 = cb.asc(p0);
-        orders.add(o0);
-        cq.orderBy(orders);
-
-        List<EventAud> eventList = getEntityManager().createQuery(cq).setFirstResult(offset).setMaxResults(max).getResultList();
-        
-        if(eventList != null) {
-            for(EventAud event: eventList) {
-                event.getRevision().getId(); // Tickle to load
-            }
-        }
-        
-        return eventList;
+    if (eventList != null) {
+      for (EventAud event : eventList) {
+        event.getRevision().getId(); // Tickle to load
+      }
     }
 
-    // there is a bug in hibernate which causes generated sql to be invalid for composite select count
-    /*public Long countFilterList(BigInteger eventId, BigInteger revisionId) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-        Root<EventAud> root = cq.from(EventAud.class);
+    return eventList;
+  }
 
-        List<Predicate> filters = new ArrayList<Predicate>();
+  // there is a bug in hibernate which causes generated sql to be invalid for composite select count
+  /*public Long countFilterList(BigInteger eventId, BigInteger revisionId) {
+      CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+      CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+      Root<EventAud> root = cq.from(EventAud.class);
 
-        if (eventId != null) {            
-            filters.add(cb.equal(root.get("eventAudPK").get("eventId"), eventId));
-        }
+      List<Predicate> filters = new ArrayList<Predicate>();
 
-        if (revisionId != null) {
-            filters.add(cb.equal(root.get("revision").get("id"), revisionId));            
-        }
-        
-        if (!filters.isEmpty()) {
-            cq.where(cb.and(filters.toArray(new Predicate[]{})));
-        }
+      if (eventId != null) {
+          filters.add(cb.equal(root.get("eventAudPK").get("eventId"), eventId));
+      }
 
-        cq.select(cb.count(root));
-        TypedQuery<Long> q = getEntityManager().createQuery(cq);
-        return q.getSingleResult();
-    }    */
+      if (revisionId != null) {
+          filters.add(cb.equal(root.get("revision").get("id"), revisionId));
+      }
 
-    @PermitAll
-    public Long countFilterList(BigInteger eventId, BigInteger revisionId) {
-        String selectFrom = "select count(*) from EVENT_AUD e ";
+      if (!filters.isEmpty()) {
+          cq.where(cb.and(filters.toArray(new Predicate[]{})));
+      }
 
-        List<String> whereList = new ArrayList<String>();
+      cq.select(cb.count(root));
+      TypedQuery<Long> q = getEntityManager().createQuery(cq);
+      return q.getSingleResult();
+  }    */
 
-        String w;
+  @PermitAll
+  public Long countFilterList(BigInteger eventId, BigInteger revisionId) {
+    String selectFrom = "select count(*) from EVENT_AUD e ";
 
-        if (eventId != null) {
-            w = "e.event_id = " + eventId;
-            whereList.add(w);
-        }
+    List<String> whereList = new ArrayList<String>();
 
-        if (revisionId != null) {
-            w = "e.rev = " + revisionId;
-            whereList.add(w);
-        }        
-        
-        String where = "";
+    String w;
 
-        if (!whereList.isEmpty()) {
-            where = "where ";
-            for (String wh : whereList) {
-                where = where + wh + " and ";
-            }
-
-            where = where.substring(0, where.length() - 5);
-        }
-
-        String sql = selectFrom + " " + where;
-        Query q = em.createNativeQuery(sql); 
-        
-        return ((Number)q.getSingleResult()).longValue();
+    if (eventId != null) {
+      w = "e.event_id = " + eventId;
+      whereList.add(w);
     }
 
-    @PermitAll
-    public void loadStaff(List<EventAud> eventList) {
-        if(eventList != null) {
-            for(EventAud event: eventList) {
-                revisionFacade.loadUser(event.getRevision());
-            }
-        }
+    if (revisionId != null) {
+      w = "e.rev = " + revisionId;
+      whereList.add(w);
     }
 
-    @PermitAll
-    public EventAud findLatestCloseRevision(BigInteger eventId) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<EventAud> cq = cb.createQuery(EventAud.class);
-        Root<EventAud> root = cq.from(EventAud.class);
-        cq.select(root);
+    String where = "";
 
-        List<Predicate> filters = new ArrayList<Predicate>();
+    if (!whereList.isEmpty()) {
+      where = "where ";
+      for (String wh : whereList) {
+        where = where + wh + " and ";
+      }
 
-        // Find EventAud where timeUp is not null
-        filters.add(cb.isNotNull(root.get("timeUp")));
-        
-        // Find EventAud where change was a ADD or MOD (not DEL)
-        filters.add(cb.notEqual(root.get("type"), 3));
-        
-        
-        if (eventId != null) {            
-            filters.add(cb.equal(root.get("eventAudPK").get("eventId"), eventId));
-        }
-
-        if (!filters.isEmpty()) {
-            cq.where(cb.and(filters.toArray(new Predicate[]{})));
-        }
-        List<Order> orders = new ArrayList<Order>();
-        Path p0 = root.get("revision").get("id");
-        Order o0 = cb.asc(p0);
-        orders.add(o0);
-        cq.orderBy(orders);
-
-        List<EventAud> eventList = getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getResultList();
-        
-        EventAud aud = null;
-        
-        if(eventList != null && !eventList.isEmpty()) {
-            aud = eventList.get(0);
-            aud.getRevision().getId(); // tickle
-        }
-        
-        return aud;
+      where = where.substring(0, where.length() - 5);
     }
+
+    String sql = selectFrom + " " + where;
+    Query q = em.createNativeQuery(sql);
+
+    return ((Number) q.getSingleResult()).longValue();
+  }
+
+  @PermitAll
+  public void loadStaff(List<EventAud> eventList) {
+    if (eventList != null) {
+      for (EventAud event : eventList) {
+        revisionFacade.loadUser(event.getRevision());
+      }
+    }
+  }
+
+  @PermitAll
+  public EventAud findLatestCloseRevision(BigInteger eventId) {
+    CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+    CriteriaQuery<EventAud> cq = cb.createQuery(EventAud.class);
+    Root<EventAud> root = cq.from(EventAud.class);
+    cq.select(root);
+
+    List<Predicate> filters = new ArrayList<Predicate>();
+
+    // Find EventAud where timeUp is not null
+    filters.add(cb.isNotNull(root.get("timeUp")));
+
+    // Find EventAud where change was a ADD or MOD (not DEL)
+    filters.add(cb.notEqual(root.get("type"), 3));
+
+    if (eventId != null) {
+      filters.add(cb.equal(root.get("eventAudPK").get("eventId"), eventId));
+    }
+
+    if (!filters.isEmpty()) {
+      cq.where(cb.and(filters.toArray(new Predicate[] {})));
+    }
+    List<Order> orders = new ArrayList<Order>();
+    Path p0 = root.get("revision").get("id");
+    Order o0 = cb.asc(p0);
+    orders.add(o0);
+    cq.orderBy(orders);
+
+    List<EventAud> eventList =
+        getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getResultList();
+
+    EventAud aud = null;
+
+    if (eventList != null && !eventList.isEmpty()) {
+      aud = eventList.get(0);
+      aud.getRevision().getId(); // tickle
+    }
+
+    return aud;
+  }
 }

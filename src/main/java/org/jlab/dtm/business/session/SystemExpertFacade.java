@@ -11,65 +11,63 @@ import org.jlab.dtm.persistence.entity.SystemExpert;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
 
 /**
- *
  * @author ryans
  */
 @Stateless
 public class SystemExpertFacade extends AbstractFacade<SystemExpert> {
 
-    @PersistenceContext(unitName = "dtmPU")
-    private EntityManager em;
+  @PersistenceContext(unitName = "dtmPU")
+  private EntityManager em;
 
-    @EJB
-    SystemFacade systemFacade;
-    
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+  @EJB SystemFacade systemFacade;
 
-    public SystemExpertFacade() {
-        super(SystemExpert.class);
-    }
-    
-    @RolesAllowed("dtm-admin")
-    public BigInteger add(BigInteger systemId, String username) throws UserFriendlyException {
-        if(systemId == null) {
-            throw new UserFriendlyException("Subsystem must be specified");
-        }
-        
-        if(username == null || username.isEmpty()) {
-            throw new UserFriendlyException("Username must be specified");
-        }
-        
-        SystemEntity system = systemFacade.find(systemId);
-        
-        if(system == null) {
-            throw new UserFriendlyException("Subsytem with ID: " + systemId + " not found");
-        }
-        
-        SystemExpert se = new SystemExpert();
-        
-        se.setSystem(system);        
-        se.setUsername(username);
-        
-        se = em.merge(se);
-        
-        return se.getSystemExpertId();
+  @Override
+  protected EntityManager getEntityManager() {
+    return em;
+  }
+
+  public SystemExpertFacade() {
+    super(SystemExpert.class);
+  }
+
+  @RolesAllowed("dtm-admin")
+  public BigInteger add(BigInteger systemId, String username) throws UserFriendlyException {
+    if (systemId == null) {
+      throw new UserFriendlyException("Subsystem must be specified");
     }
 
-    @RolesAllowed("dtm-admin")
-    public void delete(BigInteger expertId) throws UserFriendlyException {
-        if(expertId == null) {
-            throw new UserFriendlyException("Expert ID must be specified");
-        }
-        
-        SystemExpert se = find(expertId);
-        
-        if(se == null) {
-            throw new UserFriendlyException("Expert record with ID: " + expertId + " not found");
-        }
-        
-        em.remove(se);
+    if (username == null || username.isEmpty()) {
+      throw new UserFriendlyException("Username must be specified");
     }
+
+    SystemEntity system = systemFacade.find(systemId);
+
+    if (system == null) {
+      throw new UserFriendlyException("Subsytem with ID: " + systemId + " not found");
+    }
+
+    SystemExpert se = new SystemExpert();
+
+    se.setSystem(system);
+    se.setUsername(username);
+
+    se = em.merge(se);
+
+    return se.getSystemExpertId();
+  }
+
+  @RolesAllowed("dtm-admin")
+  public void delete(BigInteger expertId) throws UserFriendlyException {
+    if (expertId == null) {
+      throw new UserFriendlyException("Expert ID must be specified");
+    }
+
+    SystemExpert se = find(expertId);
+
+    if (se == null) {
+      throw new UserFriendlyException("Expert record with ID: " + expertId + " not found");
+    }
+
+    em.remove(se);
+  }
 }

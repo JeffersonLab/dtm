@@ -6,21 +6,19 @@ import javax.persistence.PersistenceContext;
 import org.jlab.dtm.persistence.entity.EventType;
 
 /**
- *
  * @author ryans
  */
 @Stateless
 public class EventTypeFacade extends AbstractFacade<EventType> {
-    @PersistenceContext(unitName = "dtmPU")
-    private EntityManager em;
+  @PersistenceContext(unitName = "dtmPU")
+  private EntityManager em;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+  @Override
+  protected EntityManager getEntityManager() {
+    return em;
+  }
 
-    public EventTypeFacade() {
-        super(EventType.class);
-    }
-    
+  public EventTypeFacade() {
+    super(EventType.class);
+  }
 }

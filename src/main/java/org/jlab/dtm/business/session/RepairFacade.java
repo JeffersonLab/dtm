@@ -10,30 +10,30 @@ import javax.persistence.TypedQuery;
 import org.jlab.dtm.persistence.entity.Repair;
 
 /**
- *
  * @author ryans
  */
 @Stateless
 public class RepairFacade extends AbstractFacade<Repair> {
 
-    @PersistenceContext(unitName = "dtmPU")
-    private EntityManager em;
+  @PersistenceContext(unitName = "dtmPU")
+  private EntityManager em;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+  @Override
+  protected EntityManager getEntityManager() {
+    return em;
+  }
 
-    public RepairFacade() {
-        super(Repair.class);
-    }
+  public RepairFacade() {
+    super(Repair.class);
+  }
 
-    @PermitAll
-    public List<Repair> findByIncident(BigInteger incidentId) {
-        TypedQuery<Repair> q = em.createQuery(
-                "select r from Repair r left join fetch r.repairedBy where r.incident.incidentId = :incidentId",
-                Repair.class);
-        q.setParameter("incidentId", incidentId);
-        return q.getResultList();
-    }
+  @PermitAll
+  public List<Repair> findByIncident(BigInteger incidentId) {
+    TypedQuery<Repair> q =
+        em.createQuery(
+            "select r from Repair r left join fetch r.repairedBy where r.incident.incidentId = :incidentId",
+            Repair.class);
+    q.setParameter("incidentId", incidentId);
+    return q.getResultList();
+  }
 }

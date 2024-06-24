@@ -22,104 +22,111 @@ import org.jlab.dtm.persistence.entity.ApplicationRevisionInfo;
 import org.jlab.dtm.persistence.entity.EventType;
 
 /**
- *
  * @author ryans
  */
 @Entity
 @Table(name = "EVENT_AUD", schema = "DTM_OWNER")
 public class EventAud implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected EventAudPK eventAudPK;
-    @Column(name = "TIME_UP")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date timeUp;
-    @NotNull
-    @JoinColumn(name = "EVENT_TYPE_ID", referencedColumnName = "EVENT_TYPE_ID", nullable = false)
-    @ManyToOne(optional = false)
-    private EventType eventType;
-    @Enumerated(EnumType.ORDINAL)
-    @NotNull
-    @Column(name = "REVTYPE")
-    private RevisionType type;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 128)
-    @Column(nullable = false, length = 128)
-    private String title;    
-    @JoinColumn(name = "REV", referencedColumnName = "REV", insertable = false, updatable = false, nullable = false)
-    @NotNull
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private ApplicationRevisionInfo revision;
+  private static final long serialVersionUID = 1L;
+  @EmbeddedId protected EventAudPK eventAudPK;
 
-    public EventAud() {
-    }
+  @Column(name = "TIME_UP")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date timeUp;
 
-    public Date getTimeUp() {
-        return timeUp;
-    }
+  @NotNull
+  @JoinColumn(name = "EVENT_TYPE_ID", referencedColumnName = "EVENT_TYPE_ID", nullable = false)
+  @ManyToOne(optional = false)
+  private EventType eventType;
 
-    public void setTimeUp(Date timeUp) {
-        this.timeUp = timeUp;
-    }
+  @Enumerated(EnumType.ORDINAL)
+  @NotNull
+  @Column(name = "REVTYPE")
+  private RevisionType type;
 
-    public EventType getEventType() {
-        return eventType;
-    }
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 128)
+  @Column(nullable = false, length = 128)
+  private String title;
 
-    public void setEventType(EventType eventType) {
-        this.eventType = eventType;
-    }
+  @JoinColumn(
+      name = "REV",
+      referencedColumnName = "REV",
+      insertable = false,
+      updatable = false,
+      nullable = false)
+  @NotNull
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  private ApplicationRevisionInfo revision;
 
-    public RevisionType getType() {
-        return type;
-    }
+  public EventAud() {}
 
-    public void setType(RevisionType type) {
-        this.type = type;
-    }
+  public Date getTimeUp() {
+    return timeUp;
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public void setTimeUp(Date timeUp) {
+    this.timeUp = timeUp;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public EventType getEventType() {
+    return eventType;
+  }
 
-    public ApplicationRevisionInfo getRevision() {
-        return revision;
-    }
+  public void setEventType(EventType eventType) {
+    this.eventType = eventType;
+  }
 
-    public void setRevision(ApplicationRevisionInfo revision) {
-        this.revision = revision;
-    }
+  public RevisionType getType() {
+    return type;
+  }
 
-    public EventAudPK getEventAudPK() {
-        return eventAudPK;
-    }
+  public void setType(RevisionType type) {
+    this.type = type;
+  }
 
-    public void setEventAudPK(EventAudPK eventAudPK) {
-        this.eventAudPK = eventAudPK;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 53 * hash + (this.eventAudPK != null ? this.eventAudPK.hashCode() : 0);
-        return hash;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final EventAud other = (EventAud) obj;
-        return Objects.equals(this.eventAudPK, other.eventAudPK);
+  public ApplicationRevisionInfo getRevision() {
+    return revision;
+  }
+
+  public void setRevision(ApplicationRevisionInfo revision) {
+    this.revision = revision;
+  }
+
+  public EventAudPK getEventAudPK() {
+    return eventAudPK;
+  }
+
+  public void setEventAudPK(EventAudPK eventAudPK) {
+    this.eventAudPK = eventAudPK;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 5;
+    hash = 53 * hash + (this.eventAudPK != null ? this.eventAudPK.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
     }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final EventAud other = (EventAud) obj;
+    return Objects.equals(this.eventAudPK, other.eventAudPK);
+  }
 }

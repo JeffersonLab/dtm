@@ -17,99 +17,104 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 
 /**
- * An EternalComponent is either an existing Component or a Component deleted in the past.
- * Obtained from the ALL_COMPONENTS view that joins the components table (current list of components) with the
- * history/audit table COMPONENT_AUD on deleted components.
+ * An EternalComponent is either an existing Component or a Component deleted in the past. Obtained
+ * from the ALL_COMPONENTS view that joins the components table (current list of components) with
+ * the history/audit table COMPONENT_AUD on deleted components.
+ *
  * @author ryans
  */
 @Entity
 @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-@Table(name= "ALL_COMPONENTS", schema = "DTM_OWNER")
+@Table(name = "ALL_COMPONENTS", schema = "DTM_OWNER")
 public class EternalComponent implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "COMPONENT_ID", nullable = false, precision = 22, scale = 0)
-    private BigInteger componentId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 128)
-    @Column(nullable = false, length = 128)
-    private String name;
-    @OneToMany(mappedBy = "component")
-    private List<Incident> incidentList;
-    @JoinColumn(name = "SYSTEM_ID", referencedColumnName = "SYSTEM_ID", nullable = false)
-    @ManyToOne(optional = false)
-    private org.jlab.dtm.persistence.entity.SystemEntity system;
-    @JoinColumn(name = "REGION_ID", referencedColumnName = "REGION_ID", nullable = false)
-    @ManyToOne(optional = false)
-    private Region region;
+  private static final long serialVersionUID = 1L;
 
-    public EternalComponent() {
-    }
+  @Id
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "COMPONENT_ID", nullable = false, precision = 22, scale = 0)
+  private BigInteger componentId;
 
-    public EternalComponent(BigInteger componentId) {
-        this.componentId = componentId;
-    }
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 128)
+  @Column(nullable = false, length = 128)
+  private String name;
 
-    public EternalComponent(BigInteger componentId, String name) {
-        this.componentId = componentId;
-        this.name = name;
-    }
+  @OneToMany(mappedBy = "component")
+  private List<Incident> incidentList;
 
-    public BigInteger getComponentId() {
-        return componentId;
-    }
+  @JoinColumn(name = "SYSTEM_ID", referencedColumnName = "SYSTEM_ID", nullable = false)
+  @ManyToOne(optional = false)
+  private org.jlab.dtm.persistence.entity.SystemEntity system;
 
-    public void setComponentId(BigInteger componentId) {
-        this.componentId = componentId;
-    }
+  @JoinColumn(name = "REGION_ID", referencedColumnName = "REGION_ID", nullable = false)
+  @ManyToOne(optional = false)
+  private Region region;
 
-    public String getName() {
-        return name;
-    }
+  public EternalComponent() {}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public EternalComponent(BigInteger componentId) {
+    this.componentId = componentId;
+  }
 
-    public List<Incident> getIncidentList() {
-        return incidentList;
-    }
+  public EternalComponent(BigInteger componentId, String name) {
+    this.componentId = componentId;
+    this.name = name;
+  }
 
-    public void setIncidentList(List<Incident> incidentList) {
-        this.incidentList = incidentList;
-    }
+  public BigInteger getComponentId() {
+    return componentId;
+  }
 
-    public org.jlab.dtm.persistence.entity.SystemEntity getSystem() {
-        return system;
-    }
+  public void setComponentId(BigInteger componentId) {
+    this.componentId = componentId;
+  }
 
-    public void setSystem(org.jlab.dtm.persistence.entity.SystemEntity system) {
-        this.system = system;
-    }
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (componentId != null ? componentId.hashCode() : 0);
-        return hash;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EternalComponent)) {
-            return false;
-        }
-        EternalComponent other = (EternalComponent) object;
-        return (this.componentId != null || other.componentId == null) && (this.componentId == null || this.componentId.equals(other.componentId));
-    }
+  public List<Incident> getIncidentList() {
+    return incidentList;
+  }
 
-    @Override
-    public String toString() {
-        return "org.jlab.dtm.persistence.entity.EternalComponent[ componentId=" + componentId + " ]";
+  public void setIncidentList(List<Incident> incidentList) {
+    this.incidentList = incidentList;
+  }
+
+  public org.jlab.dtm.persistence.entity.SystemEntity getSystem() {
+    return system;
+  }
+
+  public void setSystem(org.jlab.dtm.persistence.entity.SystemEntity system) {
+    this.system = system;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += (componentId != null ? componentId.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    // TODO: Warning - this method won't work in the case the id fields are not set
+    if (!(object instanceof EternalComponent)) {
+      return false;
     }
-    
+    EternalComponent other = (EternalComponent) object;
+    return (this.componentId != null || other.componentId == null)
+        && (this.componentId == null || this.componentId.equals(other.componentId));
+  }
+
+  @Override
+  public String toString() {
+    return "org.jlab.dtm.persistence.entity.EternalComponent[ componentId=" + componentId + " ]";
+  }
 }

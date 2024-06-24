@@ -17,76 +17,81 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- *
  * @author ryans
  */
 @Entity
 @Table(name = "INCIDENT_REPAIR", schema = "DTM_OWNER")
 public class Repair implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @SequenceGenerator(name = "IncidentRepairId", sequenceName = "INCIDENT_REPAIR_ID", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IncidentRepairId")    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "INCIDENT_REPAIR_ID", nullable = false, precision = 22, scale = 0)
-    private BigInteger incidentRepairId;
-    @JoinColumn(name = "INCIDENT_ID", referencedColumnName = "INCIDENT_ID", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)    
-    private Incident incident;    
-    @JoinColumn(name = "REPAIRED_BY", referencedColumnName = "WORKGROUP_ID", nullable = true)
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    private Workgroup repairedBy;
+  private static final long serialVersionUID = 1L;
 
-    public Repair() {
-    }
+  @Id
+  @SequenceGenerator(
+      name = "IncidentRepairId",
+      sequenceName = "INCIDENT_REPAIR_ID",
+      allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IncidentRepairId")
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "INCIDENT_REPAIR_ID", nullable = false, precision = 22, scale = 0)
+  private BigInteger incidentRepairId;
 
-    public BigInteger getIncidentRepairId() {
-        return incidentRepairId;
-    }
+  @JoinColumn(name = "INCIDENT_ID", referencedColumnName = "INCIDENT_ID", nullable = false)
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  private Incident incident;
 
-    public void setIncidentRepairId(BigInteger incidentRepairId) {
-        this.incidentRepairId = incidentRepairId;
-    }
+  @JoinColumn(name = "REPAIRED_BY", referencedColumnName = "WORKGROUP_ID", nullable = true)
+  @ManyToOne(optional = true, fetch = FetchType.LAZY)
+  private Workgroup repairedBy;
 
-    public Incident getIncident() {
-        return incident;
-    }
+  public Repair() {}
 
-    public void setIncident(Incident incident) {
-        this.incident = incident;
-    }
+  public BigInteger getIncidentRepairId() {
+    return incidentRepairId;
+  }
 
-    public Workgroup getRepairedBy() {
-        return repairedBy;
-    }
+  public void setIncidentRepairId(BigInteger incidentRepairId) {
+    this.incidentRepairId = incidentRepairId;
+  }
 
-    public void setRepairedBy(Workgroup repairedBy) {
-        this.repairedBy = repairedBy;
-    }
+  public Incident getIncident() {
+    return incident;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (incidentRepairId != null ? incidentRepairId.hashCode() : 0);
-        return hash;
-    }
+  public void setIncident(Incident incident) {
+    this.incident = incident;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Repair other = (Repair) obj;
-        return Objects.equals(this.incidentRepairId, other.incidentRepairId);
-    }
+  public Workgroup getRepairedBy() {
+    return repairedBy;
+  }
 
-    @Override
-    public String toString() {
-        return "org.jlab.dtm.persistence.entity.IncidentRepair[ incidentRepairId=" + incidentRepairId + " ]";
+  public void setRepairedBy(Workgroup repairedBy) {
+    this.repairedBy = repairedBy;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += (incidentRepairId != null ? incidentRepairId.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
     }
-    
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final Repair other = (Repair) obj;
+    return Objects.equals(this.incidentRepairId, other.incidentRepairId);
+  }
+
+  @Override
+  public String toString() {
+    return "org.jlab.dtm.persistence.entity.IncidentRepair[ incidentRepairId="
+        + incidentRepairId
+        + " ]";
+  }
 }

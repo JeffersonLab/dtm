@@ -9,65 +9,63 @@ import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
 /**
- *
  * @author ryans
  */
 @Embeddable
 public class EventAudPK implements Serializable {
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "EVENT_ID", nullable = false)
-    private BigInteger eventId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "REV", nullable = false)
-    private BigInteger rev;    
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "EVENT_ID", nullable = false)
+  private BigInteger eventId;
 
-    public EventAudPK() {
-        
-    }
-    
-    public EventAudPK(BigInteger eventId, BigInteger rev) {
-        this.eventId = eventId;
-        this.rev = rev;
-    }
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "REV", nullable = false)
+  private BigInteger rev;
 
-    public BigInteger getEventId() {
-        return eventId;
-    }
+  public EventAudPK() {}
 
-    public void setEventId(BigInteger eventId) {
-        this.eventId = eventId;
-    }
+  public EventAudPK(BigInteger eventId, BigInteger rev) {
+    this.eventId = eventId;
+    this.rev = rev;
+  }
 
-    public BigInteger getRev() {
-        return rev;
-    }
+  public BigInteger getEventId() {
+    return eventId;
+  }
 
-    public void setRev(BigInteger rev) {
-        this.rev = rev;
-    }
+  public void setEventId(BigInteger eventId) {
+    this.eventId = eventId;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 23 * hash + (this.eventId != null ? this.eventId.hashCode() : 0);
-        hash = 23 * hash + (this.rev != null ? this.rev.hashCode() : 0);
-        return hash;
-    }
+  public BigInteger getRev() {
+    return rev;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final EventAudPK other = (EventAudPK) obj;
-        if (!Objects.equals(this.eventId, other.eventId)) {
-            return false;
-        }
-        return Objects.equals(this.rev, other.rev);
+  public void setRev(BigInteger rev) {
+    this.rev = rev;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 3;
+    hash = 23 * hash + (this.eventId != null ? this.eventId.hashCode() : 0);
+    hash = 23 * hash + (this.rev != null ? this.rev.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
     }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final EventAudPK other = (EventAudPK) obj;
+    if (!Objects.equals(this.eventId, other.eventId)) {
+      return false;
+    }
+    return Objects.equals(this.rev, other.rev);
+  }
 }
