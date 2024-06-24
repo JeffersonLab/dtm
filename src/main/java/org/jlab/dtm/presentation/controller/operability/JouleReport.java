@@ -16,85 +16,82 @@ import org.jlab.dtm.business.params.JouleReportParams;
 import org.jlab.dtm.business.session.JouleReportFacade;
 import org.jlab.dtm.business.session.JouleReportFacade.JouleRecord;
 import org.jlab.dtm.business.util.DtmTimeUtil;
-import org.jlab.dtm.persistence.enumeration.BinSize;
-import org.jlab.dtm.presentation.controller.ajax.SaveMonthlyInfo;
 import org.jlab.dtm.presentation.params.JouleReportUrlParamHandler;
-import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.util.TimeUtil;
 
 /**
- *
  * @author ryans
  */
-@WebServlet(name = "JouleReport", urlPatterns = {"/operability/joule"})
+@WebServlet(
+    name = "JouleReport",
+    urlPatterns = {"/operability/joule"})
 public class JouleReport extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(JouleReport.class.getName());
+  private static final Logger logger = Logger.getLogger(JouleReport.class.getName());
 
-    @EJB
-    JouleReportFacade jouleFacade;
-    
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+  @EJB JouleReportFacade jouleFacade;
 
-        Calendar c = Calendar.getInstance();
-        Date now = new Date();
-        c.set(Calendar.MILLISECOND, 0);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.HOUR_OF_DAY, 7);
-        Date today = c.getTime();
-        c.add(Calendar.DATE, -7);
-        Date sevenDaysAgo = c.getTime();
+  /**
+   * Handles the HTTP <code>GET</code> method.
+   *
+   * @param request servlet request
+   * @param response servlet response
+   * @throws ServletException if a servlet-specific error occurs
+   * @throws IOException if an I/O error occurs
+   */
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
 
-        JouleReportUrlParamHandler paramHandler
-                = new JouleReportUrlParamHandler(request, today, sevenDaysAgo);
+    Calendar c = Calendar.getInstance();
+    Date now = new Date();
+    c.set(Calendar.MILLISECOND, 0);
+    c.set(Calendar.SECOND, 0);
+    c.set(Calendar.MINUTE, 0);
+    c.set(Calendar.HOUR_OF_DAY, 7);
+    Date today = c.getTime();
+    c.add(Calendar.DATE, -7);
+    Date sevenDaysAgo = c.getTime();
 
-        JouleReportParams params;
+    JouleReportUrlParamHandler paramHandler =
+        new JouleReportUrlParamHandler(request, today, sevenDaysAgo);
 
-        if (paramHandler.qualified()) {
-            params = paramHandler.convert();
-            paramHandler.validate(params);
-            paramHandler.store(params);
-        } else {
-            params = paramHandler.materialize();
-            paramHandler.redirect(response, params);
-            return;
-        }
-        
-        List<JouleRecord> recordList = null;
-        
-        if (params.getStart() != null && params.getEnd() != null) {
-                try {
-                    recordList = jouleFacade.find(params);
-                } catch (IOException | InterruptedException e) {
-                    logger.log(Level.SEVERE, "Unable to query for PAC Schedule", e);
-                    throw new ServletException("Unable to query for PAC Schedule");
-                }
-        }
+    JouleReportParams params;
 
-        String selectionMessage = TimeUtil.formatSmartRangeSeparateTime(params.getStart(), params.getEnd());
-
-        Date endInclusive = DtmTimeUtil.getEndInclusive(params.getEnd(), params.getSize());
-
-        request.setAttribute("start", params.getStart());
-        request.setAttribute("end", params.getEnd());
-        request.setAttribute("endInclusive", endInclusive);
-        request.setAttribute("selectionMessage", selectionMessage);
-        request.setAttribute("today", today);
-        request.setAttribute("sevenDaysAgo", sevenDaysAgo);
-        request.setAttribute("recordList", recordList);
-
-        request.getRequestDispatcher(
-                "/WEB-INF/views/operability/joule.jsp").forward(request, response);
+    if (paramHandler.qualified()) {
+      params = paramHandler.convert();
+      paramHandler.validate(params);
+      paramHandler.store(params);
+    } else {
+      params = paramHandler.materialize();
+      paramHandler.redirect(response, params);
+      return;
     }
+
+    List<JouleRecord> recordList = null;
+
+    if (params.getStart() != null && params.getEnd() != null) {
+      try {
+        recordList = jouleFacade.find(params);
+      } catch (IOException | InterruptedException e) {
+        logger.log(Level.SEVERE, "Unable to query for PAC Schedule", e);
+        throw new ServletException("Unable to query for PAC Schedule");
+      }
+    }
+
+    String selectionMessage =
+        TimeUtil.formatSmartRangeSeparateTime(params.getStart(), params.getEnd());
+
+    Date endInclusive = DtmTimeUtil.getEndInclusive(params.getEnd(), params.getSize());
+
+    request.setAttribute("start", params.getStart());
+    request.setAttribute("end", params.getEnd());
+    request.setAttribute("endInclusive", endInclusive);
+    request.setAttribute("selectionMessage", selectionMessage);
+    request.setAttribute("today", today);
+    request.setAttribute("sevenDaysAgo", sevenDaysAgo);
+    request.setAttribute("recordList", recordList);
+
+    request.getRequestDispatcher("/WEB-INF/views/operability/joule.jsp").forward(request, response);
+  }
 }

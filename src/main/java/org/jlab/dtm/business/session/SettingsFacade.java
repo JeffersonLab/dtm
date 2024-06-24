@@ -1,14 +1,13 @@
 package org.jlab.dtm.business.session;
 
-import org.jlab.dtm.persistence.entity.Settings;
-
+import java.math.BigInteger;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.math.BigInteger;
+import org.jlab.dtm.persistence.entity.Settings;
 
 /**
  * @author ryans
@@ -16,27 +15,27 @@ import java.math.BigInteger;
 @Stateless
 @DeclareRoles("dtm-admin")
 public class SettingsFacade extends AbstractFacade<Settings> {
-    @PersistenceContext(unitName = "dtmPU")
-    private EntityManager em;
+  @PersistenceContext(unitName = "dtmPU")
+  private EntityManager em;
 
-    public SettingsFacade() {
-        super(Settings.class);
-    }
+  public SettingsFacade() {
+    super(Settings.class);
+  }
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+  @Override
+  protected EntityManager getEntityManager() {
+    return em;
+  }
 
-    @PermitAll
-    public Settings findSettings() {
-        return find(BigInteger.ONE);
-    }
+  @PermitAll
+  public Settings findSettings() {
+    return find(BigInteger.ONE);
+  }
 
-    @RolesAllowed("dtm-admin")
-    public void setAutoEmail(boolean autoEmail) {
-        Settings settings = findSettings();
+  @RolesAllowed("dtm-admin")
+  public void setAutoEmail(boolean autoEmail) {
+    Settings settings = findSettings();
 
-        settings.setAutoEmail(autoEmail);
-    }
+    settings.setAutoEmail(autoEmail);
+  }
 }

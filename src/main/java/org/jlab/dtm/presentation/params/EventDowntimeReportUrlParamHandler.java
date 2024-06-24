@@ -14,200 +14,199 @@ import org.jlab.smoothness.business.util.IOUtil;
 import org.jlab.smoothness.business.util.TimeUtil;
 import org.jlab.smoothness.presentation.util.*;
 
-public class EventDowntimeReportUrlParamHandler implements
-        UrlParamHandler<EventDowntimeReportParams> {
+public class EventDowntimeReportUrlParamHandler
+    implements UrlParamHandler<EventDowntimeReportParams> {
 
-    private final HttpServletRequest request;
-    private final Date today;
-    private final Date sevenDaysAgo;
+  private final HttpServletRequest request;
+  private final Date today;
+  private final Date sevenDaysAgo;
 
-    public EventDowntimeReportUrlParamHandler(HttpServletRequest request, Date today,
-            Date sevenDaysAgo) {
-        this.request = request;
-        this.today = today;
-        this.sevenDaysAgo = sevenDaysAgo;
+  public EventDowntimeReportUrlParamHandler(
+      HttpServletRequest request, Date today, Date sevenDaysAgo) {
+    this.request = request;
+    this.today = today;
+    this.sevenDaysAgo = sevenDaysAgo;
+  }
+
+  @Override
+  public EventDowntimeReportParams convert() {
+    Date start = null;
+    Date end = null;
+
+    try {
+      start = DtmParamConverter.convertJLabDateTime(request, "start");
+      end = DtmParamConverter.convertJLabDateTime(request, "end");
+    } catch (ParseException e) {
+      throw new RuntimeException("Unable to parse date", e);
     }
 
-    @Override
-    public EventDowntimeReportParams convert() {
-        Date start = null;
-        Date end = null;
+    BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
+    Boolean beamTransport = null;
 
-        try {
-            start = DtmParamConverter.convertJLabDateTime(request, "start");
-            end = DtmParamConverter.convertJLabDateTime(request, "end");
-        } catch (ParseException e) {
-            throw new RuntimeException("Unable to parse date", e);
-        }
-
-        BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
-        Boolean beamTransport = null;
-
-        try {
-            beamTransport = ParamConverter.convertYNBoolean(request, "transport");
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to parse beam transport boolean", e);
-        }
-
-        String chart = request.getParameter("chart");
-        String data = request.getParameter("data");
-
-        EventDowntimeReportParams params = new EventDowntimeReportParams();
-
-        params.setStart(start);
-        params.setEnd(end);
-        params.setEventTypeId(eventTypeId);
-        params.setBeamTransport(beamTransport);
-        params.setChart(chart);
-        params.setData(data);
-
-        return params;
+    try {
+      beamTransport = ParamConverter.convertYNBoolean(request, "transport");
+    } catch (Exception e) {
+      throw new RuntimeException("Unable to parse beam transport boolean", e);
     }
 
-    @Override
-    public void validate(EventDowntimeReportParams params) {
-        if (params.getStart() == null) {
-            throw new RuntimeException("start date must not be empty");
-        }
+    String chart = request.getParameter("chart");
+    String data = request.getParameter("data");
 
-        if (params.getEnd() == null) {
-            throw new RuntimeException("end date must not be empty");
-        }
-        
-        if(params.getStart().after(params.getEnd())) {
-            throw new RuntimeException("start date must not come before end date");
-        }
-        
-        if(params.getEventTypeId() == null) {
-            throw new RuntimeException("event type must not be empty");
-        }
+    EventDowntimeReportParams params = new EventDowntimeReportParams();
+
+    params.setStart(start);
+    params.setEnd(end);
+    params.setEventTypeId(eventTypeId);
+    params.setBeamTransport(beamTransport);
+    params.setChart(chart);
+    params.setData(data);
+
+    return params;
+  }
+
+  @Override
+  public void validate(EventDowntimeReportParams params) {
+    if (params.getStart() == null) {
+      throw new RuntimeException("start date must not be empty");
     }
 
-    @Override
-    public void store(EventDowntimeReportParams params) {
-        /* Note: We store each field indivdually as we want to re-use amoung screens*/
- /* Note: We use a 'SECURE' cookie so session changes every request unless over SSL/TLS */
- /* Note: We use an array regardless if the parameter is multi-valued because a null array means no page ever set this param before vs empty array or array with null elements means someone set it, but value is empty*/
-        HttpSession session = request.getSession(true);
-
-        session.setAttribute("start[]", new Date[]{params.getStart()});
-        session.setAttribute("end[]", new Date[]{params.getEnd()});
-        session.setAttribute("eventDowntimeEventTypeId[]", new BigInteger[]{params.getEventTypeId()});
-        session.setAttribute("transport[]", new Boolean[]{params.getBeamTransport()});
-        session.setAttribute("chart[]", new String[]{params.getChart()});
-        session.setAttribute("data[]", new String[]{params.getData()});
+    if (params.getEnd() == null) {
+      throw new RuntimeException("end date must not be empty");
     }
 
-    @Override
-    public EventDowntimeReportParams defaults() {
-        EventDowntimeReportParams defaultParams = new EventDowntimeReportParams();
-
-        defaultParams.setStart(sevenDaysAgo);
-        defaultParams.setEnd(today);
-        defaultParams.setEventTypeId(BigInteger.ONE);
-        defaultParams.setBeamTransport(false);
-        defaultParams.setChart("bar");
-        defaultParams.setData("downtime");
-
-        return defaultParams;
+    if (params.getStart().after(params.getEnd())) {
+      throw new RuntimeException("start date must not come before end date");
     }
 
-    @Override
-    public EventDowntimeReportParams materialize() {
-        EventDowntimeReportParams defaultValues = defaults();
+    if (params.getEventTypeId() == null) {
+      throw new RuntimeException("event type must not be empty");
+    }
+  }
 
-        /* Note: We store each field indivdually as we want to re-use amoung screens*/
- /* Note: We use a 'SECURE' cookie so session changes every request unless over SSL/TLS */
- /* Note: We use an array regardless if the parameter is multi-valued because a null array means no page ever set this param before vs empty array or array with null elements means someone set it, but value is empty*/
-        HttpSession session = request.getSession(true);
-        Date[] startArray = (Date[]) session.getAttribute("start[]");
-        Date[] endArray = (Date[]) session.getAttribute("end[]");
-        BigInteger[] eventTypeIdArray = (BigInteger[]) session.getAttribute("eventDowntimeEventTypeId[]");
-        Boolean[] transportArray = (Boolean[]) session.getAttribute("transport[]");
-        String[] chartArray = (String[]) session.getAttribute("chart[]");
-        String[] dataArray = (String[]) session.getAttribute("data[]");
+  @Override
+  public void store(EventDowntimeReportParams params) {
+    /* Note: We store each field indivdually as we want to re-use amoung screens*/
+    /* Note: We use a 'SECURE' cookie so session changes every request unless over SSL/TLS */
+    /* Note: We use an array regardless if the parameter is multi-valued because a null array means no page ever set this param before vs empty array or array with null elements means someone set it, but value is empty*/
+    HttpSession session = request.getSession(true);
 
-        Date start = defaultValues.getStart();
-        Date end = defaultValues.getEnd();
-        BigInteger eventTypeId = defaultValues.getEventTypeId();
-        Boolean transport = defaultValues.getBeamTransport();
-        String chart = defaultValues.getChart();
-        String data = defaultValues.getData();
+    session.setAttribute("start[]", new Date[] {params.getStart()});
+    session.setAttribute("end[]", new Date[] {params.getEnd()});
+    session.setAttribute("eventDowntimeEventTypeId[]", new BigInteger[] {params.getEventTypeId()});
+    session.setAttribute("transport[]", new Boolean[] {params.getBeamTransport()});
+    session.setAttribute("chart[]", new String[] {params.getChart()});
+    session.setAttribute("data[]", new String[] {params.getData()});
+  }
 
-        if (startArray != null && startArray.length > 0) {
-            start = startArray[0];
-        }
+  @Override
+  public EventDowntimeReportParams defaults() {
+    EventDowntimeReportParams defaultParams = new EventDowntimeReportParams();
 
-        if (endArray != null && endArray.length > 0) {
-            end = endArray[0];
-        }
+    defaultParams.setStart(sevenDaysAgo);
+    defaultParams.setEnd(today);
+    defaultParams.setEventTypeId(BigInteger.ONE);
+    defaultParams.setBeamTransport(false);
+    defaultParams.setChart("bar");
+    defaultParams.setData("downtime");
 
-        if (eventTypeIdArray != null && eventTypeIdArray.length > 0) {
-            eventTypeId = eventTypeIdArray[0];
-        }
+    return defaultParams;
+  }
 
-        if (transportArray != null && transportArray.length > 0) {
-            transport = transportArray[0];
-        }
+  @Override
+  public EventDowntimeReportParams materialize() {
+    EventDowntimeReportParams defaultValues = defaults();
 
-        if (chartArray != null && chartArray.length > 0) {
-            chart = chartArray[0];
-        }
+    /* Note: We store each field indivdually as we want to re-use amoung screens*/
+    /* Note: We use a 'SECURE' cookie so session changes every request unless over SSL/TLS */
+    /* Note: We use an array regardless if the parameter is multi-valued because a null array means no page ever set this param before vs empty array or array with null elements means someone set it, but value is empty*/
+    HttpSession session = request.getSession(true);
+    Date[] startArray = (Date[]) session.getAttribute("start[]");
+    Date[] endArray = (Date[]) session.getAttribute("end[]");
+    BigInteger[] eventTypeIdArray =
+        (BigInteger[]) session.getAttribute("eventDowntimeEventTypeId[]");
+    Boolean[] transportArray = (Boolean[]) session.getAttribute("transport[]");
+    String[] chartArray = (String[]) session.getAttribute("chart[]");
+    String[] dataArray = (String[]) session.getAttribute("data[]");
 
-        if (dataArray != null && dataArray.length > 0) {
-            data = dataArray[0];
-        }
+    Date start = defaultValues.getStart();
+    Date end = defaultValues.getEnd();
+    BigInteger eventTypeId = defaultValues.getEventTypeId();
+    Boolean transport = defaultValues.getBeamTransport();
+    String chart = defaultValues.getChart();
+    String data = defaultValues.getData();
 
-        EventDowntimeReportParams params = new EventDowntimeReportParams();
-
-        params.setStart(start);
-        params.setEnd(end);
-        params.setEventTypeId(eventTypeId);
-        params.setBeamTransport(transport);
-        params.setChart(chart);
-        params.setData(data);
-
-        return params;
+    if (startArray != null && startArray.length > 0) {
+      start = startArray[0];
     }
 
-    @Override
-    public boolean qualified() {
-        return request.getParameter("qualified") != null;
+    if (endArray != null && endArray.length > 0) {
+      end = endArray[0];
     }
 
-    @Override
-    public String message(EventDowntimeReportParams params) {
-        return null;
+    if (eventTypeIdArray != null && eventTypeIdArray.length > 0) {
+      eventTypeId = eventTypeIdArray[0];
     }
 
-    /**
-     * Sends a redirect response indicating the qualified URL. If calling this method from a Servlet
-     * doGet method generally a return statement should immediately follow. This method is useful to
-     * maintain a restful / bookmarkable URL for the user.
-     *
-     * @param response The Servlet response
-     * @param params The parameter object
-     * @throws IOException If unable to redirect
-     */
-    @Override
-    public void redirect(HttpServletResponse response, EventDowntimeReportParams params) throws
-            IOException {
-        ParamBuilder builder = new ParamBuilder();
-
-        SimpleDateFormat dateFormat
-                = new SimpleDateFormat(TimeUtil.getFriendlyDateTimePattern());
-
-        builder.add("start", IOUtil.nullOrFormat(params.getStart(), dateFormat));
-        builder.add("end", IOUtil.nullOrFormat(params.getEnd(), dateFormat));
-        builder.add("type", IOUtil.nullOrString(params.getEventTypeId()));
-        builder.add("transport", IOUtil.nullOrBoolean(params.getBeamTransport()));
-        builder.add("chart", IOUtil.nullOrString(params.getChart()));
-        builder.add("data", IOUtil.nullOrString(params.getData()));
-        builder.add("qualified", "");
-
-        String url = ServletUtil.getCurrentUrlAdvanced(request, builder.getParams());
-
-        response.sendRedirect(
-                response.encodeRedirectURL(url));
+    if (transportArray != null && transportArray.length > 0) {
+      transport = transportArray[0];
     }
+
+    if (chartArray != null && chartArray.length > 0) {
+      chart = chartArray[0];
+    }
+
+    if (dataArray != null && dataArray.length > 0) {
+      data = dataArray[0];
+    }
+
+    EventDowntimeReportParams params = new EventDowntimeReportParams();
+
+    params.setStart(start);
+    params.setEnd(end);
+    params.setEventTypeId(eventTypeId);
+    params.setBeamTransport(transport);
+    params.setChart(chart);
+    params.setData(data);
+
+    return params;
+  }
+
+  @Override
+  public boolean qualified() {
+    return request.getParameter("qualified") != null;
+  }
+
+  @Override
+  public String message(EventDowntimeReportParams params) {
+    return null;
+  }
+
+  /**
+   * Sends a redirect response indicating the qualified URL. If calling this method from a Servlet
+   * doGet method generally a return statement should immediately follow. This method is useful to
+   * maintain a restful / bookmarkable URL for the user.
+   *
+   * @param response The Servlet response
+   * @param params The parameter object
+   * @throws IOException If unable to redirect
+   */
+  @Override
+  public void redirect(HttpServletResponse response, EventDowntimeReportParams params)
+      throws IOException {
+    ParamBuilder builder = new ParamBuilder();
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat(TimeUtil.getFriendlyDateTimePattern());
+
+    builder.add("start", IOUtil.nullOrFormat(params.getStart(), dateFormat));
+    builder.add("end", IOUtil.nullOrFormat(params.getEnd(), dateFormat));
+    builder.add("type", IOUtil.nullOrString(params.getEventTypeId()));
+    builder.add("transport", IOUtil.nullOrBoolean(params.getBeamTransport()));
+    builder.add("chart", IOUtil.nullOrString(params.getChart()));
+    builder.add("data", IOUtil.nullOrString(params.getData()));
+    builder.add("qualified", "");
+
+    String url = ServletUtil.getCurrentUrlAdvanced(request, builder.getParams());
+
+    response.sendRedirect(response.encodeRedirectURL(url));
+  }
 }

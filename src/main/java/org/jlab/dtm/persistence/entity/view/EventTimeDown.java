@@ -18,74 +18,75 @@ import org.hibernate.envers.RelationTargetAuditMode;
 import org.jlab.dtm.persistence.entity.Event;
 
 /**
- *
  * @author ryans
  */
 @Entity
 @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 @Table(name = "EVENT_TIME_DOWN", schema = "DTM_OWNER")
 public class EventTimeDown implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id   
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "EVENT_ID", nullable = false, precision = 22, scale = 0)
-    private BigInteger eventId;
-    @Column(name = "TIME_DOWN")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date timeDown;    
-    @NotNull
-    @JoinColumn(name = "EVENT_ID", referencedColumnName = "EVENT_ID", nullable = false)
-    @OneToOne(optional = false)    
-    private Event event;
+  private static final long serialVersionUID = 1L;
 
-    public EventTimeDown() {
-    }
+  @Id
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "EVENT_ID", nullable = false, precision = 22, scale = 0)
+  private BigInteger eventId;
 
-    public BigInteger getEventId() {
-        return eventId;
-    }
+  @Column(name = "TIME_DOWN")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date timeDown;
 
-    public void setEventId(BigInteger eventId) {
-        this.eventId = eventId;
-    }
+  @NotNull
+  @JoinColumn(name = "EVENT_ID", referencedColumnName = "EVENT_ID", nullable = false)
+  @OneToOne(optional = false)
+  private Event event;
 
-    public Date getTimeDown() {
-        return timeDown;
-    }
+  public EventTimeDown() {}
 
-    public void setTimeDown(Date timeDown) {
-        this.timeDown = timeDown;
-    }
+  public BigInteger getEventId() {
+    return eventId;
+  }
 
-    public Event getEvent() {
-        return event;
-    }
+  public void setEventId(BigInteger eventId) {
+    this.eventId = eventId;
+  }
 
-    public void setEvent(Event event) {
-        this.event = event;
-    }
+  public Date getTimeDown() {
+    return timeDown;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (eventId != null ? eventId.hashCode() : 0);
-        return hash;
-    }
+  public void setTimeDown(Date timeDown) {
+    this.timeDown = timeDown;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EventTimeDown)) {
-            return false;
-        }
-        EventTimeDown other = (EventTimeDown) object;
-        return (this.eventId != null || other.eventId == null) && (this.eventId == null || this.eventId.equals(other.eventId));
-    }
+  public Event getEvent() {
+    return event;
+  }
 
-    @Override
-    public String toString() {
-        return "org.jlab.dtm.persistence.entity.EventTimeDown[ eventId=" + eventId + " ]";
+  public void setEvent(Event event) {
+    this.event = event;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += (eventId != null ? eventId.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    // TODO: Warning - this method won't work in the case the id fields are not set
+    if (!(object instanceof EventTimeDown)) {
+      return false;
     }
-    
+    EventTimeDown other = (EventTimeDown) object;
+    return (this.eventId != null || other.eventId == null)
+        && (this.eventId == null || this.eventId.equals(other.eventId));
+  }
+
+  @Override
+  public String toString() {
+    return "org.jlab.dtm.persistence.entity.EventTimeDown[ eventId=" + eventId + " ]";
+  }
 }

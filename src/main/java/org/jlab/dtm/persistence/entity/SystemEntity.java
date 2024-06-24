@@ -12,141 +12,147 @@ import org.hibernate.envers.RelationTargetAuditMode;
 import org.jlab.smoothness.persistence.util.YnStringToBoolean;
 
 /**
- *
  * @author ryans
  */
 @Entity
 @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-@Table(name = "SYSTEM", schema = "DTM_OWNER", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"NAME"})})
-@NamedQueries({
-    @NamedQuery(name = "SystemEntity.findAll", query = "SELECT s FROM SystemEntity s")})
+@Table(
+    name = "SYSTEM",
+    schema = "DTM_OWNER",
+    uniqueConstraints = {@UniqueConstraint(columnNames = {"NAME"})})
+@NamedQueries({@NamedQuery(name = "SystemEntity.findAll", query = "SELECT s FROM SystemEntity s")})
 public class SystemEntity implements Serializable, Comparable<SystemEntity> {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "SYSTEM_ID", nullable = false, precision = 22, scale = 0)
-    private BigInteger systemId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 128)
-    @Column(nullable = false, length = 128)
-    private String name;
-    private BigInteger weight;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "system")
-    private List<Incident> incidentList;
-    @JoinColumn(name = "CATEGORY_ID", referencedColumnName = "CATEGORY_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Category category;
-    @Basic
-    @Column(name = "SRM_YN", nullable = false, length = 1)
-    @Convert(converter= YnStringToBoolean.class)
-    private boolean inSrm;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "system")
-    private List<EternalComponent> componentList;
-    @NotAudited
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "system")
-    private List<SystemExpert> systemExpertList;   
-    
-    public SystemEntity() {
-    }
+  private static final long serialVersionUID = 1L;
 
-    public SystemEntity(BigInteger systemId) {
-        this.systemId = systemId;
-    }
+  @Id
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "SYSTEM_ID", nullable = false, precision = 22, scale = 0)
+  private BigInteger systemId;
 
-    public SystemEntity(BigInteger systemId, String name) {
-        this.systemId = systemId;
-        this.name = name;
-    }
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 128)
+  @Column(nullable = false, length = 128)
+  private String name;
 
-    public BigInteger getSystemId() {
-        return systemId;
-    }
+  private BigInteger weight;
 
-    public void setSystemId(BigInteger systemId) {
-        this.systemId = systemId;
-    }
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "system")
+  private List<Incident> incidentList;
 
-    public String getName() {
-        return name;
-    }
+  @JoinColumn(name = "CATEGORY_ID", referencedColumnName = "CATEGORY_ID")
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Category category;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  @Basic
+  @Column(name = "SRM_YN", nullable = false, length = 1)
+  @Convert(converter = YnStringToBoolean.class)
+  private boolean inSrm;
 
-    public BigInteger getWeight() {
-        return weight;
-    }
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "system")
+  private List<EternalComponent> componentList;
 
-    public void setWeight(BigInteger weight) {
-        this.weight = weight;
-    }
+  @NotAudited
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "system")
+  private List<SystemExpert> systemExpertList;
 
-    public List<Incident> getIncidentList() {
-        return incidentList;
-    }
+  public SystemEntity() {}
 
-    public void setIncidentList(List<Incident> incidentList) {
-        this.incidentList = incidentList;
-    }
+  public SystemEntity(BigInteger systemId) {
+    this.systemId = systemId;
+  }
 
-    public Category getCategory() {
-        return category;
-    }
+  public SystemEntity(BigInteger systemId, String name) {
+    this.systemId = systemId;
+    this.name = name;
+  }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+  public BigInteger getSystemId() {
+    return systemId;
+  }
 
-    public List<EternalComponent> getComponentList() {
-        return componentList;
-    }
+  public void setSystemId(BigInteger systemId) {
+    this.systemId = systemId;
+  }
 
-    public void setComponentList(List<EternalComponent> componentList) {
-        this.componentList = componentList;
-    }
+  public String getName() {
+    return name;
+  }
 
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public List<SystemExpert> getSystemExpertList() {
-        return systemExpertList;
-    }
+  public BigInteger getWeight() {
+    return weight;
+  }
 
-    public void setSystemExpertList(List<SystemExpert> systemExpertList) {
-        this.systemExpertList = systemExpertList;
-    }
+  public void setWeight(BigInteger weight) {
+    this.weight = weight;
+  }
 
-    public boolean isSrmSystem() {
-        return inSrm;
-    }
+  public List<Incident> getIncidentList() {
+    return incidentList;
+  }
 
-    @Override
-    public int compareTo(SystemEntity c) {
-        return getName().compareTo(c.getName()); //TODO: look at weight as well
-    }     
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (systemId != null ? systemId.hashCode() : 0);
-        return hash;
-    }
+  public void setIncidentList(List<Incident> incidentList) {
+    this.incidentList = incidentList;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SystemEntity)) {
-            return false;
-        }
-        SystemEntity other = (SystemEntity) object;
-        return (this.systemId != null || other.systemId == null) && (this.systemId == null || this.systemId.equals(other.systemId));
-    }
+  public Category getCategory() {
+    return category;
+  }
 
-    @Override
-    public String toString() {
-        return "org.jlab.dtm.persistence.entity.System[ systemId=" + systemId + " ]";
+  public void setCategory(Category category) {
+    this.category = category;
+  }
+
+  public List<EternalComponent> getComponentList() {
+    return componentList;
+  }
+
+  public void setComponentList(List<EternalComponent> componentList) {
+    this.componentList = componentList;
+  }
+
+  public List<SystemExpert> getSystemExpertList() {
+    return systemExpertList;
+  }
+
+  public void setSystemExpertList(List<SystemExpert> systemExpertList) {
+    this.systemExpertList = systemExpertList;
+  }
+
+  public boolean isSrmSystem() {
+    return inSrm;
+  }
+
+  @Override
+  public int compareTo(SystemEntity c) {
+    return getName().compareTo(c.getName()); // TODO: look at weight as well
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += (systemId != null ? systemId.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    // TODO: Warning - this method won't work in the case the id fields are not set
+    if (!(object instanceof SystemEntity)) {
+      return false;
     }
-    
+    SystemEntity other = (SystemEntity) object;
+    return (this.systemId != null || other.systemId == null)
+        && (this.systemId == null || this.systemId.equals(other.systemId));
+  }
+
+  @Override
+  public String toString() {
+    return "org.jlab.dtm.persistence.entity.System[ systemId=" + systemId + " ]";
+  }
 }

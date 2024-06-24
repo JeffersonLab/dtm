@@ -21,105 +21,108 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- *
  * @author ryans
  */
 @Entity
 @Table(schema = "DTM_OWNER")
-@NamedQueries({
-    @NamedQuery(name = "Region.findAll", query = "SELECT r FROM Region r")})
+@NamedQueries({@NamedQuery(name = "Region.findAll", query = "SELECT r FROM Region r")})
 public class Region implements Serializable {
-    private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "REGION_ID", nullable = false, precision = 22, scale = 0)
-    private BigDecimal regionId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 128)
-    @Column(nullable = false, length = 128)
-    private String name;
-    @Size(max = 128)
-    @Column(length = 128)
-    private String alias;
-    private BigInteger weight;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "region")
-    private List<EternalComponent> componentList;
+  private static final long serialVersionUID = 1L;
 
-    public Region() {
-    }
+  // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these
+  // annotations to enforce field validation
+  @Id
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "REGION_ID", nullable = false, precision = 22, scale = 0)
+  private BigDecimal regionId;
 
-    public Region(BigDecimal regionId) {
-        this.regionId = regionId;
-    }
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 128)
+  @Column(nullable = false, length = 128)
+  private String name;
 
-    public Region(BigDecimal regionId, String name) {
-        this.regionId = regionId;
-        this.name = name;
-    }
+  @Size(max = 128)
+  @Column(length = 128)
+  private String alias;
 
-    public BigDecimal getRegionId() {
-        return regionId;
-    }
+  private BigInteger weight;
 
-    public void setRegionId(BigDecimal regionId) {
-        this.regionId = regionId;
-    }
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "region")
+  private List<EternalComponent> componentList;
 
-    public String getName() {
-        return name;
-    }
+  public Region() {}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public Region(BigDecimal regionId) {
+    this.regionId = regionId;
+  }
 
-    public String getAlias() {
-        return alias;
-    }
+  public Region(BigDecimal regionId, String name) {
+    this.regionId = regionId;
+    this.name = name;
+  }
 
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
+  public BigDecimal getRegionId() {
+    return regionId;
+  }
 
-    public BigInteger getWeight() {
-        return weight;
-    }
+  public void setRegionId(BigDecimal regionId) {
+    this.regionId = regionId;
+  }
 
-    public void setWeight(BigInteger weight) {
-        this.weight = weight;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public List<EternalComponent> getComponentList() {
-        return componentList;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setComponentList(List<EternalComponent> componentList) {
-        this.componentList = componentList;
-    }
+  public String getAlias() {
+    return alias;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (regionId != null ? regionId.hashCode() : 0);
-        return hash;
-    }
+  public void setAlias(String alias) {
+    this.alias = alias;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Region)) {
-            return false;
-        }
-        Region other = (Region) object;
-        return (this.regionId != null || other.regionId == null) && (this.regionId == null || this.regionId.equals(other.regionId));
-    }
+  public BigInteger getWeight() {
+    return weight;
+  }
 
-    @Override
-    public String toString() {
-        return "org.jlab.dtm.persistence.entity.Region[ regionId=" + regionId + " ]";
+  public void setWeight(BigInteger weight) {
+    this.weight = weight;
+  }
+
+  public List<EternalComponent> getComponentList() {
+    return componentList;
+  }
+
+  public void setComponentList(List<EternalComponent> componentList) {
+    this.componentList = componentList;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += (regionId != null ? regionId.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    // TODO: Warning - this method won't work in the case the id fields are not set
+    if (!(object instanceof Region)) {
+      return false;
     }
-    
+    Region other = (Region) object;
+    return (this.regionId != null || other.regionId == null)
+        && (this.regionId == null || this.regionId.equals(other.regionId));
+  }
+
+  @Override
+  public String toString() {
+    return "org.jlab.dtm.persistence.entity.Region[ regionId=" + regionId + " ]";
+  }
 }

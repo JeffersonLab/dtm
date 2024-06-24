@@ -10,30 +10,30 @@ import javax.persistence.TypedQuery;
 import org.jlab.dtm.persistence.entity.IncidentReview;
 
 /**
- *
  * @author ryans
  */
 @Stateless
 public class IncidentReviewFacade extends AbstractFacade<IncidentReview> {
 
-    @PersistenceContext(unitName = "dtmPU")
-    private EntityManager em;
+  @PersistenceContext(unitName = "dtmPU")
+  private EntityManager em;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+  @Override
+  protected EntityManager getEntityManager() {
+    return em;
+  }
 
-    public IncidentReviewFacade() {
-        super(IncidentReview.class);
-    }
+  public IncidentReviewFacade() {
+    super(IncidentReview.class);
+  }
 
-    @PermitAll
-    public List<IncidentReview> findByIncident(BigInteger incidentId) {
-        TypedQuery<IncidentReview> q = em.createQuery(
-                "select r from IncidentReview r where r.incident.incidentId = :incidentId",
-                IncidentReview.class);
-        q.setParameter("incidentId", incidentId);
-        return q.getResultList();
-    }
+  @PermitAll
+  public List<IncidentReview> findByIncident(BigInteger incidentId) {
+    TypedQuery<IncidentReview> q =
+        em.createQuery(
+            "select r from IncidentReview r where r.incident.incidentId = :incidentId",
+            IncidentReview.class);
+    q.setParameter("incidentId", incidentId);
+    return q.getResultList();
+  }
 }

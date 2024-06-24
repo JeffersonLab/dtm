@@ -19,104 +19,110 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 /**
- *
  * @author ryans
  */
 @Entity
-@Table(name = "CATEGORY_MONTHLY_GOAL", schema = "DTM_OWNER", uniqueConstraints
-        = {
-            @UniqueConstraint(columnNames = {"CATEGORY_ID", "MONTH"})})
+@Table(
+    name = "CATEGORY_MONTHLY_GOAL",
+    schema = "DTM_OWNER",
+    uniqueConstraints = {@UniqueConstraint(columnNames = {"CATEGORY_ID", "MONTH"})})
 @NamedQueries({
-    @NamedQuery(name = "CategoryMonthlyGoal.findAll", query
-            = "SELECT c FROM CategoryMonthlyGoal c")})
+  @NamedQuery(name = "CategoryMonthlyGoal.findAll", query = "SELECT c FROM CategoryMonthlyGoal c")
+})
 public class CategoryMonthlyGoal implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Id
-    @SequenceGenerator(name = "CategoryMonthlyGoalId", sequenceName = "CATEGORY_MONTHLY_GOAL_ID", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CategoryMonthlyGoalId")
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "GOAL_ID", nullable = false, precision = 22, scale = 0)
-    private BigInteger goalId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "CATEGORY_ID", nullable = false)
-    private Long categoryId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date month;
-    private Float goal;
+  private static final long serialVersionUID = 1L;
 
-    public CategoryMonthlyGoal() {
-    }
+  // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these
+  // annotations to enforce field validation
+  @Id
+  @SequenceGenerator(
+      name = "CategoryMonthlyGoalId",
+      sequenceName = "CATEGORY_MONTHLY_GOAL_ID",
+      allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CategoryMonthlyGoalId")
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "GOAL_ID", nullable = false, precision = 22, scale = 0)
+  private BigInteger goalId;
 
-    public CategoryMonthlyGoal(BigInteger goalId) {
-        this.goalId = goalId;
-    }
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "CATEGORY_ID", nullable = false)
+  private Long categoryId;
 
-    public CategoryMonthlyGoal(BigInteger goalId, Long categoryId, Date month) {
-        this.goalId = goalId;
-        this.categoryId = categoryId;
-        this.month = month;
-    }
+  @Basic(optional = false)
+  @NotNull
+  @Column(nullable = false)
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date month;
 
-    public BigInteger getGoalId() {
-        return goalId;
-    }
+  private Float goal;
 
-    public void setGoalId(BigInteger goalId) {
-        this.goalId = goalId;
-    }
+  public CategoryMonthlyGoal() {}
 
-    public Long getCategoryId() {
-        return categoryId;
-    }
+  public CategoryMonthlyGoal(BigInteger goalId) {
+    this.goalId = goalId;
+  }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
+  public CategoryMonthlyGoal(BigInteger goalId, Long categoryId, Date month) {
+    this.goalId = goalId;
+    this.categoryId = categoryId;
+    this.month = month;
+  }
 
-    public Date getMonth() {
-        return month;
-    }
+  public BigInteger getGoalId() {
+    return goalId;
+  }
 
-    public void setMonth(Date month) {
-        this.month = month;
-    }
+  public void setGoalId(BigInteger goalId) {
+    this.goalId = goalId;
+  }
 
-    public Float getGoal() {
-        return goal;
-    }
+  public Long getCategoryId() {
+    return categoryId;
+  }
 
-    public void setGoal(Float goal) {
-        this.goal = goal;
-    }
+  public void setCategoryId(Long categoryId) {
+    this.categoryId = categoryId;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (goalId != null ? goalId.hashCode() : 0);
-        return hash;
-    }
+  public Date getMonth() {
+    return month;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CategoryMonthlyGoal)) {
-            return false;
-        }
-        CategoryMonthlyGoal other = (CategoryMonthlyGoal) object;
-        return (this.goalId != null || other.goalId == null) &&
-                (this.goalId == null || this.goalId.equals(other.goalId));
-    }
+  public void setMonth(Date month) {
+    this.month = month;
+  }
 
-    @Override
-    public String toString() {
-        return "org.jlab.dtm.persistence.entity.CategoryMonthlyGoal[ goalId=" + goalId + " ]";
+  public Float getGoal() {
+    return goal;
+  }
+
+  public void setGoal(Float goal) {
+    this.goal = goal;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += (goalId != null ? goalId.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    // TODO: Warning - this method won't work in the case the id fields are not set
+    if (!(object instanceof CategoryMonthlyGoal)) {
+      return false;
     }
-    
+    CategoryMonthlyGoal other = (CategoryMonthlyGoal) object;
+    return (this.goalId != null || other.goalId == null)
+        && (this.goalId == null || this.goalId.equals(other.goalId));
+  }
+
+  @Override
+  public String toString() {
+    return "org.jlab.dtm.persistence.entity.CategoryMonthlyGoal[ goalId=" + goalId + " ]";
+  }
 }

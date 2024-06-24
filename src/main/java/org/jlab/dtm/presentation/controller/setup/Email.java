@@ -14,76 +14,77 @@ import org.jlab.smoothness.business.util.TimeUtil;
 import org.jlab.smoothness.presentation.util.ParamUtil;
 
 /**
- *
  * @author ryans
  */
-@WebServlet(name = "Email", urlPatterns = {"/setup/email"})
+@WebServlet(
+    name = "Email",
+    urlPatterns = {"/setup/email"})
 public class Email extends HttpServlet {
 
-    @EJB
-    ScheduledEmailer emailer;
-    @EJB
-    SettingsFacade settingsFacade;
+  @EJB ScheduledEmailer emailer;
+  @EJB SettingsFacade settingsFacade;
 
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+  /**
+   * Handles the HTTP <code>GET</code> method.
+   *
+   * @param request servlet request
+   * @param response servlet response
+   * @throws ServletException if a servlet-specific error occurs
+   * @throws IOException if an I/O error occurs
+   */
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
 
-        int numberOfHours = 24;
+    int numberOfHours = 24;
 
-        if (TimeUtil.isMonday()) {
-            numberOfHours = 72;
-        }
-
-        // Just things that have occurred in last "numberOfHours" hours
-        Date end = new Date();
-        Date start = (TimeUtil.addHours(end, numberOfHours * -1));
-
-        String ccCsv = settingsFacade.findSettings().getExpertEmailCcCsv();
-
-        request.setAttribute("schedulerEnabled", emailer.isEnabled());
-        request.setAttribute("numberOfHours", numberOfHours);
-        request.setAttribute("start", start);
-        request.setAttribute("end", end);
-        request.setAttribute("ccCsv", ccCsv);
-
-        getServletConfig().getServletContext().getRequestDispatcher(
-                "/WEB-INF/views/setup/email.jsp").forward(request, response);
+    if (TimeUtil.isMonday()) {
+      numberOfHours = 72;
     }
 
-    /**
-     * Handles the HTTP <code>Post</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        Boolean enabled;
+    // Just things that have occurred in last "numberOfHours" hours
+    Date end = new Date();
+    Date start = (TimeUtil.addHours(end, numberOfHours * -1));
 
-        try {
-            enabled = ParamUtil.convertAndValidateYNBoolean(request, "schedulerEnabled");
-        } catch (Exception e) {
-            throw new ServletException("Unable to convert parameter", e);
-        }
+    String ccCsv = settingsFacade.findSettings().getExpertEmailCcCsv();
 
-        if (enabled == null) {
-            throw new ServletException("schedulerEnabled must not be empty");
-        }
+    request.setAttribute("schedulerEnabled", emailer.isEnabled());
+    request.setAttribute("numberOfHours", numberOfHours);
+    request.setAttribute("start", start);
+    request.setAttribute("end", end);
+    request.setAttribute("ccCsv", ccCsv);
 
-        emailer.setEnabled(enabled);
+    getServletConfig()
+        .getServletContext()
+        .getRequestDispatcher("/WEB-INF/views/setup/email.jsp")
+        .forward(request, response);
+  }
 
-        response.sendRedirect(response.encodeRedirectURL("email"));
+  /**
+   * Handles the HTTP <code>Post</code> method.
+   *
+   * @param request servlet request
+   * @param response servlet response
+   * @throws ServletException if a servlet-specific error occurs
+   * @throws IOException if an I/O error occurs
+   */
+  @Override
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+    Boolean enabled;
+
+    try {
+      enabled = ParamUtil.convertAndValidateYNBoolean(request, "schedulerEnabled");
+    } catch (Exception e) {
+      throw new ServletException("Unable to convert parameter", e);
     }
+
+    if (enabled == null) {
+      throw new ServletException("schedulerEnabled must not be empty");
+    }
+
+    emailer.setEnabled(enabled);
+
+    response.sendRedirect(response.encodeRedirectURL("email"));
+  }
 }

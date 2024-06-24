@@ -22,86 +22,91 @@ import org.jlab.smoothness.presentation.util.ParamConverter;
 import org.jlab.smoothness.presentation.util.ParamUtil;
 
 /**
- *
  * @author ryans
  */
-@WebServlet(name = "CSVCategoryDowntime", urlPatterns = {"/csv/category-downtime.csv"})
+@WebServlet(
+    name = "CSVCategoryDowntime",
+    urlPatterns = {"/csv/category-downtime.csv"})
 public class CSVCategoryDowntime extends HttpServlet {
 
-    @EJB
-    ExcelCategoryDowntimeService excelService;
-    @EJB
-    EventTypeFacade eventTypeFacade;
-    @EJB
-    CategoryDowntimeFacade downtimeFacade;
-    
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+  @EJB ExcelCategoryDowntimeService excelService;
+  @EJB EventTypeFacade eventTypeFacade;
+  @EJB CategoryDowntimeFacade downtimeFacade;
 
-        Date start = null;
-        Date end = null;
+  /**
+   * Handles the HTTP <code>GET</code> method.
+   *
+   * @param request servlet request
+   * @param response servlet response
+   * @throws ServletException if a servlet-specific error occurs
+   * @throws IOException if an I/O error occurs
+   */
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
 
-        try {
-            start = DtmParamConverter.convertJLabDateTime(request, "start");
-            end = DtmParamConverter.convertJLabDateTime(request, "end");
-        } catch (ParseException e) {
-            throw new ServletException("Unable to parse date", e);
-        }
+    Date start = null;
+    Date end = null;
 
-        if (start == null) {
-            throw new ServletException("Start date must not be null");
-        }
-
-        if (end == null) {
-            throw new ServletException("End date must not be null");
-        }
-
-        BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
-
-        EventType type = null;
-        
-        if (eventTypeId != null) {
-            type = eventTypeFacade.find(eventTypeId);
-        }
-
-        Boolean beamTransport = ParamConverter.convertYNBoolean(request, "transport");
-
-        boolean packed = ParamUtil.convertAndValidateYNBoolean(request, "packed", true);
-        
-        String filters = FilterSelectionMessage.getReportMessage(start, end, type, null, null, null, null, beamTransport, packed);
-
-        List<CategoryDowntime> downtimeList = null;
-        double grandTotalDuration = 0.0;
-        double periodDurationHours = 0.0;
-
-        if (start != null && end
-                != null) {
-            if (start.after(end)) {
-                throw new ServletException("start date cannot be after end date");
-            }
-
-            periodDurationHours = (end.getTime() - start.getTime()) / 1000.0 / 60.0 / 60.0;
-
-            downtimeList = downtimeFacade.findByPeriodAndType(start, end, type, beamTransport, packed, null);
-
-            for (int i = 0; i < downtimeList.size(); i++) {
-                CategoryDowntime downtime = downtimeList.get(i);
-                grandTotalDuration = grandTotalDuration + downtime.getDuration();
-            }
-        }
-
-        response.setContentType("text/csv");
-        response.setHeader("content-disposition", "attachment;filename=\"category-downtime.csv\"");
-
-        excelService.exportAsCsv(response.getOutputStream(), downtimeList, filters.trim(), periodDurationHours, grandTotalDuration);
+    try {
+      start = DtmParamConverter.convertJLabDateTime(request, "start");
+      end = DtmParamConverter.convertJLabDateTime(request, "end");
+    } catch (ParseException e) {
+      throw new ServletException("Unable to parse date", e);
     }
+
+    if (start == null) {
+      throw new ServletException("Start date must not be null");
+    }
+
+    if (end == null) {
+      throw new ServletException("End date must not be null");
+    }
+
+    BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
+
+    EventType type = null;
+
+    if (eventTypeId != null) {
+      type = eventTypeFacade.find(eventTypeId);
+    }
+
+    Boolean beamTransport = ParamConverter.convertYNBoolean(request, "transport");
+
+    boolean packed = ParamUtil.convertAndValidateYNBoolean(request, "packed", true);
+
+    String filters =
+        FilterSelectionMessage.getReportMessage(
+            start, end, type, null, null, null, null, beamTransport, packed);
+
+    List<CategoryDowntime> downtimeList = null;
+    double grandTotalDuration = 0.0;
+    double periodDurationHours = 0.0;
+
+    if (start != null && end != null) {
+      if (start.after(end)) {
+        throw new ServletException("start date cannot be after end date");
+      }
+
+      periodDurationHours = (end.getTime() - start.getTime()) / 1000.0 / 60.0 / 60.0;
+
+      downtimeList =
+          downtimeFacade.findByPeriodAndType(start, end, type, beamTransport, packed, null);
+
+      for (int i = 0; i < downtimeList.size(); i++) {
+        CategoryDowntime downtime = downtimeList.get(i);
+        grandTotalDuration = grandTotalDuration + downtime.getDuration();
+      }
+    }
+
+    response.setContentType("text/csv");
+    response.setHeader("content-disposition", "attachment;filename=\"category-downtime.csv\"");
+
+    excelService.exportAsCsv(
+        response.getOutputStream(),
+        downtimeList,
+        filters.trim(),
+        periodDurationHours,
+        grandTotalDuration);
+  }
 }
