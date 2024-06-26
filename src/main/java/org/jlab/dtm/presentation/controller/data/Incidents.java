@@ -69,7 +69,7 @@ public class Incidents extends HttpServlet {
       incidentList = incidentFacade.filterList(params);
     } catch (Exception e) {
       logger.log(Level.SEVERE, "Unable to obtain incident list", e);
-      errorReason = e.getClass().getSimpleName() + ": " + e.getMessage();
+      errorReason = "Unable to obtain incident list";
     }
 
     response.setContentType("application/json");

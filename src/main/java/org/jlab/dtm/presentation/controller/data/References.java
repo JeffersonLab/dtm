@@ -50,7 +50,7 @@ public class References extends HttpServlet {
       referenceList = logbookFacade.getLogReferences(incidentId);
     } catch (Exception e) {
       logger.log(Level.SEVERE, "Unable to obtain references list", e);
-      errorReason = e.getClass().getSimpleName() + ": " + e.getMessage();
+      errorReason = "Unable to obtain references list";
     }
 
     response.setContentType("application/json");

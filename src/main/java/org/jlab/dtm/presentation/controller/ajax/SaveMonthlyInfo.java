@@ -58,27 +58,13 @@ public class SaveMonthlyInfo extends HttpServlet {
       catGoalFacade.save(month, catIdArray, catGoalArray);
     } catch (EJBAccessException e) {
       logger.log(Level.WARNING, "Unable to perform save due to access exception");
-      errorReason = e.getMessage();
+      errorReason = "Not Authorized";
     } catch (UserFriendlyException e) {
       logger.log(Level.FINE, "Unable to save {0}", e.getMessage());
-      errorReason = e.getMessage();
+      errorReason = "Invalid User Input";
     } catch (Exception e) {
       logger.log(Level.SEVERE, "Unable to save", e);
-      Throwable rootCause = ExceptionUtil.getRootCause(e);
-      /*if (rootCause instanceof SQLException) {
-          SQLException dbException = (SQLException) rootCause;
-
-          if (dbException.getErrorCode() == 20001) {
-              errorReason = "Action results in overlapping events";
-          } else if((dbException.getErrorCode() == 1) && (dbException.getMessage().contains("EVENT_AK1"))) { // If attempt to insert with exact same start and end trigger check won't catch so we do this check instead
-              errorReason = "Action results in overlapping events (Is there already an event during this time?)";
-          } else {
-              errorReason = "Database exception";
-          }
-      } else {
-          errorReason = "Something unexpected happened";
-      }*/
-      errorReason = rootCause.getMessage();
+      errorReason = "Internal Server Error";
     }
 
     response.setContentType("text/xml");

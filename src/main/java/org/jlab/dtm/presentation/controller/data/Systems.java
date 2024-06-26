@@ -77,7 +77,7 @@ public class Systems extends HttpServlet {
 
     } catch (Exception e) {
       logger.log(Level.SEVERE, "Unable to obtain system list", e);
-      errorReason = e.getClass().getSimpleName() + ": " + e.getMessage();
+      errorReason = "Unable to obtain system list";
     }
 
     PrintWriter pw = response.getWriter();

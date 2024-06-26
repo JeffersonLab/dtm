@@ -59,7 +59,7 @@ public class SearchUser extends HttpServlet {
       }
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, "Unable to perform user search", e);
-      errorReason = e.getClass().getSimpleName() + ": " + e.getMessage();
+      errorReason = "Unable to perform user search";
     }
 
     response.setContentType("application/json");

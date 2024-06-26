@@ -57,7 +57,7 @@ public class Events extends HttpServlet {
       eventList = eventFacade.filterListWithIncidentsDefaultOpen(eventTypeId, eventId, incidentId);
     } catch (Exception e) {
       logger.log(Level.SEVERE, "Unable to obtain event list", e);
-      errorReason = e.getClass().getSimpleName() + ": " + e.getMessage();
+      errorReason = "Unable to obtain event list";
     }
 
     response.setContentType("application/json");
