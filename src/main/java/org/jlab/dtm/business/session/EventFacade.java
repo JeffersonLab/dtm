@@ -23,6 +23,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import org.jlab.dtm.business.params.AllEventsParams;
+import org.jlab.dtm.business.util.UserSuperFriendlyException;
 import org.jlab.dtm.persistence.entity.Event;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.Incident;
@@ -33,7 +34,6 @@ import org.jlab.dtm.persistence.entity.view.EventTimeDown;
 import org.jlab.dtm.persistence.enumeration.IncidentEditType;
 import org.jlab.dtm.persistence.model.Period;
 import org.jlab.smoothness.business.exception.InternalException;
-import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.exception.WebApplicationException;
 import org.jlab.smoothness.business.util.IOUtil;
 import org.jlab.smoothness.persistence.util.JPAUtil;
@@ -205,7 +205,7 @@ public class EventFacade extends AbstractFacade<Event> {
       Event openEvent = findOpenEvent(event.getEventType().getEventTypeId());
 
       if (openEvent != null && !event.equals(openEvent)) {
-        throw new UserFriendlyException(
+        throw new UserSuperFriendlyException(
             "An event of type " + event.getEventType().getName() + " is already open");
       }
 
@@ -271,11 +271,11 @@ public class EventFacade extends AbstractFacade<Event> {
 
     // Don't allow timeUp more than 30 seconds into the future
     if (timeUp != null && timeUp.after(new Date(new Date().getTime() + 30000))) {
-      throw new UserFriendlyException("Event time up cannot be in the future");
+      throw new UserSuperFriendlyException("Event time up cannot be in the future");
     }
 
     if (latestIncidentTimeUp != null && timeUp.before(latestIncidentTimeUp)) {
-      throw new UserFriendlyException(
+      throw new UserSuperFriendlyException(
           "Event time up ("
               + formatter.format(timeUp)
               + ") must not be before latest incident time up ("
@@ -286,7 +286,8 @@ public class EventFacade extends AbstractFacade<Event> {
     Date latestIncidentTimeDown = computeLatestIncidentTimeDown(event.getIncidentList());
 
     if (latestIncidentTimeDown != null && timeUp.before(latestIncidentTimeDown)) {
-      throw new UserFriendlyException("Event time up must not be before latest incident time down");
+      throw new UserSuperFriendlyException(
+          "Event time up must not be before latest incident time down");
     }
   }
 
