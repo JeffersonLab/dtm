@@ -45,14 +45,12 @@ public class Incidents extends HttpServlet {
       throws ServletException, IOException {
     String errorReason = null;
     List<Incident> incidentList = null;
-    String jsonp = null;
 
     try {
       BigInteger incidentId = ParamConverter.convertBigInteger(request, "id");
       Integer max = ParamConverter.convertInteger(request, "max");
       Integer offset = ParamConverter.convertInteger(request, "offset");
       String title = request.getParameter("title");
-      jsonp = request.getParameter("jsonp");
 
       if (max == null) {
         max = 10;
@@ -112,10 +110,6 @@ public class Incidents extends HttpServlet {
     }
 
     String jsonStr = builder.build().toString();
-
-    if (jsonp != null) {
-      jsonStr = jsonp + "(" + jsonStr + ");";
-    }
 
     pw.write(jsonStr);
 

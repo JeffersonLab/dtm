@@ -48,13 +48,11 @@ public class Events extends HttpServlet {
       throws ServletException, IOException {
     String errorReason = null;
     List<Event> eventList = null;
-    String jsonp = null;
 
     try {
       BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "event_type_id");
       BigInteger eventId = ParamConverter.convertBigInteger(request, "event_id");
       BigInteger incidentId = ParamConverter.convertBigInteger(request, "incident_id");
-      jsonp = request.getParameter("jsonp");
 
       eventList = eventFacade.filterListWithIncidentsDefaultOpen(eventTypeId, eventId, incidentId);
     } catch (Exception e) {
@@ -117,10 +115,6 @@ public class Events extends HttpServlet {
     }
 
     String jsonStr = builder.build().toString();
-
-    if (jsonp != null) {
-      jsonStr = jsonp + "(" + jsonStr + ");";
-    }
 
     pw.write(jsonStr);
 
