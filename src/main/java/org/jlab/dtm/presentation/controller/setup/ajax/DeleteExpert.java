@@ -53,10 +53,10 @@ public class DeleteExpert extends HttpServlet {
       errorReason = "Not authorized";
     } catch (UserFriendlyException e) {
       logger.log(Level.WARNING, "Application Exception", e);
-      errorReason = e.getMessage();
+      errorReason = "Invalid User Input";
     } catch (Exception e) {
       logger.log(Level.SEVERE, "Unable to delete expert", e);
-      errorReason = e.getClass().getSimpleName() + ": " + e.getMessage();
+      errorReason = "Internal Error";
     }
 
     response.setContentType("text/xml");

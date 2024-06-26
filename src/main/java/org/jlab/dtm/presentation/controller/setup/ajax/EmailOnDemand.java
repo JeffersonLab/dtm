@@ -48,10 +48,10 @@ public class EmailOnDemand extends HttpServlet {
       LOGGER.log(Level.WARNING, "Not authorized", e);
       errorReason = "Not authorized";
     } catch (UserFriendlyException e) {
-      errorReason = e.getMessage();
+      errorReason = "Invalid User Input";
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, "Unable to send email", e);
-      errorReason = e.getClass().getSimpleName() + ": " + e.getMessage();
+      errorReason = "Internal Error";
     }
 
     response.setContentType("text/xml");
