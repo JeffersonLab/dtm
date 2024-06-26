@@ -16,7 +16,6 @@ import org.jlab.dtm.business.session.CategoryMonthlyGoalFacade;
 import org.jlab.dtm.business.session.MonthlyNoteFacade;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
-import org.jlab.smoothness.business.util.ExceptionUtil;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 
 /**
