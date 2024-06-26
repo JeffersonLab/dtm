@@ -506,7 +506,7 @@ public class FsdTripService {
         if (aggregate) {
           writer.print("[Trips with over 100 faulted devices not shown] ");
         }
-        writer.println(message.replaceAll("\"", "\"\"") + "\"");
+        writer.println(IOUtil.escapeXml(message.replaceAll("\"", "*")) + "\"");
 
         writer.print("TRIP_ID");
         writer.print(",");
