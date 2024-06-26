@@ -12,6 +12,7 @@ import org.jlab.dtm.business.params.TripParams;
 import org.jlab.dtm.business.service.FsdTripService;
 import org.jlab.dtm.business.util.DtmDateIterator;
 import org.jlab.dtm.business.util.DtmTimeUtil;
+import org.jlab.dtm.business.util.UserSuperFriendlyException;
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.enumeration.AccMachineState;
@@ -32,7 +33,7 @@ public class TrendReportFacade {
 
   @PermitAll
   public List<TrendRecord> find(TrendReportParams params)
-      throws SQLException, UserFriendlyException {
+      throws SQLException, UserSuperFriendlyException {
     List<TrendRecord> recordList = new ArrayList<>();
 
     String size = params.getSize();
@@ -81,7 +82,7 @@ public class TrendReportFacade {
       }
 
       if (bins.size() > 12) {
-        throw new UserFriendlyException(
+        throw new UserSuperFriendlyException(
             bins.size()
                 + " bins requested, but number must be no more than 12, select larger bin size or smaller date range");
       }
