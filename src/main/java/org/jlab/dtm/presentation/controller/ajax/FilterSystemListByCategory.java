@@ -48,13 +48,12 @@ public class FilterSystemListByCategory extends HttpServlet {
 
     try {
       BigInteger categoryId = ParamConverter.convertBigInteger(request, "categoryId");
-      BigInteger applicationId = ParamConverter.convertBigInteger(request, "applicationId");
 
       systemList = systemFacade.findWithCategory(categoryId);
 
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, "Unable to filter system list", e);
-      errorReason = e.getClass().getSimpleName() + ": " + e.getMessage();
+      errorReason = "Unable to filter system list";
     }
 
     response.setContentType("application/json");

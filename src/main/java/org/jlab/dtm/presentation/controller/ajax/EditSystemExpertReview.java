@@ -52,7 +52,7 @@ public class EditSystemExpertReview extends HttpServlet {
       incidentFacade.editSystemExpertReview(incidentId, acknowledgement, rootCause);
     } catch (EJBAccessException e) {
       logger.log(Level.WARNING, "Unable to edit root cause due to access exception");
-      errorReason = e.getMessage();
+      errorReason = "Not Authorized";
     } catch (Exception e) {
       logger.log(Level.SEVERE, "Unable to edit root cause", e);
       Throwable rootCause = ExceptionUtil.getRootCause(e);

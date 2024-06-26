@@ -47,10 +47,10 @@ public class RemoveEvent extends HttpServlet {
       eventFacade.removeEvent(eventId);
     } catch (EJBAccessException e) {
       logger.log(Level.WARNING, "Unable to delete event due to access exception");
-      errorReason = e.getMessage();
+      errorReason = "Not Authorized";
     } catch (UserFriendlyException e) {
       logger.log(Level.FINE, "Unable to delete event: {1}", e.getMessage());
-      errorReason = e.getMessage();
+      errorReason = "Invalid User Input";
     } catch (Exception e) {
       logger.log(Level.SEVERE, "Unable to delete event", e);
       errorReason = "Something unexpected happened";

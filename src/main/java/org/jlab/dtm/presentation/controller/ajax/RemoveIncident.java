@@ -47,10 +47,10 @@ public class RemoveIncident extends HttpServlet {
       incidentFacade.removeIncident(incidentId);
     } catch (EJBAccessException e) {
       logger.log(Level.WARNING, "Unable to delete incident due to access exception");
-      errorReason = e.getMessage();
+      errorReason = "Not Authorized";
     } catch (UserFriendlyException e) {
       logger.log(Level.FINE, "Unable to delete incident: {1}", e.getMessage());
-      errorReason = e.getMessage();
+      errorReason = "Invalid User Input";
     } catch (Exception e) {
       logger.log(Level.SEVERE, "Unable to delete incident", e);
       errorReason = "Something unexpected happened";
