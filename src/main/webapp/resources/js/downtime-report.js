@@ -260,7 +260,7 @@ jlab.doParetoChart = function () {
 
         if (href) {
             $(this).text("");
-            $(this).append('<a href="' + href + '" title="' + title + '">' + label + '</a>');
+            $(this).append('<a href="' + String(href).encodeXml() + '" title="' + String(title).encodeXml() + '">' + String(label).encodeXml() + '</a>');
         }
     });
 
@@ -353,7 +353,7 @@ jlab.doRowChart = function () {
 
         if (href) {
             $(this).text("");
-            $(this).append('<a href="' + href + '" title="' + title + '">' + label + '</a>');
+            $(this).append('<a href="' + String(href).encodeXml() + '" title="' + String(title).encodeXml() + '">' + String(label).encodeXml() + '</a>');
         }
     });
 };
@@ -475,7 +475,7 @@ jlab.doPieChart = function () {
 
         if (href) {
             $(this).text("");
-            $(this).append('<a href="' + href + '" title="' + title + '">' + label + '</a> ' + extra);
+            $(this).append('<a href="' + String(href).encodeXml() + '" title="' + String(title).encodeXml() + '">' + String(label).encodeXml() + '</a> ' + String(extra).encodeXml());
         } else {
             $(this).text(label + " " + extra);
         }
