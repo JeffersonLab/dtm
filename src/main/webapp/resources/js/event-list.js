@@ -1034,7 +1034,7 @@ $(document).on("click", ".review-link", function () {
     $("#review-dialog-rar-link").empty();    
     
     if(rarExt !== '') {
-        $("#review-dialog-rar-link").append('<a href="' + jlab.contextPath + jlab.rarLink + incidentId + '">RAR Document</a>');
+        $("#review-dialog-rar-link").append('<a href="' + String(jlab.contextPath + jlab.rarLink + incidentId).encodeXml() + '">RAR Document</a>');
     }
 
     $("#review-dialog").dialog("open");

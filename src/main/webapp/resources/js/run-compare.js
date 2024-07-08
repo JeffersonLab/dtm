@@ -118,7 +118,7 @@ $(document).on("click", "#add-selected-run-button", function(){
         return;
     }
 
-    $("#run-list").append('<li>' + label  + '<input type="hidden" name="label" value="' + label + '"/><input type="hidden" name="start" value="' + start + '"/><input type="hidden" name="end" value="' + end + '"/> <button type="button">X</button></li>');
+    $("#run-list").append('<li>' + String(label).encodeXml()  + '<input type="hidden" name="label" value="' + String(label).encodeXml() + '"/><input type="hidden" name="start" value="' + String(start).encodeXml() + '"/><input type="hidden" name="end" value="' + String(end).encodeXml() + '"/> <button type="button">X</button></li>');
     $("#add-run-dialog").dialog("close");
 });
 
