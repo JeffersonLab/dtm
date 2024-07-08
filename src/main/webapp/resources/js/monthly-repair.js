@@ -30,7 +30,7 @@ jlab.getDataSource = function (bar) {
                 /*yvalue = parseFloat($("td." + jlab.flotSourceColumnClass, value).text().replace(/,/g, '')),*/
                 duration = parseFloat($("td:nth-child(3)", value).text().replace(/,/g, '')),
                 grouping = $("td:first-child", value).text(),
-                id = $("td:first-child", value).attr("data-id"),
+                id = parseInt($("td:first-child", value).attr("data-id")),
                 series = dataMap[grouping] || {};
 
         nameToIdMap[grouping] = id;
@@ -231,7 +231,7 @@ jlab.getDataSource = function (bar) {
             }
 
             if (includeCount) {
-                rowStr = rowStr + '<td>' + countMap[groupingNames[i]] + '</td>';
+                rowStr = rowStr + '<td>' + String(countMap[groupingNames[i]]).encodeXml() + '</td>';
             }
             if (includeRate) {
                 rowStr = rowStr + '<td>' + tripPerHourMap[groupingNames[i]].toFixed(1) + '</td>';

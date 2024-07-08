@@ -29,7 +29,7 @@ jlab.prepareIncidentFormForEdit = function(skipSystemListLoad) {
 
     if (skipSystemListLoad === true) {
         $("#system").empty();
-        $("#system").append('<option selected="selected" value="' + systemId + '"> </option>');
+        $("#system").append('<option selected="selected" value="' + String(systemId).encodeXml() + '"> </option>');
     } else {
         jlab.dtm.filterSystemSelect(systemId);
     }

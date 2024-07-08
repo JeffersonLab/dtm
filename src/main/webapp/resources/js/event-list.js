@@ -389,7 +389,7 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
 
     if (skipSystemListLoad === true) {
         $("#system").empty();
-        $("#system").append('<option selected="selected" value="' + systemId + '"> </option>');
+        $("#system").append('<option selected="selected" value="' + String(systemId).encodeXml() + '"> </option>');
     } else {
         jlab.dtm.filterSystemSelect(systemId);
     }
@@ -595,7 +595,7 @@ jlab.dtm.filterSystemSelect = function (setToSystemId) {
             $("#system").empty();
             $("#system").append('<option value=""> </option>');
             $(json.data).each(function () {
-                $("#system").append('<option value="' + this.id + '">' + this.name + '</option>');
+                $("#system").append('<option value="' + String(this.id).encodeXml() + '">' + String(this.name).encodeXml() + '</option>');
             });
             if (json.data.length === 1) {
                 $("#system").val(json.data[0].id);
@@ -881,13 +881,13 @@ $(document).on("click", ".open-edit-expert-review-dialog-button", function () {
     var experts = expertReviewerTsv.split("\t");
     
     for(var e of experts) {
-        $("#edit-expert-reviewers").append("<div>" + e + "</div>");
+        $("#edit-expert-reviewers").append("<div>" + String(e).encodeXml() + "</div>");
     }    
     
     $("#rar-link").empty();    
     
     if(rarExt !== '') {
-        $("#rar-link").append('<a href="' + jlab.contextPath + jlab.rarLink + incidentId + '">RAR Document</a>');
+        $("#rar-link").append('<a href="' + String(jlab.contextPath + jlab.rarLink + incidentId).encodeXml() + '">RAR Document</a>');
     }    
 
     var $acknowledgedKey = $("#acknowledged-key"); 
@@ -1000,7 +1000,7 @@ $(document).on("click", ".explanation-link", function () {
     $(".resolution-handle").remove();
 
     var explanation = $(this).attr("data-explanation");
-    $(this).append('<div class="explanation-handle"><div class="explanation-panel"><button class="close-bubble">X</button><div><h4>Explanation:</h4><div class="explanation-content">' + explanation + '</div></div></div></div>');
+    $(this).append('<div class="explanation-handle"><div class="explanation-panel"><button class="close-bubble">X</button><div><h4>Explanation:</h4><div class="explanation-content">' + String(explanation).encodeXml() + '</div></div></div></div>');
     return false;
 });
 $(document).on("click", ".review-link", function () {
@@ -1028,13 +1028,13 @@ $(document).on("click", ".review-link", function () {
     var experts = expertReviewerTsv.split("\t");
     
     for(var e of experts) {
-        $("#review-dialog-sys-reviewer").append("<div>" + e + "</div>");
+        $("#review-dialog-sys-reviewer").append("<div>" + String(e).encodeXml() + "</div>");
     }
     
     $("#review-dialog-rar-link").empty();    
     
     if(rarExt !== '') {
-        $("#review-dialog-rar-link").append('<a href="' + jlab.contextPath + jlab.rarLink + incidentId + '">RAR Document</a>');
+        $("#review-dialog-rar-link").append('<a href="' + String(jlab.contextPath + jlab.rarLink + incidentId).encodeXml() + '">RAR Document</a>');
     }
 
     $("#review-dialog").dialog("open");

@@ -62,7 +62,7 @@ jlab.dtm.deleteRow = function () {
 };
 
 jlab.dtm.addRow = function (expertId, username, first, last) {
-    var $row = ("<tr data-expert-id=\"" + expertId + "\"><td>" + last + ", " + first + " (" + username + ")</td></tr>");
+    var $row = ("<tr data-expert-id=\"" + String(expertId).encodeXml() + "\"><td>" + String(last).encodeXml() + ", " + String(first).encodeXml() + " (" + String(username).encodeXml() + ")</td></tr>");
     $("#expert-table tbody").append($row);
 };
 

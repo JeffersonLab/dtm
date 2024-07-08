@@ -18,7 +18,7 @@ jlab.uploadRARFile = function(incidentId, form) {
 
     promise.done(function(data){
         $("#rar-link").empty();
-        $("#rar-link").append('<a href="' + jlab.contextPath + jlab.rarLink + incidentId + '">RAR Document</a>');
+        $("#rar-link").append('<a href="' + String(jlab.contextPath + jlab.rarLink + incidentId).encodeXml() + '">RAR Document</a>');
     });
 
     promise.fail(function(xhr, textStatus){
@@ -152,7 +152,7 @@ jlab.filterSystemListByCategory = function (categoryId, systemSelectSelector, ap
                 $select.append('<option></option>');
             }
             $(data.optionList).each(function () {
-                $select.append('<option value="' + this.value + '">' + this.name + '</option>');
+                $select.append('<option value="' + String(this.value).encodeXml() + '">' + String(this.name).encodeXml() + '</option>');
             });
             if (!keephidden) {
                 $select.slideDown();
