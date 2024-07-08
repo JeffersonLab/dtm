@@ -9,7 +9,7 @@ group 'org.jlab'
 version new File("${projectDir}/VERSION").text.trim()
 ext.releaseDate = new Date().format('MMM dd yyyy')
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.release = 11
     options.encoding = 'UTF-8'
     options.compilerArgs += ["-Xlint:deprecation", "-Xlint:unchecked"]
@@ -47,7 +47,7 @@ war {
     archiveFileName = 'dtm.war'
     filesMatching('WEB-INF/web.xml') {
         filter {
-            String line -> line.replaceAll("@VERSION@", project.version)
+            String line -> line.replaceAll("@VERSION@", project.version.toString())
         }
         filter {
             String line -> line.replaceAll("@RELEASE_DATE@", releaseDate)
