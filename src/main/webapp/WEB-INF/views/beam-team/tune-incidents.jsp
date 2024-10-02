@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="li-value">
                                     <select style="display:none;" id="hidden-system" name="hidden-system"><option selected="selected" value="616">Beam Transport</option></select>
-                                    <input type="text" id="component" name="component" placeholder="name" value="${param.component}"/>
+                                    <input type="text" id="component" name="component" placeholder="name" value="${fn:escapeXml(param.component)}"/>
                                     (use % as wildcard)
                                 </div>
                             </li>
@@ -137,16 +137,16 @@
                             <input type="hidden" name="start" value="${startFmt}"/>
                             <input type="hidden" name="end" value="${endFmt}"/>
                             <input type="hidden" name="type" value="${type.eventTypeId}"/>
-                            <input type="hidden" name="system" value="${param.system}"/>
-                            <input type="hidden" name="component" value="${param.component}"/>
-                            <input type="hidden" name="transport" value="${param.transport}"/>
+                            <input type="hidden" name="system" value="${fn:escapeXml(param.system)}"/>
+                            <input type="hidden" name="component" value="${fn:escapeXml(param.component)}"/>
+                            <input type="hidden" name="transport" value="${fn:escapeXml(param.transport)}"/>
                             <button id="shiftlog" type="submit" style="display: none;">Shift Log</button>
                         </form>                            
                         <form id="excel-form" method="get" action="${pageContext.request.contextPath}/excel/tune-incident-list.xlsx">
                             <input type="hidden" name="start" value="${startFmt}"/>
                             <input type="hidden" name="end" value="${endFmt}"/>
                             <input type="hidden" name="type" value="${type.eventTypeId}"/>
-                            <input type="hidden" name="component" value="${param.component}"/>
+                            <input type="hidden" name="component" value="${fn:escapeXml(param.component)}"/>
                             <button id="excel" type="submit" style="display: none;">Excel</button>
                         </form>
                     </div>

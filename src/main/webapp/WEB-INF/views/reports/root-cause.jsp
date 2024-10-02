@@ -45,7 +45,7 @@
                                     <label for="event-id">Event ID</label>
                                 </div>
                                 <div class="li-value">
-                                    <input type="number" id="event-id" name="eventId" value="${param.eventId}"/>
+                                    <input type="number" id="event-id" name="eventId" value="${fn:escapeXml(param.eventId)}"/>
                                 </div>
                             </li>
                             <li>
@@ -53,7 +53,7 @@
                                     <label for="incident-id">Incident ID</label>
                                 </div>
                                 <div class="li-value">
-                                    <input type="number" id="incident-id" name="incidentId" value="${param.incidentId}"/>
+                                    <input type="number" id="incident-id" name="incidentId" value="${fn:escapeXml(param.incidentId)}"/>
                                 </div>
                             </li>
                             <li>
@@ -61,16 +61,16 @@
                                     <label for="sme-username">Reviewer</label>
                                 </div>
                                 <div class="li-value">
-                                    <input type="text" id="sme-username" name="smeUsername" class="username-autocomplete" value="${param.smeUsername}" placeholder="username"/>
+                                    <input type="text" id="sme-username" name="smeUsername" class="username-autocomplete" value="${fn:escapeXml(param.smeUsername)}" placeholder="username"/>
                                 </div>
                             </li>                             
                         </ul>
                     </fieldset>
-                    <input type="hidden" name="print" value="${param.print}">
-                    <input type="hidden" name="fullscreen" value="${param.fullscreen}">
+                    <input type="hidden" name="print" value="${fn:escapeXml(param.print)}">
+                    <input type="hidden" name="fullscreen" value="${fn:escapeXml(param.fullscreen)}">
                     <input type="hidden" name="qualified" value=""/>            
                     <input type="hidden" id="offset-input" name="offset" value="0"/>
-                    <input type="hidden" name="max" value="${param.max}"/>
+                    <input type="hidden" name="max" value="${fn:escapeXml(param.max)}"/>
                     <input id="filter-form-submit-button" type="submit" value="Apply"/>
                 </form> 
             </s:filter-flyout-widget>
