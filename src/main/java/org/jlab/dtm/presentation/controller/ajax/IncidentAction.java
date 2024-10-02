@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.session.IncidentFacade;
-import org.jlab.dtm.business.util.UserSuperFriendlyException;
 import org.jlab.dtm.persistence.entity.Event;
 import org.jlab.dtm.persistence.entity.Incident;
 import org.jlab.dtm.persistence.util.DtmSqlUtil;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 
 /**
@@ -131,7 +131,7 @@ public class IncidentAction extends HttpServlet {
           "Unable to perform incident action ({0}): {1}",
           new Object[] {action, e.getMessage()});
       errorReason = "Number Format Unacceptable";
-    } catch (UserSuperFriendlyException e) {
+    } catch (UserFriendlyException e) {
       LOGGER.log(
           Level.FINE,
           "Unable to perform incident action ({0}): {1}",

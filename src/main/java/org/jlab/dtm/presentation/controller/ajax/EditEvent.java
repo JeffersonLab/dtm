@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.session.EventFacade;
-import org.jlab.dtm.business.util.UserSuperFriendlyException;
 import org.jlab.dtm.persistence.util.DtmSqlUtil;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 
 /**
@@ -55,7 +55,7 @@ public class EditEvent extends HttpServlet {
     } catch (EJBAccessException e) {
       logger.log(Level.WARNING, "Unable to edit event time up due to access exception");
       errorReason = "Not Authorized";
-    } catch (UserSuperFriendlyException e) {
+    } catch (UserFriendlyException e) {
       logger.log(Level.FINE, "Unable to edit event time up: {1}", e.getMessage());
       errorReason = e.getUserMessage();
     } catch (Exception e) {

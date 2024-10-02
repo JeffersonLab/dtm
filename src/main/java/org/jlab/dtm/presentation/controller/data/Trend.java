@@ -20,9 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.params.TrendReportParams;
 import org.jlab.dtm.business.session.TrendReportFacade;
-import org.jlab.dtm.business.util.UserSuperFriendlyException;
 import org.jlab.dtm.persistence.model.TrendRecord;
 import org.jlab.dtm.presentation.params.TrendReportUrlParamHandler;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 
 /**
  * @author ryans
@@ -68,7 +68,7 @@ public class Trend extends HttpServlet {
 
     try {
       recordList = trendReportFacade.find(params);
-    } catch (UserSuperFriendlyException e) {
+    } catch (UserFriendlyException e) {
       errorReason = e.getUserMessage();
     } catch (SQLException e) {
       errorReason = "Internal Error";
