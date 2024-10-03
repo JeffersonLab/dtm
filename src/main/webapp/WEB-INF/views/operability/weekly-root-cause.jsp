@@ -27,16 +27,16 @@
                                 <label class="required-field" for="start" title="Inclusive">Start Date</label>
                             </div>
                             <div class="li-value">
-                                <input type="text" class="date-field" id="start" name="start" placeholder="DD-MMM-YYYY hh:mm" value="${param.start != null ? param.start : sevenDaysAgoFmt}"/>
+                                <input type="text" class="date-field" id="start" name="start" placeholder="DD-MMM-YYYY hh:mm" value="${param.start != null ? fn:escapeXml(param.start) : sevenDaysAgoFmt}"/>
                             </div>
                         </li>
                         </ul>
                     </fieldset>
-                    <input type="hidden" name="print" value="${param.print}">
-                    <input type="hidden" name="fullscreen" value="${param.fullscreen}">
+                    <input type="hidden" name="print" value="${fn:escapeXml(param.print)}">
+                    <input type="hidden" name="fullscreen" value="${fn:escapeXml(param.fullscreen)}">
                     <input type="hidden" name="qualified" value=""/>            
                     <input type="hidden" id="offset-input" name="offset" value="0"/>
-                    <input type="hidden" name="max" value="${param.max}"/>
+                    <input type="hidden" name="max" value="${fn:escapeXml(param.max)}"/>
                     <input id="filter-form-submit-button" type="submit" value="Apply"/>
                 </form> 
             </s:filter-flyout-widget>

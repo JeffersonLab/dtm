@@ -255,16 +255,16 @@
             <input type="hidden" name="start" value="${startFmt}"/>
             <input type="hidden" name="end" value="${endFmt}"/>
             <input type="hidden" name="type" value="${type.eventTypeId}"/>
-            <input type="hidden" name="transport" value="${param.transport}"/>
-            <input type="hidden" name="packed" value="${param.packed}"/>
+            <input type="hidden" name="transport" value="${fn:escapeXml(param.transport)}"/>
+            <input type="hidden" name="packed" value="${fn:escapeXml(param.packed)}"/>
             <button id="excel" type="submit" style="display: none;">Excel</button>
         </form>   
         <form id="csv-form" method="get" action="${pageContext.request.contextPath}/csv/category-downtime.csv">
             <input type="hidden" name="start" value="${startFmt}"/>
             <input type="hidden" name="end" value="${endFmt}"/>
             <input type="hidden" name="type" value="${type.eventTypeId}"/>
-            <input type="hidden" name="transport" value="${param.transport}"/>
-            <input type="hidden" name="packed" value="${param.packed}"/>
+            <input type="hidden" name="transport" value="${fn:escapeXml(param.transport)}"/>
+            <input type="hidden" name="packed" value="${fn:escapeXml(param.packed)}"/>
             <button id="csv" type="submit" style="display: none;">CSV</button>
         </form>             
         <div id="exit-fullscreen-panel">

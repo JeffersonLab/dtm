@@ -70,7 +70,7 @@
                                         <label for="start" title="Inclusive">Start Date</label>
                                     </div>
                                     <div class="li-value">
-                                        <input type="text" class="date-field" id="start" name="start" placeholder="DD-MMM-YYYY hh:mm" value="${param.start != null ? param.start : sevenDaysAgoFmt}"/>
+                                        <input type="text" class="date-field" id="start" name="start" placeholder="DD-MMM-YYYY hh:mm" value="${param.start != null ? fn:escapeXml(param.start) : sevenDaysAgoFmt}"/>
                                     </div>
                                 </li>
                                 <li class="required-field">
@@ -78,7 +78,7 @@
                                         <label for="end" title="Exclusive">End Date</label>
                                     </div>
                                     <div class="li-value">
-                                        <input type="text" class="date-field nowable-field" id="end" name="end" placeholder="DD-MMM-YYYY hh:mm" value="${param.end != null ? param.end : todayFmt}"/>
+                                        <input type="text" class="date-field nowable-field" id="end" name="end" placeholder="DD-MMM-YYYY hh:mm" value="${param.end != null ? fn:escapeXml(param.end) : todayFmt}"/>
                                     </div>
                                 </li>   
                             </ul>       

@@ -86,7 +86,7 @@
                                     <label for="maintenance-hours">Maintenance Hours</label>
                                 </div>
                                 <div class="li-value">
-                                    <input type="number" min="0" step="0.1" id="maintenance-hours" name="maintenance" value="${param.maintenance}"/>
+                                    <input type="number" min="0" step="0.1" id="maintenance-hours" name="maintenance" value="${fn:escapeXml(param.maintenance)}"/>
                                     <div>Allowance of Scheduled Failures to be subtracted from Unscheduled Failures.  Maintenance is expected and generally negotiated as 4 hours per research week and 24 hours per restore week.</div>
                                 </div>
                             </li>
@@ -95,7 +95,7 @@
                                     <label for="quality-hours">Quality Hours</label>
                                 </div>
                                 <div class="li-value">
-                                    <input type="number" min="0" step="0.1" id="quality-hours" name="quality" value="${param.quality}"/>
+                                    <input type="number" min="0" step="0.1" id="quality-hours" name="quality" value="${fn:escapeXml(param.quality)}"/>
                                     <div>Allowance of extra hours to be added to Delivered Research.  Quality is a bonus adjustment for program difficulty such as hall multiplicity.</div>
                                 </div>
                             </li>
@@ -104,7 +104,7 @@
                                     <label for="budget-scaler">Budget Scaler</label>
                                 </div>
                                 <div class="li-value">
-                                    <input type="number" min="-1" max="2" step="0.05" id="budget-scaler" name="scaler" value="${param.scaler}"/>
+                                    <input type="number" min="-1" max="2" step="0.05" id="budget-scaler" name="scaler" value="${fn:escapeXml(param.scaler)}"/>
                                     <div>Scale factor to be multiplied with Budgeted Operations.  Scaler is an adjustment to accommodate situations such as when the PAC schedules double the expected delivered as a buffer to account for failures, crises, and maintenance.</div>
                                 </div>
                             </li>

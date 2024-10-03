@@ -167,9 +167,9 @@
             <button id="exit-fullscreen-button">Exit Full Screen</button>
         </div>
         <form id="excel-form" method="get" action="${pageContext.request.contextPath}/excel/trend.xlsx">
-            <input type="hidden" name="start" value="${param.start}"/>
-            <input type="hidden" name="end" value="${param.end}"/>
-            <input type="hidden" name="size" value="${param.size}"/>
+            <input type="hidden" name="start" value="${fn:escapeXml(param.start)}"/>
+            <input type="hidden" name="end" value="${fn:escapeXml(param.end)}"/>
+            <input type="hidden" name="size" value="${fn:escapeXml(param.size)}"/>
             <input type="hidden" name="qualified" value=""/>
             <button id="excel" type="submit" style="display: none;">Excel</button>
         </form>            

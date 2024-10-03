@@ -43,7 +43,7 @@
                                     <label class="required-field" for="start" title="Inclusive">Start Date</label>
                                 </div>
                                 <div class="li-value">
-                                    <input type="text" class="date-field" id="start" name="start" placeholder="DD-MMM-YYYY hh:mm" value="${param.start != null ? param.start : sevenDaysAgoFmt}"/>
+                                    <input type="text" class="date-field" id="start" name="start" placeholder="DD-MMM-YYYY hh:mm" value="${param.start != null ? fn:escapeXml(param.start) : sevenDaysAgoFmt}"/>
                                 </div>
                             </li>                     
                             <li>
@@ -122,8 +122,8 @@
                                                             <c:param name="end" value="${endFmt}"/>
                                                             <c:param name="type" value=""/>
                                                             <c:param name="component" value="${incident.componentName}"/>
-                                                            <c:param name="print" value="${param.print}"/>
-                                                            <c:param name="fullscreen" value="${param.fullscreen}"/>
+                                                            <c:param name="print" value="${fn:escapeXml(param.print)}"/>
+                                                            <c:param name="fullscreen" value="${fn:escapeXml(param.fullscreen)}"/>
                                                             <c:param name="qualified" value=""/>
                                                         </c:url>
                                             <td><c:out value="${incident.componentName}"/></td>

@@ -67,7 +67,7 @@
                                     <label for="event-id">Event ID</label>
                                 </div>
                                 <div class="li-value">
-                                    <input type="number" id="event-id" name="eventId" value="${param.eventId}"/>
+                                    <input type="number" id="event-id" name="eventId" value="${fn:escapeXml(param.eventId)}"/>
                                 </div>
                             </li>
                             <li>
@@ -75,7 +75,7 @@
                                     <label for="sme-username">SME</label>
                                 </div>
                                 <div class="li-value">
-                                    <input type="text" id="sme-username" name="smeUsername" class="username-autocomplete" value="${param.smeUsername}" placeholder="username"/>
+                                    <input type="text" id="sme-username" name="smeUsername" class="username-autocomplete" value="${fn:escapeXml(param.smeUsername)}" placeholder="username"/>
                                 </div>
                             </li>                             
                         </ul>

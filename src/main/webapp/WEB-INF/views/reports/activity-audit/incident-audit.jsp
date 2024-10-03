@@ -23,7 +23,7 @@
                                     <label class="required-field" for="incident-id">Incident ID</label>
                                 </div>
                                 <div class="li-value">
-                                    <input type="text" id="incident-id" name="incidentId" value="${param.incidentId}"/>
+                                    <input type="text" id="incident-id" name="incidentId" value="${fn:escapeXml(param.incidentId)}"/>
                                 </div>
                             </li>
                             <li>
@@ -31,7 +31,7 @@
                                     <label for="revision-id">Revision ID</label>
                                 </div>
                                 <div class="li-value">
-                                    <input type="text" id="revision-id" name="revisionId" value="${param.revisionId}"/>
+                                    <input type="text" id="revision-id" name="revisionId" value="${fn:escapeXml(param.revisionId)}"/>
                                 </div>
                             </li>                         
                         </ul>

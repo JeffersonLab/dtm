@@ -22,9 +22,9 @@
                                     <label>Modified between</label>
                                 </div>
                                 <div class="li-value">
-                                    <input type="text" class="date-field" id="modified-start" name="modifiedStart" placeholder="DD-MMM-YYYY hh:mm" value="${param.modifiedStart}"/>
+                                    <input type="text" class="date-field" id="modified-start" name="modifiedStart" placeholder="DD-MMM-YYYY hh:mm" value="${fn:escapeXml(param.modifiedStart)}"/>
                                     <span>and</span>
-                                    <input type="text" class="date-field nowable-field" id="modified-end" name="modifiedEnd" placeholder="DD-MMM-YYYY hh:mm" value="${param.modifiedEnd}"/>
+                                    <input type="text" class="date-field nowable-field" id="modified-end" name="modifiedEnd" placeholder="DD-MMM-YYYY hh:mm" value="${fn:escapeXml(param.modifiedEnd)}"/>
                                 </div>
                             </li>  
                             <li>
@@ -32,7 +32,7 @@
                                     <label for="event-id">Event ID</label>
                                 </div>
                                 <div class="li-value">
-                                    <input type="text" id="event-id" name="eventId" value="${param.eventId}"/>
+                                    <input type="text" id="event-id" name="eventId" value="${fn:escapeXml(param.eventId)}"/>
                                     (includes incidents)
                                 </div>
                             </li>
@@ -41,7 +41,7 @@
                                     <label for="incident-id">Incident ID</label>
                                 </div>
                                 <div class="li-value">
-                                    <input type="text" id="incident-id" name="incidentId" value="${param.incidentId}"/>
+                                    <input type="text" id="incident-id" name="incidentId" value="${fn:escapeXml(param.incidentId)}"/>
                                     (includes event, sibling incidents)
                                 </div>
                             </li>                         

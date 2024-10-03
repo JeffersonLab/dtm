@@ -222,7 +222,7 @@
                                                     <c:param name="chart" value="${param.chart}"/>
                                                     <c:param name="data" value="${param.data}"/>                                                    
                                                     <c:param name="print" value="${param.print}"/>
-                                                    <c:param name="fullscreen" value="${param.fullscreen}"/>     
+                                                    <c:param name="fullscreen" value="${param.fullscreen}"/>
                                                     <c:param name="qualified" value=""/>   
                                                 </c:url>
                                                 <a href="${url}" title="Component Downtime Report"><c:out value="${downtime.systemName}"/></a>
@@ -260,9 +260,9 @@
             <input type="hidden" name="start" value="${startFmt}"/>
             <input type="hidden" name="end" value="${endFmt}"/>
             <input type="hidden" name="type" value="${type.eventTypeId}"/>
-            <input type="hidden" name="transport" value="${param.transport}"/>
-            <input type="hidden" name="packed" value="${param.packed}"/>
-            <input type="hidden" name="category" value="${param.category}"/>
+            <input type="hidden" name="transport" value="${fn:escapeXml(param.transport)}"/>
+            <input type="hidden" name="packed" value="${fn:escapeXml(param.packed)}"/>
+            <input type="hidden" name="category" value="${fn:escapeXml(param.category)}"/>
             <button id="excel" type="submit" style="display: none;">Excel</button>
         </form>
         <div id="exit-fullscreen-panel">

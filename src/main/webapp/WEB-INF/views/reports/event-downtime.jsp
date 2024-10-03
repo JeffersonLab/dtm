@@ -195,7 +195,7 @@
                                     <input type="hidden" name="start" value="${startFmt}"/>
                                     <input type="hidden" name="end" value="${endFmt}"/>
                                     <input type="hidden" name="type" value="${type.eventTypeId}"/>
-                                    <input type="hidden" name="transport" value="${param.transport}"/>
+                                    <input type="hidden" name="transport" value="${fn:escapeXml(param.transport)}"/>
                                     <button id="excel" type="submit" style="display: none;">Excel</button>
                                 </form>
                             </div>
