@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.session.LogbookFacade;
 import org.jlab.dtm.persistence.model.LogReference;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 
 /**
@@ -47,7 +48,13 @@ public class References extends HttpServlet {
     try {
       BigInteger incidentId = ParamConverter.convertBigInteger(request, "id");
 
+      if (incidentId == null) {
+        throw new UserFriendlyException("Incident ID is required");
+      }
+
       referenceList = logbookFacade.getLogReferences(incidentId);
+    } catch (UserFriendlyException e) {
+      errorReason = e.getUserMessage();
     } catch (Exception e) {
       logger.log(Level.SEVERE, "Unable to obtain references list", e);
       errorReason = "Unable to obtain references list";
