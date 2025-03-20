@@ -15,7 +15,7 @@
             jlab.editableRowTable.dialog.width = 400;
             jlab.editableRowTable.dialog.height = 300;
             jlab.editRow = function() {
-                var key = $("#row-key").val(),
+                var key = $("#row-key").text(),
                     value = $("#row-value").val(),
                     reloading = false;
 
@@ -27,7 +27,7 @@
                 $(".ui-dialog-titlebar button").attr("disabled", "disabled");
 
                 var request = jQuery.ajax({
-                    url: "/jaws/setup/ajax/edit-setting",
+                    url: jlab.contextPath + "/setup/ajax/edit-setting",
                     type: "POST",
                     data: {
                         key: key,

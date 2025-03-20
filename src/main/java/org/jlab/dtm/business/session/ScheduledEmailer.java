@@ -9,15 +9,9 @@ import javax.annotation.Resource;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
-import javax.ejb.ScheduleExpression;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.ejb.Timeout;
-import javax.ejb.Timer;
-import javax.ejb.TimerConfig;
-import javax.ejb.TimerService;
+import javax.ejb.*;
 import javax.mail.MessagingException;
+import org.jlab.dtm.persistence.model.SettingChangeAction;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.service.EmailService;
 import org.jlab.smoothness.business.util.TimeUtil;
@@ -30,7 +24,8 @@ import org.jsoup.nodes.Document;
 @Singleton
 @DeclareRoles({"dtm-admin", "dtm-reviewer"})
 @Startup
-public class ScheduledEmailer {
+@LocalBean // https://www.javacodegeeks.com/2013/03/defining-ejb-3-1-views-local-remote-no-interface.html
+public class ScheduledEmailer implements SettingChangeAction {
 
   private static final Logger LOGGER = Logger.getLogger(ScheduledEmailer.class.getName());
   @Resource private TimerService timerService;
@@ -59,10 +54,7 @@ public class ScheduledEmailer {
     return timer != null;
   }
 
-  @RolesAllowed("dtm-admin")
-  public void setEnabled(Boolean enabled) throws UserFriendlyException {
-
-    settingsFacade.editSetting("EMAIL_ENABLED", enabled ? "Y" : "N");
+  private void setEnabled(boolean enabled) {
 
     if (enabled) {
       enable();
@@ -181,5 +173,14 @@ public class ScheduledEmailer {
     }
 
     sendExpertMail(username, numberOfHours);
+  }
+
+  @Override
+  @RolesAllowed("dtm-admin")
+  public void handleChange(String key, String value) {
+    LOGGER.log(Level.INFO, "SettingChangeAction handleChange: {0}={1}", new Object[] {key, value});
+    if ("EMAIL_ENABLED".equals(key)) {
+      setEnabled("Y".equals(value));
+    }
   }
 }

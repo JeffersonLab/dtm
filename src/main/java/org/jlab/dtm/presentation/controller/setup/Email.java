@@ -10,9 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.session.ScheduledEmailer;
 import org.jlab.dtm.business.session.SettingsFacade;
-import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.util.TimeUtil;
-import org.jlab.smoothness.presentation.util.ParamUtil;
 
 /**
  * @author ryans
@@ -59,39 +57,5 @@ public class Email extends HttpServlet {
         .getServletContext()
         .getRequestDispatcher("/WEB-INF/views/setup/email.jsp")
         .forward(request, response);
-  }
-
-  /**
-   * Handles the HTTP <code>Post</code> method.
-   *
-   * @param request servlet request
-   * @param response servlet response
-   * @throws ServletException if a servlet-specific error occurs
-   * @throws IOException if an I/O error occurs
-   */
-  @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    Boolean enabled;
-
-    try {
-      enabled = ParamUtil.convertAndValidateYNBoolean(request, "schedulerEnabled");
-    } catch (Exception e) {
-      throw new ServletException("Unable to convert parameter", e);
-    }
-
-    if (enabled == null) {
-      throw new ServletException("schedulerEnabled must not be empty");
-    }
-
-    try {
-      emailer.setEnabled(enabled);
-    } catch (UserFriendlyException e) {
-      throw new RuntimeException(e);
-    }
-
-    // TODO: We need to update ImmutableSettings in ServletContext AND SettingsFacade.cachedSettings
-
-    response.sendRedirect(response.encodeRedirectURL("email"));
   }
 }

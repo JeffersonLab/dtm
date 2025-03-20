@@ -6,6 +6,8 @@ import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -13,6 +15,7 @@ import javax.persistence.criteria.*;
 import org.jlab.dtm.persistence.entity.Setting;
 import org.jlab.dtm.persistence.enumeration.SettingsType;
 import org.jlab.dtm.persistence.model.ImmutableSettings;
+import org.jlab.dtm.persistence.model.SettingChangeAction;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
 
 /**
@@ -44,7 +47,11 @@ public class SettingsFacade extends AbstractFacade<Setting> {
   }
 
   // Caller is responsible for updating both ServletContext and SettingsFacade cache
-  // And performing any cleanup action needed if disabling features (such as stopping timers)
+  // since EJB can't easily update ServletContext.
+  //
+  // In order to perform any cleanup action needed by updating a setting such as disabling features
+  // (such as stopping scheduled timers)
+  // The registered SettingChangeAction is invoked, if any.
   @RolesAllowed("dtm-admin")
   public void editSetting(String key, String value) throws UserFriendlyException {
     Setting setting = find(key);
@@ -60,6 +67,22 @@ public class SettingsFacade extends AbstractFacade<Setting> {
     }
 
     setting.setValue(value);
+
+    if (setting.getChangeActionJNDI() != null) {
+      SettingChangeAction action = lookupChangeActionViaJNDI(setting.getChangeActionJNDI());
+      if (action != null) {
+        action.handleChange(key, value);
+      }
+    }
+  }
+
+  private SettingChangeAction lookupChangeActionViaJNDI(String name) {
+    try {
+      InitialContext ic = new InitialContext();
+      return (SettingChangeAction) ic.lookup(name); // example: java:global/dtm/ScheduledEmailer
+    } catch (NamingException e) {
+      throw new RuntimeException("Unable to obtain EJB", e);
+    }
   }
 
   private List<Predicate> getFilters(

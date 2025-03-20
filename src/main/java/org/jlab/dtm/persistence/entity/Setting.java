@@ -44,6 +44,9 @@ public class Setting implements Serializable {
   @Column(name = "WEIGHT", nullable = false)
   private Integer weight;
 
+  @Column(name = "CHANGE_ACTION_JNDI")
+  private String changeActionJNDI;
+
   public String getKey() {
     return key;
   }
@@ -90,6 +93,14 @@ public class Setting implements Serializable {
 
   public void setWeight(Integer weight) {
     this.weight = weight;
+  }
+
+  public String getChangeActionJNDI() {
+    return changeActionJNDI;
+  }
+
+  public void setChangeActionJNDI(String changeActionJNDI) {
+    this.changeActionJNDI = changeActionJNDI;
   }
 
   @Override
