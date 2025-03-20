@@ -26,6 +26,11 @@ public class Settings implements Serializable {
   @NotNull
   private String autoEmailYn;
 
+  @Column(name = "LOGBOOK_YN")
+  @Size(min = 1, max = 1)
+  @NotNull
+  private String logbookYn;
+
   @Basic(optional = true)
   @Column(name = "EXPERT_EMAIL_CC_CSV", nullable = true)
   private String expertEmailCcCsv;
