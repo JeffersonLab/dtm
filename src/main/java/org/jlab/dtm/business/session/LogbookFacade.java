@@ -7,7 +7,6 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.security.PermitAll;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -37,8 +36,6 @@ import org.jlab.smoothness.presentation.util.ServletUtil;
 public class LogbookFacade extends AbstractFacade<Object> {
 
   private static final Logger LOGGER = Logger.getLogger(LogbookFacade.class.getName());
-
-  @EJB SettingsFacade settingsFacade;
 
   public LogbookFacade() {
     super(Object.class);
@@ -81,13 +78,7 @@ public class LogbookFacade extends AbstractFacade<Object> {
 
     String subject = "Downtime Incident " + type + ": " + incident.getTitle();
 
-    String logbooks = System.getenv("DTM_BOOKS_CSV");
-
-    if (logbooks == null || logbooks.isEmpty()) {
-      logbooks = "TLOG";
-      LOGGER.log(
-          Level.WARNING, "Environment variable 'DTM_BOOKS_CSV' not found, using default TLOG");
-    }
+    String logbooks = SettingsFacade.cachedSettings.getBooksCsv();
 
     LogEntry entry = new LogEntry(subject, logbooks);
 

@@ -17,11 +17,14 @@ package org.jlab.dtm.persistence.model;
 public final class ImmutableSettings {
   private boolean logbookEnabled;
   private boolean emailEnabled;
+  private String booksCsv;
   private String expertEmailCcCsv;
 
-  public ImmutableSettings(boolean emailEnabled, boolean logbookEnabled, String expertEmailCcCsv) {
+  public ImmutableSettings(
+      boolean emailEnabled, boolean logbookEnabled, String booksCsv, String expertEmailCcCsv) {
     this.emailEnabled = emailEnabled;
     this.logbookEnabled = logbookEnabled;
+    this.booksCsv = booksCsv;
     this.expertEmailCcCsv = expertEmailCcCsv;
   }
 
@@ -35,5 +38,9 @@ public final class ImmutableSettings {
 
   public boolean isLogbookEnabled() {
     return logbookEnabled;
+  }
+
+  public String getBooksCsv() {
+    return booksCsv;
   }
 }

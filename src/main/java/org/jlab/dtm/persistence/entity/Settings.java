@@ -37,6 +37,9 @@ public class Settings implements Serializable {
   @Convert(converter = YnStringToBoolean.class)
   private boolean logbookEnabled;
 
+  @Column(name = "BOOKS_CSV", nullable = false)
+  private String booksCsv;
+
   @Basic(optional = true)
   @Column(name = "EXPERT_EMAIL_CC_CSV", nullable = true)
   private String expertEmailCcCsv;
@@ -69,7 +72,15 @@ public class Settings implements Serializable {
     return expertEmailCcCsv;
   }
 
+  public String getBooksCsv() {
+    return booksCsv;
+  }
+
+  public void setBooksCsv(String booksCsv) {
+    this.booksCsv = booksCsv;
+  }
+
   public ImmutableSettings immutable() {
-    return new ImmutableSettings(emailEnabled, logbookEnabled, expertEmailCcCsv);
+    return new ImmutableSettings(emailEnabled, logbookEnabled, booksCsv, expertEmailCcCsv);
   }
 }
