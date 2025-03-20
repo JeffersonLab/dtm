@@ -3,8 +3,6 @@ services:
     extends:
       file: compose.yaml
       service: oracle
-    volumes:
-      - ./run/oracle/oradata:/opt/oracle/oradata
 
   keycloak:
     extends:
