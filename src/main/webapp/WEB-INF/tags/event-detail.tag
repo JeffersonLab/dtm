@@ -74,7 +74,9 @@
                 <th>Description</th>
                 <th class="incident-period-header">Period</th>           
                 <th class="incident-cause-header">Cause</th>
-                <th class="incident-log-entries-header">Log Entries</th>
+                <c:if test="${settings.logbookEnabled}">
+                    <th class="incident-log-entries-header">Log Entries</th>
+                </c:if>
             </tr>
         </thead>
         <tbody>
@@ -188,20 +190,22 @@
                             </c:if>
                         </span> 
                     </td>
-                    <td class="log-entry-cell">
+                    <c:if test="${settings.logbookEnabled}">
+                        <td class="log-entry-cell">
                         <span class="cell-subfield">
                         </span>
-                        <form method="get" action="${env['LOGBOOK_SERVER_URL']}/node/add/logentry" target="_blank">
-                            <input type="hidden" name="reference" value="dtm:${incident.incidentId}"/>
-                            <button type="submit">Create New Log Entry</button>
-                        </form>
-                        <form method="get" action="${env['LOGBOOK_SERVER_URL']}/entries" target="_blank">
-                            <input type="hidden" name="start_date" value="${dtm:formatLogbookDate(incident.timeDown, -1)}"/>
-                            <input type="hidden" name="end_date" value="${dtm:formatLogbookDate(incident.timeUp, 1)}"/>
-                            <input type="hidden" name="logbooks[0]" value="1"/>
-                            <button type="submit">View Interval ± 1Hr</button>
-                        </form>                            
-                    </td>
+                            <form method="get" action="${env['LOGBOOK_SERVER_URL']}/node/add/logentry" target="_blank">
+                                <input type="hidden" name="reference" value="dtm:${incident.incidentId}"/>
+                                <button type="submit">Create New Log Entry</button>
+                            </form>
+                            <form method="get" action="${env['LOGBOOK_SERVER_URL']}/entries" target="_blank">
+                                <input type="hidden" name="start_date" value="${dtm:formatLogbookDate(incident.timeDown, -1)}"/>
+                                <input type="hidden" name="end_date" value="${dtm:formatLogbookDate(incident.timeUp, 1)}"/>
+                                <input type="hidden" name="logbooks[0]" value="1"/>
+                                <button type="submit">View Interval ± 1Hr</button>
+                            </form>
+                        </td>
+                    </c:if>
                 </tr>
             </c:forEach>                                        
         </tbody>
