@@ -48,7 +48,7 @@ public class ScheduledEmailer {
 
     timer = null;
 
-    if (settingsFacade.findSettings().isEmailEnabled()) {
+    if (settingsFacade.getImmutableSettings().is("EMAIL_ENABLED")) {
       LOGGER.log(Level.FINE, "Creating New Timer");
       enable();
     }
@@ -59,10 +59,10 @@ public class ScheduledEmailer {
     return timer != null;
   }
 
-  @RolesAllowed("dtm-reviewer")
-  public void setEnabled(Boolean enabled) {
+  @RolesAllowed("dtm-admin")
+  public void setEnabled(Boolean enabled) throws UserFriendlyException {
 
-    settingsFacade.setAutoEmail(enabled);
+    settingsFacade.editSetting("EMAIL_ENABLED", enabled ? "Y" : "N");
 
     if (enabled) {
       enable();
@@ -165,7 +165,7 @@ public class ScheduledEmailer {
 
       EmailService emailService = new EmailService();
 
-      String ccCsv = settingsFacade.findSettings().getExpertEmailCcCsv();
+      String ccCsv = SettingsFacade.cachedSettings.get("EMAIL_EXPERT_CC_LIST");
 
       emailService.sendEmail("dtm@jlab.org", "dtm@jlab.org", toCsv, ccCsv, subject, html, true);
     }

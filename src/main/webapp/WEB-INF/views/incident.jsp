@@ -72,7 +72,7 @@
                                 <c:out value="${incident.component.name}"/>
                             </dd>
                         </dl>
-                        <c:if test="${settings.logbookEnabled}">
+                        <c:if test="${setting.logbookEnabled}">
                             <h3>Log Entries</h3>
                             <table id="log-entries-table">
                                 <tbody>

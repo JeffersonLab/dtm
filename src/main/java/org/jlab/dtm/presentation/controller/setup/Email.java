@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.session.ScheduledEmailer;
 import org.jlab.dtm.business.session.SettingsFacade;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.util.TimeUtil;
 import org.jlab.smoothness.presentation.util.ParamUtil;
 
@@ -46,7 +47,7 @@ public class Email extends HttpServlet {
     Date end = new Date();
     Date start = (TimeUtil.addHours(end, numberOfHours * -1));
 
-    String ccCsv = settingsFacade.findSettings().getExpertEmailCcCsv();
+    String ccCsv = SettingsFacade.cachedSettings.get("EMAIL_EXPERT_CC_LIST");
 
     request.setAttribute("schedulerEnabled", emailer.isEnabled());
     request.setAttribute("numberOfHours", numberOfHours);
@@ -83,7 +84,11 @@ public class Email extends HttpServlet {
       throw new ServletException("schedulerEnabled must not be empty");
     }
 
-    emailer.setEnabled(enabled);
+    try {
+      emailer.setEnabled(enabled);
+    } catch (UserFriendlyException e) {
+      throw new RuntimeException(e);
+    }
 
     // TODO: We need to update ImmutableSettings in ServletContext AND SettingsFacade.cachedSettings
 

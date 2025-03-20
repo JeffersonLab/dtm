@@ -18,7 +18,7 @@
     <jsp:attribute name="scripts">
         <script src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/dtm.js"></script>
         <script>
-            jlab.logbookEnabled = ${settings.logbookEnabled ? 'true' : 'false'};
+            jlab.logbookEnabled = ${setting.logbookEnabled ? 'true' : 'false'};
         </script>
         <jsp:invoke fragment="scripts"/>
     </jsp:attribute>
@@ -61,7 +61,7 @@
                                 href="${pageContext.request.contextPath}/beam-team/weekly-tune">Beam Team</a></li>
                         <c:if test="${pageContext.request.isUserInRole('dtm-admin')}">
                             <li${fn:startsWith(currentPath, '/setup') ? ' class="current-primary"' : ''}><a
-                                    href="${pageContext.request.contextPath}/setup/subsystem-expert">Setup</a></li>
+                                    href="${pageContext.request.contextPath}/setup/settings">Setup</a></li>
                             </c:if>
                         <li${'/help' eq currentPath ? ' class="current-primary"' : ''}><a
                                 href="${pageContext.request.contextPath}/help">Help</a></li>

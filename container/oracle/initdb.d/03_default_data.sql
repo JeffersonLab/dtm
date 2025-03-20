@@ -1,7 +1,10 @@
 alter session set container = XEPDB1;
 
 -- Settings
-insert into DTM_OWNER.SETTINGS (SETTINGS_ID, AUTO_EMAIL_YN, EXPERT_EMAIL_CC_CSV) values (1, 'Y', 'tbrown@example.com,someoneelse@example.com');
+insert into DTM_OWNER.SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('EMAIL_ENABLED', 'N', 'BOOLEAN', 'Email integration enabled?', 'EMAIL', 0);
+insert into DTM_OWNER.SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('LOGBOOK_ENABLED', 'N', 'BOOLEAN', 'Logbook integration enabled?', 'LOGBOOK', 0);
+insert into DTM_OWNER.SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('EMAIL_EXPERT_CC_LIST', 'tbrown@example.com,someoneelse@example.com', 'CSV', 'List of email addresses to CC when expert emails go out', 'EMAIL', 1);
+insert into DTM_OWNER.SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('LOGBOOK_LIST', 'TLOG', 'CSV', 'List of Logbooks to send to when generating log entries', 'LOGBOOK', 1);
 
 -- Populate EventType
 insert into dtm_owner.event_type (event_type_id, name, weight, abbreviation) values(1, 'Accelerator', 1, 'ACC');

@@ -1,5 +1,10 @@
 package org.jlab.dtm.persistence.model;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.jlab.dtm.persistence.entity.Setting;
+
 /**
  * Read-only (immutable) application Settings.
  *
@@ -15,32 +20,28 @@ package org.jlab.dtm.persistence.model;
  * refreshed.
  */
 public final class ImmutableSettings {
-  private boolean logbookEnabled;
-  private boolean emailEnabled;
-  private String booksCsv;
-  private String expertEmailCcCsv;
+  private Map<String, Setting> map;
 
-  public ImmutableSettings(
-      boolean emailEnabled, boolean logbookEnabled, String booksCsv, String expertEmailCcCsv) {
-    this.emailEnabled = emailEnabled;
-    this.logbookEnabled = logbookEnabled;
-    this.booksCsv = booksCsv;
-    this.expertEmailCcCsv = expertEmailCcCsv;
+  public ImmutableSettings(List<Setting> settingList) {
+    map = new HashMap<String, Setting>();
+    for (Setting setting : settingList) {
+      map.put(setting.getKey(), setting);
+    }
   }
 
-  public String getExpertEmailCcCsv() {
-    return expertEmailCcCsv;
+  public String get(String key) {
+    return map.get(key).getValue();
   }
 
-  public boolean isEmailEnabled() {
-    return emailEnabled;
+  public boolean is(String key) {
+    Setting s = map.get(key);
+
+    // assert s.getType() == SettingsType.BOOLEAN;
+
+    return "Y".equals(s.getValue());
   }
 
-  public boolean isLogbookEnabled() {
-    return logbookEnabled;
-  }
-
-  public String getBooksCsv() {
-    return booksCsv;
+  public List<String> csv(String key) {
+    return null;
   }
 }
