@@ -49,10 +49,12 @@ public class LogbookFacade extends AbstractFacade<Object> {
   @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
   @PermitAll
   public void silentlyCreateIncidentELog(Incident incident, IncidentEditType type) {
-    try {
-      createIncidentELog(incident, type);
-    } catch (InternalException e) {
-      LOGGER.log(Level.SEVERE, "Unable to create close incident elog", e);
+    if (SettingsFacade.cachedSettings.is("LOGBOOK_ENABLED")) {
+      try {
+        createIncidentELog(incident, type);
+      } catch (InternalException e) {
+        LOGGER.log(Level.SEVERE, "Unable to create close incident elog", e);
+      }
     }
   }
 
@@ -76,13 +78,7 @@ public class LogbookFacade extends AbstractFacade<Object> {
 
     String subject = "Downtime Incident " + type + ": " + incident.getTitle();
 
-    String logbooks = System.getenv("DTM_BOOKS_CSV");
-
-    if (logbooks == null || logbooks.isEmpty()) {
-      logbooks = "TLOG";
-      LOGGER.log(
-          Level.WARNING, "Environment variable 'DTM_BOOKS_CSV' not found, using default TLOG");
-    }
+    String logbooks = SettingsFacade.cachedSettings.get("LOGBOOK_LIST");
 
     LogEntry entry = new LogEntry(subject, logbooks);
 

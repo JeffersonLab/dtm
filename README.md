@@ -57,7 +57,6 @@ Uses the [Smoothness Environment Variables](https://github.com/JeffersonLab/smoo
 
 | Name          | Description                                       |
 |---------------|---------------------------------------------------|
-| DTM_BOOKS_CSV | Comma Separated Logbooks to post CREATED/DELETED entries to.  Defaults to TLOG.  Generally should be set to ELOG in production. |
 | RAR_DIR       | Directory path to store Repair Assessment Reports |
 | SRM_URL       | Scheme, host, and port to System Readiness Manager (for Downgrade link; formally named HCO) |
 | PAC_SCHEDULE_SERVER_URL | Scheme, host, and port to Program Advisory Committee Schedule (for Joule Report) |

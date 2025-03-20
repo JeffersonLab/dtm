@@ -21,7 +21,9 @@
     <jsp:attribute name="scripts">      
         <script type="text/javascript" src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/event-list.js"></script>
         <script>
-            jlab.dtm.loadLogbookReference.call($("#log-entries-table tbody tr"));
+            if(jlab.logbookEnabled) {
+                jlab.dtm.loadLogbookReference.call($("#log-entries-table tbody tr"));
+            }
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -70,27 +72,29 @@
                                 <c:out value="${incident.component.name}"/>
                             </dd>
                         </dl>
-                        <h3>Log Entries</h3>
-                        <table id="log-entries-table">
-                            <tbody>
-                            <tr data-incident-id="${incident.incidentId}">
-                                <td class="log-entry-cell">
+                        <c:if test="${setting.logbookEnabled}">
+                            <h3>Log Entries</h3>
+                            <table id="log-entries-table">
+                                <tbody>
+                                <tr data-incident-id="${incident.incidentId}">
+                                    <td class="log-entry-cell">
                                     <span class="cell-subfield">
                                     </span>
-                                    <form method="get" action="${env['LOGBOOK_SERVER_URL']}/node/add/logentry" target="_blank">
-                                        <input type="hidden" name="reference" value="dtm:${incident.incidentId}"/>
-                                        <button type="submit">Create New Log Entry</button>
-                                    </form>
-                                    <form method="get" action="${env['LOGBOOK_SERVER_URL']}/entries" target="_blank">
-                                        <input type="hidden" name="start_date" value="${dtm:formatLogbookDate(incident.timeDown, -1)}"/>
-                                        <input type="hidden" name="end_date" value="${dtm:formatLogbookDate(incident.timeUp, 1)}"/>
-                                        <input type="hidden" name="logbooks[0]" value="1"/>
-                                        <button type="submit">View Interval ± 1Hr</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                        <form method="get" action="${env['LOGBOOK_SERVER_URL']}/node/add/logentry" target="_blank">
+                                            <input type="hidden" name="reference" value="dtm:${incident.incidentId}"/>
+                                            <button type="submit">Create New Log Entry</button>
+                                        </form>
+                                        <form method="get" action="${env['LOGBOOK_SERVER_URL']}/entries" target="_blank">
+                                            <input type="hidden" name="start_date" value="${dtm:formatLogbookDate(incident.timeDown, -1)}"/>
+                                            <input type="hidden" name="end_date" value="${dtm:formatLogbookDate(incident.timeUp, 1)}"/>
+                                            <input type="hidden" name="logbooks[0]" value="1"/>
+                                            <button type="submit">View Interval ± 1Hr</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </c:if>
                         <h3>Review</h3>
                         <h4>Operability (OPR)</h4>
                         <dl class="indented-dl">
