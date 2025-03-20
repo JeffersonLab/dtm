@@ -48,7 +48,7 @@ public class ScheduledEmailer {
 
     timer = null;
 
-    if (settingsFacade.findSettings().isAutoEmail()) {
+    if (settingsFacade.findSettings().isEmailEnabled()) {
       LOGGER.log(Level.FINE, "Creating New Timer");
       enable();
     }

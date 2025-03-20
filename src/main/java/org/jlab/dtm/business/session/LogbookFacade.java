@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.security.PermitAll;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -16,6 +17,7 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.persistence.EntityManager;
 import org.jlab.dtm.persistence.entity.Incident;
+import org.jlab.dtm.persistence.entity.Settings;
 import org.jlab.dtm.persistence.enumeration.IncidentEditType;
 import org.jlab.dtm.persistence.model.LogReference;
 import org.jlab.dtm.presentation.util.DtmFunctions;
@@ -37,6 +39,8 @@ public class LogbookFacade extends AbstractFacade<Object> {
 
   private static final Logger LOGGER = Logger.getLogger(LogbookFacade.class.getName());
 
+  @EJB SettingsFacade settingsFacade;
+
   public LogbookFacade() {
     super(Object.class);
   }
@@ -49,10 +53,13 @@ public class LogbookFacade extends AbstractFacade<Object> {
   @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
   @PermitAll
   public void silentlyCreateIncidentELog(Incident incident, IncidentEditType type) {
-    try {
-      createIncidentELog(incident, type);
-    } catch (InternalException e) {
-      LOGGER.log(Level.SEVERE, "Unable to create close incident elog", e);
+    Settings settings = settingsFacade.findSettings();
+    if (settings.isLogbookEnabled()) {
+      try {
+        createIncidentELog(incident, type);
+      } catch (InternalException e) {
+        LOGGER.log(Level.SEVERE, "Unable to create close incident elog", e);
+      }
     }
   }
 

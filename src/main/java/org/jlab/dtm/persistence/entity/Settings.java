@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.jlab.smoothness.persistence.util.YnStringToBoolean;
 
 /**
  * @author ryans
@@ -24,12 +25,14 @@ public class Settings implements Serializable {
   @Column(name = "AUTO_EMAIL_YN")
   @Size(min = 1, max = 1)
   @NotNull
-  private String autoEmailYn;
+  @Convert(converter = YnStringToBoolean.class)
+  private boolean emailEnabled;
 
   @Column(name = "LOGBOOK_YN")
   @Size(min = 1, max = 1)
   @NotNull
-  private String logbookYn;
+  @Convert(converter = YnStringToBoolean.class)
+  private boolean logbookEnabled;
 
   @Basic(optional = true)
   @Column(name = "EXPERT_EMAIL_CC_CSV", nullable = true)
@@ -43,12 +46,20 @@ public class Settings implements Serializable {
     this.settingsId = settingsId;
   }
 
-  public boolean isAutoEmail() {
-    return "Y".equals(autoEmailYn);
+  public boolean isEmailEnabled() {
+    return emailEnabled;
   }
 
-  public void setAutoEmail(boolean autoEmail) {
-    this.autoEmailYn = autoEmail ? "Y" : "N";
+  public void setEmailEnabled(boolean emailEnabled) {
+    this.emailEnabled = emailEnabled;
+  }
+
+  public boolean isLogbookEnabled() {
+    return logbookEnabled;
+  }
+
+  public void setLogbookEnabled(boolean logbookEnabled) {
+    this.logbookEnabled = logbookEnabled;
   }
 
   public String getExpertEmailCcCsv() {

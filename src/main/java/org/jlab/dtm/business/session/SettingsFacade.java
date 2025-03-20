@@ -36,6 +36,6 @@ public class SettingsFacade extends AbstractFacade<Settings> {
   public void setAutoEmail(boolean autoEmail) {
     Settings settings = findSettings();
 
-    settings.setAutoEmail(autoEmail);
+    settings.setEmailEnabled(autoEmail);
   }
 }

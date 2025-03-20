@@ -53,9 +53,11 @@ jlab.dtm.updateEventInPlace = function (eventId) {
                 $oldContent.replaceWith($newContent);
                 jlab.dtm.initAccordionPanel.call($newHeader);
 
-                $(".incident-table tbody tr", $newContent).each(function () {
-                    jlab.dtm.loadLogbookReference.call(this);
-                });
+                if(jlab.logbookEnabled) {
+                    $(".incident-table tbody tr", $newContent).each(function () {
+                        jlab.dtm.loadLogbookReference.call(this);
+                    });
+                }
             } else {
                 reload = true;
             }
@@ -1195,7 +1197,9 @@ $(function () {
                         .find("> .event-header-toggle .ui-icon").toggleClass("ui-icon-triangle-1-e ui-icon-triangle-1-s").end()
                         .next().toggleClass("ui-accordion-content-active").slideToggle();
                 if ($(this).hasClass("ui-accordion-header-active")) {
-                    jlab.dtm.loadPanelLogbookReferences.call($(this).next());
+                    if (jlab.logbookEnabled) {
+                        jlab.dtm.loadPanelLogbookReferences.call($(this).next());
+                    }
                 }
                 return false;
             })
