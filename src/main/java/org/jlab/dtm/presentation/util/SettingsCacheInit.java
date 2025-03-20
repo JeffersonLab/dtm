@@ -7,6 +7,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import org.jlab.dtm.business.session.SettingsFacade;
 import org.jlab.dtm.persistence.entity.Settings;
+import org.jlab.dtm.persistence.model.ImmutableSettings;
 
 /**
  * A ServletContextListener that provide the settings to the ServletContext to allow easy
@@ -24,7 +25,11 @@ public class SettingsCacheInit implements ServletContextListener {
 
     Settings settings = settingsFacade.findSettings();
 
-    context.setAttribute("settings", settings);
+    ImmutableSettings immutable = settings.immutable();
+
+    SettingsFacade.cachedSettings = immutable;
+
+    context.setAttribute("settings", immutable);
   }
 
   @Override

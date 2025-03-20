@@ -17,7 +17,6 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.persistence.EntityManager;
 import org.jlab.dtm.persistence.entity.Incident;
-import org.jlab.dtm.persistence.entity.Settings;
 import org.jlab.dtm.persistence.enumeration.IncidentEditType;
 import org.jlab.dtm.persistence.model.LogReference;
 import org.jlab.dtm.presentation.util.DtmFunctions;
@@ -53,8 +52,7 @@ public class LogbookFacade extends AbstractFacade<Object> {
   @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
   @PermitAll
   public void silentlyCreateIncidentELog(Incident incident, IncidentEditType type) {
-    Settings settings = settingsFacade.findSettings();
-    if (settings.isLogbookEnabled()) {
+    if (SettingsFacade.cachedSettings.isLogbookEnabled()) {
       try {
         createIncidentELog(incident, type);
       } catch (InternalException e) {

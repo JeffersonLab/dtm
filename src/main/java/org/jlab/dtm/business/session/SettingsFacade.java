@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.jlab.dtm.persistence.entity.Settings;
+import org.jlab.dtm.persistence.model.ImmutableSettings;
 
 /**
  * @author ryans
@@ -15,6 +16,9 @@ import org.jlab.dtm.persistence.entity.Settings;
 @Stateless
 @DeclareRoles("dtm-admin")
 public class SettingsFacade extends AbstractFacade<Settings> {
+
+  public static volatile ImmutableSettings cachedSettings;
+
   @PersistenceContext(unitName = "dtmPU")
   private EntityManager em;
 

@@ -5,9 +5,12 @@ import java.math.BigInteger;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.jlab.dtm.persistence.model.ImmutableSettings;
 import org.jlab.smoothness.persistence.util.YnStringToBoolean;
 
 /**
+ * Editable settings JPA entity. See Also: org.jlab.dtm.persistence.model.ImmutableSettings.
+ *
  * @author ryans
  */
 @Entity
@@ -64,5 +67,9 @@ public class Settings implements Serializable {
 
   public String getExpertEmailCcCsv() {
     return expertEmailCcCsv;
+  }
+
+  public ImmutableSettings immutable() {
+    return new ImmutableSettings(emailEnabled, logbookEnabled, expertEmailCcCsv);
   }
 }

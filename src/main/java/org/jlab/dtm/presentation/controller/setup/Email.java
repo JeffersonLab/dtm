@@ -85,6 +85,8 @@ public class Email extends HttpServlet {
 
     emailer.setEnabled(enabled);
 
+    // TODO: We need to update ImmutableSettings in ServletContext AND SettingsFacade.cachedSettings
+
     response.sendRedirect(response.encodeRedirectURL("email"));
   }
 }
