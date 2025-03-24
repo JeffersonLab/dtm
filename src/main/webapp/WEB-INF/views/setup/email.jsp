@@ -22,14 +22,7 @@
         <section>
             <h2><c:out value="${title}"/></h2>
             <h3 class="email-section">Scheduled Daily Emails
-                <form style="position: relative; top: -5px; display: inline-block; float: right; font-size: 10px;" method="post" action="email">
-                    <fieldset>
-                        <label for="on-notification">On</label>
-                        <input style="vertical-align: bottom;" class="change-submit" id="on-notification" type="radio" name="schedulerEnabled" value="Y"${schedulerEnabled ? ' checked="checked"' : ''}/>
-                        <label style="margin-left: 10px;" for="off-notification">Off</label>
-                        <input style="vertical-align: bottom;" class="change-submit" id="off-notification" type="radio" name="schedulerEnabled" value="N"${not schedulerEnabled ? ' checked="checked"' : ''}/>
-                    </fieldset>
-                </form>
+                    ${schedulerEnabled ? ' YES' : ' NO'}
             </h3>
             <form method="post" action="ajax/email-on-demand">
                 <label for="username">SME</label>

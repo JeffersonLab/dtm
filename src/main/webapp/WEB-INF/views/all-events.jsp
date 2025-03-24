@@ -10,7 +10,7 @@
     <jsp:attribute name="stylesheets"> 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/event-list.css"/>
     </jsp:attribute>
-    <jsp:attribute name="scripts">      
+    <jsp:attribute name="scripts">
         <script type="text/javascript" src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/event-list.js"></script>
     </jsp:attribute>        
     <jsp:body>

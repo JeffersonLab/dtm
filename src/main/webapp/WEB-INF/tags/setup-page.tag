@@ -12,6 +12,7 @@
     </jsp:attribute>
     <jsp:attribute name="secondaryNavigation">
         <ul>
+            <li${'/setup/settings' eq currentPath ? ' class="current-secondary"' : ''}><a href="${pageContext.request.contextPath}/setup/settings">Settings</a></li>
             <li${'/setup/subsystem-expert' eq currentPath ? ' class="current-secondary"' : ''}><a href="${pageContext.request.contextPath}/setup/subsystem-expert">Expert List</a></li>
             <li${'/setup/email' eq currentPath ? ' class="current-secondary"' : ''}><a href="${pageContext.request.contextPath}/setup/email">Email</a></li>
         </ul>
