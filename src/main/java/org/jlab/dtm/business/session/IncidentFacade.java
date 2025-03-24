@@ -104,6 +104,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       Incident incident,
       String title,
       String summary,
+      String permitToWork,
       BigInteger componentId,
       String componentName,
       Date timeDown,
@@ -230,6 +231,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     incident.setExplanation(explanation);
     incident.setTitle(title);
     incident.setSummary(summary);
+    incident.setPermitToWork(permitToWork);
     incident.setSystem(system);
     incident.setComponent(eternalComponent);
     incident.setTimeDown(timeDown);
@@ -365,6 +367,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       Date timeUp,
       String title,
       String summary,
+      String permitToWork,
       BigInteger componentId,
       String componentName,
       String eventTitle,
@@ -455,6 +458,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         incident,
         title,
         summary,
+        permitToWork,
         componentId,
         componentName,
         timeDown,
@@ -501,6 +505,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       Date timeUp,
       String title,
       String summary,
+      String permitToWork,
       BigInteger componentId,
       String componentName,
       String eventTitle,
@@ -537,6 +542,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         incident,
         title,
         summary,
+        permitToWork,
         componentId,
         componentName,
         timeDown,
@@ -593,6 +599,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       Date timeUp,
       String title,
       String summary,
+      String permitToWork,
       BigInteger componentId,
       String componentName,
       String eventTitle,
@@ -652,6 +659,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         incident,
         title,
         summary,
+        permitToWork,
         componentId,
         componentName,
         timeDown,

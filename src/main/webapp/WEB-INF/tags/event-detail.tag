@@ -155,6 +155,10 @@
                                 </c:otherwise>
                             </c:choose>
                         </span>
+                        <span class="cell-subfield">
+                            <span class="cell-sublabel">Permit To Work:</span>
+                            <span class="incident-table-permit-to-work"><c:out value="${empty incident.permitToWork ? 'None' : incident.permitToWork}"/></span>
+                        </span>
                     </td>                
                     <td>
                         <span class="cell-subfield">

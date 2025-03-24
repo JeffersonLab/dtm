@@ -134,6 +134,7 @@ jlab.dtm.doIncidentAction = function (reload) {
             timeUp = $("#time-up").val(),
             title = $("#title").val(),
             summary = $("#summary").val(),
+            permitToWork = $("#permit-to-work").val(),
             componentId = $("#component").attr("data-component-id"),
             componentName = $("#component").val(),
             action = $("#incident-action-button").attr("data-action"),
@@ -205,6 +206,7 @@ jlab.dtm.doIncidentAction = function (reload) {
             timeUp: timeUp,
             title: title,
             summary: summary,
+            permitToWork: permitToWork,
             componentId: componentId,
             componentName: componentName,
             action: action,
@@ -371,6 +373,7 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
             timeUp = $tr.find(".incident-table-time-up").text(),
             title = $tr.find(".incident-table-title").text(),
             summary = $tr.find(".incident-table-summary").text(),
+            permitToWork = $tr.find(".incident-table-permit-to-work").text(),
             systemId = $tr.find(".incident-table-system").attr("data-system-id"),
             componentName = $tr.find(".incident-table-component").text(),
             componentId = $tr.find(".incident-table-component").attr("data-component-id"),
@@ -402,6 +405,7 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
     $("#time-up").val(timeUp);
     $("#title").val(title);
     $("#summary").val(summary);
+    $("#permit-to-work").text(permitToWork);
     $("#component").val(componentName);
     $("#component").attr("data-component-id", componentId);
 
@@ -756,6 +760,7 @@ jlab.dtm.clearIncidentForm = function (skipReloadSystem) {
     $("#time-up").val('');
     $("#title").val('');
     $("#summary").val('');
+    $("#permit-to-work").val('');
     $("#system").val('');
     $("#component").attr("data-component-id", "");
     $("#component").val('');

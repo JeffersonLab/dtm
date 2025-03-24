@@ -106,6 +106,10 @@ public class IncidentAud implements Serializable {
   @Enumerated(EnumType.STRING)
   private SystemExpertAcknowledgement expertAcknowledged;
 
+  @Size(max = 64)
+  @Column(name = "PERMIT_TO_WORK", nullable = true, length = 64)
+  private String permitToWork;
+
   public IncidentAud() {}
 
   public String getRootCause() {
@@ -218,6 +222,14 @@ public class IncidentAud implements Serializable {
 
   public void setRarId(BigInteger rarId) {
     this.rarId = rarId;
+  }
+
+  public String getPermitToWork() {
+    return permitToWork;
+  }
+
+  public void setPermitToWork(String permitToWork) {
+    this.permitToWork = permitToWork;
   }
 
   public SystemExpertAcknowledgement getExpertAcknowledged() {

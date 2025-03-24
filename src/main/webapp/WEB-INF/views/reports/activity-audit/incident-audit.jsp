@@ -196,7 +196,15 @@
                                         <c:out value="${incident.rarId}"/>
                                     </td>
                                 </c:forEach>
-                            </tr>                            
+                            </tr>
+                            <tr>
+                                <th>Permit To Work:</th>
+                                <c:forEach items="${incidentList}" var="incident">
+                                    <td>
+                                        <c:out value="${incident.permitToWork}"/>
+                                    </td>
+                                </c:forEach>
+                            </tr>
                         </tbody>
                     </table>
                     <div class="event-controls">
