@@ -33,7 +33,7 @@
                     <span>Incidents</span>
                 </li>
                 <li>
-                    <h2 id="page-header-title"><c:out value="#${param.incidentId}: ${incident.title}"/></h2>
+                    <h2 class="page-header-title"><c:out value="#${param.incidentId}: ${incident.title}"/></h2>
                 </li>
             </ul>
         </div>

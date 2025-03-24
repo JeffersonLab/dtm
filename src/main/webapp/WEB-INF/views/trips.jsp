@@ -280,12 +280,12 @@
                         </fieldset>
                     </div>
                     <input type="hidden" name="qualified" value=""/>                                                    
-                    <input type="hidden" id="offset-input" name="offset" value="0"/>
+                    <input type="hidden" class="offset-input" name="offset" value="0"/>
                     <input type="hidden" id="max-input" name="max" value="${max}"/>
-                    <input id="filter-form-submit-button" type="submit" value="Apply"/>                                
+                    <input class="filter-form-submit-button" type="submit" value="Apply"/>
                 </form>                                                    
             </s:filter-flyout-widget>
-            <h2 id="page-header-title"><c:out value="${title}"/></h2>                
+            <h2 class="page-header-title"><c:out value="${title}"/></h2>
             <div class="message-box">
                 <c:out value="${selectionMessage}"/>
             </div>
@@ -295,8 +295,8 @@
                         <t:trip-list tripList="${tripList}"/>
                     </div>
                     <div class="event-controls">
-                        <button id="previous-button" type="button" data-offset="${paginator.previousOffset}" value="Previous"${paginator.previous ? '' : ' disabled="disabled"'}>Previous</button>                        
-                        <button id="next-button" type="button" data-offset="${paginator.nextOffset}" value="Next"${paginator.next ? '' : ' disabled="disabled"'}>Next</button>                 
+                        <button class="previous-button" type="button" data-offset="${paginator.previousOffset}" value="Previous"${paginator.previous ? '' : ' disabled="disabled"'}>Previous</button>
+                        <button class="next-button" type="button" data-offset="${paginator.nextOffset}" value="Next"${paginator.next ? '' : ' disabled="disabled"'}>Next</button>
                         <div id="max-select-div" style="float: right;">
                             <select id="max-select">
                                 <option ${max eq '10' ? ' selected="selected"' : ''}>10</option>

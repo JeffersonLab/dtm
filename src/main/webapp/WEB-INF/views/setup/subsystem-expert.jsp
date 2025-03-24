@@ -28,7 +28,7 @@
         <section>          
             <c:choose>
                 <c:when test="${selectedSystem eq null}">
-                    <h2 id="page-header-title"><c:out value="${title}"/></h2> <span style="font-weight: bold;">(<span class="required-field"></span> required)
+                    <h2 class="page-header-title"><c:out value="${title}"/></h2> <span style="font-weight: bold;">(<span class="required-field"></span> required)
                         <form class="filter-form" action="subsystem-expert" method="get">
                             <div id="filter-form-panel">
                                 <fieldset>
@@ -48,10 +48,10 @@
                                         <jsp:include page="/WEB-INF/includes/expert-report-form.jsp"/>
                                     </fieldset>
                                 </div>
-                                <input type="submit" id="filter-form-submit-button" value="Apply"/>
+                                <input type="submit" class="filter-form-submit-button" value="Apply"/>
                             </form>
                         </s:filter-flyout-widget>
-                        <h2 id="page-header-title"><c:out value="${title}"/></h2>                      
+                        <h2 class="page-header-title"><c:out value="${title}"/></h2>
                         <div class="message-box"><c:out value="${selectionMessage}"/></div>
                         <s:editable-row-table-controls excludeEdit="true"/>
                         <table id="expert-table" class="data-table stripped-table uniselect-table editable-row-table">

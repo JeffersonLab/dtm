@@ -81,10 +81,10 @@
                         </fieldset>
                     </div>
                     <input type="hidden" name="referrer" value="form"/>
-                    <input id="filter-form-submit-button" type="submit" value="Apply"/>     
+                    <input class="filter-form-submit-button" type="submit" value="Apply"/>
                 </form>                                                    
             </s:filter-flyout-widget>
-            <h2 id="page-header-title"><c:out value="${title}"/></h2>                              
+            <h2 class="page-header-title"><c:out value="${title}"/></h2>
             <c:choose>
                 <c:when test="${start == null || end == null || type == null}">
                     <div class="message-box">Select a start date, end date, and type to continue</div>

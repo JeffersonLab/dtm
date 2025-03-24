@@ -111,10 +111,10 @@
                         </ul>
                     </fieldset>
                     <input type="hidden" name="qualified" value=""/>
-                    <input id="filter-form-submit-button" type="submit" value="Apply"/>
+                    <input class="filter-form-submit-button" type="submit" value="Apply"/>
                 </form>
             </s:filter-flyout-widget>
-            <h2 id="page-header-title"><c:out value="${title}"/></h2>
+            <h2 class="page-header-title"><c:out value="${title}"/></h2>
             <c:choose>
                 <c:when test="${start == null || end == null}">
                     <div class="message-box">Select a start date, and end date to continue</div>
@@ -124,7 +124,7 @@
                         <c:out value="${selectionMessage}"/>
                     </div>
                     <c:if test="${param.type ne 'table'}">
-                        <div id="chart-wrap">
+                        <div class="chart-wrap">
                             <div id="chart-placeholder"></div>
                         </div>
                     </c:if>

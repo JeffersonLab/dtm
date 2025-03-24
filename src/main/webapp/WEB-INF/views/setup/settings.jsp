@@ -105,10 +105,10 @@
                             </ul>
                         </fieldset>
                     </div>
-                    <input type="submit" id="filter-form-submit-button" value="Apply"/>
+                    <input type="submit" class="filter-form-submit-button" value="Apply"/>
                 </form>
             </s:filter-flyout-widget>
-            <h2 id="page-header-title"><c:out value="${title}"/></h2>
+            <h2 class="page-header-title"><c:out value="${title}"/></h2>
             <div class="message-box"><c:out value="${selectionMessage}"/></div>
             <s:editable-row-table-controls excludeAdd="true" excludeDelete="true"/>
             <table id="settings-table" class="data-table stripped-table uniselect-table editable-row-table">
