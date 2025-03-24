@@ -45,7 +45,7 @@
                 </div>
             </div>            
             <s:filter-flyout-widget  requiredMessage="true">
-                <form id="filter-form" method="get" action="device-trend">
+                <form class="filter-form" method="get" action="device-trend">
                     <div id="filter-form-panel">
                         <fieldset>
                             <legend>Time</legend>
@@ -155,10 +155,10 @@
                         </fieldset>
                     </div>
                     <input type="hidden" name="referrer" value="form"/>
-                    <input id="filter-form-submit-button" type="submit" value="Apply"/>     
+                    <input class="filter-form-submit-button" type="submit" value="Apply"/>
                 </form>                                                    
             </s:filter-flyout-widget>
-            <h2 id="page-header-title"><c:out value="${title}"/></h2>            
+            <h2 class="page-header-title"><c:out value="${title}"/></h2>
             <c:choose>
                 <c:when test="${start == null || end == null}">
                     <div class="message-box">Select a start and end date to continue</div>

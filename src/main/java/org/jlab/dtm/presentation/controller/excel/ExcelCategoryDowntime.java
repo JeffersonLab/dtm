@@ -20,6 +20,7 @@ import org.jlab.dtm.persistence.model.BeamSummaryTotals;
 import org.jlab.dtm.persistence.model.CategoryDowntime;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.dtm.presentation.util.FilterSelectionMessage;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 import org.jlab.smoothness.presentation.util.ParamUtil;
 
@@ -74,9 +75,19 @@ public class ExcelCategoryDowntime extends HttpServlet {
       type = eventTypeFacade.find(eventTypeId);
     }
 
-    Boolean beamTransport = ParamConverter.convertYNBoolean(request, "transport");
+    Boolean beamTransport = null;
+    try {
+      beamTransport = ParamConverter.convertYNBoolean(request, "transport");
+    } catch (UserFriendlyException e) {
+      throw new ServletException("transport must be Y or N", e);
+    }
 
-    boolean packed = ParamUtil.convertAndValidateYNBoolean(request, "packed", true);
+    boolean packed = false;
+    try {
+      packed = ParamUtil.convertAndValidateYNBoolean(request, "packed", true);
+    } catch (UserFriendlyException e) {
+      throw new ServletException("packed must be Y or N", e);
+    }
 
     String filters =
         FilterSelectionMessage.getReportMessage(

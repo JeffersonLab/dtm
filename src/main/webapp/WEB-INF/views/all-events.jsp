@@ -16,7 +16,7 @@
     <jsp:body>
         <section>
             <s:filter-flyout-widget ribbon="true" clearButton="true">
-                <form id="filter-form" method="get" action="${pageContext.request.contextPath}/events">
+                <form class="filter-form" method="get" action="${pageContext.request.contextPath}/events">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range datetime="${true}" sevenAmOffset="${true}"/>
@@ -98,12 +98,12 @@
                         </ul>
                     </fieldset>
                     <input type="hidden" name="qualified" value=""/>            
-                    <input type="hidden" id="offset-input" name="offset" value="0"/>
-                    <input id="filter-form-submit-button" type="submit" value="Apply"/>
+                    <input type="hidden" class="offset-input" name="offset" value="0"/>
+                    <input class="filter-form-submit-button" type="submit" value="Apply"/>
                 </form> 
                 <div style="display: none;" id="incident-add-template"><div class="incident-id-wrap"><input type="number" id="incident-id" name="incidentId" value=""/><button class="remove-incident-id-button" type="button" title="Remove Incident ID">X</button></div></div>
             </s:filter-flyout-widget>
-            <h2 id="page-header-title"><c:out value="${title}"/></h2>                            
+            <h2 class="page-header-title"><c:out value="${title}"/></h2>
             <div class="event-controls">
                 <c:if test="${pageContext.request.userPrincipal ne null}">
                     <button id="open-add-event-dialog-button" type="button">Add Event</button>
@@ -118,8 +118,8 @@
                         <t:event-list eventList="${eventList}"/>
                     </div>
                     <div class="event-controls">
-                        <button id="previous-button" type="button" data-offset="${paginator.previousOffset}" value="Previous"${paginator.previous ? '' : ' disabled="disabled"'}>Previous</button>                        
-                        <button id="next-button" type="button" data-offset="${paginator.nextOffset}" value="Next"${paginator.next ? '' : ' disabled="disabled"'}>Next</button>                 
+                        <button class="previous-button" type="button" data-offset="${paginator.previousOffset}" value="Previous"${paginator.previous ? '' : ' disabled="disabled"'}>Previous</button>
+                        <button class="next-button" type="button" data-offset="${paginator.nextOffset}" value="Next"${paginator.next ? '' : ' disabled="disabled"'}>Next</button>
                     </div>
                 </c:if>
             </div>                    

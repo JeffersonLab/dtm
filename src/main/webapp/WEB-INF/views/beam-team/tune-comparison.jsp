@@ -50,7 +50,7 @@
                 </div>
             </div>            
             <s:filter-flyout-widget  requiredMessage="true" resetButton="true">
-                <form id="filter-form" method="get" action="tune-comparison">
+                <form class="filter-form" method="get" action="tune-comparison">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range datetime="${true}" sevenAmOffset="${true}"/>
@@ -104,10 +104,10 @@
                         </ul>
                     </fieldset>                      
                     <input type="hidden" name="qualified" value=""/>                                     
-                    <input id="filter-form-submit-button" type="submit" value="Apply"/>                                
+                    <input class="filter-form-submit-button" type="submit" value="Apply"/>
                 </form>                                                    
             </s:filter-flyout-widget>
-            <h2 id="page-header-title"><c:out value="${title}"/></h2>
+            <h2 class="page-header-title"><c:out value="${title}"/></h2>
             <c:choose>
                 <c:when test="${start == null || end == null}">
                     <div class="message-box">Select a start date and end date to continue</div>

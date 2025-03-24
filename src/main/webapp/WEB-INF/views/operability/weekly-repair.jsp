@@ -36,7 +36,7 @@
                 </div>
             </div>            
             <s:filter-flyout-widget  requiredMessage="true">
-                <form id="filter-form" method="get" action="weekly-repair">
+                <form class="filter-form" method="get" action="weekly-repair">
                     <fieldset>
                         <ul class="key-value-list">                         
                             <li>
@@ -57,10 +57,10 @@
                             </li>
                         </ul>
                     </fieldset>
-                    <input id="filter-form-submit-button" type="submit" value="Apply"/>                                
+                    <input class="filter-form-submit-button" type="submit" value="Apply"/>
                 </form>                                                    
             </s:filter-flyout-widget>
-            <h2 id="page-header-title"><c:out value="${title}"/></h2>
+            <h2 class="page-header-title"><c:out value="${title}"/></h2>
             <c:choose>
                 <c:when test="${start == null || end == null}">
                     <div class="message-box">Select a start date to continue</div>

@@ -14,7 +14,7 @@
     <jsp:body>
         <section>
             <s:filter-flyout-widget requiredMessage="true">
-                <form id="filter-form" method="get" action="incident-audit">
+                <form class="filter-form" method="get" action="incident-audit">
                     <fieldset>
                         <legend>Filter</legend>
                         <ul class="key-value-list">                      
@@ -36,11 +36,11 @@
                             </li>                         
                         </ul>
                     </fieldset>
-                    <input type="hidden" id="offset-input" name="offset" value="0"/>
-                    <input id="filter-form-submit-button" type="submit" value="Apply"/>
+                    <input type="hidden" class="offset-input" name="offset" value="0"/>
+                    <input class="filter-form-submit-button" type="submit" value="Apply"/>
                 </form>
             </s:filter-flyout-widget>
-            <h2 id="page-header-title">Activity Audit: Incident <c:out value="${param.incidentId}"/></h2>
+            <h2 class="page-header-title">Activity Audit: Incident <c:out value="${param.incidentId}"/></h2>
             <ul class="bracket-horizontal-nav">
                 <li><a href="${pageContext.request.contextPath}/reports/activity-audit">Transactions</a></li>
                 <li><a href="${pageContext.request.contextPath}/reports/activity-audit/event-audit">Event</a></li>
@@ -208,8 +208,8 @@
                         </tbody>
                     </table>
                     <div class="event-controls">
-                        <button id="previous-button" type="button" data-offset="${paginator.previousOffset}" value="Previous"${paginator.previous ? '' : ' disabled="disabled"'}>Previous</button>                        
-                        <button id="next-button" type="button" data-offset="${paginator.nextOffset}" value="Next"${paginator.next ? '' : ' disabled="disabled"'}>Next</button>                 
+                        <button class="previous-button" type="button" data-offset="${paginator.previousOffset}" value="Previous"${paginator.previous ? '' : ' disabled="disabled"'}>Previous</button>
+                        <button class="next-button" type="button" data-offset="${paginator.nextOffset}" value="Next"${paginator.next ? '' : ' disabled="disabled"'}>Next</button>
                     </div>
                 </c:otherwise>
             </c:choose>

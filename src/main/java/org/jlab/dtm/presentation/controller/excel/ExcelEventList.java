@@ -18,6 +18,7 @@ import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.model.EventDowntime;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.dtm.presentation.util.FilterSelectionMessage;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 import org.jlab.smoothness.presentation.util.ParamUtil;
 
@@ -75,7 +76,12 @@ public class ExcelEventList extends HttpServlet {
       throw new ServletException("Could not find event type with ID: " + eventTypeId);
     }
 
-    Boolean beamTransport = ParamUtil.convertAndValidateYNBoolean(request, "transport");
+    Boolean beamTransport = null;
+    try {
+      beamTransport = ParamUtil.convertAndValidateYNBoolean(request, "transport");
+    } catch (UserFriendlyException e) {
+      throw new ServletException("transport must be Y or N", e);
+    }
 
     String filters =
         FilterSelectionMessage.getReportMessage(

@@ -53,7 +53,7 @@
                 </c:if>       
             </div>
             <s:filter-flyout-widget  requiredMessage="true">
-                <form id="filter-form" method="get" action="monthly-repair">
+                <form class="filter-form" method="get" action="monthly-repair">
                     <fieldset>
                         <ul class="key-value-list">                         
                             <li>
@@ -74,11 +74,11 @@
                             </li>
                         </ul>
                     </fieldset>
-                    <input type="hidden" id="offset-input" name="offset" value="0"/>
-                    <input id="filter-form-submit-button" type="submit" value="Apply"/>                                
+                    <input type="hidden" class="offset-input" name="offset" value="0"/>
+                    <input class="filter-form-submit-button" type="submit" value="Apply"/>
                 </form>                                                    
             </s:filter-flyout-widget>
-            <h2 id="page-header-title"><c:out value="${title}"/></h2>
+            <h2 class="page-header-title"><c:out value="${title}"/></h2>
             <c:choose>
                 <c:when test="${start == null || end == null}">
                     <div class="message-box">Select a start date to continue</div>

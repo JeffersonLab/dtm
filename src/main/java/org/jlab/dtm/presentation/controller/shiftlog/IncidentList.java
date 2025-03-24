@@ -21,6 +21,7 @@ import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.dtm.presentation.util.FilterSelectionMessage;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 
 /**
@@ -80,7 +81,12 @@ public class IncidentList extends HttpServlet {
 
     String component = request.getParameter("component");
 
-    Boolean beamTransport = ParamConverter.convertYNBoolean(request, "transport");
+    Boolean beamTransport = null;
+    try {
+      beamTransport = ParamConverter.convertYNBoolean(request, "transport");
+    } catch (UserFriendlyException e) {
+      throw new ServletException("transport must be Y or N", e);
+    }
 
     if (start == null || end == null) {
       throw new ServletException("start and end dates must not be empty");

@@ -19,7 +19,7 @@
                 <button id="fullscreen-button">Full Screen</button>
             </div>
             <s:filter-flyout-widget ribbon="false" clearButton="true" resetButton="true">
-                <form id="filter-form" method="get" action="root-cause">
+                <form class="filter-form" method="get" action="root-cause">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range datetime="${true}" sevenAmOffset="${true}"/>
@@ -69,12 +69,12 @@
                     <input type="hidden" name="print" value="${fn:escapeXml(param.print)}">
                     <input type="hidden" name="fullscreen" value="${fn:escapeXml(param.fullscreen)}">
                     <input type="hidden" name="qualified" value=""/>            
-                    <input type="hidden" id="offset-input" name="offset" value="0"/>
+                    <input type="hidden" class="offset-input" name="offset" value="0"/>
                     <input type="hidden" name="max" value="${fn:escapeXml(param.max)}"/>
-                    <input id="filter-form-submit-button" type="submit" value="Apply"/>
+                    <input class="filter-form-submit-button" type="submit" value="Apply"/>
                 </form> 
             </s:filter-flyout-widget>
-            <h2 id="page-header-title"><c:out value="${title}"/></h2>                                                         
+            <h2 class="page-header-title"><c:out value="${title}"/></h2>
             <div class="message-box">
                 <c:out value="${selectionMessage}"/>
             </div>          
@@ -217,8 +217,8 @@
                         </table>
                         <c:if test="${paginator.totalRecords > param.max}">
                             <div class="pagination-controls">
-                                <button id="previous-button" type="button" data-offset="${paginator.previousOffset}" value="Previous"${paginator.previous ? '' : ' disabled="disabled"'}>Previous</button>                        
-                                <button id="next-button" type="button" data-offset="${paginator.nextOffset}" value="Next"${paginator.next ? '' : ' disabled="disabled"'}>Next</button>                 
+                                <button class="previous-button" type="button" data-offset="${paginator.previousOffset}" value="Previous"${paginator.previous ? '' : ' disabled="disabled"'}>Previous</button>
+                                <button class="next-button" type="button" data-offset="${paginator.nextOffset}" value="Next"${paginator.next ? '' : ' disabled="disabled"'}>Next</button>
                                 <span><c:out value="${paginationMessage}"/></span>
                             </div>
                         </c:if>

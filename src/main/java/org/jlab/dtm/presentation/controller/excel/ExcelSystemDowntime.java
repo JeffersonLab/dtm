@@ -18,6 +18,7 @@ import org.jlab.dtm.persistence.model.BeamSummaryTotals;
 import org.jlab.dtm.persistence.model.SystemDowntime;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.dtm.presentation.util.FilterSelectionMessage;
+import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 import org.jlab.smoothness.presentation.util.ParamUtil;
 
@@ -75,9 +76,19 @@ public class ExcelSystemDowntime extends HttpServlet {
 
     BigInteger categoryId = ParamConverter.convertBigInteger(request, "category");
 
-    Boolean beamTransport = ParamConverter.convertYNBoolean(request, "transport");
+    Boolean beamTransport = null;
+    try {
+      beamTransport = ParamConverter.convertYNBoolean(request, "transport");
+    } catch (UserFriendlyException e) {
+      throw new ServletException("transport must be Y or N", e);
+    }
 
-    boolean packed = ParamUtil.convertAndValidateYNBoolean(request, "packed", true);
+    boolean packed = false;
+    try {
+      packed = ParamUtil.convertAndValidateYNBoolean(request, "packed", true);
+    } catch (UserFriendlyException e) {
+      throw new ServletException("packed must be Y or N", e);
+    }
 
     Category selectedCategory = null;
 

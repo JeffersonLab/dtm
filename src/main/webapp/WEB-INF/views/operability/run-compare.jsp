@@ -29,7 +29,7 @@
                 <button id="fullscreen-button">Full Screen</button>
             </div>
             <s:filter-flyout-widget  requiredMessage="true">
-                <form id="filter-form" method="get" action="run-compare">
+                <form class="filter-form" method="get" action="run-compare">
                     <fieldset>
                         <legend>Runs</legend>
                         <ul id="run-list" class="key-value-list">
@@ -71,11 +71,11 @@
                         </ul>
                     </fieldset>
                     <input type="hidden" name="qualified" value=""/>
-                    <input type="hidden" id="offset-input" name="offset" value="0"/>
-                    <input id="filter-form-submit-button" type="submit" value="Apply"/>                                
+                    <input type="hidden" class="offset-input" name="offset" value="0"/>
+                    <input class="filter-form-submit-button" type="submit" value="Apply"/>
                 </form>                                                    
             </s:filter-flyout-widget>
-            <h2 id="page-header-title"><c:out value="${title}"/></h2>
+            <h2 class="page-header-title"><c:out value="${title}"/></h2>
             <c:choose>
                 <c:when test="${recordListList.isEmpty()}">
                     <div class="message-box">Select a date range to continue</div>
@@ -87,7 +87,7 @@
                 <c:otherwise>                      
                     <div class="message-box"><c:out value="${selectionMessage}"/></div>
                     <c:if test="${param.type ne 'table'}">
-                        <div id="chart-wrap">
+                        <div class="chart-wrap">
                             <div id="chart-placeholder"></div>
                         </div>
                     </c:if>

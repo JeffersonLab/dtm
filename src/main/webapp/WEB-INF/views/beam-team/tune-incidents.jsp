@@ -41,7 +41,7 @@
                 </div>
             </div>            
             <s:filter-flyout-widget  resetButton="true">
-                <form id="filter-form" method="get" action="tune-incidents">
+                <form class="filter-form" method="get" action="tune-incidents">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range datetime="${true}" sevenAmOffset="${true}"/>
@@ -74,12 +74,12 @@
                             </li>
                         </ul>
                     </fieldset>
-                    <input type="hidden" id="offset-input" name="offset" value="0"/>                                    
+                    <input type="hidden" class="offset-input" name="offset" value="0"/>
                     <input type="hidden" name="qualified" value=""/>                                     
-                    <input id="filter-form-submit-button" type="submit" value="Apply"/>                                
+                    <input class="filter-form-submit-button" type="submit" value="Apply"/>
                 </form>                                                    
             </s:filter-flyout-widget>
-            <h2 id="page-header-title"><c:out value="${title}"/></h2>
+            <h2 class="page-header-title"><c:out value="${title}"/></h2>
             <div class="message-box">
                 <c:out value="${selectionMessage}"/>
             </div>
@@ -131,8 +131,8 @@
                         </tbody>
                     </table>
                     <div class="paginator-button-panel">
-                        <button id="previous-button" type="button" data-offset="${paginator.previousOffset}" value="Previous"${paginator.previous ? '' : ' disabled="disabled"'}>Previous</button>                        
-                        <button id="next-button" type="button" data-offset="${paginator.nextOffset}" value="Next"${paginator.next ? '' : ' disabled="disabled"'}>Next</button>  
+                        <button class="previous-button" type="button" data-offset="${paginator.previousOffset}" value="Previous"${paginator.previous ? '' : ' disabled="disabled"'}>Previous</button>
+                        <button class="next-button" type="button" data-offset="${paginator.nextOffset}" value="Next"${paginator.next ? '' : ' disabled="disabled"'}>Next</button>
                         <form id="shift-log-form" method="get" action="${pageContext.request.contextPath}/shiftlog/incident-list.html">
                             <input type="hidden" name="start" value="${startFmt}"/>
                             <input type="hidden" name="end" value="${endFmt}"/>

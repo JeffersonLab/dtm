@@ -40,7 +40,7 @@ jlab.getDataSource = function (bar) {
     var durationMap = {},
         countMap = {},
         programBasis = $("#rateBasis").val() === 'program',
-        programHours = $("#filter-form").attr("data-program-hours") * 1;
+        programHours = $(".filter-form").attr("data-program-hours") * 1;
 
     $("#bar-chart-data-table tbody tr").each(function (index, value) {
         var timestamp = $("td:nth-child(1)", value).attr("data-date-utc"),
@@ -225,8 +225,8 @@ jlab.getDataSource = function (bar) {
 
         var $legendTable = $(tableStr);
 
-        var startFmt = $("#filter-form").attr("data-start"),
-            endFmt = $("#filter-form").attr("data-end");
+        var startFmt = $(".filter-form").attr("data-start"),
+            endFmt = $(".filter-form").attr("data-end");
 
         for (var i = 0; i < groupingNames.length; i++) {
             var url = '/dtm/reports/incident-downtime?';

@@ -105,15 +105,15 @@
                 </div>
             </div>            
             <s:filter-flyout-widget  requiredMessage="true">
-                <form id="filter-form" method="get" action="event-timeline">
+                <form class="filter-form" method="get" action="event-timeline">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range required="${true}" datetime="${true}" sevenAmOffset="${true}"/>
                     </fieldset>
-                    <input id="filter-form-submit-button" type="submit" value="Apply"/>
+                    <input class="filter-form-submit-button" type="submit" value="Apply"/>
                 </form>   
             </s:filter-flyout-widget>
-            <h2 id="page-header-title"><c:out value="${title}"/></h2>                            
+            <h2 class="page-header-title"><c:out value="${title}"/></h2>
             <c:choose>
                 <c:when test="${eventList == null}">
                     <div class="message-box">Select a start and end date to continue</div>
