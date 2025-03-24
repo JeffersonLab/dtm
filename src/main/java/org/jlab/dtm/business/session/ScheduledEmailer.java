@@ -1,7 +1,9 @@
 package org.jlab.dtm.business.session;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -14,7 +16,10 @@ import javax.mail.MessagingException;
 import org.jlab.dtm.persistence.model.SettingChangeAction;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.service.EmailService;
+import org.jlab.smoothness.business.service.UserAuthorizationService;
+import org.jlab.smoothness.business.util.IOUtil;
 import org.jlab.smoothness.business.util.TimeUtil;
+import org.jlab.smoothness.persistence.view.User;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -154,6 +159,26 @@ public class ScheduledEmailer implements SettingChangeAction {
 
       String subject = "DTM - SME " + username + " Action Needed";
       String toCsv = username + "@jlab.org";
+
+      boolean emailTesting = SettingsFacade.cachedSettings.is("EMAIL_TESTING_ENABLED");
+
+      if (emailTesting) {
+        LOGGER.log(Level.INFO, "EMAIL_TESTING_ENABLED=Y (using testlead role)");
+        UserAuthorizationService auth = UserAuthorizationService.getInstance();
+        List<User> userList = auth.getUsersInRole("testlead");
+
+        Set<String> addressList = new HashSet<>();
+
+        if (userList != null) {
+          for (User user : userList) {
+            addressList.add(user.getEmail());
+          }
+        }
+
+        if (!addressList.isEmpty()) {
+          toCsv = IOUtil.toCsv(addressList.toArray());
+        }
+      }
 
       EmailService emailService = new EmailService();
 

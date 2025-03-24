@@ -5,6 +5,8 @@ insert into DTM_OWNER.SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT, CHANG
 insert into DTM_OWNER.SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('LOGBOOK_ENABLED', 'N', 'BOOLEAN', 'Logbook integration enabled?', 'LOGBOOK', 0);
 insert into DTM_OWNER.SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('EMAIL_EXPERT_CC_LIST', 'tbrown@example.com,someoneelse@example.com', 'CSV', 'List of email addresses to CC when expert emails go out', 'EMAIL', 1);
 insert into DTM_OWNER.SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('LOGBOOK_LIST', 'TLOG', 'CSV', 'List of Logbooks to send to when generating log entries', 'LOGBOOK', 1);
+insert into DTM_OWNER.SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('EMAIL_TESTING_ENABLED', 'Y', 'BOOLEAN', 'Send all emails to testlead user group', 'EMAIL', 2);
+
 
 -- Populate EventType
 insert into dtm_owner.event_type (event_type_id, name, weight, abbreviation) values(1, 'Accelerator', 1, 'ACC');

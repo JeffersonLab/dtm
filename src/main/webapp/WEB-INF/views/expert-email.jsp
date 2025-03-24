@@ -6,10 +6,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <c:set var="title" value="Expert Action Needed"/>
 <fmt:setLocale value="en_US" scope="session"/>
-<c:set var="pathPrefix" value="${pageContext.request.contextPath}"/>
-<c:if test="${param.email eq 'Y'}">
-    <c:set var="pathPrefix" value="https://ace.jlab.org/dtm"/>
-</c:if>
+<c:set var="pathPrefix" value="${env['FRONTEND_SERVER_URL']}/dtm"/>
 <t:loose-page title="${title}" category="Expert Email" description="Expert Email Template">
     <jsp:attribute name="stylesheets">
             <style>

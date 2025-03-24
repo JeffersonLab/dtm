@@ -36,6 +36,8 @@ public final class ImmutableSettings {
   public boolean is(String key) {
     Setting s = map.get(key);
 
+    if (s == null) return false;
+
     // assert s.getType() == SettingsType.BOOLEAN;
 
     return "Y".equals(s.getValue());
