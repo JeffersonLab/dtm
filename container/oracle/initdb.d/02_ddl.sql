@@ -447,6 +447,28 @@ select component_id,
 from dtm_owner.component
 );*/
 
+
+CREATE OR REPLACE VIEW DTM_OWNER.ALL_SYSTEMS AS (
+       select system_id, name, category_id, weight, srm_yn from dtm_owner.system
+);
+
+/*
+create view DTM_OWNER.ALL_SYSTEMS as
+(
+select distinct(system_id), name, category_id, weight, 'N'
+from srm_owner.system_aud
+         inner join srm_owner.application_revision_info using (rev)
+where revtype = 2
+union
+select system_id,
+       name,
+       category_id,
+       weight,
+       srm_yn
+from dtm_owner.system
+);
+ */
+
 create view dtm_owner.SYSTEM_CATEGORY_CEBAF as
 select system_id, category_id from (
 SELECT system_id,

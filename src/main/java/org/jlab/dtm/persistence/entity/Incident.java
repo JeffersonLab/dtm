@@ -72,7 +72,7 @@ public class Incident implements Serializable {
 
   @JoinColumn(name = "SYSTEM_ID", referencedColumnName = "SYSTEM_ID", nullable = false)
   @ManyToOne(optional = false)
-  private SystemEntity system;
+  private EternalSystem system;
 
   @JoinColumn(name = "EVENT_ID", referencedColumnName = "EVENT_ID", nullable = false)
   @ManyToOne(optional = false)
@@ -190,11 +190,11 @@ public class Incident implements Serializable {
     this.title = title;
   }
 
-  public SystemEntity getSystem() {
+  public EternalSystem getSystem() {
     return system;
   }
 
-  public void setSystem(SystemEntity system) {
+  public void setSystem(EternalSystem system) {
     this.system = system;
   }
 
