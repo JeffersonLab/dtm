@@ -18,7 +18,7 @@
     <jsp:attribute name="scripts">
         <script src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/dtm.js"></script>
         <script>
-            jlab.logbookEnabled = ${setting.logbookEnabled ? 'true' : 'false'};
+            jlab.logbookEnabled = ${settings.is('LOGBOOK_ENABLED') ? 'true' : 'false'};
         </script>
         <jsp:invoke fragment="scripts"/>
     </jsp:attribute>

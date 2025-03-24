@@ -74,7 +74,7 @@
                             <dt>Permit To Work:</dt>
                             <dd><c:out value="${empty incident.permitToWork ? 'None' : incident.permitToWork}"/></dd>
                         </dl>
-                        <c:if test="${setting.logbookEnabled}">
+                        <c:if test="${settings.is('LOGBOOK_ENABLED')}">
                             <h3>Log Entries</h3>
                             <table id="log-entries-table">
                                 <tbody>

@@ -20,7 +20,7 @@ import org.jlab.dtm.persistence.entity.Setting;
  * refreshed.
  */
 public final class ImmutableSettings {
-  private Map<String, Setting> map;
+  private final Map<String, Setting> map;
 
   public ImmutableSettings(List<Setting> settingList) {
     map = new HashMap<String, Setting>();

@@ -74,7 +74,7 @@
                 <th>Description</th>
                 <th class="incident-period-header">Period</th>           
                 <th class="incident-cause-header">Cause</th>
-                <c:if test="${setting.logbookEnabled}">
+                <c:if test="${settings.is('LOGBOOK_ENABLED')}">
                     <th class="incident-log-entries-header">Log Entries</th>
                 </c:if>
             </tr>
@@ -194,7 +194,7 @@
                             </c:if>
                         </span> 
                     </td>
-                    <c:if test="${setting.logbookEnabled}">
+                    <c:if test="${settings.is('LOGBOOK_ENABLED')}">
                         <td class="log-entry-cell">
                         <span class="cell-subfield">
                         </span>
