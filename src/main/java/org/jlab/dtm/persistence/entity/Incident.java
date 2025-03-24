@@ -136,6 +136,10 @@ public class Incident implements Serializable {
   @Temporal(TemporalType.TIMESTAMP)
   private Date rarUploadedDate;
 
+  @Size(max = 64)
+  @Column(name = "PERMIT_TO_WORK", nullable = true, length = 64)
+  private String permitToWork;
+
   public Incident() {}
 
   public String getRootCause() {
@@ -252,6 +256,14 @@ public class Incident implements Serializable {
 
   public String getRarExt() {
     return rarExt;
+  }
+
+  public String getPermitToWork() {
+    return permitToWork;
+  }
+
+  public void setPermitToWork(String permitToWork) {
+    this.permitToWork = permitToWork;
   }
 
   public long getElapsedMillis() {

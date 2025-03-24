@@ -37,6 +37,7 @@ public class IncidentReportService {
     private final String eventTitle;
     private final String title;
     private final String summary;
+    private final String permitToWork;
     private final String type;
     private final String resolution;
     private final double downtimeHoursBounded;
@@ -68,6 +69,7 @@ public class IncidentReportService {
         String eventTitle,
         String title,
         String summary,
+        String permitToWork,
         String type,
         String resolution,
         String reviewedByUsername,
@@ -94,6 +96,7 @@ public class IncidentReportService {
       this.eventTitle = eventTitle;
       this.title = title;
       this.summary = summary;
+      this.permitToWork = permitToWork;
       this.type = type;
       this.resolution = resolution;
       this.downtimeHoursBounded = downtimeHoursBounded.doubleValue();
@@ -146,6 +149,10 @@ public class IncidentReportService {
 
     public String getSummary() {
       return summary;
+    }
+
+    public String getPermitToWork() {
+      return permitToWork;
     }
 
     public String getType() {
@@ -327,7 +334,7 @@ public class IncidentReportService {
     int max = params.getMax();
 
     String sql =
-        "select a.incident_id, a.event_id, b.event_type_id, b.title as event_title, a.title, a.summary, e.abbreviation as type, resolution, a.reviewed_username as reviewed_by_username, ";
+        "select a.incident_id, a.event_id, b.event_type_id, b.title as event_title, a.title, a.summary, a.permit_to_work, e.abbreviation as type, resolution, a.reviewed_username as reviewed_by_username, ";
 
     if (end != null) {
       sql = sql + "interval_to_seconds(least(coalesce(a.time_up, sysdate), :end) - ";
@@ -386,7 +393,7 @@ public class IncidentReportService {
     LOGGER.log(Level.FINEST, "query: {0}", sql);
 
     String limitedQuery =
-        "select incident_id, event_id, event_type_id, event_title, title, summary, type, resolution, reviewed_by_username, bounded_duration_hours, unbounded_duration_hours, time_down, time_up, system_name, system_id, alpha_cat_name, alpha_cat_id, component_name, component_id, time_down_bounded, time_up_bounded, frequency, missing_explanation, expert_acknowledged, root_cause, rar_id from (select z.*, ROWNUM rnum from ("
+        "select incident_id, event_id, event_type_id, event_title, title, summary, permit_to_work, type, resolution, reviewed_by_username, bounded_duration_hours, unbounded_duration_hours, time_down, time_up, system_name, system_id, alpha_cat_name, alpha_cat_id, component_name, component_id, time_down_bounded, time_up_bounded, frequency, missing_explanation, expert_acknowledged, root_cause, rar_id from (select z.*, ROWNUM rnum from ("
             + sql
             + ") z where ROWNUM <= "
             + (offset + max)

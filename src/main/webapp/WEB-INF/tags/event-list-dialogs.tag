@@ -77,6 +77,14 @@
                                 <textarea id="summary" maxlength="2048"></textarea>
                             </div>
                         </li>
+                        <li>
+                            <div class="li-key">
+                                <label for="permit-to-work">Permit To Work</label>
+                            </div>
+                            <div class="li-value">
+                                <input type="text" id="permit-to-work" maxlength="64"/>
+                            </div>
+                        </li>
                     </ul>
                 </fieldset>  
                 <fieldset>

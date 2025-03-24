@@ -55,6 +55,7 @@ public class IncidentAction extends HttpServlet {
       Date eventTimeUp = DtmParamConverter.convertJLabDateTime(request, "eventTimeUp");
       String title = request.getParameter("title");
       String summary = request.getParameter("summary");
+      String permitToWork = request.getParameter("permitToWork");
       String eventTitle = request.getParameter("eventTitle");
       BigInteger componentId = ParamConverter.convertBigInteger(request, "componentId");
       String componentName = request.getParameter("componentName");
@@ -77,6 +78,7 @@ public class IncidentAction extends HttpServlet {
                 timeUp,
                 title,
                 summary,
+                permitToWork,
                 componentId,
                 componentName,
                 eventTitle,
@@ -93,6 +95,7 @@ public class IncidentAction extends HttpServlet {
             timeUp,
             title,
             summary,
+            permitToWork,
             componentId,
             componentName,
             eventTitle,
@@ -109,6 +112,7 @@ public class IncidentAction extends HttpServlet {
             timeUp,
             title,
             summary,
+            permitToWork,
             componentId,
             componentName,
             eventTitle,

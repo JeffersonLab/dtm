@@ -71,6 +71,8 @@
                                 <c:out value="${incident.system.name}"/> &gt;
                                 <c:out value="${incident.component.name}"/>
                             </dd>
+                            <dt>Permit To Work:</dt>
+                            <dd><c:out value="${empty incident.permitToWork ? 'None' : incident.permitToWork}"/></dd>
                         </dl>
                         <c:if test="${setting.logbookEnabled}">
                             <h3>Log Entries</h3>

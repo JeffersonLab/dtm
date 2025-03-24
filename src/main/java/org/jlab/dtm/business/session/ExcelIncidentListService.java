@@ -50,6 +50,7 @@ public class ExcelIncidentListService {
     row1.createCell(15).setCellValue("REVIEWED BY USERNAME");
     row1.createCell(16).setCellValue("RESOLUTION");
     row1.createCell(17).setCellValue("REPAIRED_BY");
+    row1.createCell(18).setCellValue("PERMIT_TO_WORK");
 
     CreationHelper createHelper = wb.getCreationHelper();
     CellStyle numberStyle = wb.createCellStyle();
@@ -117,6 +118,12 @@ public class ExcelIncidentListService {
         row.createCell(17).setCellValue("");
       } else {
         row.createCell(17).setCellValue(repairedByCsv);
+      }
+      String permitToWork = incident.getPermitToWork();
+      if (permitToWork == null) {
+        row.createCell(18).setCellValue("");
+      } else {
+        row.createCell(18).setCellValue(permitToWork);
       }
     }
 
