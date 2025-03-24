@@ -453,9 +453,10 @@ CREATE OR REPLACE VIEW DTM_OWNER.ALL_SYSTEMS AS (
 );
 
 /*
+ * GRANT SELECT ON SRM_OWNER.SYSTEM_AUD TO DTM_OWNER;
 create view DTM_OWNER.ALL_SYSTEMS as
 (
-select distinct(system_id), name, category_id, weight, 'N'
+select distinct(system_id), name, category_id, weight, 'N' as srm_yn
 from srm_owner.system_aud
          inner join srm_owner.application_revision_info using (rev)
 where revtype = 2
