@@ -529,7 +529,7 @@ $(document).on("click", "#csv-menu-item", function () {
 });
 $(document).on("change", "#max-select", function () {
     $("#max-input").val($(this).val());
-    $("#filter-form").submit();
+    $(".filter-form").submit();
 });
 $(document).on("click", ".reload-button", function(){
     document.location.reload(true);

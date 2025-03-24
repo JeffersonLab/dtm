@@ -40,7 +40,7 @@
                 </div>
             </div>
             <s:filter-flyout-widget  requiredMessage="true" resetButton="true">
-                <form id="filter-form" method="get" action="joule">
+                <form class="filter-form" method="get" action="joule">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range required="${true}" datetime="${true}" sevenAmOffset="{true}"/>

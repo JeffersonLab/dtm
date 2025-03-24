@@ -16,7 +16,7 @@
     <jsp:body>
         <section>
             <s:filter-flyout-widget ribbon="true" clearButton="true">
-                <form id="filter-form" method="get" action="${pageContext.request.contextPath}/events">
+                <form class="filter-form" method="get" action="${pageContext.request.contextPath}/events">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range datetime="${true}" sevenAmOffset="${true}"/>

@@ -29,7 +29,7 @@
                 <button id="fullscreen-button">Full Screen</button>
             </div>
             <s:filter-flyout-widget  requiredMessage="true">
-                <form id="filter-form" method="get" action="run-compare">
+                <form class="filter-form" method="get" action="run-compare">
                     <fieldset>
                         <legend>Runs</legend>
                         <ul id="run-list" class="key-value-list">

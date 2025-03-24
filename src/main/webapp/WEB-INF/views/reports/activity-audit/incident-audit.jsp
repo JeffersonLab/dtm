@@ -14,7 +14,7 @@
     <jsp:body>
         <section>
             <s:filter-flyout-widget requiredMessage="true">
-                <form id="filter-form" method="get" action="incident-audit">
+                <form class="filter-form" method="get" action="incident-audit">
                     <fieldset>
                         <legend>Filter</legend>
                         <ul class="key-value-list">                      

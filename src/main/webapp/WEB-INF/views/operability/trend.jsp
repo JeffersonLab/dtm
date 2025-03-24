@@ -28,7 +28,7 @@
                 </div>      
             </div>
             <s:filter-flyout-widget  requiredMessage="true">
-                <form id="filter-form" method="get" action="trend">
+                <form class="filter-form" method="get" action="trend">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range required="${true}" datetime="${true}" sevenAmOffset="{true}"/>

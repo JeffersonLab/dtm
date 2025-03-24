@@ -19,7 +19,7 @@
                 <button id="fullscreen-button">Full Screen</button>
             </div>
             <s:filter-flyout-widget ribbon="false" clearButton="false" resetButton="false">
-                <form id="filter-form" method="get" action="weekly-root-cause">
+                <form class="filter-form" method="get" action="weekly-root-cause">
                     <fieldset>
                         <ul class="key-value-list">
                         <li>

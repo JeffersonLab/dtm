@@ -44,7 +44,7 @@
                 </div>
             </div>            
             <s:filter-flyout-widget  requiredMessage="true">
-                <form id="filter-form" method="get" action="downtime-summary">
+                <form class="filter-form" method="get" action="downtime-summary">
                     <div id="filter-form-panel">
                         <fieldset>
                             <legend>Time</legend>

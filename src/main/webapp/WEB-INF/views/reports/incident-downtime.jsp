@@ -49,7 +49,7 @@
                 </div>
             </div>            
             <s:filter-flyout-widget  requiredMessage="true" resetButton="true">
-                <form id="filter-form" method="get" action="incident-downtime">
+                <form class="filter-form" method="get" action="incident-downtime">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range required="${true}" datetime="${true}" sevenAmOffset="${true}"/>

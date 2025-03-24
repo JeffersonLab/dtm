@@ -45,7 +45,7 @@
                 </div>
             </div>            
             <s:filter-flyout-widget  requiredMessage="true">
-                <form id="filter-form" method="get" action="device-trend">
+                <form class="filter-form" method="get" action="device-trend">
                     <div id="filter-form-panel">
                         <fieldset>
                             <legend>Time</legend>

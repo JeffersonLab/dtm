@@ -50,7 +50,7 @@
                 </div>
             </div>            
             <s:filter-flyout-widget  requiredMessage="true" resetButton="true">
-                <form id="filter-form" method="get" action="tune-comparison">
+                <form class="filter-form" method="get" action="tune-comparison">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range datetime="${true}" sevenAmOffset="${true}"/>

@@ -36,7 +36,7 @@
                 </div>
             </div>            
             <s:filter-flyout-widget  requiredMessage="true">
-                <form id="filter-form" method="get" action="weekly-repair">
+                <form class="filter-form" method="get" action="weekly-repair">
                     <fieldset>
                         <ul class="key-value-list">                         
                             <li>

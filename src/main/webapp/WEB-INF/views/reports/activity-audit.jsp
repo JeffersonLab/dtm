@@ -13,7 +13,7 @@
     <jsp:body>
         <section>
             <s:filter-flyout-widget>
-                <form id="filter-form" method="get" action="activity-audit">
+                <form class="filter-form" method="get" action="activity-audit">
                     <fieldset>
                         <legend>Filter</legend>
                         <ul class="key-value-list">                      

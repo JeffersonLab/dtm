@@ -45,7 +45,7 @@
                 </div>
             </div>            
             <s:filter-flyout-widget  requiredMessage="true" resetButton="true">
-                <form id="filter-form" method="get" action="fsd-summary" data-max-duration="${fn:escapeXml(param.maxDuration)}" data-max-duration-units="${fn:escapeXml(param.maxDurationUnits)}" data-max-types="${fn:escapeXml(param.maxTypes)}" data-start="${fn:escapeXml(startFmt)}" data-end="${fn:escapeXml(endFmt)}" data-program-hours="${fn:escapeXml(programHours)}" data-period-hours="${fn:escapeXml(periodHours)}" data-sad-trips="${fn:escapeXml(param.sadTrips)}">
+                <form class="filter-form" method="get" action="fsd-summary" data-max-duration="${fn:escapeXml(param.maxDuration)}" data-max-duration-units="${fn:escapeXml(param.maxDurationUnits)}" data-max-types="${fn:escapeXml(param.maxTypes)}" data-start="${fn:escapeXml(startFmt)}" data-end="${fn:escapeXml(endFmt)}" data-program-hours="${fn:escapeXml(programHours)}" data-period-hours="${fn:escapeXml(periodHours)}" data-sad-trips="${fn:escapeXml(param.sadTrips)}">
                     <div id="filter-form-panel" class="scrollable-filter-form">
                         <fieldset>
                             <legend>Time</legend>

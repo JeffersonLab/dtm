@@ -19,7 +19,7 @@
                 <button id="fullscreen-button">Full Screen</button>
             </div>
             <s:filter-flyout-widget ribbon="false" clearButton="true" resetButton="true">
-                <form id="filter-form" method="get" action="root-cause">
+                <form class="filter-form" method="get" action="root-cause">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range datetime="${true}" sevenAmOffset="${true}"/>

@@ -41,7 +41,7 @@
                 </div>
             </div>            
             <s:filter-flyout-widget  resetButton="true">
-                <form id="filter-form" method="get" action="tune-incidents">
+                <form class="filter-form" method="get" action="tune-incidents">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range datetime="${true}" sevenAmOffset="${true}"/>

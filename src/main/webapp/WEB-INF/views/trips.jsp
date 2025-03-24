@@ -20,7 +20,7 @@
             .fault-id-header {
                 width: 150px;
             }
-            #filter-flyout-panel {
+            .filter-flyout-panel {
                 width: 650px;
             }
             /*#accordion .event-header {
@@ -49,7 +49,7 @@
                 </div>
             </div> 
             <s:filter-flyout-widget ribbon="true" resetButton="true">
-                <form id="filter-form" method="get" action="trips">
+                <form class="filter-form" method="get" action="trips">
                     <div id="filter-form-panel" class="scrollable-filter-form">
                         <fieldset>
                             <legend>Time</legend>

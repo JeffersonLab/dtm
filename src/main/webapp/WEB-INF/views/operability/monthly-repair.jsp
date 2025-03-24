@@ -53,7 +53,7 @@
                 </c:if>       
             </div>
             <s:filter-flyout-widget  requiredMessage="true">
-                <form id="filter-form" method="get" action="monthly-repair">
+                <form class="filter-form" method="get" action="monthly-repair">
                     <fieldset>
                         <ul class="key-value-list">                         
                             <li>

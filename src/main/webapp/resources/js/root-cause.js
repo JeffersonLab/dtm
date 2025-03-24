@@ -154,7 +154,7 @@ $(document).on("click", "#save-sad-rar-button", function () {
 });
 
 $(document).on("change", "input[name=incidentMask], #sort-select", function () {
-    $("#filter-form").submit();
+    $(".filter-form").submit();
 });
 
 $(document).on("change", "#time-down", function () {
