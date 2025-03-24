@@ -295,10 +295,10 @@ jlab.addTooltips = function (stack, includeHours, includeDays) {
         "z-index": 3
     }).appendTo("body");
 
-    $("#chart-placeholder").bind("plothover", function (event, pos, item) {
+    $(".chart-placeholder").bind("plothover", function (event, pos, item) {
 
         if (item) {
-            $("#chart-placeholder").css("cursor", "pointer");
+            $(".chart-placeholder").css("cursor", "pointer");
 
             /*WARNING: using utc as it is our "fake" local time!*/
             var x = item.datapoint[0].toFixed(2) * 1,
@@ -327,7 +327,7 @@ jlab.addTooltips = function (stack, includeHours, includeDays) {
                 .css({top: item.pageY - 30, left: item.pageX + 5})
                 .fadeIn(200);
         } else {
-            $("#chart-placeholder").css("cursor", "default");
+            $(".chart-placeholder").css("cursor", "default");
             $("#tooltip").stop().hide();
         }
     });
@@ -368,7 +368,7 @@ jlab.doBarChart = function (stack) {
     }
 
     if (ds.length === 0) {
-        $('<div>No data to chart</div>').insertBefore($("#chart-placeholder"));
+        $('<div>No data to chart</div>').insertBefore($(".chart-placeholder"));
         return;
     }
 
@@ -399,7 +399,7 @@ jlab.doBarChart = function (stack) {
     var minX = startMillis - (60 * 60 * 1000 * (approximateHours / 2)), /* half interval offset due to 'centered' bars*/
         maxX = (endMillis * 1) + (60 * 60 * 1000 * (approximateHours / 2)); /* x 1 to idicate number not string; half interval offset due to 'centered' bars*/
 
-    $("#chart-wrap").addClass("has-y-axis-label").addClass("has-x-axis-label");
+    $(".chart-wrap").addClass("has-y-axis-label").addClass("has-x-axis-label");
 
     var options = {
         series: {
@@ -458,7 +458,7 @@ jlab.doBarChart = function (stack) {
         options.yaxes[0].max = maxY;
     }
 
-    jlab.flotplot = $.plot($("#chart-placeholder"), ds, options);
+    jlab.flotplot = $.plot($(".chart-placeholder"), ds, options);
 
     //console.log('options', options);
     //console.log('flotplot', jlab.flotplot);
@@ -466,7 +466,7 @@ jlab.doBarChart = function (stack) {
     jlab.addAxisLabels(binSize);
 
     if (stack) {
-        $("#chart-placeholder").on("plotclick", function (event, pos, item) {
+        $(".chart-placeholder").on("plotclick", function (event, pos, item) {
             if (item) {
 
                 /*WARNING: using our "fake" UTC local time*/
@@ -520,7 +520,7 @@ $(function () {
     jlab.flotplot = null;
     jlab.flotSourceColumnClass = 'duration-data';
 
-    if ($("#chart-placeholder").length > 0) {
+    if ($(".chart-placeholder").length > 0) {
         var selected = $("#chart option:selected").val();
 
         if (selected.startsWith('bar')) {

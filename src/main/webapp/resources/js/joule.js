@@ -223,14 +223,14 @@ jlab.getXAxisInfo = function() {
 };
 
 jlab.doChart = function(ds, options, xAxisInfo) {
-    $("#chart-wrap").addClass("has-y-axis-label");
+    $(".chart-wrap").addClass("has-y-axis-label");
 
     options.xaxis.min = xAxisInfo.minX;
     options.xaxis.max = xAxisInfo.maxX;
     options.xaxis.minTickSize = xAxisInfo.minTickSizeX;
     //options.xaxis.timeformat = xAxisInfo.timeformat;
 
-    jlab.flotplot = $.plot($("#chart-placeholder"), ds, options);
+    jlab.flotplot = $.plot($(".chart-placeholder"), ds, options);
 };
 
 $(document).on("click", ".default-reset-panel", function () {
@@ -270,15 +270,15 @@ $(function(){
     switch(type) {
         case 'point':
             jlab.doPointChart();
-            $("#chart-placeholder").addClass("point-chart");
+            $(".chart-placeholder").addClass("point-chart");
             break;
         case 'line':
             jlab.doLineChart();
-            $("#chart-placeholder").addClass("line-chart");
+            $(".chart-placeholder").addClass("line-chart");
             break;
         case 'bar':
             jlab.doBarChart();
-            $("#chart-placeholder").addClass("bar-chart");
+            $(".chart-placeholder").addClass("bar-chart");
             break;
     }
 });

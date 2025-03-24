@@ -169,7 +169,7 @@
                     </div>
                     <c:choose>
                         <c:when test="${fn:length(trendList) > 0}">
-                            <div id="chart-placeholder" style="${param.chart eq 'table' ? 'display: none;' : ''}"></div>    
+                            <div class="chart-placeholder" style="${param.chart eq 'table' ? 'display: none;' : ''}"></div>
                         </c:when>
                         <c:otherwise>
                             <div>No data to chart</div>

@@ -4,7 +4,7 @@ jlab.ticks = [];
 
 jlab.mousePosition = {x: 0, y: 0};
 
-$(document).on("mousemove", "#chart-placeholder", function (e) {
+$(document).on("mousemove", ".chart-placeholder", function (e) {
     jlab.mousePosition.x = e.clientX || e.pageX;
     jlab.mousePosition.y = e.clientY || e.pageY;
 });
@@ -45,7 +45,7 @@ jlab.addParetoTooltips = function () {
         opacity: 0.80
     }).appendTo("body");
 
-    $("#chart-placeholder").bind("plothover", function (event, pos, item) {
+    $(".chart-placeholder").bind("plothover", function (event, pos, item) {
 
         if (item) {
             var x = item.datapoint[0],
@@ -75,7 +75,7 @@ jlab.addPieTooltips = function () {
         opacity: 0.80
     }).appendTo("body");
 
-    $("#chart-placeholder").bind("plothover", function (event, pos, item) {
+    $(".chart-placeholder").bind("plothover", function (event, pos, item) {
 
         if (item) {
             var x = item.datapoint[0].toFixed(1) * 1,
@@ -213,11 +213,11 @@ jlab.doParetoChart = function () {
 
     jlab.addParetoTooltips();
 
-    var fontSize = parseInt($("#chart-placeholder").css("font-size"));
+    var fontSize = parseInt($(".chart-placeholder").css("font-size"));
 
-    $("#chart-wrap").addClass("has-x-axis-label").addClass("has-y-axis-label");
+    $(".chart-wrap").addClass("has-x-axis-label").addClass("has-y-axis-label");
 
-    jlab.flotplot = $.plot($("#chart-placeholder"), ds, {
+    jlab.flotplot = $.plot($(".chart-placeholder"), ds, {
         yaxes: [{
                 min: 0,
                 max: totalDuration,
@@ -318,9 +318,9 @@ jlab.doRowChart = function () {
         color: "lightblue"
     });
 
-    $("#chart-placeholder").height(ticks.length * 75);
+    $(".chart-placeholder").height(ticks.length * 75);
 
-    jlab.flotplot = $.plot($("#chart-placeholder"), ds, {
+    jlab.flotplot = $.plot($(".chart-placeholder"), ds, {
         series: {
             grow: {
                 active: true,
@@ -431,11 +431,9 @@ jlab.doPieChart = function () {
         });
     }
 
-    //$("#chart-placeholder").height(500);
+    $(".chart-wrap").addClass("chart-wrap-backdrop");
 
-    $("#chart-wrap").addClass("chart-wrap-backdrop");
-
-    jlab.flotplot = $.plot($("#chart-placeholder"), ds, {
+    jlab.flotplot = $.plot($(".chart-placeholder"), ds, {
         series: {
             pie: {
                 show: true
@@ -498,7 +496,7 @@ jlab.chartChange = function () {
         jlab.flotplot.shutdown();
     }
 
-    $("#chart-placeholder").show();
+    $(".chart-placeholder").show();
     $("#data-table-panel").hide();
 
     var selected = $("#chart option:selected").val();
@@ -522,7 +520,7 @@ jlab.chartChange = function () {
     } else if (selected.startsWith('pareto')) {
         jlab.doParetoChart();
     } else {
-        $("#chart-placeholder").hide();
+        $(".chart-placeholder").hide();
         $("#data-table-panel").show();
     }
 };
@@ -596,7 +594,7 @@ $(function () {
     jlab.flotplot = null;
     jlab.flotSourceColumnClass = 'downtime';
 
-    if ($("#chart-placeholder").length > 0) {
+    if ($(".chart-placeholder").length > 0) {
         /*jlab.doRowChart();*/
         /*$("#data").change();*/
         jlab.doChartLoad();

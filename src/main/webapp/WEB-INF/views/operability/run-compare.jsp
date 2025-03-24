@@ -88,7 +88,7 @@
                     <div class="message-box"><c:out value="${selectionMessage}"/></div>
                     <c:if test="${param.type ne 'table'}">
                         <div class="chart-wrap">
-                            <div id="chart-placeholder"></div>
+                            <div class="chart-placeholder"></div>
                         </div>
                     </c:if>
                     <div id="table-scroll-viewport" style="overflow: auto;">

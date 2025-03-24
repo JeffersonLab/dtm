@@ -73,12 +73,12 @@ jlab.getLineData = function(xAxisInfo) {
 
 
 jlab.doChart = function(ds, options, xAxisInfo) {
-    $("#chart-wrap").addClass("has-y-axis-label has-x-axis-label");
+    $(".chart-wrap").addClass("has-y-axis-label has-x-axis-label");
 
     options.xaxis.minTickSize = 1;
     options.xaxis.tickDecimals = 0;
 
-    jlab.flotplot = $.plot($("#chart-placeholder"), ds, options);
+    jlab.flotplot = $.plot($(".chart-placeholder"), ds, options);
 };
 
 jlab.doLineChart = function() {
@@ -145,7 +145,7 @@ $(function () {
     switch(type) {
         case 'line':
             jlab.doLineChart();
-            $("#chart-placeholder").addClass("line-chart");
+            $(".chart-placeholder").addClass("line-chart");
             break;
     }
 });

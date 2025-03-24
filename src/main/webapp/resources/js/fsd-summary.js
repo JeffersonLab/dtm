@@ -404,10 +404,10 @@ jlab.addTooltips = function (stack, includeHours, includeDays) {
         "z-index": 3
     }).appendTo("body");
 
-    $("#chart-placeholder").bind("plothover", function (event, pos, item) {
+    $(".chart-placeholder").bind("plothover", function (event, pos, item) {
 
         if (item) {
-            $("#chart-placeholder").css("cursor", "pointer");
+            $(".chart-placeholder").css("cursor", "pointer");
 
             /*WARNING: using utc as it is our "fake" local time!*/
             var x = item.datapoint[0].toFixed(2) * 1,
@@ -436,7 +436,7 @@ jlab.addTooltips = function (stack, includeHours, includeDays) {
                     .css({top: item.pageY - 30, left: item.pageX + 5})
                     .fadeIn(200);
         } else {
-            $("#chart-placeholder").css("cursor", "default");
+            $(".chart-placeholder").css("cursor", "default");
             $("#tooltip").stop().hide();
         }
     });
@@ -477,15 +477,15 @@ jlab.doLineChart = function (includePoints) {
     }
 
     if (ds.length === 0) {
-        $('<div>No data to chart</div>').insertBefore($("#chart-placeholder"));
+        $('<div>No data to chart</div>').insertBefore($(".chart-placeholder"));
         return;
     }
 
     jlab.addTooltips(false, binSize === 'HOUR');
 
-    $("#chart-wrap").addClass("has-y-axis-label").addClass("has-x-axis-label");
+    $(".chart-wrap").addClass("has-y-axis-label").addClass("has-x-axis-label");
 
-    jlab.flotplot = $.plot($("#chart-placeholder"), ds, {
+    jlab.flotplot = $.plot($(".chart-placeholder"), ds, {
         series: {
             lines: {
                 show: true
@@ -546,7 +546,7 @@ jlab.doBarChart = function (stack) {
     }
 
     if (ds.length === 0) {
-        $('<div>No data to chart</div>').insertBefore($("#chart-placeholder"));
+        $('<div>No data to chart</div>').insertBefore($(".chart-placeholder"));
         return;
     }
 
@@ -584,7 +584,7 @@ jlab.doBarChart = function (stack) {
     var minX = startMillis - (60 * 60 * 1000 * (approximateHours / 2)), /* half interval offset due to 'centered' bars*/
             maxX = (endMillis * 1) + (60 * 60 * 1000 * (approximateHours / 2)); /* x 1 to idicate number not string; half interval offset due to 'centered' bars*/
 
-    $("#chart-wrap").addClass("has-y-axis-label").addClass("has-x-axis-label");
+    $(".chart-wrap").addClass("has-y-axis-label").addClass("has-x-axis-label");
 
     var options = {
         series: {
@@ -643,18 +643,18 @@ jlab.doBarChart = function (stack) {
         options.yaxes[0].max = maxY;
     }
 
-    jlab.flotplot = $.plot($("#chart-placeholder"), ds, options);
+    jlab.flotplot = $.plot($(".chart-placeholder"), ds, options);
 
     jlab.addAxisLabels(binSize);
 
-    $("#chart-placeholder").resize(function () {
+    $(".chart-placeholder").resize(function () {
         jlab.doMarkingLines(chartData, minX, maxX);
     });
 
     jlab.doMarkingLines(chartData, minX, maxX);
 
     if (stack) {
-        $("#chart-placeholder").on("plotclick", function (event, pos, item) {
+        $(".chart-placeholder").on("plotclick", function (event, pos, item) {
             if (item) {
 
                 /*WARNING: using our "fake" UTC local time*/
@@ -713,7 +713,7 @@ jlab.doMarkingLines = function (chartData, minX, maxX) {
             dailyRate,
             p1 = jlab.flotplot.pointOffset({x: minX, y: 0}),
             p2 = jlab.flotplot.pointOffset({x: maxX + 1, y: 0}),
-            rightValue = ($("#chart-placeholder").width() - p2.left);
+            rightValue = ($(".chart-placeholder").width() - p2.left);
 
     if (chartData.grouped) {
         var c75_100 = chartData.tripPerHourMap['RF (C75/100)'] || 0,
@@ -737,20 +737,13 @@ jlab.doMarkingLines = function (chartData, minX, maxX) {
 
         p1 = jlab.flotplot.pointOffset({x: minX, y: yValue}),
                 p2 = jlab.flotplot.pointOffset({x: maxX + 1, y: yValue}),
-                rightValue = ($("#chart-placeholder").width() - p2.left);
+                rightValue = ($(".chart-placeholder").width() - p2.left);
 
         if (yValue > 0 && yValue < maxY) {
-            $("#chart-placeholder").append("<div class='marking-line' style='border-color: " + chartData.colorMap['RF'] + ";color:brown;position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'></div>");
-            $("#chart-placeholder").append("<div class='marking-label-holder' style='z-index:2;color:brown;position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'><span style='float:right;'><span style='position:relative;bottom:1.3em;background-color:white;opacity:0.8;'>Avg RF " + hourlyRate + " " + dailyRate + "</span></span></div>");
+            $(".chart-placeholder").append("<div class='marking-line' style='border-color: " + chartData.colorMap['RF'] + ";color:brown;position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'></div>");
+            $(".chart-placeholder").append("<div class='marking-label-holder' style='z-index:2;color:brown;position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'><span style='float:right;'><span style='position:relative;bottom:1.3em;background-color:white;opacity:0.8;'>Avg RF " + hourlyRate + " " + dailyRate + "</span></span></div>");
         }
-
-        /*for (var i = 0; i < chartData.groupingNames.length; i++) {
-         var yValue = chartData.tripPerHourMap[chartData.groupingNames[i]].toFixed(1) * 1;
-         
-         var p1 = jlab.flotplot.pointOffset({x: minX, y: yValue}),
-         p2 = jlab.flotplot.pointOffset({x: maxX + 1, y: yValue});
-         $("#chart-placeholder").append("<div class='marking-line' style='border-color: " + chartData.colorMap[chartData.groupingNames[i]] + ";position:absolute;left:" + (p2.left + 1) + "px;right:" + 0 + "px;top:" + (p1.top - 2) + "px;'></div>");
-         }*/
+        
         yValue = chartData.globalTripsPerHour.toFixed(1) * 1;
 
         hourlyRate = yValue.toFixed(1) + " /Hr";
@@ -767,8 +760,8 @@ jlab.doMarkingLines = function (chartData, minX, maxX) {
         p1 = jlab.flotplot.pointOffset({x: minX, y: yValue}),
                 p2 = jlab.flotplot.pointOffset({x: maxX + 1, y: yValue});
         if (yValue > 0 && yValue < maxY) {
-            $("#chart-placeholder").append("<div class='marking-line' style='border-color: " + 'black' + ";position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'></div>");
-            $("#chart-placeholder").append("<div class='marking-label-holder' style='z-index:2;position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'><span style='position:relative;bottom:1.3em;background-color:white;opacity:0.8;left:0px;'>Avg " + hourlyRate + " " + dailyRate + "</span></div>");
+            $(".chart-placeholder").append("<div class='marking-line' style='border-color: " + 'black' + ";position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'></div>");
+            $(".chart-placeholder").append("<div class='marking-label-holder' style='z-index:2;position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'><span style='position:relative;bottom:1.3em;background-color:white;opacity:0.8;left:0px;'>Avg " + hourlyRate + " " + dailyRate + "</span></div>");
         }
     }
 
@@ -793,7 +786,7 @@ jlab.doMarkingLines = function (chartData, minX, maxX) {
     p1 = jlab.flotplot.pointOffset({x: minX, y: yValue}),
             p2 = jlab.flotplot.pointOffset({x: maxX + 1, y: yValue});
     if (yValue < maxY) {
-        $("#chart-placeholder").append("<div class='known-marking-line' style='border-color: " + 'gray' + ";position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'><span class='known-markings " + dailyClass + "'>15 /Hr<br/>" + dailyRate + "</span></div>");
+        $(".chart-placeholder").append("<div class='known-marking-line' style='border-color: " + 'gray' + ";position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'><span class='known-markings " + dailyClass + "'>15 /Hr<br/>" + dailyRate + "</span></div>");
     }
 
     yValue = 10;
@@ -815,7 +808,7 @@ jlab.doMarkingLines = function (chartData, minX, maxX) {
     p1 = jlab.flotplot.pointOffset({x: minX, y: yValue}),
             p2 = jlab.flotplot.pointOffset({x: maxX + 1, y: yValue});
     if (yValue < maxY) {
-        $("#chart-placeholder").append("<div class='known-marking-line' style='border-color: " + 'gray' + ";position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'><span class='known-markings " + dailyClass + "'>10 /Hr<br/>" + dailyRate + "</span></div>");
+        $(".chart-placeholder").append("<div class='known-marking-line' style='border-color: " + 'gray' + ";position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'><span class='known-markings " + dailyClass + "'>10 /Hr<br/>" + dailyRate + "</span></div>");
     }
 
 
@@ -838,7 +831,7 @@ jlab.doMarkingLines = function (chartData, minX, maxX) {
     p1 = jlab.flotplot.pointOffset({x: minX, y: yValue}),
             p2 = jlab.flotplot.pointOffset({x: maxX + 1, y: yValue});
     if (yValue < maxY) {
-        $("#chart-placeholder").append("<div class='known-marking-line' style='border-color: " + 'gray' + ";position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'><span class='known-markings " + dailyClass + "'>5 /Hr<br/>" + dailyRate + "</span></div>");
+        $(".chart-placeholder").append("<div class='known-marking-line' style='border-color: " + 'gray' + ";position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'><span class='known-markings " + dailyClass + "'>5 /Hr<br/>" + dailyRate + "</span></div>");
     }
 };
 
@@ -880,7 +873,7 @@ $(function () {
      jlab.flotSourceColumnClass = 'mttr-data';
      }*/
 
-    if ($("#chart-placeholder").length > 0) {
+    if ($(".chart-placeholder").length > 0) {
         var selected = $("#chart option:selected").val();
 
         if (selected === 'line') {

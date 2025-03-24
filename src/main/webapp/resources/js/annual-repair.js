@@ -270,10 +270,10 @@ jlab.addTooltips = function (categoryNames) {
         opacity: 0.80
     }).appendTo("body");
 
-    $("#chart-placeholder").bind("plothover", function (event, pos, item) {
+    $(".chart-placeholder").bind("plothover", function (event, pos, item) {
 
         if (item) {
-            $("#chart-placeholder").css("cursor", "pointer");
+            $(".chart-placeholder").css("cursor", "pointer");
             var x = item.datapoint[0].toFixed(2) * 1,
                     y = item.datapoint[1].toFixed(2) * 1,
                     label = '',
@@ -289,7 +289,7 @@ jlab.addTooltips = function (categoryNames) {
                     .css({top: item.pageY - 30, left: item.pageX + 5})
                     .fadeIn(200);
         } else {
-            $("#chart-placeholder").css("cursor", "default");
+            $(".chart-placeholder").css("cursor", "default");
             $("#tooltip").stop().hide();
         }
     });
@@ -308,7 +308,7 @@ jlab.addAxisLabels = function () {
 jlab.addYAxisLabel = function (label) {
     var yaxisLabel = $("<div class='axis-label y-axis-label'></div>")
             .text(label)
-            .appendTo($("#chart-placeholder"));
+            .appendTo($(".chart-placeholder"));
     yaxisLabel.css("margin-top", (yaxisLabel.width() - jlab.xTickLabelHeight) / 2);
 };
 
@@ -317,7 +317,7 @@ jlab.doBarChart = function () {
     var ds = chartData.ds;
 
     if (ds.length === 0) {
-        $('<div>No data to chart</div>').insertBefore($("#chart-placeholder"));
+        $('<div>No data to chart</div>').insertBefore($(".chart-placeholder"));
         return;
     }
 
@@ -334,9 +334,9 @@ jlab.doBarChart = function () {
         ticks.push([i, chartData.categoryNames[i] + " (" + percent.toFixed(0) + "%)"]);
     }
 
-    $("#chart-wrap").addClass("has-y-axis-label").addClass("has-x-axis-label");
+    $(".chart-wrap").addClass("has-y-axis-label").addClass("has-x-axis-label");
 
-    jlab.flotplot = $.plot($("#chart-placeholder"), ds, {
+    jlab.flotplot = $.plot($(".chart-placeholder"), ds, {
         series: {
             stack: true,
             bars: {
@@ -381,13 +381,13 @@ jlab.doBarChart = function () {
 
     jlab.addAxisLabels();
 
-    $("#chart-placeholder").resize(function () {
+    $(".chart-placeholder").resize(function () {
         jlab.doMarkingLines(chartData, minX, maxX);
     });
 
     jlab.doMarkingLines(chartData, minX, maxX);
 
-    $("#chart-placeholder").on("plotclick", function (event, pos, item) {
+    $(".chart-placeholder").on("plotclick", function (event, pos, item) {
         /*console.log(item);*/
         if (item) {
 
@@ -452,9 +452,9 @@ jlab.doMarkingLines = function (chartData, minX, maxX) {
     var yValue = (chartData.programTotalDuration.toFixed(1) * 1) * 0.01,
             p1 = jlab.flotplot.pointOffset({x: minX, y: yValue}),
             p2 = jlab.flotplot.pointOffset({x: maxX, y: yValue}),
-            rightValue = ($("#chart-placeholder").width() - p2.left);
+            rightValue = ($(".chart-placeholder").width() - p2.left);
     if (yValue > 0) {
-        $("#chart-placeholder").append("<div class='marking-line' style='border-color: black;color:black;position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'><span style='float:right;'><span style='position:relative;bottom:28px;background-color:white;opacity:0.8;'>1% of program</span></span></div>");
+        $(".chart-placeholder").append("<div class='marking-line' style='border-color: black;color:black;position:absolute;left:" + (p1.left) + "px;right:" + rightValue + "px;top:" + (p1.top - 2) + "px;'><span style='float:right;'><span style='position:relative;bottom:28px;background-color:white;opacity:0.8;'>1% of program</span></span></div>");
     }
 };
 
@@ -467,7 +467,7 @@ $(function () {
     jlab.flotplot = null;
     jlab.flotSourceColumnClass = 'count-data';
 
-    if ($("#chart-placeholder").length > 0) {
+    if ($(".chart-placeholder").length > 0) {
         var selected = $("#chart option:selected").val();
 
         if (selected.startsWith('bar')) {

@@ -75,10 +75,10 @@ body.print:not(.fullscreen),
 .print:not(.fullscreen) .has-x-axis-label {
     margin-bottom: 0;
 }
-.print:not(.fullscreen) #chart-placeholder .flot-text {
+.print:not(.fullscreen) .chart-placeholder .flot-text {
     font-size: 12px !important;
 }
-.print:not(.fullscreen) #chart-placeholder {
+.print:not(.fullscreen) .chart-placeholder {
     height: 640px !important;
     font-size: 14px !important;
 }

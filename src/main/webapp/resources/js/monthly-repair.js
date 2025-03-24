@@ -279,10 +279,10 @@ jlab.addTooltips = function (stack, includeHours) {
         opacity: 0.80
     }).appendTo("body");
 
-    $("#chart-placeholder").bind("plothover", function (event, pos, item) {
+    $(".chart-placeholder").bind("plothover", function (event, pos, item) {
 
         if (item) {
-            $("#chart-placeholder").css("cursor", "pointer");
+            $(".chart-placeholder").css("cursor", "pointer");
 
             var x = item.datapoint[0].toFixed(2) * 1,
                     y = item.datapoint[1].toFixed(2) * 1,
@@ -306,7 +306,7 @@ jlab.addTooltips = function (stack, includeHours) {
                     .css({top: item.pageY - 30, left: item.pageX + 5})
                     .fadeIn(200);
         } else {
-            $("#chart-placeholder").css("cursor", "default");
+            $(".chart-placeholder").css("cursor", "default");
             $("#tooltip").stop().hide();
         }
     });
@@ -342,7 +342,7 @@ jlab.doBarChart = function (stack) {
     }
 
     if (ds.length === 0) {
-        $('<div>No data to chart</div>').insertBefore($("#chart-placeholder"));
+        $('<div>No data to chart</div>').insertBefore($(".chart-placeholder"));
         return;
     }
 
@@ -360,9 +360,9 @@ jlab.doBarChart = function (stack) {
     var minX = startMillis - (60 * 60 * 1000 * (intervalHours / 2)), /* half interval offset due to 'centered' bars*/
             maxX = (endMillis * 1) + (60 * 60 * 1000 * (intervalHours / 2)); /* x 1 to idicate number not string; half interval offset due to 'centered' bars*/
 
-    $("#chart-wrap").addClass("has-y-axis-label").addClass("has-x-axis-label");
+    $(".chart-wrap").addClass("has-y-axis-label").addClass("has-x-axis-label");
 
-    jlab.flotplot = $.plot($("#chart-placeholder"), ds, {
+    jlab.flotplot = $.plot($(".chart-placeholder"), ds, {
         series: {
             stack: stack,
             bars: {
@@ -410,14 +410,14 @@ jlab.doBarChart = function (stack) {
 
     jlab.addAxisLabels(daily);
 
-    $("#chart-placeholder").resize(function () {
+    $(".chart-placeholder").resize(function () {
         jlab.doMarkingLines(chartData, minX, maxX);
     });
 
     /*jlab.doMarkingLines(chartData, minX, maxX);*/
 
     if (stack) {
-        $("#chart-placeholder").on("plotclick", function (event, pos, item) {
+        $(".chart-placeholder").on("plotclick", function (event, pos, item) {
             if (item) {
 
                 var x = item.datapoint[0].toFixed(2) * 1,
@@ -624,7 +624,7 @@ $(function () {
         }
     });
 
-    if ($("#chart-placeholder").length > 0) {
+    if ($(".chart-placeholder").length > 0) {
         jlab.doBarChart(true);
     }
 });

@@ -125,7 +125,7 @@
                     </div>
                     <c:if test="${param.type ne 'table'}">
                         <div class="chart-wrap">
-                            <div id="chart-placeholder"></div>
+                            <div class="chart-placeholder"></div>
                         </div>
                     </c:if>
                     <div class="${fn:length(recordList) eq 1 ? 'summary-wrap' : 'multi-wrap'}">
