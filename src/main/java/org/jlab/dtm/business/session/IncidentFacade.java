@@ -23,15 +23,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.jlab.dtm.business.params.IncidentParams;
-import org.jlab.dtm.persistence.entity.EternalComponent;
-import org.jlab.dtm.persistence.entity.Event;
-import org.jlab.dtm.persistence.entity.EventType;
-import org.jlab.dtm.persistence.entity.Incident;
-import org.jlab.dtm.persistence.entity.IncidentReview;
-import org.jlab.dtm.persistence.entity.Repair;
-import org.jlab.dtm.persistence.entity.SystemEntity;
-import org.jlab.dtm.persistence.entity.SystemExpert;
-import org.jlab.dtm.persistence.entity.Workgroup;
+import org.jlab.dtm.persistence.entity.*;
 import org.jlab.dtm.persistence.enumeration.IncidentEditType;
 import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
 import org.jlab.dtm.persistence.model.Period;
@@ -171,7 +163,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
     }
 
-    SystemEntity system = eternalComponent.getSystem();
+    EternalSystem system = eternalComponent.getSystem();
 
     if (timeDown == null) {
       throw new UserFriendlyException("Incident time down must not be empty");

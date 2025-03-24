@@ -46,7 +46,7 @@ public class EternalComponent implements Serializable {
 
   @JoinColumn(name = "SYSTEM_ID", referencedColumnName = "SYSTEM_ID", nullable = false)
   @ManyToOne(optional = false)
-  private org.jlab.dtm.persistence.entity.SystemEntity system;
+  private EternalSystem system;
 
   @JoinColumn(name = "REGION_ID", referencedColumnName = "REGION_ID", nullable = false)
   @ManyToOne(optional = false)
@@ -87,11 +87,11 @@ public class EternalComponent implements Serializable {
     this.incidentList = incidentList;
   }
 
-  public org.jlab.dtm.persistence.entity.SystemEntity getSystem() {
+  public EternalSystem getSystem() {
     return system;
   }
 
-  public void setSystem(org.jlab.dtm.persistence.entity.SystemEntity system) {
+  public void setSystem(EternalSystem system) {
     this.system = system;
   }
 
