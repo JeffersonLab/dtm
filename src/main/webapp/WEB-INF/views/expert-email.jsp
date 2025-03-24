@@ -3,27 +3,27 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<c:set var="title" value="Expert Action Needed"/>
 <fmt:setLocale value="en_US" scope="session"/>
 <c:set var="pathPrefix" value="${pageContext.request.contextPath}"/>
 <c:if test="${param.email eq 'Y'}">
     <c:set var="pathPrefix" value="https://ace.jlab.org/dtm"/>
 </c:if>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title><c:out value="${initParam.appShortName}"/> - Expert Action Needed</title>
-    <link rel="shortcut icon" href="${pathPrefix}/resources/v${initParam.releaseNumber}/img/favicon.ico"/>
-    <style>
-        th {font-weight: normal;}
-        td {padding: 0.5em;}
-        td {border-right: 1px solid black;}
-        td:last-child {border-right: 1px solid white;}
-    </style>
-</head>
-<body>
+<t:loose-page title="${title}" category="Expert Email" description="Expert Email Template">
+    <jsp:attribute name="stylesheets">
+            <style>
+                th {font-weight: normal;}
+                td {padding: 0.5em;}
+                td {border-right: 1px solid black;}
+                td:last-child {border-right: 1px solid white;}
+            </style>
+    </jsp:attribute>
+    <jsp:attribute name="scripts">
+    </jsp:attribute>
+    <jsp:body>
 <h2 style="margin-left: 16px;"><c:out value="${initParam.appShortName}"/> - Expert Action Needed</h2>
-<div style="margin-left: 16px;" id="email-content" class="content-section dialog-content">
+<div style="margin-left: 16px;" id="email-content" class="content-section">
     This email is in reference to a system failure recorded in DTM within the last <c:out value="${numberOfHours}"/> hours that requires your review.<br/>
     <c:choose>
         <c:when test="${fn:length(incidentList) > 0}">
@@ -87,5 +87,5 @@
     <br/><br/>The Repair Assessment Report procedure is available online at the following location:
     <br/><a href="https://ace.jlab.org/cdn/doc/dtm/RARProcedure.pdf">RAR Procedure</a>
 </div>
-</body>
-</html>
+    </jsp:body>
+</t:loose-page>
