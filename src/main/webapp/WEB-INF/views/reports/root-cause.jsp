@@ -19,7 +19,7 @@
                 <button id="fullscreen-button">Full Screen</button>
             </div>
             <s:filter-flyout-widget ribbon="false" clearButton="true" resetButton="true">
-                <form class="filter-form" method="get" action="root-cause">
+                <form id="root-filter-form" class="filter-form" method="get" action="root-cause">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range datetime="${true}" sevenAmOffset="${true}"/>
@@ -84,11 +84,11 @@
                     <thead>
                         <tr>
                             <th rowspan="2"></th> 
-                            <th><input form="filter-form" type="radio" name="incidentMask" value="NONE" ${param.incidentMask eq 'NONE' ? 'checked="checked"' : ''}/></th>
-                            <th><input form="filter-form" type="radio" name="incidentMask" value="DEADBEATS" ${param.incidentMask eq 'DEADBEATS' ? 'checked="checked"' : ''}/></th>
-                            <th><input form="filter-form" type="radio" name="incidentMask" value="LEVEL_ONE" ${param.incidentMask eq 'LEVEL_ONE' ? 'checked="checked"' : ''}/></th>
-                            <th><input form="filter-form" type="radio" name="incidentMask" value="LEVEL_TWO" ${param.incidentMask eq 'LEVEL_TWO' ? 'checked="checked"' : ''}/></th>
-                            <th><input form="filter-form" type="radio" name="incidentMask" value="LEVEL_THREE_PLUS" ${param.incidentMask eq 'LEVEL_THREE_PLUS' ? 'checked="checked"' : ''}/></th>                                    
+                            <th><input form="root-filter-form" type="radio" name="incidentMask" value="NONE" ${param.incidentMask eq 'NONE' ? 'checked="checked"' : ''}/></th>
+                            <th><input form="root-filter-form" type="radio" name="incidentMask" value="DEADBEATS" ${param.incidentMask eq 'DEADBEATS' ? 'checked="checked"' : ''}/></th>
+                            <th><input form="root-filter-form" type="radio" name="incidentMask" value="LEVEL_ONE" ${param.incidentMask eq 'LEVEL_ONE' ? 'checked="checked"' : ''}/></th>
+                            <th><input form="root-filter-form" type="radio" name="incidentMask" value="LEVEL_TWO" ${param.incidentMask eq 'LEVEL_TWO' ? 'checked="checked"' : ''}/></th>
+                            <th><input form="root-filter-form" type="radio" name="incidentMask" value="LEVEL_THREE_PLUS" ${param.incidentMask eq 'LEVEL_THREE_PLUS' ? 'checked="checked"' : ''}/></th>
                         </tr>
                         <tr>
                             <th>All Incidents</th>
@@ -149,7 +149,7 @@
                     <c:when test="${fn:length(incidentList) > 0}"> 
                         <h3 id="incident-detail-header"><c:out value="${incidentMask.label}"/> Incidents</h3>
                         <span id="sort-controls"><label for="sort-select">Sort: </label>
-                            <select form="filter-form" id="sort-select" name="sort">
+                            <select form="root-filter-form" id="sort-select" name="sort">
                                 <option value="DURATION"${param.sort eq 'DURATION' ? ' selected="selected"' : ''}>Duration</option>
                                 <option value="TIME_DOWN"${param.sort eq 'TIME_DOWN' ? ' selected="selected"' : ''}>Time Down</option>
                                 <option value="RAR_UPLOADED"${param.sort eq 'RAR_UPLOADED' ? ' selected="selected"' : ''}>RAR Uploaded</option>
