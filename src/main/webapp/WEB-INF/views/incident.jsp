@@ -71,7 +71,7 @@
                                 <c:out value="${incident.system.name}"/> &gt;
                                 <c:out value="${incident.component.name}"/>
                             </dd>
-                            <dt>Permit To Work:</dt>
+                            <dt>ePAS:</dt>
                             <dd><c:out value="${empty incident.permitToWork ? 'None' : incident.permitToWork}"/></dd>
                         </dl>
                         <c:if test="${settings.is('LOGBOOK_ENABLED')}">

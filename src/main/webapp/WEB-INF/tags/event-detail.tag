@@ -156,7 +156,7 @@
                             </c:choose>
                         </span>
                         <span class="cell-subfield">
-                            <span class="cell-sublabel">Permit To Work:</span>
+                            <span class="cell-sublabel">ePAS:</span>
                             <span class="incident-table-permit-to-work"><c:out value="${empty incident.permitToWork ? 'None' : incident.permitToWork}"/></span>
                         </span>
                     </td>                

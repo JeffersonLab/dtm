@@ -198,7 +198,7 @@
                                 </c:forEach>
                             </tr>
                             <tr>
-                                <th>Permit To Work:</th>
+                                <th>ePAS:</th>
                                 <c:forEach items="${incidentList}" var="incident">
                                     <td>
                                         <c:out value="${incident.permitToWork}"/>
