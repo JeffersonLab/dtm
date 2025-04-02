@@ -25,6 +25,7 @@ import org.jlab.jlog.LogEntry;
 import org.jlab.jlog.LogEntryAdminExtension;
 import org.jlab.jlog.Reference;
 import org.jlab.smoothness.business.exception.InternalException;
+import org.jlab.smoothness.business.service.SettingsService;
 import org.jlab.smoothness.business.util.IOUtil;
 import org.jlab.smoothness.business.util.TimeUtil;
 import org.jlab.smoothness.presentation.util.ServletUtil;
@@ -49,7 +50,7 @@ public class LogbookFacade extends AbstractFacade<Object> {
   @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
   @PermitAll
   public void silentlyCreateIncidentELog(Incident incident, IncidentEditType type) {
-    if (SettingsFacade.cachedSettings.is("LOGBOOK_ENABLED")) {
+    if (SettingsService.cachedSettings.is("LOGBOOK_ENABLED")) {
       try {
         createIncidentELog(incident, type);
       } catch (InternalException e) {
@@ -78,7 +79,7 @@ public class LogbookFacade extends AbstractFacade<Object> {
 
     String subject = "Downtime Incident " + type + ": " + incident.getTitle();
 
-    String logbooks = SettingsFacade.cachedSettings.get("LOGBOOK_LIST");
+    String logbooks = SettingsService.cachedSettings.get("LOGBOOK_LIST");
 
     LogEntry entry = new LogEntry(subject, logbooks);
 

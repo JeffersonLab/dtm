@@ -6,7 +6,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
 <%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
 <c:set var="title" value="Repair Assessment Reports"/>
-<t:page title="${title}">
+<s:page title="${title}">
     <jsp:attribute name="stylesheets"> 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/root-cause.css"/>
         <style>
@@ -221,4 +221,4 @@
             <button id="exit-fullscreen-button">Exit Full Screen</button>
         </div>
     </jsp:body>         
-</t:page>
+</s:page>

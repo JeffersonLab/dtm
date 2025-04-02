@@ -10,7 +10,7 @@ import org.jlab.dtm.persistence.entity.EventType;
  */
 @Stateless
 public class EventTypeFacade extends AbstractFacade<EventType> {
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @Override

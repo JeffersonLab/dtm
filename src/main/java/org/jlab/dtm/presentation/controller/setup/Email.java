@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.session.ScheduledEmailer;
-import org.jlab.dtm.business.session.SettingsFacade;
+import org.jlab.smoothness.business.service.SettingsService;
 import org.jlab.smoothness.business.util.TimeUtil;
 
 /**
@@ -21,7 +21,7 @@ import org.jlab.smoothness.business.util.TimeUtil;
 public class Email extends HttpServlet {
 
   @EJB ScheduledEmailer emailer;
-  @EJB SettingsFacade settingsFacade;
+  @EJB SettingsService settingsService;
 
   /**
    * Handles the HTTP <code>GET</code> method.
@@ -45,7 +45,7 @@ public class Email extends HttpServlet {
     Date end = new Date();
     Date start = (TimeUtil.addHours(end, numberOfHours * -1));
 
-    String ccCsv = SettingsFacade.cachedSettings.get("EMAIL_EXPERT_CC_LIST");
+    String ccCsv = SettingsService.cachedSettings.get("EMAIL_EXPERT_CC_LIST");
 
     request.setAttribute("schedulerEnabled", emailer.isEnabled());
     request.setAttribute("numberOfHours", numberOfHours);

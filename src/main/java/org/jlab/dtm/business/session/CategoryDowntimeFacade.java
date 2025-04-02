@@ -19,7 +19,7 @@ import org.jlab.smoothness.persistence.util.JPAUtil;
 @Stateless
 public class CategoryDowntimeFacade extends AbstractFacade<Category> {
 
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @Override

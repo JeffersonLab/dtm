@@ -26,7 +26,7 @@ public class IncidentReportService {
 
   private static final Logger LOGGER = Logger.getLogger(IncidentReportService.class.getName());
 
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   public static class IncidentSummary {

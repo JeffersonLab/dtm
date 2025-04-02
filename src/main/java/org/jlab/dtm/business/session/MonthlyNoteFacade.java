@@ -16,7 +16,7 @@ import org.jlab.smoothness.business.exception.UserFriendlyException;
 @Stateless
 public class MonthlyNoteFacade extends AbstractFacade<MonthlyNote> {
 
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @Override

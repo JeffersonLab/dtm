@@ -5,7 +5,7 @@
 <%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
 <c:set var="title" value="Email"/>
-<t:setup-page title="${title}">  
+<s:setup-page title="${title}">
     <jsp:attribute name="stylesheets">
         <style>
             .email-section {
@@ -14,13 +14,6 @@
                 padding: 1em;
             }
         </style>
-        <!-- Below style is copied from expert-email.jsp since style tags aren't included in partial page load -->
-                    <style>
-                        th {font-weight: normal;}
-                        td {padding: 0.5em;}
-                        td {border-right: 1px solid black;}
-                        td:last-child {border-right: 1px solid white;}
-                    </style>
     </jsp:attribute>
     <jsp:attribute name="scripts">
         <script type="text/javascript" src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/email.js"></script>
@@ -50,4 +43,4 @@
             <p><b>Note</b>: All emails are configured to CC: <c:out value="${ccCsv}"/></p>
         </section>
     </jsp:body>         
-</t:setup-page>  
+</s:setup-page>

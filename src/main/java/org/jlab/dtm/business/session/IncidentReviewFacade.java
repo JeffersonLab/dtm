@@ -15,7 +15,7 @@ import org.jlab.dtm.persistence.entity.IncidentReview;
 @Stateless
 public class IncidentReviewFacade extends AbstractFacade<IncidentReview> {
 
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @Override

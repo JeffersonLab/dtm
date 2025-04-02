@@ -22,7 +22,7 @@ public class EventDowntimeFacade extends AbstractFacade<Event> {
 
   private static final Logger LOGGER = Logger.getLogger(EventDowntimeFacade.class.getName());
 
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @Override

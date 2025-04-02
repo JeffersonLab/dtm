@@ -17,7 +17,7 @@ import org.jlab.dtm.persistence.entity.EternalComponent;
  */
 @Stateless
 public class EternalComponentFacade extends AbstractFacade<EternalComponent> {
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @Override

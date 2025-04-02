@@ -16,7 +16,7 @@ import org.jlab.smoothness.business.exception.UserFriendlyException;
 @Stateless
 public class SystemExpertFacade extends AbstractFacade<SystemExpert> {
 
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @EJB SystemFacade systemFacade;

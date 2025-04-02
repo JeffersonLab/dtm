@@ -19,7 +19,7 @@ import org.jlab.smoothness.persistence.util.JPAUtil;
 @Stateless
 public class ComponentDowntimeFacade extends AbstractFacade<EternalComponent> {
 
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @Override

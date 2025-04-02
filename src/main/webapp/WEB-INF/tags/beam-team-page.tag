@@ -1,11 +1,12 @@
 <%@tag description="The Beam Team Page Template Tag" pageEncoding="UTF-8"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
+<%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
 <%@attribute name="title"%>
 <%@attribute name="stylesheets" fragment="true"%>
 <%@attribute name="scripts" fragment="true"%>
-<t:page title="${title}" category="Beam Team">
+<s:page title="${title}" category="Beam Team">
     <jsp:attribute name="stylesheets">       
         <jsp:invoke fragment="stylesheets"/>
     </jsp:attribute>
@@ -22,4 +23,4 @@
     <jsp:body>
         <jsp:doBody/>
     </jsp:body>         
-</t:page>
+</s:page>

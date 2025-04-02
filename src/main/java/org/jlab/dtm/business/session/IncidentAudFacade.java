@@ -22,7 +22,7 @@ import org.jlab.dtm.persistence.entity.aud.IncidentAud;
  */
 @Stateless
 public class IncidentAudFacade extends AbstractFacade<IncidentAud> {
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @EJB ApplicationRevisionInfoFacade revisionFacade;

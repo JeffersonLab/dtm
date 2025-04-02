@@ -16,6 +16,7 @@ import javax.mail.MessagingException;
 import org.jlab.dtm.persistence.model.SettingChangeAction;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.service.EmailService;
+import org.jlab.smoothness.business.service.SettingsService;
 import org.jlab.smoothness.business.service.UserAuthorizationService;
 import org.jlab.smoothness.business.util.IOUtil;
 import org.jlab.smoothness.business.util.TimeUtil;
@@ -36,7 +37,7 @@ public class ScheduledEmailer implements SettingChangeAction {
   @Resource private TimerService timerService;
   private Timer timer;
   @EJB IncidentFacade incidentFacade;
-  @EJB SettingsFacade settingsFacade;
+  @EJB SettingsService settingsService;
 
   private final String TIMER_INFO = "ScheduledEmailer";
 
@@ -48,7 +49,7 @@ public class ScheduledEmailer implements SettingChangeAction {
 
     timer = null;
 
-    if (settingsFacade.getImmutableSettings().is("EMAIL_ENABLED")) {
+    if (settingsService.getImmutableSettings().is("EMAIL_ENABLED")) {
       LOGGER.log(Level.FINE, "Creating New Timer");
       enable();
     }
@@ -160,7 +161,7 @@ public class ScheduledEmailer implements SettingChangeAction {
       String subject = "DTM - SME " + username + " Action Needed";
       String toCsv = username + "@jlab.org";
 
-      boolean emailTesting = SettingsFacade.cachedSettings.is("EMAIL_TESTING_ENABLED");
+      boolean emailTesting = SettingsService.cachedSettings.is("EMAIL_TESTING_ENABLED");
 
       if (emailTesting) {
         LOGGER.log(Level.INFO, "EMAIL_TESTING_ENABLED=Y (using testlead role)");
@@ -182,7 +183,7 @@ public class ScheduledEmailer implements SettingChangeAction {
 
       EmailService emailService = new EmailService();
 
-      String ccCsv = SettingsFacade.cachedSettings.get("EMAIL_EXPERT_CC_LIST");
+      String ccCsv = SettingsService.cachedSettings.get("EMAIL_EXPERT_CC_LIST");
 
       emailService.sendEmail("dtm@jlab.org", "dtm@jlab.org", toCsv, ccCsv, subject, html, true);
     }

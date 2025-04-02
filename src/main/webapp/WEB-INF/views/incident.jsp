@@ -6,7 +6,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
 <%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
 <c:set var="title" value="Incident"/>
-<t:page title="${title}">  
+<s:page title="${title}">
     <jsp:attribute name="stylesheets"> 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/event-list.css"/>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/incident.css"/>
@@ -171,4 +171,4 @@
         </section>
         <t:event-list-dialogs eventTypeList="${eventTypeList}" systemList="${systemList}"/>
     </jsp:body>         
-</t:page>
+</s:page>
