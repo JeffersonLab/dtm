@@ -14,13 +14,6 @@
                 padding: 1em;
             }
         </style>
-        <!-- Below style is copied from expert-email.jsp since style tags aren't included in partial page load -->
-                    <style>
-                        th {font-weight: normal;}
-                        td {padding: 0.5em;}
-                        td {border-right: 1px solid black;}
-                        td:last-child {border-right: 1px solid white;}
-                    </style>
     </jsp:attribute>
     <jsp:attribute name="scripts">
         <script type="text/javascript" src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/email.js"></script>

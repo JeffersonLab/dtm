@@ -7,6 +7,7 @@
 <%@attribute name="eventTypeList" required="true" type="java.util.List"%>
 <%@attribute name="systemList" required="true" type="java.util.List"%>
 <div id="incident-dialog" class="dialog" title="Add/Edit Incident">
+    <section>
     <form method="post" action="incident-action">
         <div id="incident-form-tabs">
             <ul>
@@ -279,8 +280,10 @@
         <input type="hidden" id="incident" name="incident"/>
         <input type="hidden" id="explanation" name="explanation"/>
     </form>
+    </section>
 </div>
 <div id="event-dialog" class="dialog" title="Edit Event">
+    <section>
     <form method="post" action="edit-event">
         <ul class="key-value-list">  
             <li>
@@ -319,8 +322,10 @@
         </div>
         <input type="hidden" id="event" name="event"/>
     </form>
+    </section>
 </div>
 <div id="edit-expert-review-dialog" class="dialog" title="Edit Subject Matter Expert Review">
+    <section>
     <span style="float: right;">(<span class="required-field"></span> required)</span>
         <ul class="key-value-list">
             <li>
@@ -375,6 +380,7 @@
                 </div>
             </li>            
         </ul>
+    </section>
         <div class="dialog-button-panel">
             <button id="edit-expert-review-button" class="dialog-submit" type="button">Save</button>
             <button class="dialog-close-button" type="button">Cancel</button>
@@ -382,6 +388,7 @@
         <input type="hidden" id="root-cause-dialog-incident-id" name="incident"/>
 </div>
 <div id="review-dialog" class="dialog" title="Review">    
+    <section>
     <fieldset>
         <legend>Subject Matter Expert (SME)</legend>
         <ul class="key-value-list"> 
@@ -459,4 +466,5 @@
             </li>            
         </ul>        
     </fieldset>
+    </section>
 </div>

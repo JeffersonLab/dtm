@@ -9,7 +9,7 @@
 <c:set var="pathPrefix" value="${env['FRONTEND_SERVER_URL']}/dtm"/>
 <s:loose-page title="${title}" category="Expert Email" description="Expert Email Template">
     <jsp:attribute name="stylesheets">
-            <style>
+            <style id="email-style">
                 th {font-weight: normal;}
                 td {padding: 0.5em;}
                 td {border-right: 1px solid black;}
@@ -19,8 +19,9 @@
     <jsp:attribute name="scripts">
     </jsp:attribute>
     <jsp:body>
-<h2 style="margin-left: 16px;"><c:out value="${initParam.appShortName}"/> - Expert Action Needed</h2>
-<div style="margin-left: 16px;" id="email-content" class="content-section">
+        <section>
+<h2><c:out value="${initParam.appShortName}"/> - Expert Action Needed</h2>
+<div id="email-content" class="content-section">
     This email is in reference to a system failure recorded in DTM within the last <c:out value="${numberOfHours}"/> hours that requires your review.<br/>
     <c:choose>
         <c:when test="${fn:length(incidentList) > 0}">
@@ -84,5 +85,6 @@
     <br/><br/>The Repair Assessment Report procedure is available online at the following location:
     <br/><a href="https://ace.jlab.org/cdn/doc/dtm/RARProcedure.pdf">RAR Procedure</a>
 </div>
+        </section>
     </jsp:body>
 </s:loose-page>
