@@ -5,7 +5,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
 <%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
 <c:set var="title" value="Expert List"/>
-<t:setup-page title="${title}">  
+<s:setup-page title="${title}">
     <jsp:attribute name="stylesheets">
         <style type="text/css">
             .dialog textarea {
@@ -94,4 +94,4 @@
                 </s:editable-row-table-dialog>
         </section>
     </jsp:body>         
-</t:setup-page>
+</s:setup-page>

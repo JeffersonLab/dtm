@@ -17,7 +17,7 @@ import org.jlab.dtm.persistence.entity.CategoryMonthlyGoal;
 @Stateless
 public class CategoryMonthlyGoalFacade extends AbstractFacade<CategoryMonthlyGoal> {
 
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @Override

@@ -18,7 +18,7 @@ import org.jlab.smoothness.business.util.IOUtil;
  */
 @Stateless
 public class ComponentFacade extends AbstractFacade<Component> {
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @EJB SystemFacade systemFacade;

@@ -15,7 +15,7 @@ import org.jlab.dtm.persistence.entity.Workgroup;
 @Stateless
 public class ResponsibleGroupFacade extends AbstractFacade<Workgroup> {
 
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @Override

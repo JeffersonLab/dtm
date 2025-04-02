@@ -5,7 +5,7 @@
 <%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
 <c:set var="title" value="Email"/>
-<t:setup-page title="${title}">  
+<s:setup-page title="${title}">
     <jsp:attribute name="stylesheets">
         <style>
             .email-section {
@@ -50,4 +50,4 @@
             <p><b>Note</b>: All emails are configured to CC: <c:out value="${ccCsv}"/></p>
         </section>
     </jsp:body>         
-</t:setup-page>  
+</s:setup-page>

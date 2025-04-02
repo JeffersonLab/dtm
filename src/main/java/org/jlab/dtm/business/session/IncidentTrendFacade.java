@@ -27,7 +27,7 @@ public class IncidentTrendFacade extends AbstractFacade<Incident> {
 
   private static final Logger logger = Logger.getLogger(IncidentTrendFacade.class.getName());
 
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @Override

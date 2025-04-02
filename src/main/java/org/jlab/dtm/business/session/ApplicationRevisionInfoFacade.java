@@ -33,7 +33,7 @@ import org.jlab.smoothness.presentation.util.Functions;
 @Stateless
 public class ApplicationRevisionInfoFacade extends AbstractFacade<ApplicationRevisionInfo> {
 
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @Override

@@ -47,7 +47,7 @@ public class EventFacade extends AbstractFacade<Event> {
 
   private static final Logger logger = Logger.getLogger(EventFacade.class.getName());
 
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @EJB EventTypeFacade eventTypeFacade;

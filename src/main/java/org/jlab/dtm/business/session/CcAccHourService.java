@@ -23,7 +23,7 @@ public class CcAccHourService extends AbstractFacade<Object> {
 
   private static final Logger logger = Logger.getLogger(CcAccHourService.class.getName());
 
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @Override

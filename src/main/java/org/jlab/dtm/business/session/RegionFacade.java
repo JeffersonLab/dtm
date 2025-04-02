@@ -14,7 +14,7 @@ import org.jlab.dtm.persistence.entity.Region;
  */
 @Stateless
 public class RegionFacade extends AbstractFacade<Region> {
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @Override

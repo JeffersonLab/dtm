@@ -19,7 +19,7 @@ import org.jlab.smoothness.business.util.IOUtil;
 @Stateless
 public class CategoryFacade extends AbstractFacade<Category> {
 
-  @PersistenceContext(unitName = "dtmPU")
+  @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
 
   @Override

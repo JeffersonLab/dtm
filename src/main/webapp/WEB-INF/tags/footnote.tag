@@ -1,0 +1,1 @@
+<%@tag description="Footnote Tag" pageEncoding="UTF-8"%>

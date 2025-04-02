@@ -7,7 +7,7 @@
 <c:set var="title" value="Expert Action Needed"/>
 <fmt:setLocale value="en_US" scope="session"/>
 <c:set var="pathPrefix" value="${env['FRONTEND_SERVER_URL']}/dtm"/>
-<t:loose-page title="${title}" category="Expert Email" description="Expert Email Template">
+<s:loose-page title="${title}" category="Expert Email" description="Expert Email Template">
     <jsp:attribute name="stylesheets">
             <style>
                 th {font-weight: normal;}
@@ -85,4 +85,4 @@
     <br/><a href="https://ace.jlab.org/cdn/doc/dtm/RARProcedure.pdf">RAR Procedure</a>
 </div>
     </jsp:body>
-</t:loose-page>
+</s:loose-page>
