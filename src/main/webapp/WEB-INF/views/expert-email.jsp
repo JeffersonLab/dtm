@@ -7,7 +7,7 @@
 <c:set var="title" value="Expert Action Needed"/>
 <fmt:setLocale value="en_US" scope="session"/>
 <c:set var="pathPrefix" value="${env['FRONTEND_SERVER_URL']}/dtm"/>
-<s:loose-page title="${title}" category="Expert Email" description="Expert Email Template">
+<s:loose-page title="${title}" category="Expert Email" description="Expert Email Template" excludeSmoothResources="true">
     <jsp:attribute name="stylesheets">
             <style id="email-style">
                 th {font-weight: normal;}
