@@ -28,6 +28,7 @@
                             </div>
                             <div class="li-value">
                                 <input type="text" class="date-field" id="start" name="start" placeholder="DD-MMM-YYYY hh:mm" value="${param.start != null ? fn:escapeXml(param.start) : sevenDaysAgoFmt}"/>
+                                <div>Level Ⅲ+ RARs <i>uploaded</i> in the given week</div>
                             </div>
                         </li>
                         </ul>
