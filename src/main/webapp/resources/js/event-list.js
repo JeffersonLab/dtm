@@ -389,6 +389,10 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
             rarId = $tr.attr("data-rar-id"),
             rarExt = $tr.attr("data-rar-ext");
 
+    if(permitToWork === 'None') {
+        permitToWork = '';
+    }
+
 
     $("#category").val('');
 
@@ -405,7 +409,7 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
     $("#time-up").val(timeUp);
     $("#title").val(title);
     $("#summary").val(summary);
-    $("#permit-to-work").text(permitToWork);
+    $("#permit-to-work").val(permitToWork);
     $("#component").val(componentName);
     $("#component").attr("data-component-id", componentId);
 
