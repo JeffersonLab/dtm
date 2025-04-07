@@ -25,7 +25,6 @@ import org.jlab.dtm.business.params.JouleReportParams;
 import org.jlab.dtm.business.util.DtmDateIterator;
 import org.jlab.dtm.business.util.DtmTimeUtil;
 import org.jlab.dtm.persistence.model.BeamSummaryTotals;
-import org.jlab.smoothness.business.util.TimeUtil;
 
 @Stateless
 public class JouleReportFacade {
@@ -182,10 +181,8 @@ public class JouleReportFacade {
       }
     }
 
-    Date endInclusive = TimeUtil.addDays(end, -1);
-
     // long begin = System.currentTimeMillis();
-    Double budgetedOperationsHours = fetchBudgetedHours(start, endInclusive);
+    Double budgetedOperationsHours = fetchBudgetedHours(start, end);
     // long stop = System.currentTimeMillis();
 
     // System.err.println("Fetch Time (Seconds): " + (stop - begin) / 1000.0);
