@@ -27,7 +27,7 @@
                 <button id="fullscreen-button">Full Screen</button>
             </div>
             <s:filter-flyout-widget ribbon="true" clearButton="true" resetButton="true">
-                <form class="filter-form" method="get" action="rar">
+                <form id="rar-filter-form" class="filter-form" method="get" action="rar">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range datetime="${true}" sevenAmOffset="${true}"/>
@@ -93,7 +93,7 @@
                 <c:choose>
                     <c:when test="${fn:length(incidentList) > 0}">
                         <span id="sort-controls"><label for="sort-select">Sort: </label>
-                            <select form="filter-form" id="sort-select" name="sort">
+                            <select form="rar-filter-form" id="sort-select" name="sort">
                                 <option value="DURATION"${param.sort eq 'DURATION' ? ' selected="selected"' : ''}>Duration</option>
                                 <option value="TIME_DOWN"${param.sort eq 'TIME_DOWN' ? ' selected="selected"' : ''}>Time Down</option>
                                 <option value="RAR_UPLOADED"${param.sort eq 'RAR_UPLOADED' ? ' selected="selected"' : ''}>RAR Uploaded</option>
@@ -173,6 +173,7 @@
             </div>                    
         </section>
         <div id="sad-rar-dialog" class="dialog" title="Add SAM RAR">
+            <section>
             <form id="sad-rar-event-pane">
                 <ul class="key-value-list">
                     <li>
@@ -203,7 +204,7 @@
                             </div>
                         </li>
                     </ul>
-                    <div><b>Note: </b> SAM RAR Events are still subject to event non-overlap rules so if exact timing is not important (example: RAR summarizes reoccurring issue from previous run) then simply select a four hour block of time starting at midnight on first SAD day and if multiple SAD RARs are needed then either place them on different days or bump events with a time collision later in the day.</div>
+                    <div><b>Note: </b> SAM RAR Events are still subject to event non-overlap rules so if exact timing is not important (example: RAR summarizes reoccurring issue from previous run) then simply select a four hour block of time starting at midnight on first SAM day and if multiple SAM RARs are needed then either place them on different days or bump events with a time collision later in the day.</div>
                 </fieldset>
             </form>
             <form id="sad-rar-upload-pane" method="post" action="./ajax/rar-upload" enctype="multipart/form-data">
@@ -216,6 +217,7 @@
                 <button id="sad-rar-done-button" class="reload-button" type="button">Done</button>
                 <button class="dialog-close-button" type="button">Cancel</button>
             </div>
+            </section>
         </div>
         <div id="exit-fullscreen-panel">
             <button id="exit-fullscreen-button">Exit Full Screen</button>
