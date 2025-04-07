@@ -436,7 +436,7 @@ jlab.dtm.prepareEventFormForEdit = function () {
     $("#event-dialog-event-type").val($(this).closest(".ui-accordion-content").prev().find(".event-header-type").attr("data-type-id"));
     $("#event-time-up").val($(this).closest(".event-detail").attr("data-event-time-up"));
 
-    $("#event-time-up").datepicker("refresh");
+    //$("#event-time-up").datetimepicker("refresh");
 
     $("#event").val(event);
 };
@@ -950,9 +950,9 @@ $(document).on("click", ".remove-event-button", function () {
 $(document).on("click", ".open-edit-event-dialog-button", function () {
     jlab.dtm.prepareEventFormForEdit.call(this);
 
-    $(".date-field").datepicker("option", "disabled", true);
+    //$(".date-field").datepicker("option", "disabled", true);
     $("#event-dialog").dialog("open");
-    $(".date-field").datepicker("option", "disabled", false);
+    //$(".date-field").datepicker("option", "disabled", false);
 });
 $(document).on("click", "#edit-event-button", function () {
     jlab.dtm.editEvent();
