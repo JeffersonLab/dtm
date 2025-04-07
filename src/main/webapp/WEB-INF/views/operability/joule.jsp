@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="li-value">
                                     <input type="number" min="-1" max="2" step="0.05" id="budget-scaler" name="scaler" value="${fn:escapeXml(param.scaler)}"/>
-                                    <div>Scale factor to be multiplied with Budgeted Operations.  Scaler is an adjustment to accommodate situations such as when the PAC schedules double the expected delivered as a buffer to account for failures, crises, and maintenance.</div>
+                                    <div>Scale factor to be multiplied with Budgeted Operations.  Scaler is an adjustment to accommodate situations such as when the NPES schedules double the expected delivered as a buffer to account for failures, crises, and maintenance.</div>
                                 </div>
                             </li>
                         </ul>
@@ -274,9 +274,9 @@
                     <button class="close-bubble">X</button>
                     <div class="definition-bubble-title">Budgeted Operations</div>
                     <div class="definition-bubble-body">
-                        <p>Number of Program Advisory Committee (PAC) scheduled days X 24 hours.   Scheduled days are days in which PAC schedule has any program other than OFF.</p>
+                        <p>Number of Program Advisory Committee (PAC) scheduled days X 24 hours.   Scheduled days are days in which NPES schedule has any program other than OFF.</p>
                         <p><b>Note:</b> OFF is often called Scheduled Accelerator Maintenance (SAM).   Days which are unspecified (Implicit Off due to no timesheet) count as OFF.</p>
-                        <p><b>Source:</b> <a href="${env['FRONTEND_SERVER_URL']}/btm/schedule">PAC Schedule</a></p>
+                        <p><b>Source:</b> <a href="${env['FRONTEND_SERVER_URL']}/btm/schedule">NPES Schedule</a></p>
                     </div>
                 </div>
             </div>
@@ -285,7 +285,7 @@
                     <button class="close-bubble">X</button>
                     <div class="definition-bubble-title">Total Delivered / Budgeted</div>
                     <div class="definition-bubble-body">
-                        <p>Ratio of delivered beam vs PAC scheduled (budgeted).</p>
+                        <p>Ratio of delivered beam vs NPES scheduled (budgeted).</p>
                         <p class="equation">Delivered Ratio =
                             <span class="fraction">
                         <span class="numerator">Total Delivered</span>

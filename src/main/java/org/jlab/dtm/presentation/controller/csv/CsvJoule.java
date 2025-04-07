@@ -69,7 +69,7 @@ public class CsvJoule extends HttpServlet {
       try {
         recordList = jouleFacade.find(params);
       } catch (InterruptedException e) {
-        throw new ServletException("Unable to query for PAC Schedule");
+        throw new ServletException("Unable to query for NPES Schedule");
       }
     }
 

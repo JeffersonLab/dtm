@@ -249,7 +249,7 @@ public class JouleReportFacade {
     HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
     if (response.statusCode() != 200) {
-      throw new IOException("Unable to obtain PAC schedule (budgeted): " + response.body());
+      throw new IOException("Unable to obtain NPES schedule (budgeted): " + response.body());
     }
 
     JsonReader reader = Json.createReader(new StringReader(response.body()));
