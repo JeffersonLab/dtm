@@ -55,11 +55,11 @@ Wildfly must be pre-configured before the first deployment of the app. The [wild
 ### Runtime
 Uses the [Smoothness Environment Variables](https://github.com/JeffersonLab/smoothness#environment-variables) plus the following application specific:
 
-| Name          | Description                                       |
-|---------------|---------------------------------------------------|
-| RAR_DIR       | Directory path to store Repair Assessment Reports |
+| Name          | Description                                                                                 |
+|---------------|---------------------------------------------------------------------------------------------|
+| RAR_DIR       | Directory path to store Repair Assessment Reports                                           |
 | SRM_URL       | Scheme, host, and port to System Readiness Manager (for Downgrade link; formally named HCO) |
-| PAC_SCHEDULE_SERVER_URL | Scheme, host, and port to Program Advisory Committee Schedule (for Joule Report) |
+| PAC_SCHEDULE_SERVER_URL | Scheme, host, and port to Program Advisory Committee Schedule / NPES (for Joule Report)     |
 
 There are some [Settings](https://github.com/JeffersonLab/dtm/blob/7ca3f81481678145a29174c4227e393d8f5252e5/container/oracle/initdb.d/03_default_data.sql#L3-L7) in the database as well that can be edited on the Setup tab by admins.
 

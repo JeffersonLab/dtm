@@ -274,7 +274,7 @@
                     <button class="close-bubble">X</button>
                     <div class="definition-bubble-title">Budgeted Operations</div>
                     <div class="definition-bubble-body">
-                        <p>Number of Program Advisory Committee (PAC) scheduled days X 24 hours.   Scheduled days are days in which NPES schedule has any program other than OFF.</p>
+                        <p>Number of Nuclear Physics Experiment Scheduling (NPES) scheduled days X 24 hours.   Scheduled days are days in which NPES schedule has any program other than OFF.</p>
                         <p><b>Note:</b> OFF is often called Scheduled Accelerator Maintenance (SAM).   Days which are unspecified (Implicit Off due to no timesheet) count as OFF.</p>
                         <p><b>Source:</b> <a href="${env['FRONTEND_SERVER_URL']}/btm/schedule">NPES Schedule</a></p>
                     </div>
