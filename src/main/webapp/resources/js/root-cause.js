@@ -22,11 +22,11 @@ jlab.saveSADRAR = function (title, down, up) {
         timeDown = down,
         timeUp = up,
         title = title,
-        summary = 'SAD RAR',
+        summary = 'SAM RAR',
         componentId = "",
         componentName = "Unknown/Missing",
         action = "add-event",
-        explanation = "SAD RAR",
+        explanation = "SAM RAR",
         solution = "",
         repairedByArray = "",
         reviewedBy = "",
@@ -66,7 +66,7 @@ jlab.saveSADRAR = function (title, down, up) {
 
     request.done(function (data) {
         if ($(".status", data).html() !== "Success") {
-            alert('Unable to add SAD RAR: ' + $(".reason", data).html());
+            alert('Unable to add SAM RAR: ' + $(".reason", data).html());
         } else {
             var incidentId = $(".incident", data).html();
 

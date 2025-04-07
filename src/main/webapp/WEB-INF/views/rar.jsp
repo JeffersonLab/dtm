@@ -88,7 +88,7 @@
             </div>          
             <div>
                 <c:if test="${pageContext.request.userPrincipal ne null}">
-                    <button type="button" id="show-sad-rar-dialog-button">Add SAD RAR</button>
+                    <button type="button" id="show-sad-rar-dialog-button">Add SAM RAR</button>
                 </c:if>
                 <c:choose>
                     <c:when test="${fn:length(incidentList) > 0}">
@@ -172,7 +172,7 @@
                 </c:choose>
             </div>                    
         </section>
-        <div id="sad-rar-dialog" class="dialog" title="Add SAD RAR">
+        <div id="sad-rar-dialog" class="dialog" title="Add SAM RAR">
             <form id="sad-rar-event-pane">
                 <ul class="key-value-list">
                     <li>
@@ -203,7 +203,7 @@
                             </div>
                         </li>
                     </ul>
-                    <div><b>Note: </b> SAD RAR Events are still subject to event non-overlap rules so if exact timing is not important (example: RAR summarizes reoccurring issue from previous run) then simply select a four hour block of time starting at midnight on first SAD day and if multiple SAD RARs are needed then either place them on different days or bump events with a time collision later in the day.</div>
+                    <div><b>Note: </b> SAM RAR Events are still subject to event non-overlap rules so if exact timing is not important (example: RAR summarizes reoccurring issue from previous run) then simply select a four hour block of time starting at midnight on first SAD day and if multiple SAD RARs are needed then either place them on different days or bump events with a time collision later in the day.</div>
                 </fieldset>
             </form>
             <form id="sad-rar-upload-pane" method="post" action="./ajax/rar-upload" enctype="multipart/form-data">

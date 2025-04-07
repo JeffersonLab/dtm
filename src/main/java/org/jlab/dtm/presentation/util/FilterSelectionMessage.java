@@ -423,7 +423,7 @@ public final class FilterSelectionMessage {
     }
 
     if (sadTrips != null && !sadTrips) {
-      String excludeSadTrips = "SAD Trips excluded";
+      String excludeSadTrips = "SAM Trips excluded";
       footnoteList.add(excludeSadTrips);
     }
 

@@ -392,7 +392,7 @@
                     <div class="definition-bubble-body">
                         <span>The part of an event downtime in which the machine is being brought back up to operation after being suspended.</span>
                         <p>Suspend + Restore = Event Downtime</p>
-                        <p>Note: This may be called recovery to avoid confusion with SAD Restore, a separate metric.</p>
+                        <p>Note: This may be called recovery to avoid confusion with SAM Restore, a separate metric.</p>
                     </div>
                 </div>
             </div>
@@ -548,9 +548,9 @@
                     <button class="close-bubble">X</button>
                     <div class="definition-bubble-title">Accelerator Program Time</div>
                     <div class="definition-bubble-body">
-                        <p>The amount of time the machine is being used for any program.  This information is obtained from the Crew Chief timesheet in the Beam Time Manager (BTM).  Any time other than OFF (SAD) and Implicit Off (no timesheet) are treated as program time.</p>
+                        <p>The amount of time the machine is being used for any program.  This information is obtained from the Crew Chief timesheet in the Beam Time Manager (BTM).  Any time other than OFF (SAM) and Implicit Off (no timesheet) are treated as program time.</p>
                         <p class="equation">Program Time = PHYSICS + STUDIES + RESTORE + ACC + DOWN</p>
-                        <p>Note: BTM (scheduled) Restore is restoration after a SAD and differs from DTM (unscheduled) Restore, which is restoration after a DOWN.  Also, BTM SRA Down is a subset of DTM downtime and only represents downtimes when not doing PHYSICS.</p>
+                        <p>Note: BTM (scheduled) Restore is restoration after a SAM and differs from DTM (unscheduled) Restore, which is restoration after a DOWN.  Also, BTM SRA Down is a subset of DTM downtime and only represents downtimes when not doing PHYSICS.</p>
                     </div>
                 </div>
             </div>       
@@ -588,7 +588,7 @@
                     <div class="definition-bubble-title">Trip Downtime</div>
                     <div class="definition-bubble-body">
                         <p>The amount of downtime due to FSD trips lasting no more than 5 minutes.  An FSD trip lasting more than 5 minutes is expected to be recorded as an incident downtime (component failure).</p>
-                        <p>Trips that are recorded while in BOOM SAD (machine OFF) state are also ignored.</p>
+                        <p>Trips that are recorded while in BOOM SAM (machine OFF) state are also ignored.</p>
                     </div>
                 </div>
             </div>

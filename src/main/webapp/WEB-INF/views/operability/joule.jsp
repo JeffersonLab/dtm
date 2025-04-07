@@ -251,7 +251,7 @@
                     <div class="definition-bubble-title">Delivered Tuning and Restore (T&amp;R)</div>
                     <div class="definition-bubble-body">
                         <p>Time in which the Accelerator division used the machine for initial setup and also program changes.  For example to configure the machine for a particular energy and or pass.</p>
-                        <p class="equation">T&amp;R = ACC [BTM] + SAD Restore [BTM]</p>
+                        <p class="equation">T&amp;R = ACC [BTM] + SAM Restore [BTM]</p>
                         <p><b>Note:</b> Recovery from downtime is included in downtime, not here.</p>
                         <p><b>Note:</b> T&amp;R is converted to downtime if it is excessive - if it takes longer than limits negotiated in the Budget (PAC Long Term Schedule) schedule.</p>
                     </div>
@@ -262,7 +262,7 @@
                     <button class="close-bubble">X</button>
                     <div class="definition-bubble-title">Total Delivered</div>
                     <div class="definition-bubble-body">
-                        <p>Time in which either the Accelerator division or the Physics division used the machine minus any event downtime.   The machine was "used" if the Machine Control Center (MCC) was staffed and the Crew Chief recorded anything other than SAD.</p>
+                        <p>Time in which either the Accelerator division or the Physics division used the machine minus any event downtime.   The machine was "used" if the Machine Control Center (MCC) was staffed and the Crew Chief recorded anything other than SAM.</p>
                         <p class="equation">Total Delivered = Delivered Research + Delivered Beam Studies + Delivered T&amp;R</p>
                         <p><b>Note:</b> Downtime from FSD Trips are not subtracted from Program time.</p>
                         <p><b>Note:</b> Event Uptime = Total Delivered plus zero quality adjustments.</p>
@@ -275,7 +275,7 @@
                     <div class="definition-bubble-title">Budgeted Operations</div>
                     <div class="definition-bubble-body">
                         <p>Number of Program Advisory Committee (PAC) scheduled days X 24 hours.   Scheduled days are days in which PAC schedule has any program other than OFF.</p>
-                        <p><b>Note:</b> OFF is often called Scheduled Accelerator Down (SAD).   Days which are unspecified (Implicit Off due to no timesheet) count as OFF.</p>
+                        <p><b>Note:</b> OFF is often called Scheduled Accelerator Maintenance (SAM).   Days which are unspecified (Implicit Off due to no timesheet) count as OFF.</p>
                         <p><b>Source:</b> <a href="${env['FRONTEND_SERVER_URL']}/btm/schedule">PAC Schedule</a></p>
                     </div>
                 </div>
@@ -313,7 +313,7 @@
                     <button class="close-bubble">X</button>
                     <div class="definition-bubble-title">Total Scheduled</div>
                     <div class="definition-bubble-body">
-                        <p>Time machine was expected to be used.  Specifically the time the MCC was staffed and the Crew Chief recorded something other than SAD (Off).</p>
+                        <p>Time machine was expected to be used.  Specifically the time the MCC was staffed and the Crew Chief recorded something other than SAM (Off).</p>
                         <p class="equation">Total Scheduled = Total Delivered + Unscheduled Failures</p>
                         <p><b>Note:</b> Program Time = Total Scheduled plus zero quality and maintenance adjustments.</p>
                         <p><b>Note:</b> Total Scheduled can be thought of as Crew Chief Scheduled (Realized Schedule) and is not to be confused with Budgeted (PAC Long Term Schedule), MCC Whiteboard Scheduled, or PD Scheduled (all four schedules may differ).</p>
