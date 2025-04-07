@@ -241,7 +241,7 @@
                     <div class="definition-bubble-body">
                         <p>Time in which the Accelerator division used the machine to study/test/develop it (formerly named machine development).</p>
                         <p><b>Note:</b> Recorded directly in BTM by Crew Chief on each shift.</p>
-                        <p><b>Note:</b> Often we switch to an alternate program during an extended down, which may result in beam studies replacing down (or the PAC Long Term Schedule / Budget is retroactively updated)</p>
+                        <p><b>Note:</b> Often we switch to an alternate program during an extended down, which may result in beam studies replacing down (or the NPES Long Term Schedule / Budget is retroactively updated)</p>
                     </div>
                 </div>
             </div>
@@ -253,7 +253,7 @@
                         <p>Time in which the Accelerator division used the machine for initial setup and also program changes.  For example to configure the machine for a particular energy and or pass.</p>
                         <p class="equation">T&amp;R = ACC [BTM] + SAM Restore [BTM]</p>
                         <p><b>Note:</b> Recovery from downtime is included in downtime, not here.</p>
-                        <p><b>Note:</b> T&amp;R is converted to downtime if it is excessive - if it takes longer than limits negotiated in the Budget (PAC Long Term Schedule) schedule.</p>
+                        <p><b>Note:</b> T&amp;R is converted to downtime if it is excessive - if it takes longer than limits negotiated in the Budget (NPES Long Term Schedule) schedule.</p>
                     </div>
                 </div>
             </div>
@@ -316,7 +316,7 @@
                         <p>Time machine was expected to be used.  Specifically the time the MCC was staffed and the Crew Chief recorded something other than SAM (Off).</p>
                         <p class="equation">Total Scheduled = Total Delivered + Unscheduled Failures</p>
                         <p><b>Note:</b> Program Time = Total Scheduled plus zero quality and maintenance adjustments.</p>
-                        <p><b>Note:</b> Total Scheduled can be thought of as Crew Chief Scheduled (Realized Schedule) and is not to be confused with Budgeted (PAC Long Term Schedule), MCC Whiteboard Scheduled, or PD Scheduled (all four schedules may differ).</p>
+                        <p><b>Note:</b> Total Scheduled can be thought of as Crew Chief Scheduled (Realized Schedule) and is not to be confused with Budgeted (NPES Long Term Schedule), MCC Whiteboard Scheduled, or PD Scheduled (all four schedules may differ).</p>
                     </div>
                 </div>
             </div>
