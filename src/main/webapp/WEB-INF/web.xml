@@ -23,6 +23,15 @@
         <param-name>releaseDate</param-name>
         <param-value>@RELEASE_DATE@</param-value>
     </context-param>
+    <context-param>
+        <param-name>smoothnessVersion</param-name>
+        <param-value>@SMOOTHNESS_VERSION@</param-value>
+        <description>Needed if you enable CDN.  Set once in build.gradle.</description>
+    </context-param>
+    <listener>
+        <listener-class>org.jlab.smoothness.presentation.util.SettingsCacheInit</listener-class>
+        <description>We don't use @WebListener because we want this listener to be first in case others use DB Setting Cache</description>
+    </listener>
     <filter>
         <filter-name>UrlRewriteFilter</filter-name>
         <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
