@@ -179,17 +179,17 @@
                                     <span class="incident-table-component" data-component-id="${incident.component.componentId}"><c:out value="${incident.component.name}"/></span>
                                 </c:otherwise>
                             </c:choose>
-                            <c:url var="url" context="/" value="${env['SRM_URL']}/signoff">
-                                <c:param name="systemId" value="${incident.system.systemId}"/>
-                                <c:param name="componentName" value="${incident.component.name}"/>
-                                <c:param name="groupId" value="-1"/>
-                                <c:param name="subsystemFirst" value="Y"/>
-                                <c:param name="pop" value="true"/>
-                                <c:param name="qualified" value=""/>
-                                <c:param name="signoffStatus" value="Not Ready"/>
-                                <c:param name="comments" value="Downgrade per DTM incident ${incident.incidentId}: ${incident.title}"/>
-                            </c:url>
-                            <c:if test="${incident.system.isSrmSystem()}">
+                            <c:if test="${incident.system.isSrmSystem() and settings.is('SRM_DOWNGRADE_ENABLED')}">
+                                <c:url var="url" context="/" value="${settings.get('SRM_DOWNGRADE_URL')}/signoff">
+                                    <c:param name="systemId" value="${incident.system.systemId}"/>
+                                    <c:param name="componentName" value="${incident.component.name}"/>
+                                    <c:param name="groupId" value="-1"/>
+                                    <c:param name="subsystemFirst" value="Y"/>
+                                    <c:param name="pop" value="true"/>
+                                    <c:param name="qualified" value=""/>
+                                    <c:param name="signoffStatus" value="Not Ready"/>
+                                    <c:param name="comments" value="Downgrade per DTM incident ${incident.incidentId}: ${incident.title}"/>
+                                </c:url>
                                 <div><a href="${url}">Downgrade Readiness</a></div>
                             </c:if>
                         </span> 

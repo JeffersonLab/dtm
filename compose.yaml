@@ -49,4 +49,3 @@ services:
       DTM_DOC_CSV: 'https://github.com/JeffersonLab/dtm|DTM Home,https://ace.jlab.org/cdn/doc/dtm/UserGuide.pdf|User Guide'
       RAR_DIR: '/tmp'
       PAC_SCHEDULE_SERVER_URL: 'https://accweb.acc.jlab.org'
-      SRM_URL: 'https://accweb.acc.jlab.org/hco'

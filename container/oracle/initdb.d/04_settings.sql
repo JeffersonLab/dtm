@@ -38,4 +38,5 @@ insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('SMOOTH
 insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('LOGBOOK_ENABLED', 'N', 'BOOLEAN', 'Logbook integration enabled?', 'LOGBOOK', 0);
 insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('EMAIL_EXPERT_CC_LIST', 'tbrown@example.com,someoneelse@example.com', 'CSV', 'List of email addresses to CC when expert emails go out', 'EMAIL', 1);
 insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('LOGBOOK_LIST', 'TLOG', 'CSV', 'List of Logbooks to send to when generating log entries', 'LOGBOOK', 1);
-
+insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('SRM_DOWNGRADE_ENABLED', 'N', 'BOOLEAN', 'SRM downgrade integration enabled?', 'OTHER', 0);
+insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('SRM_DOWNGRADE_URL', 'https://ace.jlab.org/srm', 'STRING', 'SRM downgrade base URL', 'OTHER', 1);
