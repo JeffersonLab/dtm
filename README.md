@@ -58,10 +58,9 @@ Uses the [Smoothness Environment Variables](https://github.com/JeffersonLab/smoo
 | Name          | Description                                                                                 |
 |---------------|---------------------------------------------------------------------------------------------|
 | RAR_DIR       | Directory path to store Repair Assessment Reports                                           |
-| SRM_URL       | Scheme, host, and port to System Readiness Manager (for Downgrade link; formally named HCO) |
 | PAC_SCHEDULE_SERVER_URL | Scheme, host, and port to Program Advisory Committee Schedule / NPES (for Joule Report)     |
 
-There are some [Settings](https://github.com/JeffersonLab/dtm/blob/7ca3f81481678145a29174c4227e393d8f5252e5/container/oracle/initdb.d/03_default_data.sql#L3-L7) in the database as well that can be edited on the Setup tab by admins.
+There are some [Settings](https://github.com/JeffersonLab/dtm/blob/main/container/oracle/initdb.d/04_settings.sql) in the database as well that can be edited on the Setup tab by admins.
 
 ### Database
 This application requires an Oracle 18+ database with the following [schema](https://github.com/JeffersonLab/dtm/tree/main/container/oracle/initdb.d) installed.   The application server hosting this app must also be configured with a JNDI datasource.
