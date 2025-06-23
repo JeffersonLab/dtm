@@ -1230,10 +1230,10 @@ $(function () {
     $("#review-dialog").dialog("option", "width", 550);
     $("#review-dialog").dialog("option", "resizable", false);
 
-    $("#incident-dialog").dialog("option", "height", 850);
-    $("#incident-dialog").dialog("option", "minHeight", 850);
-    $("#incident-dialog").dialog("option", "width", 850);
-    $("#incident-dialog").dialog("option", "minWidth", 850);
+    $("#incident-dialog").dialog("option", "height", 900);
+    $("#incident-dialog").dialog("option", "minHeight", 900);
+    $("#incident-dialog").dialog("option", "width", 950);
+    $("#incident-dialog").dialog("option", "minWidth", 950);
     $(".dialog").dialog("option", "draggable", true);
 
     $("#repaired-by").select2({

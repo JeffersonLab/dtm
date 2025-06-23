@@ -87,8 +87,9 @@
                             </div>
                         </li>
                     </ul>
-                </fieldset>  
-                <fieldset>
+                </fieldset>
+                <div class="two-column-div">
+                <fieldset class="column">
                     <legend>Incident Period</legend>
                     <ul class="key-value-list">
                         <li>
@@ -109,6 +110,48 @@
                         </li>                
                     </ul>
                 </fieldset>
+                <fieldset class="column">
+                    <legend>Halls Affected</legend>
+                    <div class="two-column-div nested-two-column">
+                        <ul class="key-value-list column">
+                            <li>
+                                <div class="li-key">
+                                    <label for="halla">Hall A</label>
+                                </div>
+                                <div class="li-value">
+                                    <input type="checkbox" id="halla" name="halla"/>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="li-key">
+                                    <label for="hallb">Hall B</label>
+                                </div>
+                                <div class="li-value">
+                                    <input type="checkbox" id="hallb" name="hallb"/>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="key-value-list column">
+                            <li>
+                                <div class="li-key">
+                                    <label for="hallc">Hall C</label>
+                                </div>
+                                <div class="li-value">
+                                    <input type="checkbox" id="hallc" name="hallc"/>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="li-key">
+                                    <label for="halld">Hall D</label>
+                                </div>
+                                <div class="li-value">
+                                    <input type="checkbox" id="halld" name="halld"/>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </fieldset>
+                </div>
                 <fieldset>
                     <legend>Incident Cause</legend>
                     <div id="start-with-panel">
@@ -302,7 +345,7 @@
                     <select id="event-dialog-event-type" name="event-type">
                         <option value=""> </option>
                         <c:forEach items="${eventTypeList}" var="eventType">
-                            <option value="${eventType.eventTypeId}"><c:out value="${eventType.name}"/></option>
+                            <option value="${eventType.eventTypeId}"><c:out value="${eventType.name}"/> (<c:out value="${eventType.abbreviation}"/>): <c:out value="${eventType.description}"/></option>
                         </c:forEach>
                     </select>
                 </div>
