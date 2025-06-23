@@ -35,7 +35,7 @@
                                 <select id="incident-dialog-event-type" name="event-type">
                                     <option value=""> </option>
                                     <c:forEach items="${eventTypeList}" var="eventType">
-                                        <option value="${eventType.eventTypeId}"><c:out value="${eventType.name}"/></option>
+                                        <option value="${eventType.eventTypeId}"><c:out value="${eventType.name}"/> (<c:out value="${eventType.abbreviation}"/>): <c:out value="${eventType.description}"/></option>
                                     </c:forEach>
                                 </select>
                             </div>

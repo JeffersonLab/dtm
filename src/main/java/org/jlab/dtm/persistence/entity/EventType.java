@@ -2,17 +2,12 @@ package org.jlab.dtm.persistence.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
+import org.jlab.smoothness.persistence.util.YnStringToBoolean;
 
 /**
  * @author ryans
@@ -39,6 +34,12 @@ public class EventType implements Serializable {
   @Column(nullable = false, length = 32)
   private String name;
 
+  @Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 32)
+  @Column(nullable = false, length = 32)
+  private String description;
+
   @Basic(optional = true)
   @Size(min = 0, max = 3)
   @Column(nullable = true, length = 3)
@@ -48,6 +49,11 @@ public class EventType implements Serializable {
   @NotNull
   @Column(nullable = false)
   private BigInteger weight;
+
+  @Basic
+  @Column(name = "ARCHIVED_YN", nullable = false, length = 1)
+  @Convert(converter = YnStringToBoolean.class)
+  private boolean archived;
 
   public EventType() {}
 
@@ -95,6 +101,22 @@ public class EventType implements Serializable {
     }
 
     return shortName;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public boolean isArchived() {
+    return archived;
+  }
+
+  public void setArchived(boolean archived) {
+    this.archived = archived;
   }
 
   @Override
