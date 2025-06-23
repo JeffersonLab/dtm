@@ -135,6 +135,10 @@ jlab.dtm.doIncidentAction = function (reload) {
             title = $("#title").val(),
             summary = $("#summary").val(),
             permitToWork = $("#permit-to-work").val(),
+            halla = $("#halla").is(":checked"),
+            hallb = $("#hallb").is(":checked"),
+            hallc = $("#hallc").is(":checked"),
+            halld = $("#halld").is(":checked"),
             componentId = $("#component").attr("data-component-id"),
             componentName = $("#component").val(),
             action = $("#incident-action-button").attr("data-action"),
@@ -158,6 +162,11 @@ jlab.dtm.doIncidentAction = function (reload) {
     if (timeUp === "  -   -       :  ") {
         window.console && console.log("timepicker input placeholder mask is erroneously set as incidentTimeUp value!");
         timeUp = '';
+    }
+
+    if(parseInt(eventTypeId) === 8 && !halla && !hallb && !hallc && !halld) {
+        alert('You must select at least one hall with a Hall Event Type');
+        return;
     }
 
     if (!jlab.dtm.validateIncidentForm(action)) {
@@ -207,6 +216,10 @@ jlab.dtm.doIncidentAction = function (reload) {
             title: title,
             summary: summary,
             permitToWork: permitToWork,
+            halla: halla,
+            hallb: hallb,
+            hallc: hallc,
+            halld: halld,
             componentId: componentId,
             componentName: componentName,
             action: action,
@@ -765,6 +778,10 @@ jlab.dtm.clearIncidentForm = function (skipReloadSystem) {
     $("#title").val('');
     $("#summary").val('');
     $("#permit-to-work").val('');
+    $("#halla").prop("checked", false);
+    $("#hallb").prop("checked", false);
+    $("#hallc").prop("checked", false);
+    $("#halld").prop("checked", false);
     $("#system").val('');
     $("#component").attr("data-component-id", "");
     $("#component").val('');
