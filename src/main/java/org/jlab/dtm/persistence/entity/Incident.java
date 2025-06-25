@@ -118,6 +118,10 @@ public class Incident implements Serializable {
   @NotAudited
   private List<IncidentReview> incidentReviewList;
 
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "incident")
+  @NotAudited
+  private List<IncidentHall> incidentHallList;
+
   @Column(name = "DURATION_SECONDS", updatable = false, insertable = false)
   private Long durationSeconds;
 
@@ -236,6 +240,14 @@ public class Incident implements Serializable {
 
   public void setResolution(String resolution) {
     this.resolution = resolution;
+  }
+
+  public List<IncidentHall> getIncidentHallList() {
+    return incidentHallList;
+  }
+
+  public void setIncidentHallList(List<IncidentHall> incidentHallList) {
+    this.incidentHallList = incidentHallList;
   }
 
   public List<Repair> getRepairedByList() {
