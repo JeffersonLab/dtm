@@ -192,7 +192,11 @@
                                 </c:url>
                                 <div><a href="${url}">Downgrade Readiness</a></div>
                             </c:if>
-                        </span> 
+                        </span>
+                        <span class="cell-subfield">
+                            <span class="cell-sublabel">Halls Affected:</span>
+                            <span class="incident-table-halls-affected" data-halla="${incident.isHallAffected('A')}" data-hallb="${incident.isHallAffected('B')}" data-hallc="${incident.isHallAffected('C')}" data-halld="${incident.isHallAffected('D')}"><c:out value="${incident.getAffectedHallsCsv()}"/></span>
+                        </span>
                     </td>
                     <c:if test="${settings.is('LOGBOOK_ENABLED')}">
                         <td class="log-entry-cell">

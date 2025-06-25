@@ -387,6 +387,10 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
             title = $tr.find(".incident-table-title").text(),
             summary = $tr.find(".incident-table-summary").text(),
             permitToWork = $tr.find(".incident-table-permit-to-work").text(),
+            halla = $tr.find(".incident-table-halls-affected").attr("data-halla") === 'Y',
+            hallb = $tr.find(".incident-table-halls-affected").attr("data-hallb") === 'Y',
+            hallc = $tr.find(".incident-table-halls-affected").attr("data-hallc") === 'Y',
+            halld = $tr.find(".incident-table-halls-affected").attr("data-halld") === 'Y',
             systemId = $tr.find(".incident-table-system").attr("data-system-id"),
             componentName = $tr.find(".incident-table-component").text(),
             componentId = $tr.find(".incident-table-component").attr("data-component-id"),
@@ -406,6 +410,21 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
         permitToWork = '';
     }
 
+    if(halla) {
+        $("#halla").prop("checked", true);
+    }
+
+    if(hallb) {
+        $("#hallb").prop("checked", true);
+    }
+
+    if(hallc) {
+        $("#hallc").prop("checked", true);
+    }
+
+    if(halld) {
+        $("#halld").prop("checked", true);
+    }
 
     $("#category").val('');
 
