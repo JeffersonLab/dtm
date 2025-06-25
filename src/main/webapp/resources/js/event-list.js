@@ -135,6 +135,10 @@ jlab.dtm.doIncidentAction = function (reload) {
             title = $("#title").val(),
             summary = $("#summary").val(),
             permitToWork = $("#permit-to-work").val(),
+            halla = $("#halla").is(":checked"),
+            hallb = $("#hallb").is(":checked"),
+            hallc = $("#hallc").is(":checked"),
+            halld = $("#halld").is(":checked"),
             componentId = $("#component").attr("data-component-id"),
             componentName = $("#component").val(),
             action = $("#incident-action-button").attr("data-action"),
@@ -158,6 +162,11 @@ jlab.dtm.doIncidentAction = function (reload) {
     if (timeUp === "  -   -       :  ") {
         window.console && console.log("timepicker input placeholder mask is erroneously set as incidentTimeUp value!");
         timeUp = '';
+    }
+
+    if(parseInt(eventTypeId) === 8 && !halla && !hallb && !hallc && !halld) {
+        alert('You must select at least one hall with a Hall Event Type');
+        return;
     }
 
     if (!jlab.dtm.validateIncidentForm(action)) {
@@ -207,6 +216,10 @@ jlab.dtm.doIncidentAction = function (reload) {
             title: title,
             summary: summary,
             permitToWork: permitToWork,
+            halla: halla ? 'Y' : 'N',
+            hallb: hallb ? 'Y' : 'N',
+            hallc: hallc ? 'Y' : 'N',
+            halld: halld ? 'Y' : 'N',
             componentId: componentId,
             componentName: componentName,
             action: action,
@@ -374,6 +387,10 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
             title = $tr.find(".incident-table-title").text(),
             summary = $tr.find(".incident-table-summary").text(),
             permitToWork = $tr.find(".incident-table-permit-to-work").text(),
+            halla = $tr.find(".incident-table-halls-affected").attr("data-halla") === 'Y',
+            hallb = $tr.find(".incident-table-halls-affected").attr("data-hallb") === 'Y',
+            hallc = $tr.find(".incident-table-halls-affected").attr("data-hallc") === 'Y',
+            halld = $tr.find(".incident-table-halls-affected").attr("data-halld") === 'Y',
             systemId = $tr.find(".incident-table-system").attr("data-system-id"),
             componentName = $tr.find(".incident-table-component").text(),
             componentId = $tr.find(".incident-table-component").attr("data-component-id"),
@@ -393,6 +410,21 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
         permitToWork = '';
     }
 
+    if(halla) {
+        $("#halla").prop("checked", true);
+    }
+
+    if(hallb) {
+        $("#hallb").prop("checked", true);
+    }
+
+    if(hallc) {
+        $("#hallc").prop("checked", true);
+    }
+
+    if(halld) {
+        $("#halld").prop("checked", true);
+    }
 
     $("#category").val('');
 
@@ -765,6 +797,10 @@ jlab.dtm.clearIncidentForm = function (skipReloadSystem) {
     $("#title").val('');
     $("#summary").val('');
     $("#permit-to-work").val('');
+    $("#halla").prop("checked", false);
+    $("#hallb").prop("checked", false);
+    $("#hallc").prop("checked", false);
+    $("#halld").prop("checked", false);
     $("#system").val('');
     $("#component").attr("data-component-id", "");
     $("#component").val('');
@@ -1230,10 +1266,10 @@ $(function () {
     $("#review-dialog").dialog("option", "width", 550);
     $("#review-dialog").dialog("option", "resizable", false);
 
-    $("#incident-dialog").dialog("option", "height", 850);
-    $("#incident-dialog").dialog("option", "minHeight", 850);
-    $("#incident-dialog").dialog("option", "width", 850);
-    $("#incident-dialog").dialog("option", "minWidth", 850);
+    $("#incident-dialog").dialog("option", "height", 900);
+    $("#incident-dialog").dialog("option", "minHeight", 900);
+    $("#incident-dialog").dialog("option", "width", 950);
+    $("#incident-dialog").dialog("option", "minWidth", 950);
     $(".dialog").dialog("option", "draggable", true);
 
     $("#repaired-by").select2({

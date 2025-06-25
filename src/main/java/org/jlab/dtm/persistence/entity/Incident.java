@@ -118,6 +118,10 @@ public class Incident implements Serializable {
   @NotAudited
   private List<IncidentReview> incidentReviewList;
 
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "incident", fetch = FetchType.EAGER)
+  @NotAudited
+  private List<IncidentHall> incidentHallList;
+
   @Column(name = "DURATION_SECONDS", updatable = false, insertable = false)
   private Long durationSeconds;
 
@@ -238,6 +242,14 @@ public class Incident implements Serializable {
     this.resolution = resolution;
   }
 
+  public List<IncidentHall> getIncidentHallList() {
+    return incidentHallList;
+  }
+
+  public void setIncidentHallList(List<IncidentHall> incidentHallList) {
+    this.incidentHallList = incidentHallList;
+  }
+
   public List<Repair> getRepairedByList() {
     return repairedByList;
   }
@@ -300,6 +312,47 @@ public class Incident implements Serializable {
     }
 
     return level;
+  }
+
+  public String isHallAffected(String hall) {
+    boolean affected = false;
+
+    if (incidentHallList != null) {
+      for (IncidentHall incidentHall : incidentHallList) {
+        if (hall.equals(incidentHall.getHall().getLabel())) {
+          affected = true;
+          break;
+        }
+      }
+    }
+
+    return affected ? "Y" : "N";
+  }
+
+  public String getAffectedHallsCsv() {
+    String csv = "";
+
+    if (incidentHallList != null && !incidentHallList.isEmpty()) {
+
+      incidentHallList.sort(
+          new Comparator<IncidentHall>() {
+            @Override
+            public int compare(IncidentHall o1, IncidentHall o2) {
+              return o1.getHall().compareTo(o2.getHall());
+            }
+          });
+
+      IncidentHall ih = incidentHallList.get(0);
+
+      csv = ih.getHall().toString();
+
+      for (int i = 1; i < incidentHallList.size(); i++) {
+        ih = incidentHallList.get(i);
+        csv += "," + ih.getHall().toString();
+      }
+    }
+
+    return csv;
   }
 
   public String getRepairedByIdCsv() {

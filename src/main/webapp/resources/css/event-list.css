@@ -452,3 +452,14 @@ th.incident-log-entries-header {
 .category-cache {
     display: none;
 }
+.two-column-div {
+    display: flex;
+    gap: 1em;
+}
+
+.two-column-div > .column {
+    flex: 1;
+}
+.nested-two-column .li-key {
+    width: 60px;
+}

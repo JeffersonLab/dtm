@@ -54,7 +54,7 @@ public class OpenEvents extends HttpServlet {
     Category facilitiesRoot = categoryFacade.findBranch(BigInteger.valueOf(5L));
     Category hallRoot = categoryFacade.findBranch(BigInteger.valueOf(465L));
     logger.log(Level.FINEST, "Querying event type list");
-    List<EventType> eventTypeList = eventTypeFacade.findAll(new OrderDirective("weight"));
+    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
     logger.log(Level.FINEST, "Querying event list");
     List<Event> openEventList = eventFacade.findOpenEventListWithIncidents();
 

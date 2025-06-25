@@ -70,7 +70,7 @@ public class AllEvents extends HttpServlet {
     Category cryoRoot = categoryFacade.findBranch(BigInteger.valueOf(4L));
     Category facilitiesRoot = categoryFacade.findBranch(BigInteger.valueOf(5L));
     Category hallRoot = categoryFacade.findBranch(BigInteger.valueOf(465L));
-    List<EventType> eventTypeList = eventTypeFacade.findAll(new OrderDirective("weight"));
+    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
     List<Event> eventList = eventFacade.filterList(params);
     Long totalRecords = eventFacade.countFilterList(params);
 
