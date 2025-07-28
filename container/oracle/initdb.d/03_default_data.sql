@@ -118,8 +118,6 @@ insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (60
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (605, 'Level 1 Controls', 604, 1000);
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (606, 'Level 2 Controls', 604, 1000);
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (623, 'Sweep Procedures', 41, 1000);
-insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (643, 'UITF', 0, 20);
-insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (653, 'UITF Radiation Control', 643, 100);
 
 -- Populate System
 insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT, SRM_YN) values (35, 'Correctors (iron core)', 281, 1000, 'Y');
@@ -316,11 +314,6 @@ insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (1425
 insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (1426, 'Hall A Sweep Procedures', 623, 1000);
 insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (1427, 'Hall C Sweep Procedures', 623, 1000);
 insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (1566, 'Hall D GEM/TRD', 407, 1000);
-insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (1645, 'UITF Penetrations', 653, 1000);
-insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (1646, 'UITF Postings', 653, 1000);
-insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (1647, 'UITF Radiation Monitors', 653, 1000);
-insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (1648, 'UITF Shielding Configuration', 653, 1000);
-insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (1649, 'UITF Radcon Checklists', 653, 1000);
 insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (1705, 'UHV Getter Pumps (VGP)', 33, 1000);
 insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (1745, 'Hall A Spectrometer', 603, 1000);
 insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (1765, 'Hall D Forward MWPC/CTOF', 407, 1000);
