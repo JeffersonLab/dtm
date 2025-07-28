@@ -836,8 +836,6 @@ $(document).on("click", ".open-edit-incident-dialog-button", function () {
 
     $("#incident-dialog").dialog('option', 'title', 'Edit Incident');
 
-    jlab.dtm.setCategoryBasedOnType();
-
     jlab.dtm.selectCategoryBasedOnSystem(true);
 
     $("#start-with-checkbox").prop("checked", false).change();
@@ -873,15 +871,6 @@ $(document).on("click", ".open-add-incident-dialog-button", function () {
 
     jlab.dtm.clearIncidentForm(1);
     $("#incident-dialog-event-type").val(type);
-    jlab.dtm.setCategoryBasedOnType();
-
-    if(type == '1' || type == '') {
-        /*Accelerator*/
-    } else if (type == '2' || type == '3' || type == '4' || type == '5') {
-        $("#category").val(465); /*Hall*/
-    } else if(type == '6') {
-        /*$("#category").val(2);*/
-    }
 
     jlab.dtm.filterSystemSelect();
 
@@ -1000,39 +989,8 @@ $(document).on("click", ".close-event-button", function () {
     jlab.dtm.editEvent();
 });
 
-jlab.dtm.setCategoryBasedOnType = function() {
-    var type = $("#incident-dialog-event-type").val(),
-        accDowntime = type == '1' || type == '',
-        hallDowntime = type == '2' || type == '3' || type == '4' || type == '5',
-        lerfDowntime = type == '6';
-
-    if(accDowntime) {
-        $("#category").empty();
-        $("#category").append('<option value=""> </option>');
-        $("#category").append($("#cebaf-select").clone().children());
-        $("#category").append($("#cryo-select").clone().children());
-        $("#category").append($("#facilities-select").clone().children());
-        $("#category").append($("#other-select").clone().children());
-        $("#category").val("");
-    }
-    if (hallDowntime) {
-        $("#category").empty();
-        $("#category").append('<option value=""> </option>');
-        $("#category").append($("#hall-select").clone().children());
-        $("#category").val(465);
-    } else if (lerfDowntime) {
-        $("#category").empty();
-        $("#category").append('<option value=""> </option>');
-        $("#category").append($("#lerf-select").clone().children());
-        $("#category").append($("#other-select").clone().children());
-        $("#category").val("");
-    }
-};
-
 $(document).on("change", "#incident-dialog-event-type", function () {
     jlab.dtm.filterSystemSelect();
-
-    jlab.dtm.setCategoryBasedOnType();
 });
 $(document).on("change", "#category", function () {
     jlab.dtm.filterSystemSelect();

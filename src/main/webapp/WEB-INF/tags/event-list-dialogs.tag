@@ -168,38 +168,22 @@
                                     <c:forEach items="${categoryRoot.children}" var="child">
                                         <t:hierarchical-select-option node="${child}" level="0" parameterName="categoryId"/>
                                     </c:forEach>
-                                </select>
-                                <select class="category-cache" id="cebaf-select">
                                     <option value="1">CEBAF</option>
                                     <c:forEach items="${cebafRoot.children}" var="child">
                                         <t:hierarchical-select-option node="${child}" level="1" parameterName="categoryId"/>
                                     </c:forEach>
-                                </select>
-                                <select class="category-cache" id="lerf-select">
-                                    <option value="2">LERF</option>
-                                    <c:forEach items="${lerfRoot.children}" var="child">
-                                        <t:hierarchical-select-option node="${child}" level="1" parameterName="categoryId"/>
-                                    </c:forEach>
-                                </select>
-                                <select class="category-cache" id="other-select">
                                     <option value="3">Other</option>
                                     <c:forEach items="${otherRoot.children}" var="child">
                                         <t:hierarchical-select-option node="${child}" level="1" parameterName="categoryId"/>
                                     </c:forEach>
-                                </select>
-                                <select class="category-cache" id="cryo-select">
                                     <option value="4">Cryo</option>
                                     <c:forEach items="${cryoRoot.children}" var="child">
                                         <t:hierarchical-select-option node="${child}" level="1" parameterName="categoryId"/>
                                     </c:forEach>
-                                </select>
-                                <select class="category-cache" id="facilities-select">
                                     <option value="5">Facilities</option>
                                     <c:forEach items="${facilitiesRoot.children}" var="child">
                                         <t:hierarchical-select-option node="${child}" level="1" parameterName="categoryId"/>
                                     </c:forEach>
-                                </select>
-                                <select class="category-cache" id="hall-select">
                                     <option value="465">Hall Downtime</option>
                                     <c:forEach items="${hallRoot.children}" var="child">
                                         <t:hierarchical-select-option node="${child}" level="1" parameterName="categoryId"/>
