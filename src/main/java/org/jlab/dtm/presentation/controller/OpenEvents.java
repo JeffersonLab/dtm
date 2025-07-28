@@ -47,12 +47,7 @@ public class OpenEvents extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     logger.log(Level.FINEST, "Querying category tree");
-    Category cebafRoot = categoryFacade.findBranch(BigInteger.valueOf(1L));
-    Category lerfRoot = categoryFacade.findBranch(BigInteger.valueOf(2L));
-    Category otherRoot = categoryFacade.findBranch(BigInteger.valueOf(3L));
-    Category cryoRoot = categoryFacade.findBranch(BigInteger.valueOf(4L));
-    Category facilitiesRoot = categoryFacade.findBranch(BigInteger.valueOf(5L));
-    Category hallRoot = categoryFacade.findBranch(BigInteger.valueOf(465L));
+    Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L));
     logger.log(Level.FINEST, "Querying event type list");
     List<EventType> eventTypeList = eventTypeFacade.filterList(null);
     logger.log(Level.FINEST, "Querying event list");
@@ -73,12 +68,7 @@ public class OpenEvents extends HttpServlet {
     logger.log(Level.FINEST, "Querying group list");
     List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
 
-    request.setAttribute("cebafRoot", cebafRoot);
-    request.setAttribute("lerfRoot", lerfRoot);
-    request.setAttribute("otherRoot", otherRoot);
-    request.setAttribute("cryoRoot", cryoRoot);
-    request.setAttribute("facilitiesRoot", facilitiesRoot);
-    request.setAttribute("hallRoot", hallRoot);
+    request.setAttribute("categoryRoot", categoryRoot);
     request.setAttribute("openEventList", openEventList);
     request.setAttribute("eventTypeList", eventTypeList);
     request.setAttribute("groupList", groupList);

@@ -168,26 +168,6 @@
                                     <c:forEach items="${categoryRoot.children}" var="child">
                                         <t:hierarchical-select-option node="${child}" level="0" parameterName="categoryId"/>
                                     </c:forEach>
-                                    <option value="1">CEBAF</option>
-                                    <c:forEach items="${cebafRoot.children}" var="child">
-                                        <t:hierarchical-select-option node="${child}" level="1" parameterName="categoryId"/>
-                                    </c:forEach>
-                                    <option value="3">Other</option>
-                                    <c:forEach items="${otherRoot.children}" var="child">
-                                        <t:hierarchical-select-option node="${child}" level="1" parameterName="categoryId"/>
-                                    </c:forEach>
-                                    <option value="4">Cryo</option>
-                                    <c:forEach items="${cryoRoot.children}" var="child">
-                                        <t:hierarchical-select-option node="${child}" level="1" parameterName="categoryId"/>
-                                    </c:forEach>
-                                    <option value="5">Facilities</option>
-                                    <c:forEach items="${facilitiesRoot.children}" var="child">
-                                        <t:hierarchical-select-option node="${child}" level="1" parameterName="categoryId"/>
-                                    </c:forEach>
-                                    <option value="465">Hall Downtime</option>
-                                    <c:forEach items="${hallRoot.children}" var="child">
-                                        <t:hierarchical-select-option node="${child}" level="1" parameterName="categoryId"/>
-                                    </c:forEach>
                                 </select>
                                 <span id="category-indicator" class="form-control-indicator category-start-item"></span>
                             </div>

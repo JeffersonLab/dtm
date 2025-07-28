@@ -64,12 +64,7 @@ public class AllEvents extends HttpServlet {
       return;
     }
 
-    Category cebafRoot = categoryFacade.findBranch(BigInteger.valueOf(1L));
-    Category lerfRoot = categoryFacade.findBranch(BigInteger.valueOf(2L));
-    Category otherRoot = categoryFacade.findBranch(BigInteger.valueOf(3L));
-    Category cryoRoot = categoryFacade.findBranch(BigInteger.valueOf(4L));
-    Category facilitiesRoot = categoryFacade.findBranch(BigInteger.valueOf(5L));
-    Category hallRoot = categoryFacade.findBranch(BigInteger.valueOf(465L));
+    Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L));
     List<EventType> eventTypeList = eventTypeFacade.filterList(null);
     List<Event> eventList = eventFacade.filterList(params);
     Long totalRecords = eventFacade.countFilterList(params);
@@ -101,12 +96,7 @@ public class AllEvents extends HttpServlet {
 
     request.setAttribute("start", params.getStart());
     request.setAttribute("end", params.getEnd());
-    request.setAttribute("cebafRoot", cebafRoot);
-    request.setAttribute("lerfRoot", lerfRoot);
-    request.setAttribute("otherRoot", otherRoot);
-    request.setAttribute("cryoRoot", cryoRoot);
-    request.setAttribute("facilitiesRoot", facilitiesRoot);
-    request.setAttribute("hallRoot", hallRoot);
+    request.setAttribute("categoryRoot", categoryRoot);
     request.setAttribute("eventList", eventList);
     request.setAttribute("eventTypeList", eventTypeList);
     request.setAttribute("paginator", paginator);

@@ -113,14 +113,7 @@ public class WeeklyRepair extends HttpServlet {
     double topDowntime = 0;
     BigInteger eventTypeId = BigInteger.ONE;
 
-    // Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L),
-    // BigInteger.valueOf(2L));
-    Category cebafRoot = categoryFacade.findBranch(BigInteger.valueOf(1L));
-    Category lerfRoot = categoryFacade.findBranch(BigInteger.valueOf(2L));
-    Category otherRoot = categoryFacade.findBranch(BigInteger.valueOf(3L));
-    Category cryoRoot = categoryFacade.findBranch(BigInteger.valueOf(4L));
-    Category facilitiesRoot = categoryFacade.findBranch(BigInteger.valueOf(5L));
-    Category hallRoot = categoryFacade.findBranch(BigInteger.valueOf(465L));
+    Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L));
     List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
 
     IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
@@ -161,13 +154,7 @@ public class WeeklyRepair extends HttpServlet {
     request.setAttribute("topDowntime", topDowntime);
     request.setAttribute("totalRepairTime", totalRepairTime);
     request.setAttribute("periodDurationHours", periodDurationHours);
-    // request.setAttribute("categoryRoot", categoryRoot);
-    request.setAttribute("cebafRoot", cebafRoot);
-    request.setAttribute("lerfRoot", lerfRoot);
-    request.setAttribute("otherRoot", otherRoot);
-    request.setAttribute("cryoRoot", cryoRoot);
-    request.setAttribute("facilitiesRoot", facilitiesRoot);
-    request.setAttribute("hallRoot", hallRoot);
+    request.setAttribute("categoryRoot", categoryRoot);
 
     request
         .getRequestDispatcher("/WEB-INF/views/operability/weekly-repair.jsp")
