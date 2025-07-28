@@ -98,8 +98,6 @@ $(document).on("click", "#open-edit-selected-dialog-button", function() {
 
     $("#incident-dialog").dialog('option', 'title', 'Edit Incident');
 
-    jlab.dtm.setCategoryBasedOnType();
-
     jlab.dtm.selectCategoryBasedOnSystem(true);
 
     $("#start-with-checkbox").prop("checked", false).change();
