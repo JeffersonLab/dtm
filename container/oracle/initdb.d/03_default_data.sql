@@ -102,7 +102,7 @@ insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (28
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (301, 'Nature', 3, 1000);
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (302, 'Unknown/Missing', 3, 1000);
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (321, 'Software', 15, 1000);
-insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (381, 'Beam Transport', 3, 1);
+insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (381, 'Beam Transport', 0, 1);
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (401, 'Hall D', 0, 15);
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (402, 'Hall C', 0, 14);
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (403, 'Hall B', 0, 13);
@@ -121,6 +121,8 @@ insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (62
 
 
 -- Populate Alpha_Categories
+-- Other
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (3);
 -- Cryo
 insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (4);
 -- Facilities
