@@ -24,7 +24,6 @@ import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.IncidentReview;
 import org.jlab.dtm.persistence.entity.Workgroup;
-import org.jlab.dtm.persistence.enumeration.AccMachineState;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.business.util.TimeUtil;
 import org.jlab.smoothness.persistence.enumeration.Hall;
@@ -43,8 +42,7 @@ public class WeeklyRepair extends HttpServlet {
   @EJB ResponsibleGroupFacade groupFacade;
   @EJB CategoryFacade categoryFacade;
   @EJB IncidentReviewFacade reviewFacade;
-  @EJB
-  EventTypeFacade eventTypeFacade;
+  @EJB EventTypeFacade eventTypeFacade;
 
   /**
    * Handles the HTTP <code>GET</code> method.

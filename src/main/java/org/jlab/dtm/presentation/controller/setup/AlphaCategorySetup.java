@@ -1,20 +1,16 @@
 package org.jlab.dtm.presentation.controller.setup;
 
-import org.jlab.dtm.business.session.CategoryFacade;
-import org.jlab.dtm.business.session.SystemFacade;
-import org.jlab.dtm.persistence.entity.Category;
-import org.jlab.dtm.persistence.entity.SystemEntity;
-import org.jlab.smoothness.presentation.util.ParamConverter;
-
+import java.io.IOException;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.List;
+import org.jlab.dtm.business.session.CategoryFacade;
+import org.jlab.dtm.business.session.SystemFacade;
+import org.jlab.dtm.persistence.entity.Category;
 
 /**
  * @author ryans
@@ -40,7 +36,6 @@ public class AlphaCategorySetup extends HttpServlet {
       throws ServletException, IOException {
 
     List<Category> categoryList = categoryFacade.findAlphaCategoryList();
-
 
     request.setAttribute("categoryList", categoryList);
 
