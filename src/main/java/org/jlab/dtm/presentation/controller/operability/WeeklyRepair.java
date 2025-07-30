@@ -4,11 +4,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +24,7 @@ import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.business.util.TimeUtil;
 import org.jlab.smoothness.persistence.enumeration.Hall;
+import org.jlab.smoothness.presentation.util.ParamConverter;
 import org.jlab.smoothness.presentation.util.ParamUtil;
 import org.jlab.smoothness.presentation.util.ServletUtil;
 
@@ -62,6 +60,27 @@ public class WeeklyRepair extends HttpServlet {
       start = DtmParamConverter.convertJLabDateTime(request, "start");
     } catch (ParseException e) {
       throw new ServletException("Unable to parse date", e);
+    }
+
+    Boolean beamTransport = null;
+
+    try {
+      beamTransport = ParamConverter.convertYNBoolean(request, "transport");
+    } catch (Exception e) {
+      throw new RuntimeException("Unable to parse beam transport boolean", e);
+    }
+
+    List<Hall> hallList = DtmParamConverter.convertHallList(request, "hall");
+
+    BigInteger[] typeIdArray = ParamConverter.convertBigIntegerArray(request, "type");
+
+    List<EventType> typeList = new ArrayList<>();
+
+    if (typeIdArray != null) {
+      for (BigInteger id : typeIdArray) {
+        EventType type = eventTypeFacade.find(id);
+        typeList.add(type);
+      }
     }
 
     int offset = ParamUtil.convertAndValidateNonNegativeInt(request, "offset", 0);
@@ -122,7 +141,7 @@ public class WeeklyRepair extends HttpServlet {
     params.setEnd(end);
     params.setEventTypeId(eventTypeId);
     params.setMax(max);
-    params.setBeamTransport(false);
+    params.setBeamTransport(beamTransport);
 
     if (start != null && end != null) {
       periodDurationHours = (end.getTime() - start.getTime()) / 1000.0 / 60.0 / 60.0;
@@ -142,7 +161,7 @@ public class WeeklyRepair extends HttpServlet {
       }
     }
 
-    String selectionMessage = getSelectionMessage(start, end);
+    String selectionMessage = getSelectionMessage(start, end, beamTransport, typeList, hallList);
 
     request.setAttribute("start", start);
     request.setAttribute("end", end);
@@ -164,8 +183,42 @@ public class WeeklyRepair extends HttpServlet {
         .forward(request, response);
   }
 
-  public String getSelectionMessage(Date start, Date end) {
-    String selectionMessage = TimeUtil.formatSmartRangeSeparateTime(start, end);
+  public String getSelectionMessage(
+      Date start, Date end, Boolean beamTransport, List<EventType> typeList, List<Hall> hallList) {
+    String selectionMessage = "All Incidents ";
+
+    List<String> filters = new ArrayList<>();
+
+    filters.add(TimeUtil.formatSmartRangeSeparateTime(start, end));
+
+    if (typeList != null && !typeList.isEmpty()) {
+      filters.add(
+          "Type \""
+              + typeList.stream().map(EventType::getAbbreviation).collect(Collectors.joining(","))
+              + "\"");
+    }
+
+    if (hallList != null && !hallList.isEmpty()) {
+      filters.add(
+          "Hall \"" + hallList.stream().map(Enum::name).collect(Collectors.joining(",")) + "\"");
+    }
+
+    if (beamTransport != null) {
+      if (beamTransport) {
+        filters.add("Beam Transport \"Only\"");
+      } else {
+        filters.add("Beam Transport \"Excluded\"");
+      }
+    }
+
+    if (!filters.isEmpty()) {
+      selectionMessage = filters.get(0);
+
+      for (int i = 1; i < filters.size(); i++) {
+        String filter = filters.get(i);
+        selectionMessage += " and " + filter;
+      }
+    }
 
     return selectionMessage;
   }

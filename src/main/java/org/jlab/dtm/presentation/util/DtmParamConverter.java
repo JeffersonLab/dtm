@@ -21,6 +21,7 @@ import org.jlab.dtm.persistence.enumeration.RootCause;
 import org.jlab.dtm.persistence.enumeration.RootCauseIncidentMask;
 import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
 import org.jlab.smoothness.business.util.TimeUtil;
+import org.jlab.smoothness.persistence.enumeration.Hall;
 
 /**
  * @author ryans
@@ -253,6 +254,22 @@ public final class DtmParamConverter {
     }
 
     return value;
+  }
+
+  public static List<Hall> convertHallList(HttpServletRequest request, String name) {
+    String[] valueStrArray = request.getParameterValues(name);
+    List<Hall> valueList = new ArrayList<Hall>();
+
+    if (valueStrArray != null) {
+      for (String valueStr : valueStrArray) {
+        if (valueStr != null && !valueStr.isEmpty()) {
+          Hall value = Hall.valueOf(valueStr);
+          valueList.add(value);
+        }
+      }
+    }
+
+    return valueList;
   }
 
   public static HallMachineState[] convertHallStateArray(HttpServletRequest request, String name) {
