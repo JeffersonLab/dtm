@@ -109,3 +109,6 @@ body .me-button {
     display: inline-block;
     z-index: 2;
 }
+.filter-flyout-panel {
+    width: 550px;
+}

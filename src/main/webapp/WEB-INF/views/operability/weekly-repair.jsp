@@ -6,7 +6,7 @@
 <%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
 <jsp:useBean id="now" class="java.util.Date"/>
-<c:set var="title" value="Accelerator System Repair Report"/>
+<c:set var="title" value="Weekly Repair"/>
 <t:operability-page title="${title}">  
     <jsp:attribute name="stylesheets">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/downtime-report.css"/>
@@ -53,6 +53,42 @@
                                 </div>
                                 <div class="li-value">
                                     <input type="number" min="1" max="100" id="max" name="max" value="${max}"/>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="li-key">
+                                    <label for="type">Type</label>
+                                </div>
+                                <div class="li-value">
+                                    <select id="type" name="type" multiple="multiple">
+                                        <c:forEach items="${eventTypeList}" var="type">
+                                            <option value="${type.name}"${s:inArray(paramValues.type, type.name) ? ' selected="selected"' : ''}><c:out value="${type.name}"/> (<c:out value="${type.abbreviation}"/>): <c:out value="${type.description}"/></option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="li-key">
+                                    <label for="hall">Hall</label>
+                                </div>
+                                <div class="li-value">
+                                    <select id="hall" name="hall" multiple="multiple">
+                                        <c:forEach items="${hallArray}" var="hall">
+                                            <option value="${hall.name()}"${s:inArray(paramValues.hall, hall.name()) ? ' selected="selected"' : ''}><c:out value="${hall.label}"/></option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="li-key">
+                                    <label for="transport">Beam Transport</label>
+                                </div>
+                                <div class="li-value">
+                                    <select id="transport" name="transport">
+                                        <option value=""> </option>
+                                        <option value="N"${param.transport eq 'N' ? ' selected="selected"' : ''}>Exclude</option>
+                                        <option value="Y"${param.transport eq 'Y' ? ' selected="selected"' : ''}>Only</option>
+                                    </select>
                                 </div>
                             </li>
                         </ul>

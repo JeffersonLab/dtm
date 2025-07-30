@@ -110,4 +110,8 @@ $(function() {
     $("#open-edit-selected-dialog-button, #fullscreen-button, #exit-fullscreen-button").button();
 
     $("#open-edit-selected-dialog-button").button("option", "disabled", "disabled");
+
+    $("#type, #hall").select2({
+        width: 360
+    });
 });

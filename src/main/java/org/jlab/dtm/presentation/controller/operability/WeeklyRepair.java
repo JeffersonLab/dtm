@@ -17,17 +17,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.jlab.dtm.business.params.IncidentDowntimeReportParams;
+import org.jlab.dtm.business.session.*;
 import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
-import org.jlab.dtm.business.session.CategoryFacade;
-import org.jlab.dtm.business.session.IncidentReportService;
 import org.jlab.dtm.business.session.IncidentReportService.IncidentSummary;
-import org.jlab.dtm.business.session.IncidentReviewFacade;
-import org.jlab.dtm.business.session.ResponsibleGroupFacade;
 import org.jlab.dtm.persistence.entity.Category;
+import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.IncidentReview;
 import org.jlab.dtm.persistence.entity.Workgroup;
+import org.jlab.dtm.persistence.enumeration.AccMachineState;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.business.util.TimeUtil;
+import org.jlab.smoothness.persistence.enumeration.Hall;
 import org.jlab.smoothness.presentation.util.ParamUtil;
 import org.jlab.smoothness.presentation.util.ServletUtil;
 
@@ -43,6 +43,8 @@ public class WeeklyRepair extends HttpServlet {
   @EJB ResponsibleGroupFacade groupFacade;
   @EJB CategoryFacade categoryFacade;
   @EJB IncidentReviewFacade reviewFacade;
+  @EJB
+  EventTypeFacade eventTypeFacade;
 
   /**
    * Handles the HTTP <code>GET</code> method.
@@ -115,6 +117,7 @@ public class WeeklyRepair extends HttpServlet {
 
     Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L));
     List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
+    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
 
     IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
     params.setStart(start);
@@ -141,7 +144,7 @@ public class WeeklyRepair extends HttpServlet {
       }
     }
 
-    String selectionMessage = TimeUtil.formatSmartRangeSeparateTime(start, end);
+    String selectionMessage = getSelectionMessage(start, end);
 
     request.setAttribute("start", start);
     request.setAttribute("end", end);
@@ -155,10 +158,18 @@ public class WeeklyRepair extends HttpServlet {
     request.setAttribute("totalRepairTime", totalRepairTime);
     request.setAttribute("periodDurationHours", periodDurationHours);
     request.setAttribute("categoryRoot", categoryRoot);
+    request.setAttribute("eventTypeList", eventTypeList);
+    request.setAttribute("hallArray", Hall.values());
 
     request
         .getRequestDispatcher("/WEB-INF/views/operability/weekly-repair.jsp")
         .forward(request, response);
+  }
+
+  public String getSelectionMessage(Date start, Date end) {
+    String selectionMessage = TimeUtil.formatSmartRangeSeparateTime(start, end);
+
+    return selectionMessage;
   }
 
   private String getCurrentUrl(HttpServletRequest request, Date start, int max) {
