@@ -119,6 +119,45 @@ insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (60
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (606, 'Level 2 Controls', 604, 1000);
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (623, 'Sweep Procedures', 41, 1000);
 
+
+-- Populate Alpha_Categories
+-- Cryo
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (4);
+-- Facilities
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (5);
+-- Gun/Laser
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (6);
+-- Magnets
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (7);
+-- Operations
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (8);
+-- Radiation Controls
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (9);
+-- Vacuum
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (10);
+-- Safety Systems
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (11);
+-- Beam Dumps
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (14);
+-- Info Systems
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (15);
+-- Diagnostics
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (17);
+-- RF
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (18);
+-- Control System
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (285);
+-- Beam Transport
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (381);
+-- Hall A
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (404);
+-- Hall B
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (403);
+-- Hall C
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (402);
+-- Hall D
+insert into DTM_OWNER.ALPHA_CATEGORY (CATEGORY_ID) values (401);
+
 -- Populate System
 insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT, SRM_YN) values (35, 'Correctors (iron core)', 281, 1000, 'Y');
 insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT) values (36, 'Quads', 31, 1000);

@@ -491,160 +491,60 @@ from dtm_owner.system
 );
  */
 
-create view dtm_owner.SYSTEM_CATEGORY_CEBAF as
-select system_id, category_id from (
-SELECT system_id,
-(SELECT category_id
-FROM dtm_owner.category
-WHERE parent_id          = 1
-START WITH category_id = b.category_id
-CONNECT BY category_id = prior parent_id
-) AS "CATEGORY_ID"
-FROM dtm_owner.system b
-) where category_id is not null
-union all
-select system_id, 1 from dtm_owner.system where category_id = 1;
 
-create view dtm_owner.SYSTEM_CATEGORY_CRYO as
-select system_id, 4 as category_id from (
-SELECT system_id,
-(SELECT category_id
-FROM dtm_owner.category
-WHERE parent_id          = 4
-START WITH category_id = b.category_id
-CONNECT BY category_id = prior parent_id
-) AS "CATEGORY_ID"
-FROM dtm_owner.system b
-) where category_id is not null
-union all
-select system_id, 4 from dtm_owner.system where category_id = 4;
+create table DTM_OWNER.ALPHA_CATEGORY (
+    CATEGORY_ID NUMBER NOT NULL,
+    CONSTRAINT ALPHA_CATEGORY_PK PRIMARY KEY (CATEGORY_ID),
+    CONSTRAINT ALPHA_CATEGORY_FK1 FOREIGN KEY (CATEGORY_ID) REFERENCES DTM_OWNER.CATEGORY (CATEGORY_ID)
+);
 
-create view dtm_owner.SYSTEM_CATEGORY_FACILITIES as
-select system_id, 5 as category_id from (
-SELECT system_id,
-(SELECT category_id
-FROM dtm_owner.category
-WHERE parent_id          = 5
-START WITH category_id = b.category_id
-CONNECT BY category_id = prior parent_id
-) AS "CATEGORY_ID"
-FROM dtm_owner.system b
-) where category_id is not null
-union all
-select system_id, 5 from dtm_owner.system where category_id = 5;
+create type dtm_owner.alpha_row
+AS
+    object
+(
+    category_id NUMBER,
+    system_id NUMBER
+)
+/
 
-create view dtm_owner.SYSTEM_CATEGORY_LERF as
-select system_id, category_id from (
-SELECT system_id,
-(SELECT 2
-FROM dtm_owner.category
-WHERE parent_id          = 2
-START WITH category_id = b.category_id
-CONNECT BY category_id = prior parent_id
-) AS "CATEGORY_ID"
-FROM dtm_owner.system b
-) where category_id is not null
-union all
-select system_id, 2 from dtm_owner.system where category_id = 2;
+create type dtm_owner.ALPHA_TAB as table of dtm_owner.alpha_row
+/
 
-create view dtm_owner.SYSTEM_CATEGORY_OTHER as
-select system_id, 3 as category_id from (
-SELECT system_id,
-(SELECT category_id
-FROM dtm_owner.category
-WHERE parent_id          = 3
-START WITH category_id = b.category_id
-CONNECT BY category_id = prior parent_id
-) AS "CATEGORY_ID"
-FROM dtm_owner.system b
-) where category_id is not null and system_id != 616
-union all
-select system_id, 3 from dtm_owner.system where category_id = 3;
+create FUNCTION dtm_owner.generate_alpha_view
+    RETURN alpha_tab
+    IS
+    h_tab alpha_tab;
+    tab_i NUMBER := 1;
+BEGIN
+    h_tab := alpha_tab();
+    FOR outer_row  IN
+        (
+        SELECT category_id from dtm_owner.alpha_category
+        )
+        LOOP
+            FOR inner_row IN
+                (
+                select outer_row.category_id as category_id, system_id from system where category_id in (SELECT category_id
+                                                                                                         FROM category
+                                                                                                         START WITH category_id = outer_row.category_id
+                                                                                                         CONNECT BY PRIOR category_id = parent_id
+                )
+                )
+                LOOP
+                    h_tab.extend;
+                    h_tab(tab_i) := alpha_row(outer_row.category_id, inner_row.system_id);
+                    tab_i        := tab_i + 1;
+                END LOOP;
+        END LOOP;
+    RETURN h_tab;
+END;
+/
 
-create view dtm_owner.SYSTEM_CATEGORY_TRANSPORT as
-select system_id, 381 as category_id from (
-SELECT system_id,
-(SELECT category_id
-FROM dtm_owner.category
-WHERE parent_id          = 381
-START WITH category_id = b.category_id
-CONNECT BY category_id = prior parent_id
-) AS "CATEGORY_ID"
-FROM dtm_owner.system b
-) where category_id is not null
-union all
-select system_id, 381 from dtm_owner.system where category_id = 381;
-
-create view dtm_owner.SYSTEM_CATEGORY_HALLA as
-select system_id, category_id from (
-SELECT system_id,
-(SELECT 404
-FROM dtm_owner.category
-WHERE parent_id          = 404
-START WITH category_id = b.category_id
-CONNECT BY category_id = prior parent_id
-) AS "CATEGORY_ID"
-FROM dtm_owner.system b
-) where category_id is not null
-union all
-select system_id, 404 from dtm_owner.system where category_id = 404;
-
-create view dtm_owner.SYSTEM_CATEGORY_HALLB as
-select system_id, category_id from (
-SELECT system_id,
-(SELECT 403
-FROM dtm_owner.category
-WHERE parent_id          = 403
-START WITH category_id = b.category_id
-CONNECT BY category_id = prior parent_id
-) AS "CATEGORY_ID"
-FROM dtm_owner.system b
-) where category_id is not null
-union all
-select system_id, 403 from dtm_owner.system where category_id = 403;
-
-create view dtm_owner.SYSTEM_CATEGORY_HALLC as
-select system_id, category_id from (
-SELECT system_id,
-(SELECT 402
-FROM dtm_owner.category
-WHERE parent_id          = 402
-START WITH category_id = b.category_id
-CONNECT BY category_id = prior parent_id
-) AS "CATEGORY_ID"
-FROM dtm_owner.system b
-) where category_id is not null
-union all
-select system_id, 402 from dtm_owner.system where category_id = 402;
-
-create view dtm_owner.SYSTEM_CATEGORY_HALLD as
-select system_id, category_id from (
-SELECT system_id,
-(SELECT 401
-FROM dtm_owner.category
-WHERE parent_id          = 401
-START WITH category_id = b.category_id
-CONNECT BY category_id = prior parent_id
-) AS "CATEGORY_ID"
-FROM dtm_owner.system b
-) where category_id is not null
-union all
-select system_id, 401 from dtm_owner.system where category_id = 401;
-
-CREATE OR REPLACE VIEW DTM_OWNER.SYSTEM_ALPHA_CATEGORY AS
-(select "SYSTEM_ID","CATEGORY_ID" from dtm_owner.system_category_cebaf) union all
-(select "SYSTEM_ID","CATEGORY_ID" from dtm_owner.system_category_other) union all
-(select "SYSTEM_ID","CATEGORY_ID" from dtm_owner.system_category_transport) union all
-(select "SYSTEM_ID","CATEGORY_ID" from dtm_owner.system_category_cryo) union all
-(select "SYSTEM_ID","CATEGORY_ID" from dtm_owner.system_category_facilities);
-
-CREATE OR REPLACE VIEW DTM_OWNER.SYSTEM_ALPHA_CATEGORY_PLUS AS
-(select "SYSTEM_ID","CATEGORY_ID" from dtm_owner.system_alpha_category) union all
-(select "SYSTEM_ID","CATEGORY_ID" from dtm_owner.system_category_lerf) union all
-(select "SYSTEM_ID","CATEGORY_ID" from dtm_owner.system_category_halla) union all
-(select "SYSTEM_ID","CATEGORY_ID" from dtm_owner.system_category_hallb) union all
-(select "SYSTEM_ID","CATEGORY_ID" from dtm_owner.system_category_hallc) union all
-(select "SYSTEM_ID","CATEGORY_ID" from dtm_owner.system_category_halld);
+create view dtm_owner.system_alpha_category as
+(
+select *
+from TABLE (generate_alpha_view())
+);
 
 
 CREATE OR REPLACE VIEW DTM_OWNER.SYSTEM_PACKED_INCIDENTS as
