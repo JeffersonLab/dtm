@@ -7,8 +7,112 @@
 <c:set var="title" value="Alpha Categories"/>
 <s:setup-page title="${title}">
     <jsp:attribute name="stylesheets">
+        <c:choose>
+            <c:when test="${'CDN' eq resourceLocation}">
+                <link rel="stylesheet" type="text/css" href="${cdnContextPath}/jquery-plugins/jstree/3.3.8/themes/classic/style.min.css"/>
+            </c:when>
+            <c:otherwise><!-- LOCAL -->
+                <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/jstree/3.3.8/themes/classic/style.min.css"/>
+            </c:otherwise>
+        </c:choose>
+        <style>
+            .small-icon {
+                display: inline-block;
+                height: 16px;
+                width: 16px;
+                vertical-align: top;
+            }
+            .small-icon.CATEGORY {
+                background: url("../resources/img/category.png") 0 0;
+            }
+
+            .small-icon.SYSTEM {
+                background: url("../resources/img/system.png") 0 0;
+            }
+
+            #tree-widget {
+                width: 100%;
+                display: table;
+                /*border-top: 1px solid black;*/
+            }
+
+            #tree-nodes {
+                display: table-cell;
+                vertical-align: top;
+            }
+
+            #tree-keys {
+                width: 200px;
+                padding: 0 15px;
+                display: table-cell;
+            }
+        </style>
     </jsp:attribute>
     <jsp:attribute name="scripts">
+        <c:choose>
+            <c:when test="${'CDN' eq resourceLocation}">
+                <script src="${cdnContextPath}/jquery-plugins/jstree/3.3.8/jstree.min.js"></script>
+            </c:when>
+            <c:otherwise><!-- LOCAL -->
+                <script src="${pageContext.request.contextPath}/resources/jstree/3.3.8/jstree.min.js"></script>
+            </c:otherwise>
+        </c:choose>
+        <script>
+            $(function () {
+                $("#tree").jstree({
+                    core: {
+                        multiple: false,
+                        themes: {
+                            theme: "classic",
+                            dots: true,
+                            icons: true
+                        }
+                    },
+                    state: {key: 'setup'},
+                    types: {
+                        "#": {
+                            "max_children": 1
+                        },
+                        "CATEGORY": {
+                            "icon": "../resources/img/category.png"
+                        },
+                        "SYSTEM": {
+                            "icon": "../resources/img/system.png"
+                        },
+                        "COMPONENT": {
+                            "icon": "../resources/img/component.png"
+                        },
+                        "GROUP": {
+                            "icon": "../resources/img/group.png"
+
+                        },
+                        "default": {
+                            "icon": "../resources/img/file.png"
+                        }
+                    },
+                    plugins: ["types", "state", "conditionalselect"],
+                    conditionalselect: function (node) {
+                        return false;
+                    }
+                });
+            });
+
+            // conditional select
+            (function ($, undefined) {
+                "use strict";
+                $.jstree.defaults.conditionalselect = function () {
+                    return true;
+                };
+                $.jstree.plugins.conditionalselect = function (options, parent) {
+// own function
+                    this.activate_node = function (obj, e) {
+                        if (this.settings.conditionalselect.call(this, this.get_node(obj))) {
+                            parent.activate_node.call(this, obj, e);
+                        }
+                    };
+                };
+            })(jQuery);
+        </script>
     </jsp:attribute>        
     <jsp:body>
         <section>
@@ -29,6 +133,40 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <h3>All Categories/Systems</h3>
+            <div id="tree-widget">
+                <div id="tree-nodes">
+                    <div id="tree">
+                        <ul class="category-list">
+                            <c:set var="parent" value="${root}" scope="request"/>
+                            <jsp:include page="/WEB-INF/includes/category-tree-node.jsp"/>
+                        </ul>
+                    </div>
+                </div>
+                <div id="tree-keys">
+                    <fieldset>
+                        <legend>Node Key</legend>
+                        <ul class="key-value-list">
+                            <li>
+                                <div class="li-key">
+                                    <span class="small-icon CATEGORY"></span>
+                                </div>
+                                <div class="li-value">
+                                    Category
+                                </div>
+                            </li>
+                            <li>
+                                <div class="li-key">
+                                    <span class="small-icon SYSTEM"></span>
+                                </div>
+                                <div class="li-value">
+                                    System
+                                </div>
+                            </li>
+                        </ul>
+                    </fieldset>
+                </div>
+            </div>
         </section>
     </jsp:body>         
 </s:setup-page>

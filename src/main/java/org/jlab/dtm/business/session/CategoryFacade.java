@@ -12,6 +12,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.smoothness.business.util.IOUtil;
+import org.jlab.smoothness.persistence.util.JPAUtil;
 
 /**
  * @author ryans
@@ -31,8 +32,27 @@ public class CategoryFacade extends AbstractFacade<Category> {
     super(Category.class);
   }
 
+  @PermitAll
   public Category findRoot() {
     return find(BigInteger.ZERO);
+  }
+
+  @PermitAll
+  public Category findRootWithChildren() {
+    findAll(); // Load all categories into em cache
+    Category root = findRoot(); // Should be cache hit
+    initializeChildrenWithSystemList(root); // Recursive; should all be cache hits
+    return root;
+  }
+
+  @PermitAll
+  public void initializeChildrenWithSystemList(Category parent) {
+    if (parent.getCategoryList() != null) {
+      for (Category child : parent.getCategoryList()) {
+        initializeChildrenWithSystemList(child);
+      }
+    }
+    JPAUtil.initialize(parent.getSystemList());
   }
 
   @PermitAll

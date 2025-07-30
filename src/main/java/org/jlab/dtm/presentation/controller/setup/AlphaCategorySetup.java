@@ -39,6 +39,9 @@ public class AlphaCategorySetup extends HttpServlet {
 
     request.setAttribute("categoryList", categoryList);
 
+    Category root = categoryFacade.findRootWithChildren();
+    request.setAttribute("root", root);
+
     getServletConfig()
         .getServletContext()
         .getRequestDispatcher("/WEB-INF/views/setup/alpha-categories.jsp")
