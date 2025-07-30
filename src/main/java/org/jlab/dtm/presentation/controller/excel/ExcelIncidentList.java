@@ -69,9 +69,13 @@ public class ExcelIncidentList extends HttpServlet {
     BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
 
     EventType type = null;
+    BigInteger[] eventTypeIdArray = null;
 
     if (eventTypeId != null) {
       type = eventTypeFacade.find(eventTypeId);
+      if (type != null) {
+        eventTypeIdArray = new BigInteger[] {type.getEventTypeId()};
+      }
     }
 
     BigInteger systemId = ParamConverter.convertBigInteger(request, "system");
@@ -98,7 +102,7 @@ public class ExcelIncidentList extends HttpServlet {
     IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeId(eventTypeId);
+    params.setEventTypeIdArray(eventTypeIdArray);
     params.setSystemId(systemId);
     params.setComponent(component);
     params.setBeamTransport(beamTransport);

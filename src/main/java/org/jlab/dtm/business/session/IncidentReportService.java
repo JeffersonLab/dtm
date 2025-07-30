@@ -462,7 +462,7 @@ public class IncidentReportService {
   public double sumTotalBoundedDuration(IncidentDowntimeReportParams params) {
     Date start = params.getStart();
     Date end = params.getEnd();
-    BigInteger eventTypeId = params.getEventTypeId();
+    BigInteger[] eventTypeIdArray = params.getEventTypeIdArray();
     BigInteger systemId = params.getSystemId();
     BigInteger groupId = params.getWorkgroupId();
     String component = params.getComponent();
@@ -497,8 +497,11 @@ public class IncidentReportService {
       sql = sql + "and nvl(a.time_up, sysdate) >= :start ";
     }
 
-    if (eventTypeId != null) {
-      sql = sql + "and b.event_type_id = " + eventTypeId + " ";
+    if (eventTypeIdArray != null) {
+      String csv = IOUtil.toNullOrCsv(eventTypeIdArray);
+      if (csv != null) {
+        sql = sql + "and b.event_type_id in (" + csv + ") ";
+      }
     }
 
     if (systemId != null) {

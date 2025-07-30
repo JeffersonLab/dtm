@@ -136,6 +136,7 @@ public class MonthlyRepair extends HttpServlet {
     double totalRepairTime = 0;
     double topDowntime = 0;
     BigInteger eventTypeId = BigInteger.ONE;
+    BigInteger[] eventTypeIdArray = new BigInteger[] {eventTypeId};
 
     TrendRecord currentData = null;
     TrendRecord lastMonthData = null;
@@ -151,7 +152,7 @@ public class MonthlyRepair extends HttpServlet {
     IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeId(eventTypeId);
+    params.setEventTypeIdArray(eventTypeIdArray);
     params.setBeamTransport(false);
 
     if (start != null && end != null) {

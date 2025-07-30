@@ -139,7 +139,7 @@ public class WeeklyRepair extends HttpServlet {
     IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeId(eventTypeId);
+    params.setEventTypeIdArray(typeIdArray);
     params.setMax(max);
     params.setBeamTransport(beamTransport);
 

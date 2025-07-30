@@ -7,7 +7,7 @@ public class IncidentDowntimeReportParams {
 
   private Date start;
   private Date end;
-  private BigInteger eventTypeId;
+  private BigInteger[] eventTypeIdArray;
   private Boolean beamTransport;
   private Boolean overnightOpended;
   private BigInteger workgroupId;
@@ -40,12 +40,12 @@ public class IncidentDowntimeReportParams {
     this.end = end;
   }
 
-  public BigInteger getEventTypeId() {
-    return eventTypeId;
+  public BigInteger[] getEventTypeIdArray() {
+    return eventTypeIdArray;
   }
 
-  public void setEventTypeId(BigInteger eventTypeId) {
-    this.eventTypeId = eventTypeId;
+  public void setEventTypeIdArray(BigInteger[] eventTypeIdArray) {
+    this.eventTypeIdArray = eventTypeIdArray;
   }
 
   public Boolean getBeamTransport() {

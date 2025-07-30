@@ -60,9 +60,13 @@ public class ExcelTuneIncidentList extends HttpServlet {
     BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
 
     EventType type = null;
+    BigInteger[] eventTypeIdArray = null;
 
     if (eventTypeId != null) {
       type = eventTypeFacade.find(eventTypeId);
+      if (type != null) {
+        eventTypeIdArray = new BigInteger[] {type.getEventTypeId()};
+      }
     }
 
     String component = request.getParameter("component");
@@ -74,7 +78,7 @@ public class ExcelTuneIncidentList extends HttpServlet {
     IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeId(eventTypeId);
+    params.setEventTypeIdArray(eventTypeIdArray);
     params.setComponent(component);
 
     long totalRecords = incidentReportService.countFilterList(params);

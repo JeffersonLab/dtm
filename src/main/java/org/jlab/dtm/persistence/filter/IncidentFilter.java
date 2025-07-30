@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.jlab.dtm.business.params.IncidentDowntimeReportParams;
+import org.jlab.smoothness.business.util.IOUtil;
 import org.jlab.smoothness.persistence.filter.RequestFilter;
 
 /**
@@ -30,8 +31,11 @@ public class IncidentFilter extends RequestFilter<IncidentDowntimeReportParams> 
       filters.add("coalesce(a.time_up, sysdate) >= :start");
     }
 
-    if (params.getEventTypeId() != null) {
-      filters.add("b.event_type_id = " + params.getEventTypeId());
+    if (params.getEventTypeIdArray() != null && params.getEventTypeIdArray().length > 0) {
+      String csv = IOUtil.toNullOrCsv(params.getEventTypeIdArray());
+      if (csv != null) {
+        filters.add("b.event_type_id in (" + csv + ")");
+      }
     }
 
     if (params.getSystemId() != null) {
@@ -88,10 +92,10 @@ public class IncidentFilter extends RequestFilter<IncidentDowntimeReportParams> 
     if (params.getBeamTransport() != null) {
       if (params.getBeamTransport()) {
         filters.add(
-            "d.system_id = (select system_id from dtm_owner.system where name = 'Beam Transport')");
+            "d.system_id in (select system_id from dtm_owner.system_alpha_category join dtm_owner.category using (category_id) where category.name = 'Beam Transport')");
       } else {
         filters.add(
-            "d.system_id != (select system_id from dtm_owner.system where name = 'Beam Transport')");
+            "d.system_id not in (select system_id from dtm_owner.system_alpha_category join dtm_owner.category using (category_id) where category.name = 'Beam Transport')");
       }
     }
 

@@ -115,7 +115,7 @@ public class WeeklyTune extends HttpServlet {
     IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeId(eventTypeId);
+    params.setEventTypeIdArray(new BigInteger[] {eventTypeId});
 
     if (start != null && end != null) {
       periodDurationHours = (end.getTime() - start.getTime()) / 1000.0 / 60.0 / 60.0;

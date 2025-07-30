@@ -60,6 +60,12 @@ public class IncidentDowntimeReportUrlParamHandler
     }
 
     BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
+    BigInteger[] eventTypeIdArray = null;
+
+    if (eventTypeId != null) {
+      eventTypeIdArray = new BigInteger[] {eventTypeId};
+    }
+
     Boolean beamTransport = null;
 
     try {
@@ -89,7 +95,7 @@ public class IncidentDowntimeReportUrlParamHandler
 
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeId(eventTypeId);
+    params.setEventTypeIdArray(eventTypeIdArray);
     params.setBeamTransport(beamTransport);
     params.setWorkgroupId(groupId);
     params.setSystemId(systemId);
@@ -130,7 +136,7 @@ public class IncidentDowntimeReportUrlParamHandler
 
     session.setAttribute("start[]", new Date[] {params.getStart()});
     session.setAttribute("end[]", new Date[] {params.getEnd()});
-    session.setAttribute("eventTypeId[]", new BigInteger[] {params.getEventTypeId()});
+    session.setAttribute("eventTypeId[]", params.getEventTypeIdArray());
     session.setAttribute("transport[]", new Boolean[] {params.getBeamTransport()});
     session.setAttribute("systemId[]", new BigInteger[] {params.getSystemId()});
     session.setAttribute("group[]", new BigInteger[] {params.getWorkgroupId()});
@@ -149,7 +155,7 @@ public class IncidentDowntimeReportUrlParamHandler
 
     defaultParams.setStart(sevenDaysAgo);
     defaultParams.setEnd(today);
-    defaultParams.setEventTypeId(BigInteger.ONE);
+    defaultParams.setEventTypeIdArray(new BigInteger[] {BigInteger.ONE});
     defaultParams.setBeamTransport(false);
     defaultParams.setChart("bar");
     defaultParams.setData("downtime");
@@ -163,13 +169,13 @@ public class IncidentDowntimeReportUrlParamHandler
   public IncidentDowntimeReportParams materialize() {
     IncidentDowntimeReportParams defaultValues = defaults();
 
-    /* Note: We store each field indivdually as we want to re-use amoung screens*/
+    /* Note: We store each field individually as we want to re-use among screens*/
     /* Note: We use a 'SECURE' cookie so session changes every request unless over SSL/TLS */
     /* Note: We use an array regardless if the parameter is multi-valued because a null array means no page ever set this param before vs empty array or array with null elements means someone set it, but value is empty*/
     HttpSession session = request.getSession(true);
     Date[] startArray = (Date[]) session.getAttribute("start[]");
     Date[] endArray = (Date[]) session.getAttribute("end[]");
-    BigInteger[] eventTypeIdArray = (BigInteger[]) session.getAttribute("eventTypeId[]");
+    BigInteger[] eventTypeIdArraySession = (BigInteger[]) session.getAttribute("eventTypeId[]");
     Boolean[] transportArray = (Boolean[]) session.getAttribute("transport[]");
     BigInteger[] systemIdArray = (BigInteger[]) session.getAttribute("systemId[]");
     BigInteger[] groupIdArray = (BigInteger[]) session.getAttribute("groupId[]");
@@ -183,7 +189,7 @@ public class IncidentDowntimeReportUrlParamHandler
 
     Date start = defaultValues.getStart();
     Date end = defaultValues.getEnd();
-    BigInteger eventTypeId = defaultValues.getEventTypeId();
+    BigInteger[] eventTypeIdArray = defaultValues.getEventTypeIdArray();
     Boolean transport = defaultValues.getBeamTransport();
     BigInteger systemId = defaultValues.getSystemId();
     BigInteger groupId = defaultValues.getWorkgroupId();
@@ -203,8 +209,8 @@ public class IncidentDowntimeReportUrlParamHandler
       end = endArray[0];
     }
 
-    if (eventTypeIdArray != null && eventTypeIdArray.length > 0) {
-      eventTypeId = eventTypeIdArray[0];
+    if (eventTypeIdArraySession != null && eventTypeIdArraySession.length > 0) {
+      eventTypeIdArray = eventTypeIdArraySession;
     }
 
     if (transportArray != null && transportArray.length > 0) {
@@ -251,7 +257,7 @@ public class IncidentDowntimeReportUrlParamHandler
 
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeId(eventTypeId);
+    params.setEventTypeIdArray(eventTypeIdArray);
     params.setBeamTransport(transport);
     params.setWorkgroupId(groupId);
     params.setSystemId(systemId);
@@ -280,8 +286,8 @@ public class IncidentDowntimeReportUrlParamHandler
 
     EventType selectedType = null;
 
-    if (params.getEventTypeId() != null) {
-      selectedType = typeFacade.find(params.getEventTypeId());
+    if (params.getEventTypeIdArray() != null) {
+      selectedType = typeFacade.find(params.getEventTypeIdArray());
     }
 
     SystemEntity selectedSystem = null;
@@ -378,7 +384,7 @@ public class IncidentDowntimeReportUrlParamHandler
 
     builder.add("start", IOUtil.nullOrFormat(params.getStart(), dateFormat));
     builder.add("end", IOUtil.nullOrFormat(params.getEnd(), dateFormat));
-    builder.add("type", IOUtil.nullOrString(params.getEventTypeId()));
+    builder.add("type", IOUtil.nullOrString(params.getEventTypeIdArray()));
     builder.add("transport", IOUtil.nullOrBoolean(params.getBeamTransport()));
     builder.add("system", IOUtil.nullOrString(params.getSystemId()));
     builder.add("group", IOUtil.nullOrString(params.getWorkgroupId()));

@@ -78,8 +78,8 @@ public class TuneIncidents extends HttpServlet {
 
     EventType type = null;
 
-    if (params.getEventTypeId() != null) {
-      type = eventTypeFacade.find(params.getEventTypeId());
+    if (params.getEventTypeIdArray() != null) {
+      type = eventTypeFacade.find(params.getEventTypeIdArray());
     }
 
     List<SystemEntity> systemList =

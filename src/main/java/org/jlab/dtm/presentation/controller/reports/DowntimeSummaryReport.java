@@ -129,6 +129,12 @@ public class DowntimeSummaryReport extends HttpServlet {
       }
     }
 
+    BigInteger[] eventTypeIdArray = null;
+
+    if (eventTypeId != null) {
+      eventTypeIdArray = new BigInteger[] {eventTypeId};
+    }
+
     if (needRedirect) {
       response.sendRedirect(
           response.encodeRedirectURL(this.getCurrentUrl(request, start, end, eventTypeId)));
@@ -297,7 +303,7 @@ public class DowntimeSummaryReport extends HttpServlet {
       IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
       params.setStart(start);
       params.setEnd(end);
-      params.setEventTypeId(eventTypeId);
+      params.setEventTypeIdArray(eventTypeIdArray);
       params.setBeamTransport(beamTransport);
 
       // Now do incident stuff

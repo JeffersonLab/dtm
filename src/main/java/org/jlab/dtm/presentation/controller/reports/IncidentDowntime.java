@@ -117,7 +117,7 @@ public class IncidentDowntime extends HttpServlet {
 
       IncidentDowntimeReportParams itParams = new IncidentDowntimeReportParams();
 
-      itParams.setEventTypeId(params.getEventTypeId());
+      itParams.setEventTypeIdArray(params.getEventTypeIdArray());
       itParams.setSystemId(params.getSystemId());
       itParams.setWorkgroupId(params.getWorkgroupId());
       itParams.setComponent(params.getComponent());
