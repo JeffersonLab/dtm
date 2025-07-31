@@ -106,7 +106,7 @@ public class RootCauseReport extends HttpServlet {
     }
 
     Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L));
-    List<EventType> eventTypeList = eventTypeFacade.findAll(new OrderDirective("weight"));
+    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
 
     double periodDurationHours = 0.0;
     List<Incident> incidentList = null;

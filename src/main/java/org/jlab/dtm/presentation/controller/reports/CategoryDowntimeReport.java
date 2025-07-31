@@ -79,8 +79,7 @@ public class CategoryDowntimeReport extends HttpServlet {
       type = eventTypeFacade.find(params.getEventTypeId());
     }
 
-    List<EventType> eventTypeList =
-        eventTypeFacade.findAll(new AbstractFacade.OrderDirective("weight"));
+    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
 
     List<CategoryDowntime> downtimeList = null;
     List<CategoryDowntime> nonOverlappingCategoryDowntimeList = null;

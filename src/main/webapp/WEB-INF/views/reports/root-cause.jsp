@@ -34,8 +34,8 @@
                                 <div class="li-value">
                                     <select id="event-type" name="type">
                                         <option value="">&nbsp;</option>
-                                        <c:forEach items="${eventTypeList}" var="eventType">
-                                            <option value="${eventType.eventTypeId}"${param.type eq eventType.eventTypeId ? ' selected="selected"' : ''}><c:out value="${eventType.name}"/> (<c:out value="${eventType.abbreviation}"/>)</option>
+                                        <c:forEach items="${eventTypeList}" var="type">
+                                            <option value="${type.eventTypeId}"${param.type eq type.eventTypeId ? ' selected="selected"' : ''}><c:out value="${type.name}"/> (<c:out value="${type.abbreviation}"/>): <c:out value="${type.description}"/></option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -179,6 +179,7 @@
                                             <div><a class="incident-title-link" href="${pageContext.request.contextPath}/incidents/${incident.incidentId}" title="${fn:escapeXml(incident.summary)}"><c:out value="${incident.title}"/></a></div>
                                             <div><c:out value="${incident.system.name}"/>; <c:out value="${incident.component.name}"/></div>
                                             <div class="absolute-subcell" title="Not Bounded: ${fn:escapeXml(dtm:formatSmartDate(incident.timeDown))}">
+                                                <c:out value="${incident.event.eventType.abbreviation}"/>:
                                                 <c:choose>
                                                     <c:when test="${request.start ne null and incident.timeDown.time < request.start.time}">
                                                         <fmt:formatDate value="${request.start}" pattern="EEE, MMM d, HH:mm, yyyy"/>

@@ -91,8 +91,7 @@ public class SystemDowntimeReport extends HttpServlet {
       selectedCategory = categoryFacade.find(params.getCategoryId());
     }
 
-    List<EventType> eventTypeList =
-        eventTypeFacade.findAll(new AbstractFacade.OrderDirective("weight"));
+    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
     List<Category> categoryList = categoryFacade.findAlphaCategoryList();
 
     List<SystemDowntime> downtimeList = null;

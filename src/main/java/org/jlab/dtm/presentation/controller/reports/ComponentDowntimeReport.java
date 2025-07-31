@@ -89,8 +89,7 @@ public class ComponentDowntimeReport extends HttpServlet {
       selectedSystem = systemFacade.find(params.getSystemId());
     }
 
-    List<EventType> eventTypeList =
-        eventTypeFacade.findAll(new AbstractFacade.OrderDirective("weight"));
+    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
     List<SystemEntity> systemList =
         systemFacade.findAll(new OrderDirective("weight"), new OrderDirective("name"));
 
