@@ -128,6 +128,7 @@
                                             <td class="problem-td">
                                                 <a class="incident-title-link" href="${pageContext.request.contextPath}/incidents/${incident.incidentId}" title="${fn:escapeXml(incident.summary)}"><c:out value="${incident.title}"/></a>
                                                 <div class="start-time-subcell" title="Not Bounded: ${fn:escapeXml(dtm:formatSmartDate(incident.timeDown))}">
+                                                    <c:out value="${incident.type}"/>:
                                                     <c:choose>
                                                         <c:when test="${incident.timeDown.time < start.time}">
                                                             <c:out value="${dtm:formatSmartDate(start)}"/>
