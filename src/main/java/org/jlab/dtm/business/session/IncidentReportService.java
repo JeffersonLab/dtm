@@ -528,11 +528,11 @@ public class IncidentReportService {
       if (beamTransport) {
         sql =
             sql
-                + "and d.system_id = (select system_id from dtm_owner.system where name = 'Beam Transport') ";
+                + "and d.system_id in (select system_id from dtm_owner.system_alpha_category join dtm_owner.category using (category_id) where category.name = 'Beam Transport') ";
       } else {
         sql =
             sql
-                + "and d.system_id != (select system_id from dtm_owner.system where name = 'Beam Transport') ";
+                + "and d.system_id not in (select system_id from dtm_owner.system_alpha_category join dtm_owner.category using (category_id) where category.name = 'Beam Transport') ";
       }
     }
 

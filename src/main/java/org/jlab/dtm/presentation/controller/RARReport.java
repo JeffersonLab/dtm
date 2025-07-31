@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -98,7 +99,7 @@ public class RARReport extends HttpServlet {
     }
 
     Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L));
-    List<EventType> eventTypeList = eventTypeFacade.findAll(new OrderDirective("weight"));
+    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
 
     double periodDurationHours = 0.0;
     List<Incident> incidentList = null;
@@ -126,7 +127,7 @@ public class RARReport extends HttpServlet {
 
     DecimalFormat formatter = new DecimalFormat("###,###");
 
-    String selectionMessage = paramHandler.message(params);
+    String selectionMessage = message(params);
 
     String paginationMessage =
         " {"
@@ -185,5 +186,52 @@ public class RARReport extends HttpServlet {
     } catch (SQLException | WebApplicationException | InterruptedException e) {
       throw new ServletException(e);
     }
+  }
+
+  public String message(IncidentParams params) {
+    List<String> filters = new ArrayList<>();
+
+    EventType type = null;
+
+    if (params.getEventTypeId() != null) {
+      type = eventTypeFacade.find(params.getEventTypeId());
+    }
+
+    if (params.getStart() != null && params.getEnd() != null) {
+      filters.add(TimeUtil.formatSmartRangeSeparateTime(params.getStart(), params.getEnd()));
+    } else if (params.getStart() != null) {
+      filters.add("Starting " + TimeUtil.formatSmartSingleTime(params.getStart()));
+    } else if (params.getEnd() != null) {
+      filters.add("Before " + TimeUtil.formatSmartSingleTime(params.getEnd()));
+    }
+
+    if (type != null) {
+        filters.add("Type \"" + type.getAbbreviation() + "\"");
+    }
+
+    if (params.getEventId() != null) {
+      filters.add("Event ID \"" + params.getEventId() + "\"");
+    }
+
+    if (params.getSmeUsername() != null && !params.getSmeUsername().isEmpty()) {
+      filters.add("Reviewer \"" + params.getSmeUsername() + "\"");
+    }
+
+    if (params.getIncidentId() != null) {
+      filters.add("Incident ID \"" + params.getIncidentId() + "\"");
+    }
+
+    String message = "";
+
+    if (!filters.isEmpty()) {
+      message = filters.get(0);
+
+      for (int i = 1; i < filters.size(); i++) {
+        String filter = filters.get(i);
+        message += " and " + filter;
+      }
+    }
+
+    return message;
   }
 }

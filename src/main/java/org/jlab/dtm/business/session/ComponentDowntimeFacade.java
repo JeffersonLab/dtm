@@ -54,12 +54,12 @@ public class ComponentDowntimeFacade extends AbstractFacade<EternalComponent> {
       if (beamTransport) {
         sql =
             sql
-                + "and b.system_id = (select system_id from dtm_owner.system where name = 'Beam Transport') ";
+                + "and b.system_id in (select system_id from dtm_owner.system_alpha_category join dtm_owner.category using (category_id) where category.name = 'Beam Transport') ";
       }
       if (!beamTransport) {
         sql =
             sql
-                + "and b.system_id != (select system_id from dtm_owner.system where name = 'Beam Transport') ";
+                + "and b.system_id not in (select system_id from dtm_owner.system_alpha_category join dtm_owner.category using (category_id) where category.name = 'Beam Transport') ";
       }
     }
 

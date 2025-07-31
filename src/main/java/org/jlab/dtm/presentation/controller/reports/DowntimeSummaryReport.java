@@ -151,8 +151,7 @@ public class DowntimeSummaryReport extends HttpServlet {
       type = eventTypeFacade.find(eventTypeId);
     }
 
-    List<EventType> eventTypeList =
-        eventTypeFacade.findAll(new AbstractFacade.OrderDirective("weight"));
+    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
 
     List<EventDowntime> downtimeList = null;
     long eventCount = 0;

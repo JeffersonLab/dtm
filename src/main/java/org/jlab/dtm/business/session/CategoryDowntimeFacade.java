@@ -73,11 +73,11 @@ public class CategoryDowntimeFacade extends AbstractFacade<Category> {
       if (beamTransport) {
         sql =
             sql
-                + "and system_id = (select system_id from dtm_owner.system where name = 'Beam Transport') ";
+                + "and system_id in (select system_id from dtm_owner.system_alpha_category join dtm_owner.category using (category_id) where category.name = 'Beam Transport') ";
       } else {
         sql =
             sql
-                + "and system_id != (select system_id from dtm_owner.system where name = 'Beam Transport') ";
+                + "and system_id not in (select system_id from dtm_owner.system_alpha_category join dtm_owner.category using (category_id) where category.name = 'Beam Transport') ";
       }
     }
 

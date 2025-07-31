@@ -42,8 +42,8 @@
                                 <div class="li-value">
                                     <select id="event-type" name="type">
                                         <option value="">&nbsp;</option>
-                                        <c:forEach items="${eventTypeList}" var="eventType">
-                                            <option value="${eventType.eventTypeId}"${param.type eq eventType.eventTypeId ? ' selected="selected"' : ''}><c:out value="${eventType.name}"/> (<c:out value="${eventType.abbreviation}"/>)</option>
+                                        <c:forEach items="${eventTypeList}" var="type">
+                                            <option value="${type.eventTypeId}"${param.type eq type.eventTypeId ? ' selected="selected"' : ''}><c:out value="${type.name}"/> (<c:out value="${type.abbreviation}"/>): <c:out value="${type.description}"/></option>
                                         </c:forEach>
                                     </select>
                                 </div>
