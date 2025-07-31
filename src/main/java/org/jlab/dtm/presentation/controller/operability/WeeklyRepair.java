@@ -78,7 +78,7 @@ public class WeeklyRepair extends HttpServlet {
 
     if (typeIdArray != null) {
       for (BigInteger id : typeIdArray) {
-        if(id != null) {
+        if (id != null) {
           EventType type = eventTypeFacade.find(id);
           typeList.add(type);
         }
