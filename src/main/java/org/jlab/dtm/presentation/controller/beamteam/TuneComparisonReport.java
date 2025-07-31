@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.params.TuneComparisonReportParams;
-import org.jlab.dtm.business.session.AbstractFacade;
 import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
 import org.jlab.dtm.business.session.ComponentDowntimeFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;

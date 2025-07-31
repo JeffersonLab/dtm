@@ -206,7 +206,7 @@ public class RARReport extends HttpServlet {
     }
 
     if (type != null) {
-        filters.add("Type \"" + type.getAbbreviation() + "\"");
+      filters.add("Type \"" + type.getAbbreviation() + "\"");
     }
 
     if (params.getEventId() != null) {
