@@ -82,8 +82,7 @@ public class IncidentDowntime extends HttpServlet {
     List<SystemEntity> systemList =
         systemFacade.findAll(
             new AbstractFacade.OrderDirective("weight"), new AbstractFacade.OrderDirective("name"));
-    List<EventType> eventTypeList =
-        eventTypeFacade.findAll(new AbstractFacade.OrderDirective("weight"));
+    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
 
     double periodDurationHours = 0.0;
     List<IncidentSummary> incidentList = null;

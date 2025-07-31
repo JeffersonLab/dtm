@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -59,12 +60,7 @@ public class IncidentDowntimeReportUrlParamHandler
       throw new RuntimeException("Unable to parse date", e);
     }
 
-    BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
-    BigInteger[] eventTypeIdArray = null;
-
-    if (eventTypeId != null) {
-      eventTypeIdArray = new BigInteger[] {eventTypeId};
-    }
+    BigInteger[] typeIdArray = ParamConverter.convertBigIntegerArray(request, "type");
 
     Boolean beamTransport = null;
 
@@ -95,7 +91,7 @@ public class IncidentDowntimeReportUrlParamHandler
 
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeIdArray(eventTypeIdArray);
+    params.setEventTypeIdArray(typeIdArray);
     params.setBeamTransport(beamTransport);
     params.setWorkgroupId(groupId);
     params.setSystemId(systemId);
@@ -175,7 +171,7 @@ public class IncidentDowntimeReportUrlParamHandler
     HttpSession session = request.getSession(true);
     Date[] startArray = (Date[]) session.getAttribute("start[]");
     Date[] endArray = (Date[]) session.getAttribute("end[]");
-    BigInteger[] eventTypeIdArraySession = (BigInteger[]) session.getAttribute("eventTypeId[]");
+    BigInteger[] eventTypeIdArray = (BigInteger[]) session.getAttribute("eventTypeId[]");
     Boolean[] transportArray = (Boolean[]) session.getAttribute("transport[]");
     BigInteger[] systemIdArray = (BigInteger[]) session.getAttribute("systemId[]");
     BigInteger[] groupIdArray = (BigInteger[]) session.getAttribute("groupId[]");
@@ -189,7 +185,6 @@ public class IncidentDowntimeReportUrlParamHandler
 
     Date start = defaultValues.getStart();
     Date end = defaultValues.getEnd();
-    BigInteger[] eventTypeIdArray = defaultValues.getEventTypeIdArray();
     Boolean transport = defaultValues.getBeamTransport();
     BigInteger systemId = defaultValues.getSystemId();
     BigInteger groupId = defaultValues.getWorkgroupId();
@@ -209,8 +204,8 @@ public class IncidentDowntimeReportUrlParamHandler
       end = endArray[0];
     }
 
-    if (eventTypeIdArraySession != null && eventTypeIdArraySession.length > 0) {
-      eventTypeIdArray = eventTypeIdArraySession;
+    if (eventTypeIdArray == null) {
+      eventTypeIdArray = defaultValues.getEventTypeIdArray();
     }
 
     if (transportArray != null && transportArray.length > 0) {
@@ -282,12 +277,23 @@ public class IncidentDowntimeReportUrlParamHandler
 
     List<String> filters = new ArrayList<>();
 
-    String typeQualifier = "";
-
-    EventType selectedType = null;
-
     if (params.getEventTypeIdArray() != null) {
-      selectedType = typeFacade.find(params.getEventTypeIdArray());
+
+      List<EventType> typeList = new ArrayList<>();
+
+      for (BigInteger id : params.getEventTypeIdArray()) {
+        if (id != null) {
+          EventType type = typeFacade.find(id);
+          typeList.add(type);
+        }
+      }
+
+      if (!typeList.isEmpty()) {
+        filters.add(
+            "Type \""
+                + typeList.stream().map(EventType::getAbbreviation).collect(Collectors.joining(","))
+                + "\"");
+      }
     }
 
     SystemEntity selectedSystem = null;
@@ -326,10 +332,6 @@ public class IncidentDowntimeReportUrlParamHandler
               + " ("
               + params.getMinDurationUnits()
               + ")\"");
-    }
-
-    if (selectedType != null) {
-      filters.add("Type \"" + selectedType.getName() + "\"");
     }
 
     if (selectedSystem != null) {
@@ -384,7 +386,7 @@ public class IncidentDowntimeReportUrlParamHandler
 
     builder.add("start", IOUtil.nullOrFormat(params.getStart(), dateFormat));
     builder.add("end", IOUtil.nullOrFormat(params.getEnd(), dateFormat));
-    builder.add("type", IOUtil.nullOrString(params.getEventTypeIdArray()));
+    builder.add("type", params.getEventTypeIdArray());
     builder.add("transport", IOUtil.nullOrBoolean(params.getBeamTransport()));
     builder.add("system", IOUtil.nullOrString(params.getSystemId()));
     builder.add("group", IOUtil.nullOrString(params.getWorkgroupId()));
