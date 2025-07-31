@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.params.EventDowntimeReportParams;
-import org.jlab.dtm.business.session.AbstractFacade;
 import org.jlab.dtm.business.session.EventDowntimeFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.persistence.entity.EventType;
@@ -73,8 +72,7 @@ public class EventDowntimeReport extends HttpServlet {
       type = eventTypeFacade.find(params.getEventTypeId());
     }
 
-    List<EventType> eventTypeList =
-        eventTypeFacade.findAll(new AbstractFacade.OrderDirective("weight"));
+    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
 
     List<EventDowntime> downtimeList = null;
     long eventCount = 0;
