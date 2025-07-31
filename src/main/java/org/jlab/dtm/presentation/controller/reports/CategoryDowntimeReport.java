@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.params.CategoryDowntimeReportParams;
 import org.jlab.dtm.business.service.FsdTripService;
-import org.jlab.dtm.business.session.AbstractFacade;
 import org.jlab.dtm.business.session.CategoryDowntimeFacade;
 import org.jlab.dtm.business.session.CcAccHourService;
 import org.jlab.dtm.business.session.EventTypeFacade;
