@@ -10,7 +10,7 @@
     <li${'/setup/directory-cache' eq currentPath ? ' class="current-secondary"' : ''}>
         <a href="${pageContext.request.contextPath}/setup/directory-cache">Directory Cache</a>
     </li>
-    <li${'/setup/alpha-categories' eq currentPath ? ' class="current-secondary"' : ''}><a href="${pageContext.request.contextPath}/setup/alpha-categories">Alpha Categories</a></li>
+    <li${'/setup/categories' eq currentPath ? ' class="current-secondary"' : ''}><a href="${pageContext.request.contextPath}/setup/categories">Categories</a></li>
     <li${'/setup/subsystem-expert' eq currentPath ? ' class="current-secondary"' : ''}><a href="${pageContext.request.contextPath}/setup/subsystem-expert">Expert List</a></li>
     <li${'/setup/email' eq currentPath ? ' class="current-secondary"' : ''}><a href="${pageContext.request.contextPath}/setup/email">Email</a></li>
 </ul>

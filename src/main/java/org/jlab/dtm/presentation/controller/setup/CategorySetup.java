@@ -16,9 +16,9 @@ import org.jlab.dtm.persistence.entity.Category;
  * @author ryans
  */
 @WebServlet(
-    name = "AlphaCategorySetup",
-    urlPatterns = {"/setup/alpha-categories"})
-public class AlphaCategorySetup extends HttpServlet {
+    name = "CategorySetup",
+    urlPatterns = {"/setup/categories"})
+public class CategorySetup extends HttpServlet {
 
   @EJB CategoryFacade categoryFacade;
   @EJB SystemFacade systemFacade;
@@ -44,7 +44,7 @@ public class AlphaCategorySetup extends HttpServlet {
 
     getServletConfig()
         .getServletContext()
-        .getRequestDispatcher("/WEB-INF/views/setup/alpha-categories.jsp")
+        .getRequestDispatcher("/WEB-INF/views/setup/categories.jsp")
         .forward(request, response);
   }
 }

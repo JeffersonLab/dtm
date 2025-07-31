@@ -4,7 +4,7 @@
 <%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
 <%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
-<c:set var="title" value="Alpha Categories"/>
+<c:set var="title" value="Categories"/>
 <s:setup-page title="${title}">
     <jsp:attribute name="stylesheets">
         <c:choose>
@@ -117,22 +117,6 @@
     <jsp:body>
         <section>
             <h2><c:out value="${title}"/></h2>
-            <p>Categories are hierarchical, but many reports benefit from use of a subset of "alpha categories", which are a carefully chosen set that still captures all downtime, but is "flat", i.e. no alpha category is a subset of another alpha category, and therefore the alpha set is smaller than the full set.</p>
-            <p>It's up to the admins to ensure they don't include alpha categories here that are already covered by another alpha category or leave out a branch that would miss downtime.  Including the top-level category, for example, would immediately disqualify all other categories.  Any category that has one or more systems as a sibling is not a candidate for an alpha category (as the parent category would be needed to capture the downtime in the systems).</p>
-            <table id="alpha-table" class="data-table stripped-table">
-                <thead>
-                <tr>
-                    <th>Category Name</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="category" items="${categoryList}">
-                    <tr>
-                        <td><c:out value="${category.name}"/></td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
             <h3>All Categories/Systems</h3>
             <div id="tree-widget">
                 <div id="tree-nodes">
@@ -167,6 +151,25 @@
                     </fieldset>
                 </div>
             </div>
+            <h3>Alpha Categories</h3>
+            <p>Categories are hierarchical, but many reports benefit from use of a subset of "alpha categories", which are a carefully chosen set that still captures all downtime, but is "flat", i.e. no alpha category is a subset of another alpha category, and therefore the alpha set is smaller than the full set.</p>
+            <p>It's up to the admins to ensure they don't define alpha categories such that one duplicates downtime by another or leaves out a branch that would miss downtime.  Including the top-level category, for example, would immediately disqualify all other categories.  Any category that has one or more systems as a sibling is not a candidate for an alpha category (as the parent category would be needed to capture the downtime in the systems).</p>
+            <table id="alpha-table" class="data-table stripped-table">
+                <thead>
+                <tr>
+                    <th>Category Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="category" items="${categoryList}">
+                    <tr>
+                        <td><c:out value="${category.name}"/></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <h3>Beam Transport</h3>
+            The category named "Beam Transport" is special.  It should be configured as an Alpha Category.  The NPES schedule provides an allowance for beam transport, often referred to as tuning.    The Joule report contains a metric named Tuning and Restore, of which Beam Transport indirectly makes up a portion.  The Joule report incorporates tuning from BTM, which is measured via DTM Beam Transport and validated by Crew Chiefs.
         </section>
     </jsp:body>         
 </s:setup-page>
