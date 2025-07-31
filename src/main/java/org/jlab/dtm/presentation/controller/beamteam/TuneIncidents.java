@@ -1,10 +1,13 @@
 package org.jlab.dtm.presentation.controller.beamteam;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +24,7 @@ import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.presentation.params.IncidentDowntimeReportUrlParamHandler;
-import org.jlab.dtm.presentation.util.FilterSelectionMessage;
+import org.jlab.smoothness.business.util.TimeUtil;
 import org.jlab.smoothness.presentation.util.Paginator;
 import org.jlab.smoothness.presentation.util.ParamUtil;
 
@@ -76,17 +79,10 @@ public class TuneIncidents extends HttpServlet {
       return;
     }
 
-    EventType type = null;
-
-    if (params.getEventTypeIdArray() != null) {
-      type = eventTypeFacade.find(params.getEventTypeIdArray());
-    }
-
     List<SystemEntity> systemList =
         systemFacade.findAll(
             new AbstractFacade.OrderDirective("weight"), new AbstractFacade.OrderDirective("name"));
-    List<EventType> eventTypeList =
-        eventTypeFacade.findAll(new AbstractFacade.OrderDirective("weight"));
+    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
 
     int offset = ParamUtil.convertAndValidateNonNegativeInt(request, "offset", 0);
     int maxPerPage = ParamUtil.convertAndValidateNonNegativeInt(request, "max", 10);
@@ -111,24 +107,24 @@ public class TuneIncidents extends HttpServlet {
 
     DecimalFormat formatter = new DecimalFormat("###,###");
 
+    BigInteger[] typeIdArray = params.getEventTypeIdArray();
+    List<EventType> typeList = new ArrayList<>();
+    if (typeIdArray != null) {
+      for (BigInteger id : typeIdArray) {
+        if (id != null) {
+          EventType type = eventTypeFacade.find(id);
+          typeList.add(type);
+        }
+      }
+    }
+
     // We use null for BeamTransport parameter so it doesn't show up in message
     String selectionMessage =
-        FilterSelectionMessage.getDateRangeReportMessage(
-            params.getStart(),
-            params.getEnd(),
-            type,
-            null,
-            null,
-            null,
-            params.getComponent(),
-            null,
-            null,
-            "incident",
-            false);
+        getSelectionMessage(params.getStart(), params.getEnd(), typeList, params.getComponent());
 
     selectionMessage =
         selectionMessage
-            + "{"
+            + " {"
             + paginator.getStartNumber()
             + " - "
             + paginator.getEndNumber()
@@ -136,7 +132,6 @@ public class TuneIncidents extends HttpServlet {
             + formatter.format(totalRecords)
             + "}";
 
-    request.setAttribute("type", type);
     request.setAttribute("start", params.getStart());
     request.setAttribute("end", params.getEnd());
     request.setAttribute("eventTypeList", eventTypeList);
@@ -152,5 +147,36 @@ public class TuneIncidents extends HttpServlet {
     request
         .getRequestDispatcher("/WEB-INF/views/beam-team/tune-incidents.jsp")
         .forward(request, response);
+  }
+
+  public String getSelectionMessage(
+      Date start, Date end, List<EventType> typeList, String component) {
+    String selectionMessage = "All Tune Incidents ";
+
+    List<String> filters = new ArrayList<>();
+
+    filters.add(TimeUtil.formatSmartRangeSeparateTime(start, end));
+
+    if (typeList != null && !typeList.isEmpty()) {
+      filters.add(
+          "Type \""
+              + typeList.stream().map(EventType::getAbbreviation).collect(Collectors.joining(","))
+              + "\"");
+    }
+
+    if (component != null && !component.trim().isEmpty()) {
+      filters.add("component matches \"" + component + "\"");
+    }
+
+    if (!filters.isEmpty()) {
+      selectionMessage = filters.get(0);
+
+      for (int i = 1; i < filters.size(); i++) {
+        String filter = filters.get(i);
+        selectionMessage += " and " + filter;
+      }
+    }
+
+    return selectionMessage;
   }
 }
