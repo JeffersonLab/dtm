@@ -7,12 +7,16 @@ on:
 
 jobs:
   release:
+    permissions:
+      contents: write
     uses: jeffersonlab/java-workflows/.github/workflows/gh-release.yaml@v2
     with:
       files: build/libs/dtm.war
     secrets: inherit
 
   docker_publish:
+    permissions:
+      contents: read
     needs:
       - release
     uses: jeffersonlab/container-workflows/.github/workflows/docker-publish.yaml@v2
@@ -21,6 +25,8 @@ jobs:
     secrets: inherit
 
   acctest_deploy:
+    permissions:
+      contents: read
     needs:
       - release
     uses: jeffersonlab/general-workflows/.github/workflows/jlab-deploy-app.yaml@v2
