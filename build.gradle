@@ -11,7 +11,7 @@ ext.smoothnessVersion = '4.12.2'
 ext.releaseDate = new Date().format('MMM dd yyyy')
 
 tasks.withType(JavaCompile).configureEach {
-    options.release = 11
+    options.release = 17
     options.encoding = 'UTF-8'
     options.compilerArgs += ["-Xlint:deprecation", "-Xlint:unchecked"]
 }
