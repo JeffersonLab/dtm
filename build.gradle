@@ -5,8 +5,8 @@ plugins {
 }
 
 description = 'Down time manager app'
-group 'org.jlab'
-version new File("${projectDir}/VERSION").text.trim()
+group = 'org.jlab'
+version = new File("${projectDir}/VERSION").text.trim()
 ext.smoothnessVersion = '4.12.2'
 ext.releaseDate = new Date().format('MMM dd yyyy')
 
@@ -15,15 +15,9 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
     options.compilerArgs += ["-Xlint:deprecation", "-Xlint:unchecked"]
 }
-
 repositories {
     mavenCentral()
-
-    maven {
-        url "https://s01.oss.sonatype.org/content/repositories/releases/"
-    }
 }
-
 dependencies {
     // No matter what smoothness weblib MUST be included in WAR (https://github.com/JeffersonLab/smoothness/issues/4)
     implementation "org.jlab:smoothness-weblib:${smoothnessVersion}"
@@ -43,12 +37,14 @@ dependencies {
             'org.hibernate:hibernate-envers:5.3.28.Final',
             'org.jsoup:jsoup:1.14.2'
 }
-
+tasks.named('jar') {
+    enabled = false
+}
 war {
     archiveFileName = 'dtm.war'
     filesMatching('WEB-INF/web.xml') {
         filter {
-            String line -> line.replaceAll("@VERSION@", project.version.toString())
+            String line -> line.replaceAll("@VERSION@", version.toString())
         }
         filter {
             String line -> line.replaceAll("@RELEASE_DATE@", releaseDate)
@@ -58,7 +54,6 @@ war {
         }
     }
 }
-
 spotless {
     java {
         googleJavaFormat()
