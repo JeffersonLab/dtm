@@ -117,7 +117,7 @@
                                                 </div>
                                             </td>
                                             <td class="resolution-field"><span class="read-field"><c:out value="${incident.resolution}"/></span><span style="display: none;" class="write-field"><textarea><c:out value="${incident.resolution}"/></textarea></span></td>
-                                                        <c:url var="url" value="/beam-team/tune-incidents">
+                                                        <c:url var="url" value="/beam-transport/tune-incidents">
                                                             <c:param name="start" value="${fourWeeksAgoInclusiveFmt}"/>
                                                             <c:param name="end" value="${endFmt}"/>
                                                             <c:param name="type" value=""/>

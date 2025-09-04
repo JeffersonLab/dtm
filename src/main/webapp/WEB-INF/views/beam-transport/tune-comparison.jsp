@@ -153,7 +153,7 @@
                                     <c:forEach items="${downtimeList}" var="downtime">
                                         <tr>
                                             <td>
-                                                <c:url var="url" value="/beam-team/tune-incidents">
+                                                <c:url var="url" value="/beam-transport/tune-incidents">
                                                     <c:param name="start" value="${param.start eq null ? sevenDaysAgoFmt : param.start}"/>
                                                     <c:param name="end" value="${param.end eq null ? todayFmt : param.end}"/>
                                                     <c:param name="type" value="${param.type eq null ? '1' : param.type}"/>
