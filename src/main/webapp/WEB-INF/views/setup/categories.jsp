@@ -171,7 +171,7 @@
                 </tbody>
             </table>
             <h3>Type Roots</h3>
-            <p>Each Event Type has one or more root categories assigned that limits which components operators can select per type.</p>
+            <p>Each Event Type has one or more root categories assigned that limits which components operators can select.</p>
             <table id="root-table" class="data-table stripped-table">
                 <thead>
                 <tr>
