@@ -435,6 +435,8 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
         jlab.dtm.filterSystemSelect(systemId);
     }
 
+    jlab.dtm.toggleMultiHall(parseInt(eventType));
+
     $("#incident-dialog-event-type").val(eventType);
     $("#incident-dialog-event-time-up").val('');
     $("#time-down").val(timeDown);
@@ -584,6 +586,13 @@ jlab.dtm.loadLogbookReference = function () {
 
     request.always(function () {
     });
+};
+jlab.dtm.toggleMultiHall = function (type) {
+    if(jlab.multiHallTypes.includes(type)) {
+        $("#halls-affected-fieldset").show();
+    } else {
+        $("#halls-affected-fieldset").hide();
+    }
 };
 jlab.dtm.filterSystemSelect = function (setToSystemId) {
     if (jlab.isRequest()) {
@@ -872,6 +881,8 @@ $(document).on("click", ".open-add-incident-dialog-button", function () {
     jlab.dtm.clearIncidentForm(1);
     $("#incident-dialog-event-type").val(type);
 
+    jlab.dtm.toggleMultiHall(parseInt(type));
+
     jlab.dtm.filterSystemSelect();
 
     $("#time-down").val(jlab.dateTimeToJLabString(new Date()));
@@ -990,6 +1001,8 @@ $(document).on("click", ".close-event-button", function () {
 });
 
 $(document).on("change", "#incident-dialog-event-type", function () {
+    let type = parseInt($("#incident-dialog-event-type").val());
+    jlab.dtm.toggleMultiHall(type);
     jlab.dtm.filterSystemSelect();
 });
 $(document).on("change", "#category", function () {

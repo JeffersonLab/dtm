@@ -1,4 +1,4 @@
-<%@tag description="The Incident Table Template Tag" pageEncoding="UTF-8"%>
+<%@tag description="The Incident Table Template Tag" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -110,7 +110,7 @@
                         </li>                
                     </ul>
                 </fieldset>
-                <fieldset class="column">
+                <fieldset id="halls-affected-fieldset" class="column">
                     <legend>Halls Affected</legend>
                     <div class="two-column-div nested-two-column">
                         <ul class="key-value-list column">
@@ -475,3 +475,12 @@
     </fieldset>
     </section>
 </div>
+<script>
+    var jlab = jlab || {};
+    jlab.multiHallTypes = [];
+    <c:forEach items="${eventTypeList}" var="type">
+        <c:if test="${type.multiHall}">
+            jlab.multiHallTypes.push(${type.eventTypeId});
+        </c:if>
+    </c:forEach>
+</script>
