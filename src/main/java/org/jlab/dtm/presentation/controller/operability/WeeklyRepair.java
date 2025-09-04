@@ -136,7 +136,7 @@ public class WeeklyRepair extends HttpServlet {
 
     Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L));
     List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
-    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
+    List<EventType> eventTypeList = eventTypeFacade.findActiveWithCategories();
 
     IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
     params.setStart(start);

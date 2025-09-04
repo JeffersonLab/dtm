@@ -65,7 +65,7 @@ public class AllEvents extends HttpServlet {
     }
 
     Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L));
-    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
+    List<EventType> eventTypeList = eventTypeFacade.findActiveWithCategories();
     List<Event> eventList = eventFacade.filterList(params);
     Long totalRecords = eventFacade.countFilterList(params);
 

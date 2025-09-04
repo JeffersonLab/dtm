@@ -141,6 +141,22 @@ public class EventType implements Serializable {
     return categoryList;
   }
 
+  public String getCategoryJsArray() {
+    String js = "[";
+
+    if (categoryList != null && !categoryList.isEmpty()) {
+      js = js + categoryList.get(0).getCategoryId();
+
+      for (int i = 1; i < categoryList.size(); i++) {
+        js = js + "," + categoryList.get(i).getCategoryId();
+      }
+    }
+
+    js = js + "]";
+
+    return js;
+  }
+
   @Override
   public int hashCode() {
     int hash = 0;

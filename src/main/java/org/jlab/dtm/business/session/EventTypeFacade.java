@@ -1,9 +1,8 @@
 package org.jlab.dtm.business.session;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import javax.annotation.security.PermitAll;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,6 +19,8 @@ import org.jlab.dtm.persistence.enumeration.Include;
 public class EventTypeFacade extends AbstractFacade<EventType> {
   @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
+
+  @EJB CategoryFacade categoryFacade;
 
   @Override
   protected EntityManager getEntityManager() {
@@ -86,5 +87,18 @@ public class EventTypeFacade extends AbstractFacade<EventType> {
     }
 
     return typeList;
+  }
+
+  @PermitAll
+  public Set<Category> getRootCacheSet(List<EventType> eventTypeList) {
+    Set<Category> rootCacheSet = new HashSet<>();
+    for (EventType type : eventTypeList) {
+      for (Category category : type.getCategoryList()) {
+        Category withDescendentsLoaded = categoryFacade.findBranch(category.getCategoryId());
+        rootCacheSet.add(withDescendentsLoaded);
+      }
+    }
+
+    return rootCacheSet;
   }
 }

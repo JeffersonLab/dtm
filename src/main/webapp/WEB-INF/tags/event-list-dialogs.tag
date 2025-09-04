@@ -169,6 +169,14 @@
                                         <t:hierarchical-select-option node="${child}" level="0" parameterName="categoryId"/>
                                     </c:forEach>
                                 </select>
+                                <c:forEach items="${rootCacheSet}" var="root">
+                                    <select class="category-cache" id="category-cache-${root.categoryId}">
+                                        <option value="${root.categoryId}"><c:out value="${root.name}"/></option>
+                                        <c:forEach items="${root.children}" var="child">
+                                            <t:hierarchical-select-option node="${child}" level="1" parameterName="categoryId"/>
+                                        </c:forEach>
+                                    </select>
+                                </c:forEach>
                                 <span id="category-indicator" class="form-control-indicator category-start-item"></span>
                             </div>
                         </li>                
@@ -478,7 +486,10 @@
 <script>
     var jlab = jlab || {};
     jlab.multiHallTypes = [];
+    jlab.typeCategoryMap = new Map();
     <c:forEach items="${eventTypeList}" var="type">
+        jlab.typeCategoryMap.set(${type.eventTypeId}, ${type.categoryJsArray});
+
         <c:if test="${type.multiHall}">
             jlab.multiHallTypes.push(${type.eventTypeId});
         </c:if>
