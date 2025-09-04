@@ -1,0 +1,46 @@
+package org.jlab.dtm.presentation.controller.setup;
+
+import java.io.IOException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.jlab.dtm.business.session.AbstractFacade;
+import org.jlab.dtm.business.session.EventTypeFacade;
+import org.jlab.dtm.persistence.entity.EventType;
+
+/**
+ * @author ryans
+ */
+@WebServlet(
+    name = "EventTypeSetup",
+    urlPatterns = {"/setup/types"})
+public class EventTypeSetup extends HttpServlet {
+
+  @EJB EventTypeFacade typeFacade;
+
+  /**
+   * Handles the HTTP <code>GET</code> method.
+   *
+   * @param request servlet request
+   * @param response servlet response
+   * @throws ServletException if a servlet-specific error occurs
+   * @throws IOException if an I/O error occurs
+   */
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+
+    List<EventType> typeList = typeFacade.findAll(new AbstractFacade.OrderDirective("weight"));
+
+    request.setAttribute("typeList", typeList);
+
+    getServletConfig()
+        .getServletContext()
+        .getRequestDispatcher("/WEB-INF/views/setup/types.jsp")
+        .forward(request, response);
+  }
+}

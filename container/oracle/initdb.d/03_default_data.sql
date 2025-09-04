@@ -1,8 +1,8 @@
 alter session set container = XEPDB1;
 
 -- Populate EventType
-insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(1, 'CEBAF Blocked', 'CEBAF Program Blocked', 1, 'BLK', 'N');
-insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(2, 'Hall A', 'Hall A Physics Program', 4, 'HLA', 'N');
+insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn, multi_hall_yn) values(1, 'CEBAF Blocked', 'CEBAF Program Blocked', 1, 'BLK', 'N', 'Y');
+insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn, multi_hall_yn) values(2, 'Hall A', 'Hall A Physics Program', 4, 'HLA', 'N', 'Y');
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(3, 'Hall B', 'Hall B Physics Program', 5, 'HLB', 'N');
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(4, 'Hall C', 'Hall C Physics Program', 6, 'HLC', 'N');
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(5, 'Hall D','Hall D Physics Program', 7, 'HLD', 'N');
@@ -64,6 +64,7 @@ insert into DTM_OWNER.REGION (REGION_ID, NAME, ALIAS, WEIGHT) values (44, 'UITF 
 -- Populate Category
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (0, 'JLAB', null, 1);
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (1, 'CEBAF', 0, 1);
+insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (2, 'LERF', 0, 2);
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (3, 'Other', 0, 50);
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (4, 'Cryo', 0, 3);
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (5, 'Facilities', 0, 4);
@@ -119,6 +120,35 @@ insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (60
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (606, 'Level 2 Controls', 604, 1000);
 insert into DTM_OWNER.CATEGORY (CATEGORY_ID, NAME, PARENT_ID, WEIGHT) values (623, 'Sweep Procedures', 41, 1000);
 
+-- Populate Event Type Category Roots
+-- BLK
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (1, 1);
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (1, 3);
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (1, 4);
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (1, 5);
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (1, 381);
+-- DGD
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (8, 1);
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (8, 3);
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (8, 4);
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (8, 5);
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (8, 381);
+-- NP
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (7, 1);
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (7, 3);
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (7, 4);
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (7, 5);
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (7, 381);
+-- HLA
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (2, 404);
+-- HLB
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (3, 403);
+-- HLC
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (4, 402);
+-- HLD
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (5, 401);
+-- LRF
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (6, 2);
 
 -- Populate Alpha_Categories
 -- Other
