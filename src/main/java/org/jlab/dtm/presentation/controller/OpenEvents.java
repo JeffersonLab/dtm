@@ -3,6 +3,7 @@ package org.jlab.dtm.presentation.controller;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -49,7 +50,7 @@ public class OpenEvents extends HttpServlet {
     logger.log(Level.FINEST, "Querying category tree");
     Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L));
     logger.log(Level.FINEST, "Querying event type list");
-    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
+    List<EventType> eventTypeList = eventTypeFacade.findActiveWithCategories();
     logger.log(Level.FINEST, "Querying event list");
     List<Event> openEventList = eventFacade.findOpenEventListWithIncidents();
 
@@ -68,6 +69,9 @@ public class OpenEvents extends HttpServlet {
     logger.log(Level.FINEST, "Querying group list");
     List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
 
+    Set<Category> rootCacheSet = eventTypeFacade.getRootCacheSet(eventTypeList);
+
+    request.setAttribute("rootCacheSet", rootCacheSet);
     request.setAttribute("categoryRoot", categoryRoot);
     request.setAttribute("openEventList", openEventList);
     request.setAttribute("eventTypeList", eventTypeList);

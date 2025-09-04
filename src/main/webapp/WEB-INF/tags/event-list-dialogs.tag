@@ -1,4 +1,4 @@
-<%@tag description="The Incident Table Template Tag" pageEncoding="UTF-8"%>
+<%@tag description="The Incident Table Template Tag" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -110,7 +110,7 @@
                         </li>                
                     </ul>
                 </fieldset>
-                <fieldset class="column">
+                <fieldset id="halls-affected-fieldset" class="column">
                     <legend>Halls Affected</legend>
                     <div class="two-column-div nested-two-column">
                         <ul class="key-value-list column">
@@ -169,6 +169,14 @@
                                         <t:hierarchical-select-option node="${child}" level="0" parameterName="categoryId"/>
                                     </c:forEach>
                                 </select>
+                                <c:forEach items="${rootCacheSet}" var="root">
+                                    <select class="category-cache" id="category-cache-${root.categoryId}">
+                                        <option value="${root.categoryId}"><c:out value="${root.name}"/></option>
+                                        <c:forEach items="${root.children}" var="child">
+                                            <t:hierarchical-select-option node="${child}" level="1" parameterName="categoryId"/>
+                                        </c:forEach>
+                                    </select>
+                                </c:forEach>
                                 <span id="category-indicator" class="form-control-indicator category-start-item"></span>
                             </div>
                         </li>                
@@ -475,3 +483,15 @@
     </fieldset>
     </section>
 </div>
+<script>
+    var jlab = jlab || {};
+    jlab.multiHallTypes = [];
+    jlab.typeCategoryMap = new Map();
+    <c:forEach items="${eventTypeList}" var="type">
+        jlab.typeCategoryMap.set(${type.eventTypeId}, ${type.categoryJsArray});
+
+        <c:if test="${type.multiHall}">
+            jlab.multiHallTypes.push(${type.eventTypeId});
+        </c:if>
+    </c:forEach>
+</script>

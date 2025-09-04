@@ -8,20 +8,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.jlab.dtm.business.session.CategoryFacade;
+import org.jlab.dtm.business.session.AbstractFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;
-import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.entity.EventType;
 
 /**
  * @author ryans
  */
 @WebServlet(
-    name = "CategorySetup",
-    urlPatterns = {"/setup/categories"})
-public class CategorySetup extends HttpServlet {
+    name = "EventTypeSetup",
+    urlPatterns = {"/setup/types"})
+public class EventTypeSetup extends HttpServlet {
 
-  @EJB CategoryFacade categoryFacade;
   @EJB EventTypeFacade typeFacade;
 
   /**
@@ -36,18 +34,13 @@ public class CategorySetup extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-    List<Category> categoryList = categoryFacade.findAlphaCategoryList();
-    List<EventType> typeList = typeFacade.findActiveWithCategories();
+    List<EventType> typeList = typeFacade.findAll(new AbstractFacade.OrderDirective("weight"));
 
-    request.setAttribute("categoryList", categoryList);
     request.setAttribute("typeList", typeList);
-
-    Category root = categoryFacade.findRootWithChildren();
-    request.setAttribute("root", root);
 
     getServletConfig()
         .getServletContext()
-        .getRequestDispatcher("/WEB-INF/views/setup/categories.jsp")
+        .getRequestDispatcher("/WEB-INF/views/setup/types.jsp")
         .forward(request, response);
   }
 }

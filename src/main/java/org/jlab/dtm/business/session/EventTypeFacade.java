@@ -1,12 +1,14 @@
 package org.jlab.dtm.business.session;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import javax.annotation.security.PermitAll;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.enumeration.Include;
 
@@ -17,6 +19,8 @@ import org.jlab.dtm.persistence.enumeration.Include;
 public class EventTypeFacade extends AbstractFacade<EventType> {
   @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
+
+  @EJB CategoryFacade categoryFacade;
 
   @Override
   protected EntityManager getEntityManager() {
@@ -62,5 +66,39 @@ public class EventTypeFacade extends AbstractFacade<EventType> {
     orders.add(o0);
     cq.orderBy(orders);
     return getEntityManager().createQuery(cq).getResultList();
+  }
+
+  @PermitAll
+  public List<EventType> findActiveWithCategories() {
+    String str =
+        "SELECT distinct e FROM EventType e JOIN FETCH e.categoryList where e.archived = false order by e.weight asc";
+    TypedQuery<EventType> q = em.createQuery(str, EventType.class);
+    List<EventType> typeList = q.getResultList();
+
+    for (EventType type : typeList) {
+      type.getCategoryList()
+          .sort(
+              new Comparator<Category>() {
+                @Override
+                public int compare(Category o1, Category o2) {
+                  return o1.getName().compareTo(o2.getName());
+                }
+              });
+    }
+
+    return typeList;
+  }
+
+  @PermitAll
+  public Set<Category> getRootCacheSet(List<EventType> eventTypeList) {
+    Set<Category> rootCacheSet = new HashSet<>();
+    for (EventType type : eventTypeList) {
+      for (Category category : type.getCategoryList()) {
+        Category withDescendentsLoaded = categoryFacade.findBranch(category.getCategoryId());
+        rootCacheSet.add(withDescendentsLoaded);
+      }
+    }
+
+    return rootCacheSet;
   }
 }

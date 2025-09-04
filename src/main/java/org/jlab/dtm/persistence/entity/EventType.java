@@ -2,6 +2,7 @@ package org.jlab.dtm.persistence.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -55,6 +56,25 @@ public class EventType implements Serializable {
   @Convert(converter = YnStringToBoolean.class)
   private boolean archived;
 
+  @Basic
+  @Column(name = "MULTI_HALL_YN", nullable = false, length = 1)
+  @Convert(converter = YnStringToBoolean.class)
+  private boolean multiHall;
+
+  @JoinTable(
+      name = "TYPE_CATEGORY",
+      joinColumns = {
+        @JoinColumn(
+            name = "EVENT_TYPE_ID",
+            referencedColumnName = "EVENT_TYPE_ID",
+            nullable = false)
+      },
+      inverseJoinColumns = {
+        @JoinColumn(name = "CATEGORY_ID", referencedColumnName = "CATEGORY_ID", nullable = false)
+      })
+  @ManyToMany
+  private List<Category> categoryList;
+
   public EventType() {}
 
   public EventType(BigInteger eventTypeId) {
@@ -93,16 +113,6 @@ public class EventType implements Serializable {
     this.weight = weight;
   }
 
-  public String getShortName() {
-    String shortName = name;
-
-    if ("Accelerator".equals(name)) {
-      shortName = "Accel";
-    }
-
-    return shortName;
-  }
-
   public String getDescription() {
     return description;
   }
@@ -117,6 +127,34 @@ public class EventType implements Serializable {
 
   public void setArchived(boolean archived) {
     this.archived = archived;
+  }
+
+  public boolean isMultiHall() {
+    return multiHall;
+  }
+
+  public void setMultiHall(boolean multiHall) {
+    this.multiHall = multiHall;
+  }
+
+  public List<Category> getCategoryList() {
+    return categoryList;
+  }
+
+  public String getCategoryJsArray() {
+    String js = "[";
+
+    if (categoryList != null && !categoryList.isEmpty()) {
+      js = js + categoryList.get(0).getCategoryId();
+
+      for (int i = 1; i < categoryList.size(); i++) {
+        js = js + "," + categoryList.get(i).getCategoryId();
+      }
+    }
+
+    js = js + "]";
+
+    return js;
   }
 
   @Override

@@ -381,7 +381,7 @@ jlab.dtm.editSystemExpertReview = function () {
 jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
     var $table = $(this).closest("table"),
             $tr = $(this).closest("tr"),
-            eventType = $table.attr("data-event-type-id"),
+            eventType = parseInt($table.attr("data-event-type-id")),
             timeDown = $tr.find(".incident-table-time-down").text(),
             timeUp = $tr.find(".incident-table-time-up").text(),
             title = $tr.find(".incident-table-title").text(),
@@ -428,12 +428,16 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
 
     $("#category").val('');
 
+    jlab.dtm.filterCategorySelect(eventType);
+
     if (skipSystemListLoad === true) {
         $("#system").empty();
         $("#system").append('<option selected="selected" value="' + String(systemId).encodeXml() + '"> </option>');
     } else {
         jlab.dtm.filterSystemSelect(systemId);
     }
+
+    jlab.dtm.toggleMultiHall(eventType);
 
     $("#incident-dialog-event-type").val(eventType);
     $("#incident-dialog-event-time-up").val('');
@@ -585,13 +589,20 @@ jlab.dtm.loadLogbookReference = function () {
     request.always(function () {
     });
 };
+jlab.dtm.toggleMultiHall = function (type) {
+    if(jlab.multiHallTypes.includes(type)) {
+        $("#halls-affected-fieldset").show();
+    } else {
+        $("#halls-affected-fieldset").hide();
+    }
+};
 jlab.dtm.filterSystemSelect = function (setToSystemId) {
     if (jlab.isRequest()) {
         window.console && console.log("Ajax already in progress");
         return;
     }
 
-    var type = $("#incident-dialog-event-type").val();
+    var type = parseInt($("#incident-dialog-event-type").val());
 
     jlab.requestStart();
 
@@ -611,14 +622,9 @@ jlab.dtm.filterSystemSelect = function (setToSystemId) {
 
         jQuery.ajaxSettings.traditional = true; /*array bracket serialization*/
 
-        if(type == '1' || type == '') { /* Accelerator */
-            params.category_id = [1, 4, 5, 3]; /*CEBAF, Cryo, Facilities, Other*/
-        } else if (type == '2' || type == '3' || type == '4' || type == '5') { /* Hall */
-            params.category_id = 465; /*Hall Downtime*/
-        } else if(type == '6') { /* LERF */
-            params.category_id = [2, 3]; /*LERF, Other*/
+        if(!Number.isNaN(type)) {
+            params.category_id = jlab.typeCategoryMap.get(type);
         }
-
     }
 
     var request = jQuery.ajax({
@@ -658,6 +664,18 @@ jlab.dtm.filterSystemSelect = function (setToSystemId) {
         jlab.requestEnd();
         $("#system-indicator").html('');
     });
+};
+jlab.dtm.filterCategorySelect = function(type) {
+    $("#category").empty();
+    $("#category").append('<option value=""> </option>');
+    let categoryRootIdArray = jlab.typeCategoryMap.get(type);
+    if(categoryRootIdArray) {
+        categoryRootIdArray.forEach((id) => {
+            $("#category").append($("#category-cache-" + id).clone().children());
+        });
+    }
+
+    $("#category").val("");
 };
 jlab.dtm.selectCategoryBasedOnSystem = function (refreshSystemList) {
     if (jlab.isRequest()) {
@@ -867,10 +885,14 @@ $(document).on("click", "#open-add-event-dialog-button", function () {
 });
 $(document).on("click", ".open-add-incident-dialog-button", function () {
 
-    var type = $(this).closest(".event-detail").find(".incident-table").attr("data-event-type-id");
+    var type = parseInt($(this).closest(".event-detail").find(".incident-table").attr("data-event-type-id"));
 
     jlab.dtm.clearIncidentForm(1);
     $("#incident-dialog-event-type").val(type);
+
+    jlab.dtm.toggleMultiHall(type);
+
+    jlab.dtm.filterCategorySelect(type);
 
     jlab.dtm.filterSystemSelect();
 
@@ -990,6 +1012,9 @@ $(document).on("click", ".close-event-button", function () {
 });
 
 $(document).on("change", "#incident-dialog-event-type", function () {
+    let type = parseInt($("#incident-dialog-event-type").val());
+    jlab.dtm.toggleMultiHall(type);
+    jlab.dtm.filterCategorySelect(type);
     jlab.dtm.filterSystemSelect();
 });
 $(document).on("change", "#category", function () {

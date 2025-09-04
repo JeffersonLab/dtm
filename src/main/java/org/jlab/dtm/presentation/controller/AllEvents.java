@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -65,7 +66,7 @@ public class AllEvents extends HttpServlet {
     }
 
     Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L));
-    List<EventType> eventTypeList = eventTypeFacade.filterList(null);
+    List<EventType> eventTypeList = eventTypeFacade.findActiveWithCategories();
     List<Event> eventList = eventFacade.filterList(params);
     Long totalRecords = eventFacade.countFilterList(params);
 
@@ -94,6 +95,9 @@ public class AllEvents extends HttpServlet {
 
     List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
 
+    Set<Category> rootCacheSet = eventTypeFacade.getRootCacheSet(eventTypeList);
+
+    request.setAttribute("rootCacheSet", rootCacheSet);
     request.setAttribute("start", params.getStart());
     request.setAttribute("end", params.getEnd());
     request.setAttribute("categoryRoot", categoryRoot);
