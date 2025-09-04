@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.session.CategoryFacade;
-import org.jlab.dtm.business.session.SystemFacade;
+import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.persistence.entity.Category;
+import org.jlab.dtm.persistence.entity.EventType;
 
 /**
  * @author ryans
@@ -21,7 +22,7 @@ import org.jlab.dtm.persistence.entity.Category;
 public class CategorySetup extends HttpServlet {
 
   @EJB CategoryFacade categoryFacade;
-  @EJB SystemFacade systemFacade;
+  @EJB EventTypeFacade typeFacade;
 
   /**
    * Handles the HTTP <code>GET</code> method.
@@ -36,8 +37,10 @@ public class CategorySetup extends HttpServlet {
       throws ServletException, IOException {
 
     List<Category> categoryList = categoryFacade.findAlphaCategoryList();
+    List<EventType> typeList = typeFacade.findActiveWithCategories();
 
     request.setAttribute("categoryList", categoryList);
+    request.setAttribute("typeList", typeList);
 
     Category root = categoryFacade.findRootWithChildren();
     request.setAttribute("root", root);

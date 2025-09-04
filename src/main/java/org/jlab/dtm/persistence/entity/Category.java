@@ -3,20 +3,7 @@ package org.jlab.dtm.persistence.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.ColumnResult;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.SqlResultSetMapping;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.jlab.dtm.persistence.model.Node;
@@ -61,6 +48,9 @@ public class Category implements Serializable, Node {
 
   @OneToMany(mappedBy = "category")
   private List<SystemEntity> systemList;
+
+  @ManyToMany(mappedBy = "categoryList", fetch = FetchType.LAZY)
+  private List<EventType> typeList;
 
   public Category() {}
 

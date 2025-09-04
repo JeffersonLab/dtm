@@ -2,6 +2,7 @@ package org.jlab.dtm.persistence.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -55,6 +56,20 @@ public class EventType implements Serializable {
   @Convert(converter = YnStringToBoolean.class)
   private boolean archived;
 
+  @JoinTable(
+      name = "TYPE_CATEGORY",
+      joinColumns = {
+        @JoinColumn(
+            name = "EVENT_TYPE_ID",
+            referencedColumnName = "EVENT_TYPE_ID",
+            nullable = false)
+      },
+      inverseJoinColumns = {
+        @JoinColumn(name = "CATEGORY_ID", referencedColumnName = "CATEGORY_ID", nullable = false)
+      })
+  @ManyToMany
+  private List<Category> categoryList;
+
   public EventType() {}
 
   public EventType(BigInteger eventTypeId) {
@@ -107,6 +122,10 @@ public class EventType implements Serializable {
 
   public void setArchived(boolean archived) {
     this.archived = archived;
+  }
+
+  public List<Category> getCategoryList() {
+    return categoryList;
   }
 
   @Override

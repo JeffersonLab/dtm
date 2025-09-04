@@ -4,6 +4,8 @@
 <%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
 <%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
+<jsp:useBean id="categoryList" scope="request" type="java.util.List"/>
+<jsp:useBean id="typeList" scope="request" type="java.util.List"/>
 <c:set var="title" value="Categories"/>
 <s:setup-page title="${title}">
     <jsp:attribute name="stylesheets">
@@ -164,6 +166,30 @@
                 <c:forEach var="category" items="${categoryList}">
                     <tr>
                         <td><c:out value="${category.name}"/></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <h3>Type Roots</h3>
+            <p>Each Event Type has one or more root categories assigned that limits which components operators can select per type.</p>
+            <table id="root-table" class="data-table stripped-table">
+                <thead>
+                <tr>
+                    <th>Event Type</th>
+                    <th>Category</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="type" items="${typeList}">
+                    <tr>
+                        <td><c:out value="${type.name}"/></td>
+                        <td>
+                            <ul>
+                            <c:forEach items="${type.categoryList}" var="category">
+                                <li><c:out value="${category.name}"/></li>
+                            </c:forEach>
+                            </ul>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
