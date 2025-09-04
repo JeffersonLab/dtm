@@ -165,6 +165,9 @@ public class WeeklyRepair extends HttpServlet {
 
     String selectionMessage = getSelectionMessage(start, end, beamTransport, typeList, hallList);
 
+    Set<Category> rootCacheSet = eventTypeFacade.getRootCacheSet(eventTypeList);
+
+    request.setAttribute("rootCacheSet", rootCacheSet);
     request.setAttribute("start", start);
     request.setAttribute("end", end);
     request.setAttribute("selectionMessage", selectionMessage);
