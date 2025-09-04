@@ -6,7 +6,7 @@
 <%@attribute name="title"%>
 <%@attribute name="stylesheets" fragment="true"%>
 <%@attribute name="scripts" fragment="true"%>
-<s:page title="${title}" category="Beam Team">
+<s:page title="${title}" category="Beam Transport">
     <jsp:attribute name="stylesheets">       
         <jsp:invoke fragment="stylesheets"/>
     </jsp:attribute>
