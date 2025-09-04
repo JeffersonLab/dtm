@@ -1,4 +1,4 @@
-package org.jlab.dtm.presentation.controller.beamteam;
+package org.jlab.dtm.presentation.controller.beamtransport;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -34,7 +34,7 @@ import org.jlab.smoothness.presentation.util.ServletUtil;
  */
 @WebServlet(
     name = "WeeklyTune",
-    urlPatterns = {"/beam-team/weekly-tune"})
+    urlPatterns = {"/beam-transport/weekly-tune"})
 public class WeeklyTune extends HttpServlet {
 
   @EJB IncidentReportService incidentReportService;
@@ -150,7 +150,7 @@ public class WeeklyTune extends HttpServlet {
     request.setAttribute("categoryRoot", categoryRoot);
 
     request
-        .getRequestDispatcher("/WEB-INF/views/beam-team/weekly-tune.jsp")
+        .getRequestDispatcher("/WEB-INF/views/beam-transport/weekly-tune.jsp")
         .forward(request, response);
   }
 

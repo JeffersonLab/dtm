@@ -1,4 +1,4 @@
-package org.jlab.dtm.presentation.controller.beamteam;
+package org.jlab.dtm.presentation.controller.beamtransport;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -27,7 +27,7 @@ import org.jlab.dtm.presentation.util.FilterSelectionMessage;
  */
 @WebServlet(
     name = "TuneComparisonReport",
-    urlPatterns = {"/beam-team/tune-comparison"})
+    urlPatterns = {"/beam-transport/tune-comparison"})
 public class TuneComparisonReport extends HttpServlet {
 
   @EJB EventTypeFacade eventTypeFacade;
@@ -127,7 +127,7 @@ public class TuneComparisonReport extends HttpServlet {
     request.setAttribute("periodDurationHours", periodDurationHours);
 
     request
-        .getRequestDispatcher("/WEB-INF/views/beam-team/tune-comparison.jsp")
+        .getRequestDispatcher("/WEB-INF/views/beam-transport/tune-comparison.jsp")
         .forward(request, response);
   }
 }

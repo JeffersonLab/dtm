@@ -7,7 +7,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
 <jsp:useBean id="now" class="java.util.Date"/>
 <c:set var="title" value="Accelerator Beam Tune Report"/>
-<t:beam-team-page title="${title}">  
+<t:beam-transport-page title="${title}">
     <jsp:attribute name="stylesheets">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/downtime-report.css"/>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/event-list.css"/>
@@ -173,4 +173,4 @@
         </form>            
         <t:event-list-dialogs eventTypeList="${eventTypeList}" systemList="${systemList}"/>        
     </jsp:body>         
-</t:beam-team-page>
+</t:beam-transport-page>
