@@ -16,8 +16,8 @@
             href="${pageContext.request.contextPath}/operability/weekly-repair">Operability</a></li>
     <li${'/rar' eq currentPath ? ' class="current-primary"' : ''}><a
             href="${pageContext.request.contextPath}/rar">RAR</a></li>
-    <li${fn:startsWith(currentPath, '/beam-team') ? ' class="current-primary"' : ''}><a
-            href="${pageContext.request.contextPath}/beam-team/weekly-tune">Beam Team</a></li>
+    <li${fn:startsWith(currentPath, '/beam-transport') ? ' class="current-primary"' : ''}><a
+            href="${pageContext.request.contextPath}/beam-transport/weekly-tune">Beam Transport</a></li>
     <c:if test="${pageContext.request.isUserInRole('dtm-admin')}">
         <li${fn:startsWith(currentPath, '/setup') ? ' class="current-primary"' : ''}><a
                 href="${pageContext.request.contextPath}/setup/settings">Setup</a></li>

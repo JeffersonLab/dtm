@@ -1,4 +1,4 @@
-package org.jlab.dtm.presentation.controller.beamteam;
+package org.jlab.dtm.presentation.controller.beamtransport;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -33,7 +33,7 @@ import org.jlab.smoothness.presentation.util.ParamUtil;
  */
 @WebServlet(
     name = "TuneIncidents",
-    urlPatterns = {"/beam-team/tune-incidents"})
+    urlPatterns = {"/beam-transport/tune-incidents"})
 public class TuneIncidents extends HttpServlet {
 
   @EJB EventTypeFacade eventTypeFacade;
@@ -145,7 +145,7 @@ public class TuneIncidents extends HttpServlet {
     request.setAttribute("periodDurationHours", periodDurationHours);
 
     request
-        .getRequestDispatcher("/WEB-INF/views/beam-team/tune-incidents.jsp")
+        .getRequestDispatcher("/WEB-INF/views/beam-transport/tune-incidents.jsp")
         .forward(request, response);
   }
 
