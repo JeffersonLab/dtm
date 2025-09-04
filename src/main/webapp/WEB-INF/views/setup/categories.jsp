@@ -18,6 +18,10 @@
             </c:otherwise>
         </c:choose>
         <style>
+            #root-table ul {
+                margin: 0;
+                padding-left: 1em;
+            }
             .small-icon {
                 display: inline-block;
                 height: 16px;
@@ -195,7 +199,7 @@
                 </tbody>
             </table>
             <h3>Beam Transport</h3>
-            The category named "Beam Transport" is special.  It should be configured as an Alpha Category.  The NPES schedule provides an allowance for beam transport, often referred to as tuning.    The Joule report contains a metric named Tuning and Restore, of which Beam Transport indirectly makes up a portion.  The Joule report incorporates tuning from BTM, which is measured via DTM Beam Transport and validated by Crew Chiefs.
+            The category named "Beam Transport" is special.  It should be configured as an Alpha Category.  The NPES schedule provides an allowance for beam transport, often referred to as tuning.    The Joule report contains a metric named Tuning and Restore, of which Beam Transport indirectly makes up a portion.
         </section>
     </jsp:body>         
 </s:setup-page>
