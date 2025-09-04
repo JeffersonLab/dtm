@@ -93,16 +93,6 @@ public class EventType implements Serializable {
     this.weight = weight;
   }
 
-  public String getShortName() {
-    String shortName = name;
-
-    if ("Accelerator".equals(name)) {
-      shortName = "Accel";
-    }
-
-    return shortName;
-  }
-
   public String getDescription() {
     return description;
   }

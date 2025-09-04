@@ -1,14 +1,14 @@
 alter session set container = XEPDB1;
 
 -- Populate EventType
-insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation) values(1, 'Accelerator', 'Program Blocked', 1, 'ACC');
-insert into dtm_owner.event_type (event_type_id, name, weight, abbreviation, archived_yn) values(2, 'Hall A', 2, 'HLA', 'Y');
-insert into dtm_owner.event_type (event_type_id, name, weight, abbreviation, archived_yn) values(3, 'Hall B', 3, 'HLB', 'Y');
-insert into dtm_owner.event_type (event_type_id, name, weight, abbreviation, archived_yn) values(4, 'Hall C', 4, 'HLC', 'Y');
-insert into dtm_owner.event_type (event_type_id, name, weight, abbreviation, archived_yn) values(5, 'Hall D', 5, 'HLD', 'Y');
-insert into dtm_owner.event_type (event_type_id, name, weight, abbreviation, archived_yn) values(6, 'LERF', 6, 'LRF', 'Y');
-insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation) values(7, 'Non-Program', 'Program Unaffected', 3, 'NP');
-insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation) values(8, 'Hall', 'Program Degraded', 2, 'HL');
+insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(1, 'CEBAF Blocked', 'CEBAF Program Blocked', 1, 'BLK', 'N');
+insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(2, 'Hall A', 'Hall A Physics Program', 4, 'HLA', 'N');
+insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(3, 'Hall B', 'Hall B Physics Program', 5, 'HLB', 'N');
+insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(4, 'Hall C', 'Hall C Physics Program', 6, 'HLC', 'N');
+insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(5, 'Hall D','Hall D Physics Program', 7, 'HLD', 'N');
+insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(6, 'LERF', 'LERF Program', 8,  'LRF', 'N');
+insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(7, 'CEBAF Non-Program', 'CEBAF Program Unaffected', 3, 'NP', 'N');
+insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(8, 'CEBAF Degraded', 'CEBAF Program Degraded', 2, 'DGD', 'N');
 
 -- Populate Workgroup
 insert into DTM_OWNER.WORKGROUP (WORKGROUP_ID, NAME) values (1, 'Group 1');

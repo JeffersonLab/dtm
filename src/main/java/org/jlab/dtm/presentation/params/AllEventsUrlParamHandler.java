@@ -212,7 +212,7 @@ public class AllEventsUrlParamHandler implements UrlParamHandler<AllEventsParams
     }
 
     if (type != null) {
-      filters.add("Type \"" + type.getShortName() + "\"");
+      filters.add("Type \"" + type.getName() + "\"");
     }
 
     if (params.getAcknowledgement() != null) {
