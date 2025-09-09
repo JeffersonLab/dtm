@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.params.AllEventsParams;
-import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
 import org.jlab.dtm.business.session.CategoryFacade;
 import org.jlab.dtm.business.session.EventFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;
@@ -93,7 +92,7 @@ public class AllEvents extends HttpServlet {
 
     selectionMessage = selectionMessage + paginationMessage;
 
-    List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
+    List<Workgroup> groupList = groupFacade.findActive();
 
     Set<Category> rootCacheSet = eventTypeFacade.getRootCacheSet(eventTypeList);
 

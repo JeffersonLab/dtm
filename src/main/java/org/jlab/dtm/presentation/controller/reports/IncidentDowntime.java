@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.params.IncidentDowntimeReportParams;
 import org.jlab.dtm.business.session.AbstractFacade;
-import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
 import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.business.session.IncidentReportService;
 import org.jlab.dtm.business.session.IncidentReportService.IncidentSummary;
@@ -78,7 +77,7 @@ public class IncidentDowntime extends HttpServlet {
       return;
     }
 
-    List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
+    List<Workgroup> groupList = groupFacade.findActive();
     List<SystemEntity> systemList =
         systemFacade.findAll(
             new AbstractFacade.OrderDirective("weight"), new AbstractFacade.OrderDirective("name"));

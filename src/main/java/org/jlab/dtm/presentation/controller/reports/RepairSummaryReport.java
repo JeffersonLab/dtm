@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.params.RepairSummaryReportParams;
 import org.jlab.dtm.business.service.IncidentRepairTrendService;
-import org.jlab.dtm.business.session.AbstractFacade;
 import org.jlab.dtm.business.session.CcAccHourService;
 import org.jlab.dtm.business.session.ResponsibleGroupFacade;
 import org.jlab.dtm.persistence.entity.Workgroup;
@@ -118,7 +117,7 @@ public class RepairSummaryReport extends HttpServlet {
       programHours = (beamSummary.calculateProgramSeconds() / 3600.0);
     }
 
-    List<Workgroup> groupList = groupFacade.findAll(new AbstractFacade.OrderDirective("name"));
+    List<Workgroup> groupList = groupFacade.findActive();
 
     String subtitle = TimeUtil.formatSmartRangeSeparateTime(params.getStart(), params.getEnd());
 

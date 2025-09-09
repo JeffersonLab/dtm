@@ -12,7 +12,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
 import org.jlab.dtm.business.session.CategoryFacade;
 import org.jlab.dtm.business.session.EventFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;
@@ -67,7 +66,7 @@ public class OpenEvents extends HttpServlet {
     eventFacade.loadReviewedBy(openEventList);
 
     logger.log(Level.FINEST, "Querying group list");
-    List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
+    List<Workgroup> groupList = groupFacade.findActive();
 
     Set<Category> rootCacheSet = eventTypeFacade.getRootCacheSet(eventTypeList);
 
