@@ -14,6 +14,7 @@ insert into dtm_owner.event_type (event_type_id, name, description, weight, abbr
 insert into DTM_OWNER.WORKGROUP (WORKGROUP_ID, NAME) values (1, 'Group 1');
 insert into DTM_OWNER.WORKGROUP (WORKGROUP_ID, NAME) values (2, 'Group 2');
 insert into DTM_OWNER.WORKGROUP (WORKGROUP_ID, NAME) values (3, 'Group 3');
+insert into DTM_OWNER.WORKGROUP (WORKGROUP_ID, NAME, ARCHIVED_YN) values (4, 'Group 4', 'Y');
 
 -- Populate Region
 insert into DTM_OWNER.REGION (REGION_ID, NAME, ALIAS, WEIGHT) values (1, 'Injector', '0I,1I,2I,3I,0L,1D,2D,3D,4D,5D,0R', 10);

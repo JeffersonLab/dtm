@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.jlab.dtm.business.params.IncidentDowntimeReportParams;
 import org.jlab.dtm.business.session.*;
-import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
 import org.jlab.dtm.business.session.IncidentReportService.IncidentSummary;
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.entity.EventType;
@@ -135,7 +134,7 @@ public class WeeklyRepair extends HttpServlet {
     BigInteger eventTypeId = BigInteger.ONE;
 
     Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L));
-    List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
+    List<Workgroup> groupList = groupFacade.findActive();
     List<EventType> eventTypeList = eventTypeFacade.findActiveWithCategories();
 
     IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();

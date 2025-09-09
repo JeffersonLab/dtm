@@ -397,13 +397,14 @@ select component_id, name, system_id, region_id from srm_owner.component where s
 CREATE TABLE DTM_OWNER.WORKGROUP
 (
     WORKGROUP_ID     NUMBER NOT NULL CONSTRAINT WORKGROUP_PK PRIMARY KEY,
-    NAME             VARCHAR2(128 CHAR) NOT NULL CONSTRAINT WORKGROUP_AK1 UNIQUE
+    NAME             VARCHAR2(128 CHAR) NOT NULL CONSTRAINT WORKGROUP_AK1 UNIQUE,
+    ARCHIVED_YN      VARCHAR2(1 CHAR) DEFAULT 'N' NOT NULL
 );
 
 /*grant select on srm_owner.responsible_group to dtm_owner;
 create or replace view dtm_owner.workgroup as
 (
-select group_id as workgroup_id, name from srm_owner.responsible_group
+select group_id as workgroup_id, name, archived_yn from srm_owner.responsible_group
 );*/
 
 CREATE TABLE DTM_OWNER.CC_ACC_HOUR

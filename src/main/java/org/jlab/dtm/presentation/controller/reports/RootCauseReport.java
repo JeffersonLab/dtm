@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.jlab.dtm.business.params.IncidentParams;
 import org.jlab.dtm.business.service.RootCauseOverallMetricService;
 import org.jlab.dtm.business.service.RootCauseOverallMetricService.RootCauseOverallMetrics;
-import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
 import org.jlab.dtm.business.session.CategoryFacade;
 import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.business.session.IncidentFacade;
@@ -172,7 +171,7 @@ public class RootCauseReport extends HttpServlet {
             + formatter.format(totalRecords)
             + "}";
 
-    List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
+    List<Workgroup> groupList = groupFacade.findActive();
 
     EventType eventType = null;
 

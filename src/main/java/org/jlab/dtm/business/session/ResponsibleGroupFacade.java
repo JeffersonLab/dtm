@@ -1,12 +1,14 @@
 package org.jlab.dtm.business.session;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.*;
 import org.jlab.dtm.persistence.entity.Workgroup;
 
 /**
@@ -38,5 +40,26 @@ public class ResponsibleGroupFacade extends AbstractFacade<Workgroup> {
     q.setParameter("incidentId", incidentId);
 
     return q.getResultList();
+  }
+
+  @PermitAll
+  public List<Workgroup> findActive() {
+    CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+    CriteriaQuery<Workgroup> cq = cb.createQuery(Workgroup.class);
+    Root<Workgroup> root = cq.from(Workgroup.class);
+    cq.select(root);
+
+    List<Predicate> filters = new ArrayList<>();
+
+    filters.add(cb.equal(root.get("archived"), false));
+
+    cq.where(cb.and(filters.toArray(new Predicate[] {})));
+
+    List<Order> orders = new ArrayList<>();
+    Path<String> p0 = root.get("name");
+    Order o0 = cb.asc(p0);
+    orders.add(o0);
+    cq.orderBy(orders);
+    return getEntityManager().createQuery(cq).getResultList();
   }
 }
