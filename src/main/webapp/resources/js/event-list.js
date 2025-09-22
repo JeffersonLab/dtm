@@ -135,6 +135,7 @@ jlab.dtm.doIncidentAction = function (reload) {
             title = $("#title").val(),
             summary = $("#summary").val(),
             permitToWork = $("#permit-to-work").val(),
+            research = $("#research").val(),
             halla = $("#halla").is(":checked"),
             hallb = $("#hallb").is(":checked"),
             hallc = $("#hallc").is(":checked"),
@@ -216,6 +217,7 @@ jlab.dtm.doIncidentAction = function (reload) {
             title: title,
             summary: summary,
             permitToWork: permitToWork,
+            research: research,
             halla: halla ? 'Y' : 'N',
             hallb: hallb ? 'Y' : 'N',
             hallc: hallc ? 'Y' : 'N',
@@ -387,6 +389,7 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
             title = $tr.find(".incident-table-title").text(),
             summary = $tr.find(".incident-table-summary").text(),
             permitToWork = $tr.find(".incident-table-permit-to-work").text(),
+            research = $tr.find(".incident-table-research-affected").attr("data-research") === 'Y',
             halla = $tr.find(".incident-table-halls-affected").attr("data-halla") === 'Y',
             hallb = $tr.find(".incident-table-halls-affected").attr("data-hallb") === 'Y',
             hallc = $tr.find(".incident-table-halls-affected").attr("data-hallc") === 'Y',
@@ -408,6 +411,14 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
 
     if(permitToWork === 'None') {
         permitToWork = '';
+    }
+
+    $("#research").prop("disabled", false);
+
+    if(research) {
+        $("#research").val("Y");
+    } else {
+        $("#research").val("N");
     }
 
     if(halla) {
@@ -438,6 +449,7 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
     }
 
     jlab.dtm.toggleMultiHall(eventType);
+    jlab.dtm.toggleResearch(eventType);
 
     $("#incident-dialog-event-type").val(eventType);
     $("#incident-dialog-event-time-up").val('');
@@ -594,6 +606,14 @@ jlab.dtm.toggleMultiHall = function (type) {
         $("#halls-affected-fieldset").show();
     } else {
         $("#halls-affected-fieldset").hide();
+    }
+};
+jlab.dtm.toggleResearch = function (type) {
+    if(jlab.researchTypes.includes(type)) {
+        $("#research").prop('disabled', false);
+    } else {
+        $("#research").val('Y');
+        $("#research").prop('disabled', true);
     }
 };
 jlab.dtm.filterSystemSelect = function (setToSystemId) {
@@ -815,6 +835,8 @@ jlab.dtm.clearIncidentForm = function (skipReloadSystem) {
     $("#title").val('');
     $("#summary").val('');
     $("#permit-to-work").val('');
+    $("#research").prop("disabled", false);
+    $("#research").val("Y");
     $("#halla").prop("checked", false);
     $("#hallb").prop("checked", false);
     $("#hallc").prop("checked", false);
@@ -891,6 +913,7 @@ $(document).on("click", ".open-add-incident-dialog-button", function () {
     $("#incident-dialog-event-type").val(type);
 
     jlab.dtm.toggleMultiHall(type);
+    jlab.dtm.toggleResearch(type);
 
     jlab.dtm.filterCategorySelect(type);
 
@@ -1014,6 +1037,7 @@ $(document).on("click", ".close-event-button", function () {
 $(document).on("change", "#incident-dialog-event-type", function () {
     let type = parseInt($("#incident-dialog-event-type").val());
     jlab.dtm.toggleMultiHall(type);
+    jlab.dtm.toggleResearch(type);
     jlab.dtm.filterCategorySelect(type);
     jlab.dtm.filterSystemSelect();
 });

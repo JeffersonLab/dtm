@@ -61,6 +61,11 @@ public class EventType implements Serializable {
   @Convert(converter = YnStringToBoolean.class)
   private boolean multiHall;
 
+  @Basic
+  @Column(name = "PROGRAM_YN", nullable = false, length = 1)
+  @Convert(converter = YnStringToBoolean.class)
+  private boolean program;
+
   @JoinTable(
       name = "TYPE_CATEGORY",
       joinColumns = {
@@ -135,6 +140,14 @@ public class EventType implements Serializable {
 
   public void setMultiHall(boolean multiHall) {
     this.multiHall = multiHall;
+  }
+
+  public boolean isProgram() {
+    return program;
+  }
+
+  public void setProgram(boolean program) {
+    this.program = program;
   }
 
   public List<Category> getCategoryList() {

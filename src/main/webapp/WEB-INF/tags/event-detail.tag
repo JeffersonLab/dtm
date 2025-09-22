@@ -73,7 +73,7 @@
                 <th class="incident-id-header"></th>
                 <th>Description</th>
                 <th class="incident-period-header">Period</th>           
-                <th class="incident-cause-header">Cause</th>
+                <th class="incident-cause-header">Cause / Effect</th>
                 <c:if test="${settings.is('LOGBOOK_ENABLED')}">
                     <th class="incident-log-entries-header">Log Entries</th>
                 </c:if>
@@ -192,6 +192,11 @@
                                 </c:url>
                                 <div><a href="${url}">Downgrade Readiness</a></div>
                             </c:if>
+                        </span>
+                        <hr/>
+                        <span class="cell-subfield">
+                            <span class="cell-sublabel">Research Affected:</span>
+                            <span class="incident-table-research-affected" data-research="${incident.isResearch() ? 'Y' : 'N'}"><c:out value="${incident.isResearch() ? 'Yes' : 'No'}"/></span>
                         </span>
                         <span class="cell-subfield">
                             <span class="cell-sublabel">Halls Affected:</span>

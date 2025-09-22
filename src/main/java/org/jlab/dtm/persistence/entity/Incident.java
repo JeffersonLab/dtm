@@ -5,25 +5,7 @@ import java.math.BigInteger;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.envers.Audited;
@@ -31,6 +13,7 @@ import org.hibernate.envers.NotAudited;
 import org.jlab.dtm.persistence.enumeration.ReviewLevel;
 import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
 import org.jlab.smoothness.business.util.IOUtil;
+import org.jlab.smoothness.persistence.util.YnStringToBoolean;
 import org.jlab.smoothness.presentation.util.Functions;
 
 /**
@@ -143,6 +126,11 @@ public class Incident implements Serializable {
   @Size(max = 64)
   @Column(name = "PERMIT_TO_WORK", nullable = true, length = 64)
   private String permitToWork;
+
+  @Basic
+  @Column(name = "RESEARCH_YN", nullable = false, length = 1)
+  @Convert(converter = YnStringToBoolean.class)
+  private boolean research;
 
   public Incident() {}
 
@@ -272,6 +260,14 @@ public class Incident implements Serializable {
 
   public String getPermitToWork() {
     return permitToWork;
+  }
+
+  public boolean isResearch() {
+    return research;
+  }
+
+  public void setResearch(boolean research) {
+    this.research = research;
   }
 
   public void setPermitToWork(String permitToWork) {

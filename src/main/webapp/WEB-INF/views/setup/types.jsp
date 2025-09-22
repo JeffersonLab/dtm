@@ -20,7 +20,8 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Abbreviation</th>
-                    <th>Multi-Hall</th>
+                    <th>Research</th>
+                    <th>Affected Hall</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -29,6 +30,7 @@
                         <td><c:out value="${type.name}"/></td>
                         <td><c:out value="${type.description}"/></td>
                         <td><c:out value="${type.abbreviation}"/></td>
+                        <td><c:out value="${type.program ? 'Y' : 'N'}"/></td>
                         <td><c:out value="${type.multiHall ? 'Y' : 'N'}"/></td>
                     </tr>
                 </c:forEach>
