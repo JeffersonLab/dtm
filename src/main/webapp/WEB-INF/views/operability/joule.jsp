@@ -264,7 +264,7 @@
                     <div class="definition-bubble-title">Total Delivered</div>
                     <div class="definition-bubble-body">
                         <p>Time in which either the Accelerator division or the Physics division used the machine minus any event downtime.   The machine was "used" if the Machine Control Center (MCC) was staffed and the Crew Chief recorded anything other than SAM.</p>
-                        <p class="equation">Total Delivered = Delivered Research + Delivered Beam Studies + Delivered T&amp;R</p>
+                        <p class="equation">Total Delivered = Delivered Research + Delivered Beam Studies + Delivered TSR</p>
                         <p><b>Note:</b> Downtime from FSD Trips are not subtracted from Program time.</p>
                         <p><b>Note:</b> Event Uptime = Total Delivered plus zero quality adjustments.</p>
                     </div>
@@ -326,7 +326,7 @@
                     <button class="close-bubble">X</button>
                     <div class="definition-bubble-title">Research / Scheduled</div>
                     <div class="definition-bubble-body">
-                        <p>Machine availability ignoring beam studies and T&amp;R and excluding FSD trips and adjusted for maintenance and quality allowances.</p>
+                        <p>Machine availability ignoring beam studies and TSR and excluding FSD trips and adjusted for maintenance and quality allowances.</p>
                         <p class="equation">Research Ratio =
                             <span class="fraction">
                         <span class="numerator">Delivered Research</span>
