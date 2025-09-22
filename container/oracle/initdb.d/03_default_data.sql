@@ -10,6 +10,12 @@ insert into dtm_owner.event_type (event_type_id, name, description, weight, abbr
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(7, 'CEBAF Non-Program', 'CEBAF Program Unaffected', 3, 'NP', 'N');
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn, multi_hall_yn) values(8, 'CEBAF Degraded', 'CEBAF Program Degraded', 2, 'DGD', 'N', 'Y');
 
+-- Populate Program
+insert into dtm_owner.program (program_id, event_type_id, name) values (1, 1, 'PHYSICS');
+insert into dtm_owner.program (program_id, event_type_id, name) values( 2, 1, 'INTERNAL');
+insert into dtm_owner.program (program_id, event_type_id, name) values (3, 8, 'PHYSICS');
+insert into dtm_owner.program (program_id, event_type_id, name) values( 4, 8, 'INTERNAL');
+
 -- Populate Workgroup
 insert into DTM_OWNER.WORKGROUP (WORKGROUP_ID, NAME) values (1, 'Group 1');
 insert into DTM_OWNER.WORKGROUP (WORKGROUP_ID, NAME) values (2, 'Group 2');
