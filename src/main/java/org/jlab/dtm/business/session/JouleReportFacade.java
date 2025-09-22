@@ -25,6 +25,7 @@ import org.jlab.dtm.business.params.JouleReportParams;
 import org.jlab.dtm.business.util.DtmDateIterator;
 import org.jlab.dtm.business.util.DtmTimeUtil;
 import org.jlab.dtm.persistence.model.BeamSummaryTotals;
+import org.jlab.smoothness.business.service.SettingsService;
 
 @Stateless
 public class JouleReportFacade {
@@ -231,31 +232,40 @@ public class JouleReportFacade {
       throw new IOException("start and end dates are invalid");
     }
 
-    HttpRequest request =
-        HttpRequest.newBuilder()
-            .GET()
-            .uri(
-                URI.create(
-                    System.getenv("PAC_SCHEDULE_SERVER_URL")
-                        + "/btm/rest/scheduled-count?start="
-                        + startStr
-                        + "&end="
-                        + endStr))
-            .timeout(Duration.ofSeconds(7))
-            .build();
+    String NPES_SCHEDULE_URL =
+        SettingsService.cachedSettings.get("NPES_SCHEDULE_URL");
+    boolean NPES_SCHEDULE_ENABLED = SettingsService.cachedSettings.is("NPES_SCHEDULE_ENABLED");
 
-    HttpClient httpClient = HttpClient.newBuilder().build();
+    int count = 0;
 
-    HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+    if (NPES_SCHEDULE_ENABLED) {
+      HttpRequest request =
+          HttpRequest.newBuilder()
+              .GET()
+              .uri(
+                  URI.create(
+                      NPES_SCHEDULE_URL
+                          + "/rest/scheduled-count?start="
+                          + startStr
+                          + "&end="
+                          + endStr))
+              .timeout(Duration.ofSeconds(7))
+              .build();
 
-    if (response.statusCode() != 200) {
-      throw new IOException("Unable to obtain NPES schedule (budgeted): " + response.body());
+      HttpClient httpClient = HttpClient.newBuilder().build();
+
+      HttpResponse<String> response =
+          httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+      if (response.statusCode() != 200) {
+        throw new IOException("Unable to obtain NPES schedule (budgeted): " + response.body());
+      }
+
+      JsonReader reader = Json.createReader(new StringReader(response.body()));
+      JsonObject obj = reader.readObject();
+
+      count = obj.getInt("count");
     }
-
-    JsonReader reader = Json.createReader(new StringReader(response.body()));
-    JsonObject obj = reader.readObject();
-
-    int count = obj.getInt("count");
 
     return (count * 24.0);
   }

@@ -39,3 +39,5 @@ insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('LOGBOO
 insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('EMAIL_EXPERT_CC_LIST', 'tbrown@example.com,someoneelse@example.com', 'CSV', 'List of email addresses to CC when expert emails go out', 'EMAIL', 1);
 insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('SRM_DOWNGRADE_ENABLED', 'N', 'BOOLEAN', 'SRM downgrade integration enabled?', 'OTHER', 0);
 insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('SRM_DOWNGRADE_URL', 'https://ace.jlab.org/srm', 'STRING', 'SRM downgrade base URL', 'OTHER', 1);
+insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('NPES_SCHEDULE_ENABLED', 'N', 'BOOLEAN', 'Query external NPES Schedule integration?', 'OTHER', 2);
+insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('NPES_SCHEDULE_URL', 'https://ace.jlab.org/btm', 'STRING', 'NPES Schedule URL', 'OTHER', 3);

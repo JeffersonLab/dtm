@@ -58,7 +58,6 @@ Uses the [Smoothness Environment Variables](https://github.com/JeffersonLab/smoo
 | Name          | Description                                                                                 |
 |---------------|---------------------------------------------------------------------------------------------|
 | RAR_DIR       | Directory path to store Repair Assessment Reports                                           |
-| PAC_SCHEDULE_SERVER_URL | Scheme, host, and port to Program Advisory Committee Schedule / NPES (for Joule Report)     |
 
 There are some [Settings](https://github.com/JeffersonLab/dtm/blob/main/container/oracle/initdb.d/04_settings.sql) in the database as well that can be edited on the Setup tab by admins.
 
