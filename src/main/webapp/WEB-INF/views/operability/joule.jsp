@@ -143,7 +143,7 @@
                                         <td><fmt:formatNumber pattern="###,##0.0" value="${record.deliveredBeamStudiesHours}"/></td>
                                     </tr>
                                     <tr>
-                                        <th>Delivered Tuning &amp; Restore (Hours)<a title="Explanation" class="flyout-link" data-flyout-type="tuning-restore-flyout" href="#">*</a>: </th>
+                                        <th>Delivered Tuning, Setup, &amp; Restore (Hours)<a title="Explanation" class="flyout-link" data-flyout-type="tuning-restore-flyout" href="#">*</a>: </th>
                                         <td><fmt:formatNumber pattern="###,##0.0" value="${record.deliveredTuningAndRestoreHours}"/></td>
                                     </tr>
                                     <tr>
@@ -182,7 +182,7 @@
                                         <th>Bin</th>
                                         <th>Research</th>
                                         <th>Studies</th>
-                                        <th>Tuning &amp; Restore</th>
+                                        <th>Tuning, Setup, &amp; Restore</th>
                                         <th>Delivered</th>
                                         <th>Budgeted</th>
                                         <th>Delivered Ratio</th>
@@ -248,12 +248,13 @@
             <div class="tuning-restore-flyout">
                 <div class="flyout-panel">
                     <button class="close-bubble">X</button>
-                    <div class="definition-bubble-title">Delivered Tuning and Restore (T&amp;R)</div>
+                    <div class="definition-bubble-title">Delivered Tuning, Setup, &amp; Restore (TSR)</div>
                     <div class="definition-bubble-body">
-                        <p>Time in which the Accelerator division used the machine for initial setup and also program changes.  For example to configure the machine for a particular energy and or pass.</p>
-                        <p class="equation">T&amp;R = ACC [BTM] + SAM Restore [BTM]</p>
+                        <p>Time in which the Accelerator division used the machine for beam transport, program configuration setup (example: energy/pass), and initial machine restore.</p>
+                        <p class="equation">TSR = Beam Transport [DTM] + ACC [BTM] + NPES Restore [BTM]</p>
                         <p><b>Note:</b> Recovery from downtime is included in downtime, not here.</p>
-                        <p><b>Note:</b> T&amp;R is converted to downtime if it is excessive - if it takes longer than limits negotiated in the Budget (NPES Long Term Schedule) schedule.</p>
+                        <p><b>Note:</b> TSR is converted to downtime if it is excessive - if it takes longer than limits negotiated in the Budget (NPES Long Term Schedule) schedule.</p>
+                        <p><b>Note:</b> Beam Transport is included from Non-Overlapping incidents of CEBAF Blocked Program Event type only</p>
                     </div>
                 </div>
             </div>
