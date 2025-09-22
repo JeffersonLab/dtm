@@ -602,14 +602,14 @@ jlab.dtm.loadLogbookReference = function () {
     });
 };
 jlab.dtm.toggleMultiHall = function (type) {
-    if(jlab.multiHallTypes.includes(type)) {
+    if(jlab.affectedHallTypes.includes(type)) {
         $("#halls-affected-fieldset").show();
     } else {
         $("#halls-affected-fieldset").hide();
     }
 };
 jlab.dtm.toggleResearch = function (type) {
-    if(jlab.researchTypes.includes(type)) {
+    if(jlab.affectedResearchTypes.includes(type)) {
         $("#research").prop('disabled', false);
     } else {
         $("#research").val('Y');

@@ -57,14 +57,14 @@ public class EventType implements Serializable {
   private boolean archived;
 
   @Basic
-  @Column(name = "MULTI_HALL_YN", nullable = false, length = 1)
+  @Column(name = "AFFECTED_HALL_YN", nullable = false, length = 1)
   @Convert(converter = YnStringToBoolean.class)
-  private boolean multiHall;
+  private boolean affectedHall;
 
   @Basic
-  @Column(name = "PROGRAM_YN", nullable = false, length = 1)
+  @Column(name = "AFFECTED_RESEARCH_YN", nullable = false, length = 1)
   @Convert(converter = YnStringToBoolean.class)
-  private boolean program;
+  private boolean affectedResearch;
 
   @JoinTable(
       name = "TYPE_CATEGORY",
@@ -134,20 +134,20 @@ public class EventType implements Serializable {
     this.archived = archived;
   }
 
-  public boolean isMultiHall() {
-    return multiHall;
+  public boolean isAffectedHall() {
+    return affectedHall;
   }
 
-  public void setMultiHall(boolean multiHall) {
-    this.multiHall = multiHall;
+  public void setAffectedHall(boolean affectedHall) {
+    this.affectedHall = affectedHall;
   }
 
-  public boolean isProgram() {
-    return program;
+  public boolean isAffectedResearch() {
+    return affectedResearch;
   }
 
-  public void setProgram(boolean program) {
-    this.program = program;
+  public void setAffectedResearch(boolean affectedResearch) {
+    this.affectedResearch = affectedResearch;
   }
 
   public List<Category> getCategoryList() {
