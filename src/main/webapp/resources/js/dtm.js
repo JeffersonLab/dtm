@@ -320,23 +320,21 @@ $(function () {
                 systemId = null,
                     params = {};
 
-            var type = $("#incident-dialog-event-type").val(),
-                accDowntime = type == '1' || type == '',
-                hallDowntime = type == '2' || type == '3' || type == '4' || type == '5',
-                lerfDowntime = type == '6';
-
-            if (hallDowntime) {
-                systemId = 828;
-            } else if ($("#hidden-system").length > 0 && $("#hidden-system").val() > 0) {
+            if ($("#hidden-system").length > 0 && $("#hidden-system").val() > 0) {
                 systemId = $("#hidden-system").val();
+                console.log('using hidden value', systemId);
             } else if ($("#system").css("display") !== 'none' && $("#system").val() > 0) {
                 systemId = $("#system").val();
+                console.log('using system value', systemId);
             } else if($("#category").val() > 0) {
                 categoryId = $("#category").val();
-            } else if(accDowntime) {
-                categoryId = [1, 4, 5, 3]; /*CEBAF, Cryo, Facilities, Other*/
-            } else if(lerfDowntime) {
-                categoryId = [2, 3]; /*LERF, Other*/
+                console.log('using category value', categoryId);
+            } else {
+                var type = parseInt($("#incident-dialog-event-type").val());
+                if(!Number.isNaN(type)) {
+                    categoryId = jlab.typeCategoryMap.get(type);
+                    console.log('using type value', categoryId, 'with type: ', type);
+                }
             }
 
             params = {

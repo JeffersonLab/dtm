@@ -688,11 +688,13 @@ jlab.dtm.filterSystemSelect = function (setToSystemId) {
 jlab.dtm.filterCategorySelect = function(type) {
     $("#category").empty();
     $("#category").append('<option value=""> </option>');
-    let categoryRootIdArray = jlab.typeCategoryMap.get(type);
-    if(categoryRootIdArray) {
-        categoryRootIdArray.forEach((id) => {
-            $("#category").append($("#category-cache-" + id).clone().children());
-        });
+    if(!Number.isNaN(type)) {
+        let categoryRootIdArray = jlab.typeCategoryMap.get(type);
+        if (categoryRootIdArray) {
+            categoryRootIdArray.forEach((id) => {
+                $("#category").append($("#category-cache-" + id).clone().children());
+            });
+        }
     }
 
     $("#category").val("");
