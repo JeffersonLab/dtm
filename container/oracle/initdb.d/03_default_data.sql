@@ -1,7 +1,7 @@
 alter session set container = XEPDB1;
 
 -- Populate EventType
-insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn, multi_hall_yn) values(1, 'CEBAF Blocked', 'CEBAF Program Blocked', 1, 'BLK', 'N', 'Y');
+insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn, multi_hall_yn) values(1, 'CEBAF Blocked', 'CEBAF Program Blocked', 1, 'BLK', 'N', 'N');
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(2, 'Hall A', 'Hall A Physics Program', 4, 'HLA', 'N');
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(3, 'Hall B', 'Hall B Physics Program', 5, 'HLB', 'N');
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(4, 'Hall C', 'Hall C Physics Program', 6, 'HLC', 'N');
