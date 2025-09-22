@@ -80,6 +80,17 @@
                         </li>
                         <li>
                             <div class="li-key">
+                                <label for="research">Research</label>
+                            </div>
+                            <div class="li-value">
+                                <select id="research" name="research">
+                                    <option value="Y">Yes (PHYSICS)</option>
+                                    <option value="N">No (INTERNAL: Studies, Restore, ACC)</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="li-key">
                                 <label for="permit-to-work">ePAS</label>
                             </div>
                             <div class="li-value">
@@ -485,13 +496,17 @@
 </div>
 <script>
     var jlab = jlab || {};
-    jlab.multiHallTypes = [];
+    jlab.affectedHallTypes = [];
+    jlab.affectedResearchTypes = [];
     jlab.typeCategoryMap = new Map();
     <c:forEach items="${eventTypeList}" var="type">
         jlab.typeCategoryMap.set(${type.eventTypeId}, ${type.categoryJsArray});
 
-        <c:if test="${type.multiHall}">
-            jlab.multiHallTypes.push(${type.eventTypeId});
+        <c:if test="${type.affectedHall}">
+            jlab.affectedHallTypes.push(${type.eventTypeId});
+        </c:if>
+        <c:if test="${type.affectedResearch}">
+            jlab.affectedResearchTypes.push(${type.eventTypeId});
         </c:if>
     </c:forEach>
 </script>

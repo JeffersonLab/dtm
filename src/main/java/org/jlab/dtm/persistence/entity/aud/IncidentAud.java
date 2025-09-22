@@ -4,18 +4,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.envers.RevisionType;
@@ -23,6 +12,7 @@ import org.jlab.dtm.persistence.entity.ApplicationRevisionInfo;
 import org.jlab.dtm.persistence.entity.EternalComponent;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
+import org.jlab.smoothness.persistence.util.YnStringToBoolean;
 
 /**
  * @author ryans
@@ -109,6 +99,11 @@ public class IncidentAud implements Serializable {
   @Size(max = 64)
   @Column(name = "PERMIT_TO_WORK", nullable = true, length = 64)
   private String permitToWork;
+
+  @Basic
+  @Column(name = "RESEARCH_YN", nullable = false, length = 1)
+  @Convert(converter = YnStringToBoolean.class)
+  private boolean research;
 
   public IncidentAud() {}
 
@@ -230,6 +225,14 @@ public class IncidentAud implements Serializable {
 
   public void setPermitToWork(String permitToWork) {
     this.permitToWork = permitToWork;
+  }
+
+  public boolean isResearch() {
+    return research;
+  }
+
+  public void setResearch(boolean research) {
+    this.research = research;
   }
 
   public SystemExpertAcknowledgement getExpertAcknowledged() {
