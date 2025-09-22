@@ -194,11 +194,11 @@
                             </c:if>
                         </span>
                         <hr/>
-                        <span class="cell-subfield">
-                            <span class="cell-sublabel">Research Affected:</span>
-                            <span class="incident-table-research-affected" data-research="${incident.isResearch() ? 'Y' : 'N'}"><c:out value="${incident.isResearch() ? 'Yes' : 'No'}"/></span>
+                        <span class="cell-subfield ${incident.event.eventType.affectedResearch ? '' : 'hidden'}">
+                            <span class="cell-sublabel">Program Affected:</span>
+                            <span class="incident-table-research-affected" data-research="${incident.isResearch() ? 'Y' : 'N'}"><c:out value="${incident.isResearch() ? 'Physics' : 'Internal'}"/></span>
                         </span>
-                        <span class="cell-subfield">
+                        <span class="cell-subfield ${incident.event.eventType.affectedHall ? '' : 'hidden'}">
                             <span class="cell-sublabel">Halls Affected:</span>
                             <span class="incident-table-halls-affected" data-halla="${incident.isHallAffected('A')}" data-hallb="${incident.isHallAffected('B')}" data-hallc="${incident.isHallAffected('C')}" data-halld="${incident.isHallAffected('D')}"><c:out value="${incident.getAffectedHallsCsv()}"/></span>
                         </span>

@@ -413,7 +413,7 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
         permitToWork = '';
     }
 
-    $("#research").prop("disabled", false);
+    $("#research-li").removeClass("invisible");
 
     if(research) {
         $("#research").val("Y");
@@ -610,10 +610,9 @@ jlab.dtm.toggleMultiHall = function (type) {
 };
 jlab.dtm.toggleResearch = function (type) {
     if(jlab.affectedResearchTypes.includes(type)) {
-        $("#research").prop('disabled', false);
+        $("#research-li").removeClass("invisible");
     } else {
-        $("#research").val('Y');
-        $("#research").prop('disabled', true);
+        $("#research-li").addClass("invisible");
     }
 };
 jlab.dtm.filterSystemSelect = function (setToSystemId) {
@@ -837,7 +836,7 @@ jlab.dtm.clearIncidentForm = function (skipReloadSystem) {
     $("#title").val('');
     $("#summary").val('');
     $("#permit-to-work").val('');
-    $("#research").prop("disabled", false);
+    $("#research-li").removeClass("invisible");
     $("#research").val("Y");
     $("#halla").prop("checked", false);
     $("#hallb").prop("checked", false);

@@ -80,21 +80,21 @@
                         </li>
                         <li>
                             <div class="li-key">
-                                <label for="research">Research</label>
-                            </div>
-                            <div class="li-value">
-                                <select id="research" name="research">
-                                    <option value="Y">Yes (PHYSICS)</option>
-                                    <option value="N">No (INTERNAL: Studies, Restore, ACC)</option>
-                                </select>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="li-key">
                                 <label for="permit-to-work">ePAS</label>
                             </div>
                             <div class="li-value">
                                 <input type="text" id="permit-to-work" maxlength="64"/>
+                            </div>
+                        </li>
+                        <li id="research-li">
+                            <div class="li-key">
+                                <label for="research">Program Affected</label>
+                            </div>
+                            <div class="li-value">
+                                <select id="research" name="research">
+                                    <option value="Y">Physics</option>
+                                    <option value="N">Internal</option>
+                                </select>
                             </div>
                         </li>
                     </ul>

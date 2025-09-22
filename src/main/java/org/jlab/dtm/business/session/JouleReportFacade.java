@@ -232,8 +232,7 @@ public class JouleReportFacade {
       throw new IOException("start and end dates are invalid");
     }
 
-    String NPES_SCHEDULE_URL =
-        SettingsService.cachedSettings.get("NPES_SCHEDULE_URL");
+    String NPES_SCHEDULE_URL = SettingsService.cachedSettings.get("NPES_SCHEDULE_URL");
     boolean NPES_SCHEDULE_ENABLED = SettingsService.cachedSettings.is("NPES_SCHEDULE_ENABLED");
 
     int count = 0;

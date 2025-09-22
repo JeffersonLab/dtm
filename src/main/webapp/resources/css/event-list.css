@@ -463,3 +463,9 @@ th.incident-log-entries-header {
 .nested-two-column .li-key {
     width: 60px;
 }
+.hidden {
+    display: none;
+}
+.invisible {
+    visibility: hidden;
+}
