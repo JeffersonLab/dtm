@@ -125,7 +125,7 @@ public class JouleReportFacade {
 
     record.setBin(start);
 
-    double downtimeHours = eventDowntimeFacade.downtimeTotal(start, end);
+    double downtimeHours = eventDowntimeFacade.blockedCEBAFPhysicsDowntimeTotal(start, end);
 
     BeamSummaryTotals beamSummary = accHourService.reportTotals(start, end);
 

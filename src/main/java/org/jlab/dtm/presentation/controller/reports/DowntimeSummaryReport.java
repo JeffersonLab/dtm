@@ -196,7 +196,7 @@ public class DowntimeSummaryReport extends HttpServlet {
       duration = (end.getTime() - start.getTime()) / 1000 / 60 / 60;
 
       downtimeList =
-          downtimeFacade.findByPeriodAndTypeSortByDuration(start, end, type, beamTransport);
+          downtimeFacade.findByPeriodAndTypeSortByDuration(start, end, type, beamTransport, null);
       eventCount = downtimeList.size();
 
       for (int i = 0; i < downtimeList.size(); i++) {

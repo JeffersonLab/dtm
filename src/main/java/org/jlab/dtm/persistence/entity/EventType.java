@@ -19,7 +19,7 @@ import org.jlab.smoothness.persistence.util.YnStringToBoolean;
 @NamedQueries({@NamedQuery(name = "EventType.findAll", query = "SELECT e FROM EventType e")})
 public class EventType implements Serializable {
   private static final long serialVersionUID = 1L;
-  public static EventType ACC = new EventType(BigInteger.ONE);
+  public static EventType BLOCKED = new EventType(BigInteger.ONE);
 
   // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these
   // annotations to enforce field validation

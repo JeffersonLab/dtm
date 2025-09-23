@@ -116,7 +116,7 @@ public class ExcelCategoryDowntime extends HttpServlet {
     BeamSummaryTotals beamSummary = null;
     double programHours = 0.0;
 
-    if (EventType.ACC.equals(type)) {
+    if (EventType.BLOCKED.equals(type)) {
       beamSummary = accHourService.reportTotals(start, end);
 
       programHours = (beamSummary.calculateProgramSeconds() / 3600.0);

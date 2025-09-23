@@ -37,7 +37,7 @@ public class TrendReportFacade {
 
     String size = params.getSize();
 
-    EventType eventType = EventType.ACC;
+    EventType eventType = EventType.BLOCKED;
 
     boolean includeCategories =
         params.getIncludeCategories() != null && params.getIncludeCategories();
@@ -150,7 +150,7 @@ public class TrendReportFacade {
 
     // Machine Overall Event Downtime
     List<EventDowntime> eventList =
-        eventDowntimeFacade.findByPeriodAndTypeSortByDuration(start, end, type, null);
+        eventDowntimeFacade.findByPeriodAndTypeSortByDuration(start, end, type, null, null);
     record.eventCount = eventList.size();
 
     record.eventHours = 0;
