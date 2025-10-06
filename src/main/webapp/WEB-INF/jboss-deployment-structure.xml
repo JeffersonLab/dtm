@@ -1,23 +1,11 @@
 <jboss-deployment-structure>
     <deployment>
         <dependencies>
-            <!-- JSoup lib is installed in Wildfly as a JBoss Module, however it isn't global by default so
-                 each app that needs it must explicitly add it.  This is one way to do that (other way is Manifest file,
-                 else make lib global in Wildfly). -->
-            <module name="org.jsoup"/>
             <!-- Apache POI should be installed in Wildfly as a JBoss Module, however it doesn't need to be global
                  as each app that needs it can include it.  Might as well require each app that needs it explicitly
                  ask for it since each app must also explicitly exclude xerces (see below).
                  explicitly -->
             <module name="org.apache.poi"/>
         </dependencies>
-        <!-- Exclusions allow you to prevent the server from automatically adding some dependencies.
-             Wildfly implicitly adds Xerces XML parser, but that's an old lib that has effectively been merged with
-             modern JDKs, and the old lib breaks Apache POI (Export to Excel).
-             Could not find an exclude all Wildfly config and deleting it is no-go because internally Xerces is
-             used by Wildfly.  Therefore we must exclude in each app that needs POI.  -->
-        <exclusions>
-            <module name="org.apache.xerces"/>
-        </exclusions>
     </deployment>
 </jboss-deployment-structure>
