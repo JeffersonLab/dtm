@@ -1,6 +1,6 @@
 <%@tag description="The Report Page Template Tag" pageEncoding="UTF-8"%>
 <%@taglib prefix="fn" uri="jakarta.tags.functions"%>
-<%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness"%>
+<%@taglib prefix="s" uri="jlab.tags.smoothness"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
 <%@attribute name="title"%>

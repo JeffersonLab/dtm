@@ -1,5 +1,5 @@
 <%@tag description="The Report Page Template Tag" pageEncoding="UTF-8" %>
-<%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness"%>
+<%@taglib prefix="s" uri="jlab.tags.smoothness"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@attribute name="title" %>
 <%@attribute name="stylesheets" fragment="true" %>

@@ -3,7 +3,7 @@
 <%@taglib prefix="fn" uri="jakarta.tags.functions"%>
 <%@taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
-<%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness"%>
+<%@taglib prefix="s" uri="jlab.tags.smoothness"%>
 <%@attribute name="eventTypeList" required="true" type="java.util.List"%>
 <%@attribute name="systemList" required="true" type="java.util.List"%>
 <div id="incident-dialog" class="dialog" title="Add/Edit Incident">
