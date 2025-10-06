@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="c" uri="jakarta.tags.core" %>
+<%@taglib prefix="fn" uri="jakarta.tags.functions" %>
 <li id="node-CATEGORY-${parent.categoryId}" data-node-type="CATEGORY" data-jstree='{"type":"CATEGORY"}'>
     <a href="#"><c:out value="${parent.name}"/></a>
     <c:set var="parentForSystemUse" value="${parent}"/>
