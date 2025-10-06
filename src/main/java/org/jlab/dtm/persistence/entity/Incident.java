@@ -54,7 +54,7 @@ public class Incident implements Serializable {
 
   @JoinColumn(name = "SYSTEM_ID", referencedColumnName = "SYSTEM_ID", nullable = false)
   @ManyToOne(optional = false)
-  private EternalSystem system;
+  private SystemEntity system;
 
   @JoinColumn(name = "EVENT_ID", referencedColumnName = "EVENT_ID", nullable = false)
   @ManyToOne(optional = false)
@@ -62,7 +62,7 @@ public class Incident implements Serializable {
 
   @JoinColumn(name = "COMPONENT_ID", referencedColumnName = "COMPONENT_ID")
   @ManyToOne
-  private EternalComponent component;
+  private Component component;
 
   @Size(min = 1, max = 2048)
   @Column(name = "MISSING_EXPLANATION", nullable = true, length = 2048)
@@ -176,11 +176,11 @@ public class Incident implements Serializable {
     this.title = title;
   }
 
-  public EternalSystem getSystem() {
+  public SystemEntity getSystem() {
     return system;
   }
 
-  public void setSystem(EternalSystem system) {
+  public void setSystem(SystemEntity system) {
     this.system = system;
   }
 
@@ -192,11 +192,11 @@ public class Incident implements Serializable {
     this.event = event;
   }
 
-  public EternalComponent getComponent() {
+  public Component getComponent() {
     return component;
   }
 
-  public void setComponent(EternalComponent component) {
+  public void setComponent(Component component) {
     this.component = component;
   }
 

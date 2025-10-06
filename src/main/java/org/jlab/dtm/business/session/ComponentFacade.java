@@ -33,6 +33,25 @@ public class ComponentFacade extends AbstractFacade<Component> {
   }
 
   @PermitAll
+  public List<Component> findByName(String componentName) {
+    CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+    CriteriaQuery<Component> cq = cb.createQuery(getEntityClass());
+    Root<Component> root = cq.from(getEntityClass());
+
+    List<Predicate> filters = new ArrayList<>();
+
+    filters.add(cb.equal(root.get("name"), componentName));
+
+    if (!filters.isEmpty()) {
+      cq.where(cb.and(filters.toArray(new Predicate[] {})));
+    }
+
+    cq.select(root);
+
+    return getEntityManager().createQuery(cq).getResultList();
+  }
+
+  @PermitAll
   public Long countMustFilter(
       BigInteger[] categoryIdArray,
       BigInteger[] systemIdArray,

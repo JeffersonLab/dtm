@@ -1,15 +1,6 @@
 package org.jlab.dtm.persistence.entity;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
@@ -17,6 +8,7 @@ import java.math.BigInteger;
 import java.util.List;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
+import org.jlab.smoothness.persistence.util.YnStringToBoolean;
 
 /**
  * @author ryans
@@ -50,6 +42,11 @@ public class Component implements Serializable {
   @JoinColumn(name = "REGION_ID", referencedColumnName = "REGION_ID", nullable = false)
   @ManyToOne(optional = false)
   private Region region;
+
+  @Basic
+  @Column(name = "ARCHIVED_YN", nullable = false, length = 1)
+  @Convert(converter = YnStringToBoolean.class)
+  private boolean archived;
 
   public Component() {}
 
@@ -92,6 +89,14 @@ public class Component implements Serializable {
 
   public void setSystem(org.jlab.dtm.persistence.entity.SystemEntity system) {
     this.system = system;
+  }
+
+  public boolean isArchived() {
+    return archived;
+  }
+
+  public void setArchived(boolean archived) {
+    this.archived = archived;
   }
 
   @Override

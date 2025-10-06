@@ -50,8 +50,13 @@ public class SystemEntity implements Serializable, Comparable<SystemEntity> {
   @Convert(converter = YnStringToBoolean.class)
   private boolean inSrm;
 
+  @Basic
+  @Column(name = "ARCHIVED_YN", nullable = false, length = 1)
+  @Convert(converter = YnStringToBoolean.class)
+  private boolean archived;
+
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "system")
-  private List<EternalComponent> componentList;
+  private List<Component> componentList;
 
   @NotAudited
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "system")
@@ -108,11 +113,11 @@ public class SystemEntity implements Serializable, Comparable<SystemEntity> {
     this.category = category;
   }
 
-  public List<EternalComponent> getComponentList() {
+  public List<Component> getComponentList() {
     return componentList;
   }
 
-  public void setComponentList(List<EternalComponent> componentList) {
+  public void setComponentList(List<Component> componentList) {
     this.componentList = componentList;
   }
 
@@ -122,6 +127,14 @@ public class SystemEntity implements Serializable, Comparable<SystemEntity> {
 
   public void setSystemExpertList(List<SystemExpert> systemExpertList) {
     this.systemExpertList = systemExpertList;
+  }
+
+  public boolean isArchived() {
+    return archived;
+  }
+
+  public void setArchived(boolean archived) {
+    this.archived = archived;
   }
 
   public boolean isSrmSystem() {

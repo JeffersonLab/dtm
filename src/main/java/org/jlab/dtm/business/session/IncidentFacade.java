@@ -46,7 +46,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
   private EntityManager em;
 
   @EJB EventFacade eventFacade;
-  @EJB EternalComponentFacade eternalComponentFacade;
+  @EJB ComponentFacade eternalComponentFacade;
   @EJB EventTypeFacade eventTypeFacade;
   @EJB IncidentFacade incidentFacade;
   @EJB LogbookFacade logbookFacade;
@@ -121,7 +121,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       throw new UserFriendlyException("Incident summary must not be empty");
     }
 
-    EternalComponent eternalComponent = null;
+    Component eternalComponent = null;
     if (componentId != null) {
       eternalComponent = eternalComponentFacade.find(componentId);
 
@@ -138,8 +138,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       // component name then componentId will be null
 
       // Attempt to find component by name, this might return multiple results.
-      List<EternalComponent> eternalComponentList =
-          eternalComponentFacade.findByName(componentName);
+      List<Component> eternalComponentList = eternalComponentFacade.findByName(componentName);
 
       if (eternalComponentList.isEmpty()) {
         throw new UserFriendlyException("Component not found with name: " + componentName);
@@ -164,7 +163,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
     }
 
-    EternalSystem system = eternalComponent.getSystem();
+    SystemEntity system = eternalComponent.getSystem();
 
     if (timeDown == null) {
       throw new UserFriendlyException("Incident time down must not be empty");

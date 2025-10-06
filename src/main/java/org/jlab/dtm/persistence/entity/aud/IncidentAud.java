@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Objects;
 import org.hibernate.envers.RevisionType;
 import org.jlab.dtm.persistence.entity.ApplicationRevisionInfo;
-import org.jlab.dtm.persistence.entity.EternalComponent;
+import org.jlab.dtm.persistence.entity.Component;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
 
@@ -45,7 +45,7 @@ public class IncidentAud implements Serializable {
 
   @JoinColumn(name = "COMPONENT_ID", referencedColumnName = "COMPONENT_ID")
   @ManyToOne
-  private EternalComponent component;
+  private Component component;
 
   @Enumerated(EnumType.ORDINAL)
   @NotNull
@@ -149,11 +149,11 @@ public class IncidentAud implements Serializable {
     this.system = system;
   }
 
-  public EternalComponent getComponent() {
+  public Component getComponent() {
     return component;
   }
 
-  public void setComponent(EternalComponent component) {
+  public void setComponent(Component component) {
     this.component = component;
   }
 

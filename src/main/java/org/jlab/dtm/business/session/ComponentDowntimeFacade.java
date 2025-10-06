@@ -8,7 +8,7 @@ import jakarta.persistence.Query;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
-import org.jlab.dtm.persistence.entity.EternalComponent;
+import org.jlab.dtm.persistence.entity.Component;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.model.ComponentDowntime;
 import org.jlab.smoothness.persistence.util.JPAUtil;
@@ -17,7 +17,7 @@ import org.jlab.smoothness.persistence.util.JPAUtil;
  * @author ryans
  */
 @Stateless
-public class ComponentDowntimeFacade extends AbstractFacade<EternalComponent> {
+public class ComponentDowntimeFacade extends AbstractFacade<Component> {
 
   @PersistenceContext(unitName = "webappPU")
   private EntityManager em;
@@ -28,7 +28,7 @@ public class ComponentDowntimeFacade extends AbstractFacade<EternalComponent> {
   }
 
   public ComponentDowntimeFacade() {
-    super(EternalComponent.class);
+    super(Component.class);
   }
 
   @PermitAll
