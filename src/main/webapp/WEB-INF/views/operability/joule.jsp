@@ -226,9 +226,9 @@
                 <div class="definition-bubble-title">Delivered Research</div>
                 <div class="definition-bubble-body">
                     <p>Time in which the Accelerator division provided the machine to the Physics division minus any downtime events during this time and plus any quality adjustment.</p>
-                    <p class="equation">Research = Physics Hours [BTM] + Quality - Physics Downtime [DTM]</p>
+                    <p class="equation">Research = Physics Hours [BTM] + Quality - Physics Downtime</p>
                     <p class="equation">Quality = Bonus hours adjustment for program difficulty such as hall multiplicity</p>
-                    <p class="equation">Physics Downtime = Event Down [DTM] for event type "CEBAF Program Blocked" and Affected Program "Physics" (includes Beam Transport)</p>
+                    <p class="equation">Physics Downtime = Event Down [DTM] - Internal Down [BTM]</p>
                     <p><b>Note:</b> Downtime from FSD Trips are not subtracted from research time.</p>
                 </div>
             </div>
@@ -250,10 +250,9 @@
                     <div class="definition-bubble-title">Delivered Tuning, Setup, &amp; Restore (TSR)</div>
                     <div class="definition-bubble-body">
                         <p>Time in which the Accelerator division used the machine for beam transport, program configuration setup (example: energy/pass), and initial machine restore.</p>
-                        <p class="equation">TSR = Beam Transport [DTM] + ACC [BTM] + NPES Restore [BTM]</p>
+                        <p class="equation">TSR = ACC [BTM] + NPES Restore [BTM]</p>
                         <p><b>Note:</b> Recovery from downtime is included in downtime, not here.</p>
                         <p><b>Note:</b> TSR is converted to downtime if it is excessive - if it takes longer than limits negotiated in the Budget (NPES Long Term Schedule) schedule.</p>
-                        <p><b>Note:</b> Beam Transport is included from Non-Overlapping incidents of CEBAF Blocked Event type only, and for both Physics and Internal Programs</p>
                     </div>
                 </div>
             </div>
