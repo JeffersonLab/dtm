@@ -98,7 +98,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       String title,
       String summary,
       String permitToWork,
-      List<Hall> affectedHallList,
       BigInteger componentId,
       String componentName,
       Date timeDown,
@@ -233,7 +232,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     incident.setResolution(solution);
     incident.setReviewedUsername(reviewedBy);
 
-    validateAndSetHallList(incident, affectedHallList);
     validateAndSetRepairedBy(incident, repairedBy);
     validateAndSetExpertReviewedBy(incident, expertUsernameArray);
   }
@@ -397,7 +395,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       String title,
       String summary,
       String permitToWork,
-      List<Hall> affectedHallList,
       BigInteger componentId,
       String componentName,
       String eventTitle,
@@ -489,7 +486,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         title,
         summary,
         permitToWork,
-        affectedHallList,
         componentId,
         componentName,
         timeDown,
@@ -537,7 +533,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       String title,
       String summary,
       String permitToWork,
-      List<Hall> affectedHallList,
       BigInteger componentId,
       String componentName,
       String eventTitle,
@@ -575,7 +570,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         title,
         summary,
         permitToWork,
-        affectedHallList,
         componentId,
         componentName,
         timeDown,
@@ -633,7 +627,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       String title,
       String summary,
       String permitToWork,
-      List<Hall> affectedHallList,
       BigInteger componentId,
       String componentName,
       String eventTitle,
@@ -694,7 +687,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         title,
         summary,
         permitToWork,
-        affectedHallList,
         componentId,
         componentName,
         timeDown,

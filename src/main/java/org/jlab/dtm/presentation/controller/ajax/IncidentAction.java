@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -22,7 +20,6 @@ import org.jlab.dtm.persistence.entity.Incident;
 import org.jlab.dtm.persistence.util.DtmSqlUtil;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
-import org.jlab.smoothness.persistence.enumeration.Hall;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 
 /**
@@ -59,10 +56,6 @@ public class IncidentAction extends HttpServlet {
       String title = request.getParameter("title");
       String summary = request.getParameter("summary");
       String permitToWork = request.getParameter("permitToWork");
-      Boolean halla = ParamConverter.convertYNBoolean(request, "halla");
-      Boolean hallb = ParamConverter.convertYNBoolean(request, "hallb");
-      Boolean hallc = ParamConverter.convertYNBoolean(request, "hallc");
-      Boolean halld = ParamConverter.convertYNBoolean(request, "halld");
       String eventTitle = request.getParameter("eventTitle");
       BigInteger componentId = ParamConverter.convertBigInteger(request, "componentId");
       String componentName = request.getParameter("componentName");
@@ -76,21 +69,6 @@ public class IncidentAction extends HttpServlet {
       String[] expertUsernameArray = request.getParameterValues("expertUsername[]");
       BigInteger rarId = ParamConverter.convertBigInteger(request, "rarId");
 
-      List<Hall> affectedHallList = new ArrayList<>();
-
-      if (halla) {
-        affectedHallList.add(Hall.A);
-      }
-      if (hallb) {
-        affectedHallList.add(Hall.B);
-      }
-      if (hallc) {
-        affectedHallList.add(Hall.C);
-      }
-      if (halld) {
-        affectedHallList.add(Hall.D);
-      }
-
       if ("add-event".equals(action)) {
         event =
             incidentFacade.addEvent(
@@ -101,7 +79,6 @@ public class IncidentAction extends HttpServlet {
                 title,
                 summary,
                 permitToWork,
-                affectedHallList,
                 componentId,
                 componentName,
                 eventTitle,
@@ -119,7 +96,6 @@ public class IncidentAction extends HttpServlet {
             title,
             summary,
             permitToWork,
-            affectedHallList,
             componentId,
             componentName,
             eventTitle,
@@ -137,7 +113,6 @@ public class IncidentAction extends HttpServlet {
             title,
             summary,
             permitToWork,
-            affectedHallList,
             componentId,
             componentName,
             eventTitle,

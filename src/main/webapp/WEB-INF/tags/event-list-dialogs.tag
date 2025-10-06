@@ -86,17 +86,6 @@
                                 <input type="text" id="permit-to-work" maxlength="64"/>
                             </div>
                         </li>
-                        <li id="research-li">
-                            <div class="li-key">
-                                <label for="research">Program Affected</label>
-                            </div>
-                            <div class="li-value">
-                                <select id="research" name="research">
-                                    <option value="Y">Physics</option>
-                                    <option value="N">Internal</option>
-                                </select>
-                            </div>
-                        </li>
                     </ul>
                 </fieldset>
                 <div class="two-column-div">
@@ -120,47 +109,6 @@
                             </div>
                         </li>                
                     </ul>
-                </fieldset>
-                <fieldset id="halls-affected-fieldset" class="column">
-                    <legend>Halls Affected</legend>
-                    <div class="two-column-div nested-two-column">
-                        <ul class="key-value-list column">
-                            <li>
-                                <div class="li-key">
-                                    <label for="halla">Hall A</label>
-                                </div>
-                                <div class="li-value">
-                                    <input type="checkbox" id="halla" name="halla"/>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="li-key">
-                                    <label for="hallb">Hall B</label>
-                                </div>
-                                <div class="li-value">
-                                    <input type="checkbox" id="hallb" name="hallb"/>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul class="key-value-list column">
-                            <li>
-                                <div class="li-key">
-                                    <label for="hallc">Hall C</label>
-                                </div>
-                                <div class="li-value">
-                                    <input type="checkbox" id="hallc" name="hallc"/>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="li-key">
-                                    <label for="halld">Hall D</label>
-                                </div>
-                                <div class="li-value">
-                                    <input type="checkbox" id="halld" name="halld"/>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
                 </fieldset>
                 </div>
                 <fieldset>
