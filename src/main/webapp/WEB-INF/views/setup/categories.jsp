@@ -3,7 +3,7 @@
 <%@taglib prefix="fn" uri="jakarta.tags.functions"%>
 <%@taglib prefix="s" uri="jlab.tags.smoothness"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
-<%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
+<%@taglib prefix="dtm" uri="jlab.tags.dtm"%>
 <jsp:useBean id="categoryList" scope="request" type="java.util.List"/>
 <jsp:useBean id="typeList" scope="request" type="java.util.List"/>
 <c:set var="title" value="Categories"/>

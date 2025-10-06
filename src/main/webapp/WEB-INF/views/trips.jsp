@@ -4,7 +4,7 @@
 <%@taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <%@taglib prefix="s" uri="jlab.tags.smoothness"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
-<%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
+<%@taglib prefix="dtm" uri="jlab.tags.dtm"%>
 <c:set value="FSD Trips" var="title"/>
 <s:page title="${title}">
     <jsp:attribute name="stylesheets"> 

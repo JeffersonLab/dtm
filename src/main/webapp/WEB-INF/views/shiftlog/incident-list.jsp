@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="jakarta.tags.core"%>
 <%@taglib prefix="fn" uri="jakarta.tags.functions"%>
 <%@taglib prefix="fmt" uri="jakarta.tags.fmt"%>
-<%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
+<%@taglib prefix="dtm" uri="jlab.tags.dtm"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
 <!DOCTYPE html>
 <html>

@@ -3,7 +3,7 @@
 <%@taglib prefix="fn" uri="jakarta.tags.functions"%>
 <%@taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <%@taglib prefix="s" uri="jlab.tags.smoothness"%>
-<%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
+<%@taglib prefix="dtm" uri="jlab.tags.dtm"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@attribute name="tripList" required="true" type="java.util.List"%>
 <div class="event-list">

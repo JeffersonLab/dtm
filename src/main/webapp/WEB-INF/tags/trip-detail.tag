@@ -3,7 +3,7 @@
 <%@taglib prefix="fn" uri="jakarta.tags.functions"%>
 <%@taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <%@taglib prefix="s" uri="jlab.tags.smoothness"%>
-<%@taglib prefix="dtm" uri="http://jlab.org/dtm/functions"%>
+<%@taglib prefix="dtm" uri="jlab.tags.dtm"%>
 <%@attribute name="trip" required="true" type="org.jlab.dtm.persistence.model.FsdTrip"%>
 <jsp:useBean id="now" class="java.util.Date"/>
 <c:set var="timeDown" value="${trip.start}"/>
