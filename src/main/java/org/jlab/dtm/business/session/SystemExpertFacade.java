@@ -1,11 +1,11 @@
 package org.jlab.dtm.business.session;
 
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.math.BigInteger;
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.persistence.entity.SystemExpert;
 import org.jlab.smoothness.business.exception.UserFriendlyException;

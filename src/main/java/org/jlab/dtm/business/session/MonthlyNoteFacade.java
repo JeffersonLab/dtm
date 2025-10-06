@@ -1,12 +1,12 @@
 package org.jlab.dtm.business.session;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.security.PermitAll;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import org.jlab.dtm.persistence.entity.MonthlyNote;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
 

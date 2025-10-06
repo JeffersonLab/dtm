@@ -1,5 +1,6 @@
 package org.jlab.dtm.presentation.util;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,7 +12,6 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.jlab.dtm.persistence.enumeration.AccMachineState;
 import org.jlab.dtm.persistence.enumeration.BinSize;
 import org.jlab.dtm.persistence.enumeration.FsdExceptionType;

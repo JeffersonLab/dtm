@@ -1,5 +1,8 @@
 package org.jlab.dtm.business.session;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.security.PermitAll;
+import jakarta.ejb.Stateless;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -11,9 +14,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.annotation.security.PermitAll;
-import javax.ejb.Stateless;
 import org.jlab.dtm.persistence.enumeration.BulletinBoardCategory;
 import org.jlab.dtm.persistence.enumeration.BulletinBoardPriority;
 

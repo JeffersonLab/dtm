@@ -1,18 +1,18 @@
 package org.jlab.dtm.business.session;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.*;
+import jakarta.mail.MessagingException;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.*;
-import javax.mail.MessagingException;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.service.EmailService;
 import org.jlab.smoothness.business.service.SettingsService;

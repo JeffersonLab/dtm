@@ -1,16 +1,16 @@
 package org.jlab.dtm.business.session;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
-import javax.annotation.security.PermitAll;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.Incident;
 import org.jlab.dtm.persistence.model.CategoryTrendInfo;
