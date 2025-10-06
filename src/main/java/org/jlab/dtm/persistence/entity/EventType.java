@@ -56,16 +56,6 @@ public class EventType implements Serializable {
   @Convert(converter = YnStringToBoolean.class)
   private boolean archived;
 
-  @Basic
-  @Column(name = "AFFECTED_HALL_YN", nullable = false, length = 1)
-  @Convert(converter = YnStringToBoolean.class)
-  private boolean affectedHall;
-
-  @Basic
-  @Column(name = "AFFECTED_RESEARCH_YN", nullable = false, length = 1)
-  @Convert(converter = YnStringToBoolean.class)
-  private boolean affectedResearch;
-
   @JoinTable(
       name = "TYPE_CATEGORY",
       joinColumns = {
@@ -132,22 +122,6 @@ public class EventType implements Serializable {
 
   public void setArchived(boolean archived) {
     this.archived = archived;
-  }
-
-  public boolean isAffectedHall() {
-    return affectedHall;
-  }
-
-  public void setAffectedHall(boolean affectedHall) {
-    this.affectedHall = affectedHall;
-  }
-
-  public boolean isAffectedResearch() {
-    return affectedResearch;
-  }
-
-  public void setAffectedResearch(boolean affectedResearch) {
-    this.affectedResearch = affectedResearch;
   }
 
   public List<Category> getCategoryList() {

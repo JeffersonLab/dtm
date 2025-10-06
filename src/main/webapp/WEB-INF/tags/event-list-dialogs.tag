@@ -496,17 +496,8 @@
 </div>
 <script>
     var jlab = jlab || {};
-    jlab.affectedHallTypes = [];
-    jlab.affectedResearchTypes = [];
     jlab.typeCategoryMap = new Map();
     <c:forEach items="${eventTypeList}" var="type">
         jlab.typeCategoryMap.set(${type.eventTypeId}, ${type.categoryJsArray});
-
-        <c:if test="${type.affectedHall}">
-            jlab.affectedHallTypes.push(${type.eventTypeId});
-        </c:if>
-        <c:if test="${type.affectedResearch}">
-            jlab.affectedResearchTypes.push(${type.eventTypeId});
-        </c:if>
     </c:forEach>
 </script>

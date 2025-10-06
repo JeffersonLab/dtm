@@ -601,20 +601,6 @@ jlab.dtm.loadLogbookReference = function () {
     request.always(function () {
     });
 };
-jlab.dtm.toggleMultiHall = function (type) {
-    if(jlab.affectedHallTypes.includes(type)) {
-        $("#halls-affected-fieldset").show();
-    } else {
-        $("#halls-affected-fieldset").hide();
-    }
-};
-jlab.dtm.toggleResearch = function (type) {
-    if(jlab.affectedResearchTypes.includes(type)) {
-        $("#research-li").removeClass("invisible");
-    } else {
-        $("#research-li").addClass("invisible");
-    }
-};
 jlab.dtm.filterSystemSelect = function (setToSystemId) {
     if (jlab.isRequest()) {
         window.console && console.log("Ajax already in progress");

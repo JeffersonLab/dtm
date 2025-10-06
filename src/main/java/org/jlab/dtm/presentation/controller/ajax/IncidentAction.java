@@ -59,7 +59,6 @@ public class IncidentAction extends HttpServlet {
       String title = request.getParameter("title");
       String summary = request.getParameter("summary");
       String permitToWork = request.getParameter("permitToWork");
-      Boolean research = ParamConverter.convertYNBoolean(request, "research");
       Boolean halla = ParamConverter.convertYNBoolean(request, "halla");
       Boolean hallb = ParamConverter.convertYNBoolean(request, "hallb");
       Boolean hallc = ParamConverter.convertYNBoolean(request, "hallc");
@@ -102,7 +101,6 @@ public class IncidentAction extends HttpServlet {
                 title,
                 summary,
                 permitToWork,
-                research,
                 affectedHallList,
                 componentId,
                 componentName,
@@ -121,7 +119,6 @@ public class IncidentAction extends HttpServlet {
             title,
             summary,
             permitToWork,
-            research,
             affectedHallList,
             componentId,
             componentName,
@@ -140,7 +137,6 @@ public class IncidentAction extends HttpServlet {
             title,
             summary,
             permitToWork,
-            research,
             affectedHallList,
             componentId,
             componentName,

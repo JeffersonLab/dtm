@@ -98,7 +98,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       String title,
       String summary,
       String permitToWork,
-      Boolean research,
       List<Hall> affectedHallList,
       BigInteger componentId,
       String componentName,
@@ -223,14 +222,9 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       expertUsernameArray = usernameList.toArray(new String[] {});
     }
 
-    if (research == null) {
-      research = true;
-    }
-
     incident.setExplanation(explanation);
     incident.setTitle(title);
     incident.setSummary(summary);
-    incident.setResearch(research);
     incident.setPermitToWork(permitToWork);
     incident.setSystem(system);
     incident.setComponent(eternalComponent);
@@ -403,7 +397,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       String title,
       String summary,
       String permitToWork,
-      Boolean research,
       List<Hall> affectedHallList,
       BigInteger componentId,
       String componentName,
@@ -496,7 +489,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         title,
         summary,
         permitToWork,
-        research,
         affectedHallList,
         componentId,
         componentName,
@@ -545,7 +537,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       String title,
       String summary,
       String permitToWork,
-      Boolean research,
       List<Hall> affectedHallList,
       BigInteger componentId,
       String componentName,
@@ -584,7 +575,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         title,
         summary,
         permitToWork,
-        research,
         affectedHallList,
         componentId,
         componentName,
@@ -643,7 +633,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       String title,
       String summary,
       String permitToWork,
-      Boolean research,
       List<Hall> affectedHallList,
       BigInteger componentId,
       String componentName,
@@ -705,7 +694,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         title,
         summary,
         permitToWork,
-        research,
         affectedHallList,
         componentId,
         componentName,
