@@ -9,7 +9,6 @@
         <shared-cache-mode>NONE</shared-cache-mode>
         <properties>
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle12cDialect"/>
             <property name="org.hibernate.envers.revision_on_collection_change" value="false"/>
             <property name="org.hibernate.envers.store_data_at_delete" value="true"/>
         </properties>
