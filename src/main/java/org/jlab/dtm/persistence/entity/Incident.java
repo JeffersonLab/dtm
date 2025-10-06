@@ -13,7 +13,6 @@ import org.hibernate.envers.NotAudited;
 import org.jlab.dtm.persistence.enumeration.ReviewLevel;
 import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
 import org.jlab.smoothness.business.util.IOUtil;
-import org.jlab.smoothness.persistence.util.YnStringToBoolean;
 import org.jlab.smoothness.presentation.util.Functions;
 
 /**
@@ -126,11 +125,6 @@ public class Incident implements Serializable {
   @Size(max = 64)
   @Column(name = "PERMIT_TO_WORK", nullable = true, length = 64)
   private String permitToWork;
-
-  @Basic
-  @Column(name = "RESEARCH_YN", nullable = false, length = 1)
-  @Convert(converter = YnStringToBoolean.class)
-  private boolean research;
 
   public Incident() {}
 
@@ -260,14 +254,6 @@ public class Incident implements Serializable {
 
   public String getPermitToWork() {
     return permitToWork;
-  }
-
-  public boolean isResearch() {
-    return research;
-  }
-
-  public void setResearch(boolean research) {
-    this.research = research;
   }
 
   public void setPermitToWork(String permitToWork) {

@@ -135,11 +135,6 @@ jlab.dtm.doIncidentAction = function (reload) {
             title = $("#title").val(),
             summary = $("#summary").val(),
             permitToWork = $("#permit-to-work").val(),
-            research = $("#research").val(),
-            halla = $("#halla").is(":checked"),
-            hallb = $("#hallb").is(":checked"),
-            hallc = $("#hallc").is(":checked"),
-            halld = $("#halld").is(":checked"),
             componentId = $("#component").attr("data-component-id"),
             componentName = $("#component").val(),
             action = $("#incident-action-button").attr("data-action"),
@@ -163,11 +158,6 @@ jlab.dtm.doIncidentAction = function (reload) {
     if (timeUp === "  -   -       :  ") {
         window.console && console.log("timepicker input placeholder mask is erroneously set as incidentTimeUp value!");
         timeUp = '';
-    }
-
-    if(parseInt(eventTypeId) === 8 && !halla && !hallb && !hallc && !halld) {
-        alert('You must select at least one hall with a Hall Event Type');
-        return;
     }
 
     if (!jlab.dtm.validateIncidentForm(action)) {
@@ -217,11 +207,6 @@ jlab.dtm.doIncidentAction = function (reload) {
             title: title,
             summary: summary,
             permitToWork: permitToWork,
-            research: research,
-            halla: halla ? 'Y' : 'N',
-            hallb: hallb ? 'Y' : 'N',
-            hallc: hallc ? 'Y' : 'N',
-            halld: halld ? 'Y' : 'N',
             componentId: componentId,
             componentName: componentName,
             action: action,
@@ -389,11 +374,6 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
             title = $tr.find(".incident-table-title").text(),
             summary = $tr.find(".incident-table-summary").text(),
             permitToWork = $tr.find(".incident-table-permit-to-work").text(),
-            research = $tr.find(".incident-table-research-affected").attr("data-research") === 'Y',
-            halla = $tr.find(".incident-table-halls-affected").attr("data-halla") === 'Y',
-            hallb = $tr.find(".incident-table-halls-affected").attr("data-hallb") === 'Y',
-            hallc = $tr.find(".incident-table-halls-affected").attr("data-hallc") === 'Y',
-            halld = $tr.find(".incident-table-halls-affected").attr("data-halld") === 'Y',
             systemId = $tr.find(".incident-table-system").attr("data-system-id"),
             componentName = $tr.find(".incident-table-component").text(),
             componentId = $tr.find(".incident-table-component").attr("data-component-id"),
@@ -413,30 +393,6 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
         permitToWork = '';
     }
 
-    $("#research-li").removeClass("invisible");
-
-    if(research) {
-        $("#research").val("Y");
-    } else {
-        $("#research").val("N");
-    }
-
-    if(halla) {
-        $("#halla").prop("checked", true);
-    }
-
-    if(hallb) {
-        $("#hallb").prop("checked", true);
-    }
-
-    if(hallc) {
-        $("#hallc").prop("checked", true);
-    }
-
-    if(halld) {
-        $("#halld").prop("checked", true);
-    }
-
     $("#category").val('');
 
     jlab.dtm.filterCategorySelect(eventType);
@@ -447,9 +403,6 @@ jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
     } else {
         jlab.dtm.filterSystemSelect(systemId);
     }
-
-    jlab.dtm.toggleMultiHall(eventType);
-    jlab.dtm.toggleResearch(eventType);
 
     $("#incident-dialog-event-type").val(eventType);
     $("#incident-dialog-event-time-up").val('');
@@ -600,20 +553,6 @@ jlab.dtm.loadLogbookReference = function () {
 
     request.always(function () {
     });
-};
-jlab.dtm.toggleMultiHall = function (type) {
-    if(jlab.affectedHallTypes.includes(type)) {
-        $("#halls-affected-fieldset").show();
-    } else {
-        $("#halls-affected-fieldset").hide();
-    }
-};
-jlab.dtm.toggleResearch = function (type) {
-    if(jlab.affectedResearchTypes.includes(type)) {
-        $("#research-li").removeClass("invisible");
-    } else {
-        $("#research-li").addClass("invisible");
-    }
 };
 jlab.dtm.filterSystemSelect = function (setToSystemId) {
     if (jlab.isRequest()) {
@@ -836,12 +775,6 @@ jlab.dtm.clearIncidentForm = function (skipReloadSystem) {
     $("#title").val('');
     $("#summary").val('');
     $("#permit-to-work").val('');
-    $("#research-li").removeClass("invisible");
-    $("#research").val("Y");
-    $("#halla").prop("checked", false);
-    $("#hallb").prop("checked", false);
-    $("#hallc").prop("checked", false);
-    $("#halld").prop("checked", false);
     $("#system").val('');
     $("#component").attr("data-component-id", "");
     $("#component").val('');
@@ -912,9 +845,6 @@ $(document).on("click", ".open-add-incident-dialog-button", function () {
 
     jlab.dtm.clearIncidentForm(1);
     $("#incident-dialog-event-type").val(type);
-
-    jlab.dtm.toggleMultiHall(type);
-    jlab.dtm.toggleResearch(type);
 
     jlab.dtm.filterCategorySelect(type);
 
@@ -1037,8 +967,6 @@ $(document).on("click", ".close-event-button", function () {
 
 $(document).on("change", "#incident-dialog-event-type", function () {
     let type = parseInt($("#incident-dialog-event-type").val());
-    jlab.dtm.toggleMultiHall(type);
-    jlab.dtm.toggleResearch(type);
     jlab.dtm.filterCategorySelect(type);
     jlab.dtm.filterSystemSelect();
 });

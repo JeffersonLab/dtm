@@ -12,7 +12,6 @@ import org.jlab.dtm.persistence.entity.ApplicationRevisionInfo;
 import org.jlab.dtm.persistence.entity.EternalComponent;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
-import org.jlab.smoothness.persistence.util.YnStringToBoolean;
 
 /**
  * @author ryans
@@ -99,11 +98,6 @@ public class IncidentAud implements Serializable {
   @Size(max = 64)
   @Column(name = "PERMIT_TO_WORK", nullable = true, length = 64)
   private String permitToWork;
-
-  @Basic
-  @Column(name = "RESEARCH_YN", nullable = false, length = 1)
-  @Convert(converter = YnStringToBoolean.class)
-  private boolean research;
 
   public IncidentAud() {}
 
@@ -225,14 +219,6 @@ public class IncidentAud implements Serializable {
 
   public void setPermitToWork(String permitToWork) {
     this.permitToWork = permitToWork;
-  }
-
-  public boolean isResearch() {
-    return research;
-  }
-
-  public void setResearch(boolean research) {
-    this.research = research;
   }
 
   public SystemExpertAcknowledgement getExpertAcknowledged() {

@@ -20,8 +20,6 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Abbreviation</th>
-                    <th>Affected Research</th>
-                    <th>Affected Hall</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,8 +28,6 @@
                         <td><c:out value="${type.name}"/></td>
                         <td><c:out value="${type.description}"/></td>
                         <td><c:out value="${type.abbreviation}"/></td>
-                        <td><c:out value="${type.affectedResearch ? 'Y' : 'N'}"/></td>
-                        <td><c:out value="${type.affectedHall ? 'Y' : 'N'}"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>
