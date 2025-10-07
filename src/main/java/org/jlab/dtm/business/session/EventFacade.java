@@ -148,7 +148,7 @@ public class EventFacade extends AbstractFacade<Event> {
     Root<Event> root = cq.from(Event.class);
     cq.select(root);
     cq.where(
-        cb.and(cb.isNull(root.<Date>get("timeUp")), cb.equal(root.get("eventType"), eventTypeId)));
+        cb.and(cb.isNull(root.<Date>get("timeUp")), cb.equal(root.get("eventType").get("eventTypeId"), eventTypeId)));
     List<Event> eventList = em.createQuery(cq).getResultList();
     Event event = null;
     if (eventList != null && !eventList.isEmpty()) {
@@ -322,19 +322,18 @@ public class EventFacade extends AbstractFacade<Event> {
     return latestIncidentTimeDown;
   }
 
-  @PermitAll
-  public List<Event> filterList(AllEventsParams params) {
-    CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-    CriteriaQuery<EventTimeDown> cq = cb.createQuery(EventTimeDown.class);
-    Root<EventTimeDown> eventTimeDown = cq.from(EventTimeDown.class);
-    cq.select(eventTimeDown).distinct(true);
+  private List<Predicate> getFilters(
+      CriteriaBuilder cb,
+      CriteriaQuery<? extends Object> cq,
+      Root<EventTimeDown> root,
+      AllEventsParams params) {
     List<Predicate> filters = new ArrayList<>();
 
-    Join<EventTimeDown, Event> event = eventTimeDown.join("event");
+    Join<EventTimeDown, Event> event = root.join("event");
     Join<Event, Incident> incidentList = event.join("incidentList");
 
     if (params.getEnd() != null) { // "time_down < ? "
-      filters.add(cb.lessThan((eventTimeDown.get("timeDown")), params.getEnd()));
+      filters.add(cb.lessThan((root.get("timeDown")), params.getEnd()));
     }
 
     if (params.getStart() != null) { // coalesce(time_up, sysdate) >= ?
@@ -390,11 +389,24 @@ public class EventFacade extends AbstractFacade<Event> {
     if (params.getAcknowledgement() != null) {
       filters.add(cb.equal(incidentList.get("expertAcknowledged"), params.getAcknowledgement()));
     }
+
+    return filters;
+  }
+
+  @PermitAll
+  public List<Event> filterList(AllEventsParams params) {
+    CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+    CriteriaQuery<EventTimeDown> cq = cb.createQuery(EventTimeDown.class);
+    Root<EventTimeDown> root = cq.from(EventTimeDown.class);
+    cq.select(root).distinct(true);
+
+    List<Predicate> filters = getFilters(cb, cq, root, params);
+
     if (!filters.isEmpty()) {
       cq.where(cb.and(filters.toArray(new Predicate[] {})));
     }
     List<Order> orders = new ArrayList<>();
-    Path p1 = eventTimeDown.get("timeDown");
+    Path p1 = root.get("timeDown");
     Order o1 = cb.desc(p1);
     orders.add(o1);
     cq.orderBy(orders);
@@ -421,74 +433,15 @@ public class EventFacade extends AbstractFacade<Event> {
   public Long countFilterList(AllEventsParams params) {
     CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
     CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-    Root<EventTimeDown> eventTimeDown = cq.from(EventTimeDown.class);
+    Root<EventTimeDown> root = cq.from(EventTimeDown.class);
 
-    List<Predicate> filters = new ArrayList<>();
+    List<Predicate> filters = getFilters(cb, cq, root, params);
 
-    Join<Event, EventTimeDown> event = eventTimeDown.join("event");
-    Join<Event, Incident> incidentList = event.join("incidentList");
-
-    if (params.getEnd() != null) { // "time_down < ? "
-      filters.add(cb.lessThan((eventTimeDown.get("timeDown")), params.getEnd()));
-    }
-
-    if (params.getStart() != null) { // coalesce(time_up, sysdate) >= ?
-      filters.add(
-          cb.greaterThanOrEqualTo(
-              (cb.coalesce(event.get("timeUp"), new Date())), params.getStart()));
-    }
-    if (params.getEventTypeId() != null) {
-      filters.add(cb.equal(event.get("eventType").get("eventTypeId"), params.getEventTypeId()));
-    }
-    if (params.getEventId() != null) {
-      filters.add(cb.equal(event.get("eventId"), params.getEventId()));
-    }
-
-    if (params.getSmeUsername() != null && !params.getSmeUsername().isEmpty()) {
-      Join<Incident, IncidentReview> reviewList = incidentList.join("incidentReviewList");
-
-      filters.add(cb.in(reviewList.get("reviewer")).value(params.getSmeUsername()));
-    }
-
-    BigInteger[] incidentIdArray =
-        IOUtil.removeNullValues(params.getIncidentIdArray(), BigInteger.class);
-
-    if (incidentIdArray != null && incidentIdArray.length > 0) {
-      List<BigInteger> a = Arrays.asList(incidentIdArray);
-
-      filters.add(cb.in(incidentList.get("incidentId")).value(a));
-    }
-
-    // beamTransport Y = only beam transport
-    // beamTransport N = everything but beam transport
-    // Null means don't filter beam transport specially
-    if (params.getBeamTransport() != null) {
-      Subquery<BigInteger> categorySubquery = cq.subquery(BigInteger.class);
-      Root<Category> categorySubRoot = categorySubquery.from(Category.class);
-      categorySubquery.select(categorySubRoot.get("categoryId"));
-      categorySubquery.where(cb.equal(categorySubRoot.get("name"), "Beam Transport"));
-
-      Subquery<BigInteger> incidentSubquery = cq.subquery(BigInteger.class);
-      Root<Incident> incidentSubRoot = incidentSubquery.from(Incident.class);
-      incidentSubquery.select(incidentSubRoot.get("event"));
-      incidentSubquery.where(
-          incidentSubRoot.get("system").get("category").get("categoryId").in(categorySubquery));
-
-      if (params.getBeamTransport()) {
-        filters.add(event.get("eventId").in(incidentSubquery));
-      } else {
-        filters.add(cb.not(event.get("eventId").in(incidentSubquery)));
-      }
-    }
-
-    if (params.getAcknowledgement() != null) {
-      filters.add(cb.equal(incidentList.get("expertAcknowledged"), params.getAcknowledgement()));
-    }
     if (!filters.isEmpty()) {
       cq.where(cb.and(filters.toArray(new Predicate[] {})));
     }
 
-    cq.select(cb.countDistinct(eventTimeDown)); // Use countDistinct() vs distinct(true);
+    cq.select(cb.countDistinct(root)); // Use countDistinct() vs distinct(true);
     TypedQuery<Long> q = getEntityManager().createQuery(cq);
     return q.getSingleResult();
   }
