@@ -43,7 +43,7 @@ public class Category implements Serializable, Node {
   private List<Category> categoryList;
 
   @JoinColumn(name = "PARENT_ID", referencedColumnName = "CATEGORY_ID")
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private Category parentId;
 
   @OneToMany(mappedBy = "category")
