@@ -98,7 +98,7 @@ public class EventFacade extends AbstractFacade<Event> {
 
     String w;
 
-    w = "e.eventTimeDown.timeDown < :end and nvl(e.timeUp, sysdate) >= :start";
+    w = "e.eventTimeDown.timeDown < :end and coalesce(e.timeUp, sysdate) >= :start";
     whereList.add(w);
 
     if (eventTypeId != null) {
