@@ -347,7 +347,7 @@ public class EventFacade extends AbstractFacade<Event> {
               (cb.coalesce(event.get("timeUp"), new Date())), params.getStart()));
     }
     if (params.getEventTypeId() != null) {
-      filters.add(cb.equal(event.get("eventType"), params.getEventTypeId()));
+      filters.add(cb.equal(event.get("eventType").get("eventTypeId"), params.getEventTypeId()));
     }
     if (params.getEventId() != null) {
       filters.add(cb.equal(event.get("eventId"), params.getEventId()));
@@ -373,7 +373,7 @@ public class EventFacade extends AbstractFacade<Event> {
       Subquery<BigInteger> incidentSubquery = cq.subquery(BigInteger.class);
       Root<Incident> incidentSubRoot = incidentSubquery.from(Incident.class);
       incidentSubquery.select(incidentSubRoot.get("event"));
-      incidentSubquery.where(cb.equal(incidentSubRoot.get("system"), 616));
+      incidentSubquery.where(cb.equal(incidentSubRoot.get("system").get("systemId"), 616)); // TODO: Use category instead
 
       if (params.getBeamTransport()) {
         filters.add(event.get("eventId").in(incidentSubquery)); // 616 = 'Beam Transport'
@@ -432,7 +432,7 @@ public class EventFacade extends AbstractFacade<Event> {
               (cb.coalesce(event.get("timeUp"), new Date())), params.getStart()));
     }
     if (params.getEventTypeId() != null) {
-      filters.add(cb.equal(event.get("eventType"), params.getEventTypeId()));
+      filters.add(cb.equal(event.get("eventType").get("eventTypeId"), params.getEventTypeId()));
     }
     if (params.getEventId() != null) {
       filters.add(cb.equal(event.get("eventId"), params.getEventId()));
@@ -456,7 +456,7 @@ public class EventFacade extends AbstractFacade<Event> {
       Subquery<BigInteger> incidentSubquery = cq.subquery(BigInteger.class);
       Root<Incident> incidentSubRoot = incidentSubquery.from(Incident.class);
       incidentSubquery.select(incidentSubRoot.get("event"));
-      incidentSubquery.where(cb.equal(incidentSubRoot.get("system"), 616));
+      incidentSubquery.where(cb.equal(incidentSubRoot.get("system").get("systemId"), 616)); // TODO: Use category instead
 
       if (params.getBeamTransport()) {
         filters.add(event.get("eventId").in(incidentSubquery)); // 616 = 'Beam Transport'

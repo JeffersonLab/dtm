@@ -764,7 +764,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     }
 
     if (params.getEventTypeId() != null) {
-      filters.add(cb.equal(event.get("eventType"), params.getEventTypeId()));
+      filters.add(cb.equal(event.get("eventType").get("eventTypeId"), params.getEventTypeId()));
     }
 
     if (params.getEventId() != null) {
