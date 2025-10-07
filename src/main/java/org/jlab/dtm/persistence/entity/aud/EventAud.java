@@ -4,8 +4,6 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -40,7 +38,7 @@ public class EventAud implements Serializable {
   @ManyToOne(optional = false)
   private EventType eventType;
 
-  //@Enumerated(EnumType.ORDINAL)
+  // @Enumerated(EnumType.ORDINAL)
   @NotNull
   @Column(name = "REVTYPE")
   private RevisionType type;

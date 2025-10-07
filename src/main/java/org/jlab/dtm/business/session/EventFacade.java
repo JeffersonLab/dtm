@@ -373,7 +373,9 @@ public class EventFacade extends AbstractFacade<Event> {
       Subquery<BigInteger> incidentSubquery = cq.subquery(BigInteger.class);
       Root<Incident> incidentSubRoot = incidentSubquery.from(Incident.class);
       incidentSubquery.select(incidentSubRoot.get("event"));
-      incidentSubquery.where(cb.equal(incidentSubRoot.get("system").get("systemId"), 616)); // TODO: Use category instead
+      incidentSubquery.where(
+          cb.equal(
+              incidentSubRoot.get("system").get("systemId"), 616)); // TODO: Use category instead
 
       if (params.getBeamTransport()) {
         filters.add(event.get("eventId").in(incidentSubquery)); // 616 = 'Beam Transport'
@@ -456,7 +458,9 @@ public class EventFacade extends AbstractFacade<Event> {
       Subquery<BigInteger> incidentSubquery = cq.subquery(BigInteger.class);
       Root<Incident> incidentSubRoot = incidentSubquery.from(Incident.class);
       incidentSubquery.select(incidentSubRoot.get("event"));
-      incidentSubquery.where(cb.equal(incidentSubRoot.get("system").get("systemId"), 616)); // TODO: Use category instead
+      incidentSubquery.where(
+          cb.equal(
+              incidentSubRoot.get("system").get("systemId"), 616)); // TODO: Use category instead
 
       if (params.getBeamTransport()) {
         filters.add(event.get("eventId").in(incidentSubquery)); // 616 = 'Beam Transport'
