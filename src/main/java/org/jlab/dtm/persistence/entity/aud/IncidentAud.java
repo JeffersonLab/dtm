@@ -47,7 +47,7 @@ public class IncidentAud implements Serializable {
   @ManyToOne
   private Component component;
 
-  @Enumerated(EnumType.ORDINAL)
+  //@Enumerated(EnumType.ORDINAL)
   @NotNull
   @Column(name = "REVTYPE")
   private RevisionType type;

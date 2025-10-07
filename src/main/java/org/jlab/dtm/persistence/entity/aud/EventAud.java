@@ -40,7 +40,7 @@ public class EventAud implements Serializable {
   @ManyToOne(optional = false)
   private EventType eventType;
 
-  @Enumerated(EnumType.ORDINAL)
+  //@Enumerated(EnumType.ORDINAL)
   @NotNull
   @Column(name = "REVTYPE")
   private RevisionType type;
