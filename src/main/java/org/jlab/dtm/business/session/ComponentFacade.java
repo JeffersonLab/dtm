@@ -11,6 +11,7 @@ import java.math.BigInteger;
 import java.util.*;
 import org.jlab.dtm.persistence.entity.Component;
 import org.jlab.dtm.persistence.entity.SystemEntity;
+import org.jlab.dtm.persistence.enumeration.Include;
 import org.jlab.smoothness.business.util.IOUtil;
 
 /**
@@ -57,6 +58,7 @@ public class ComponentFacade extends AbstractFacade<Component> {
       BigInteger[] systemIdArray,
       String q,
       BigInteger componentId,
+      Include archived,
       Integer max) {
     Long count;
 
@@ -80,7 +82,7 @@ public class ComponentFacade extends AbstractFacade<Component> {
       if (categoryIdArray != null && categoryIdArray.length > 0) {
         Set<BigInteger> systemSet = new LinkedHashSet<>();
         for (BigInteger categoryId : categoryIdArray) {
-          List<SystemEntity> systemList = systemFacade.fetchHierarchy(categoryId);
+          List<SystemEntity> systemList = systemFacade.fetchHierarchy(categoryId, archived);
           for (SystemEntity entity : systemList) {
             systemSet.add(entity.getSystemId());
           }
@@ -109,6 +111,13 @@ public class ComponentFacade extends AbstractFacade<Component> {
       if (componentId != null) {
         filters.add(cb.equal(root.get("componentId"), componentId));
       }
+
+      if (archived == null) {
+        filters.add(cb.equal(root.get("archived"), false));
+      } else if (Include.EXCLUSIVELY == archived) {
+        filters.add(cb.equal(root.get("archived"), true));
+      } // else Include.YES, which means don't filter at all
+
       if (!filters.isEmpty()) {
         cq.where(cb.and(filters.toArray(new Predicate[] {})));
       }
@@ -126,6 +135,7 @@ public class ComponentFacade extends AbstractFacade<Component> {
       BigInteger[] systemIdArray,
       String q,
       BigInteger componentId,
+      Include archived,
       Integer max,
       Integer offset) {
     List<Component> componentList;
@@ -150,7 +160,7 @@ public class ComponentFacade extends AbstractFacade<Component> {
       if (categoryIdArray != null && categoryIdArray.length > 0) {
         Set<BigInteger> systemSet = new LinkedHashSet<>();
         for (BigInteger categoryId : categoryIdArray) {
-          List<SystemEntity> systemList = systemFacade.fetchHierarchy(categoryId);
+          List<SystemEntity> systemList = systemFacade.fetchHierarchy(categoryId, archived);
           for (SystemEntity entity : systemList) {
             systemSet.add(entity.getSystemId());
           }
@@ -181,6 +191,13 @@ public class ComponentFacade extends AbstractFacade<Component> {
       if (componentId != null) {
         filters.add(cb.equal(root.get("componentId"), componentId));
       }
+
+      if (archived == null) {
+        filters.add(cb.equal(root.get("archived"), false));
+      } else if (Include.EXCLUSIVELY == archived) {
+        filters.add(cb.equal(root.get("archived"), true));
+      } // else Include.YES, which means don't filter at all
+
       if (!filters.isEmpty()) {
         cq.where(cb.and(filters.toArray(new Predicate[] {})));
       }

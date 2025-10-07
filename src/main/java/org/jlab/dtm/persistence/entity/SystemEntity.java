@@ -9,6 +9,7 @@ import java.util.List;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.hibernate.envers.RelationTargetAuditMode;
+import org.jlab.dtm.persistence.enumeration.Include;
 import org.jlab.smoothness.persistence.util.YnStringToBoolean;
 
 /**
@@ -167,5 +168,17 @@ public class SystemEntity implements Serializable, Comparable<SystemEntity> {
   @Override
   public String toString() {
     return "org.jlab.dtm.persistence.entity.System[ systemId=" + systemId + " ]";
+  }
+
+  public boolean include(Include includeArchived) {
+    boolean include = true;
+
+    if (includeArchived == null) { // Filter out archived
+      include = !this.archived;
+    } else if (Include.EXCLUSIVELY == includeArchived) {
+      include = this.archived;
+    } // else Include.YES, which means don't filter at all
+
+    return include;
   }
 }

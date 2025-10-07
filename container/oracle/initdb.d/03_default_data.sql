@@ -492,6 +492,12 @@ insert into DTM_OWNER.COMPONENT (COMPONENT_ID, NAME, SYSTEM_ID, REGION_ID) value
 -- For testing System.SRM_YN = 'Y'
 insert into DTM_OWNER.COMPONENT (COMPONENT_ID, NAME, SYSTEM_ID, REGION_ID) values (12881, 'MBC1C02V', 35, 20);
 
+-- For testing COMPONENT.ARCHIVED_YN = 'Y'
+insert into DTM_OWNER.COMPONENT (COMPONENT_ID, NAME, SYSTEM_ID, REGION_ID, ARCHIVED_YN) values (1, 'ARCHIVED_COMPONENT', 35, 20, 'Y');
+
+-- For testing SYSTEM.ARCHIVED_YN = 'Y'
+insert into DTM_OWNER.SYSTEM (SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT, ARCHIVED_YN) values (1, 'ARCHIVED_SYSTEM', 381, 1000, 'Y');
+
 -- For testing insert system expert into Cryomodule system
 insert into dtm_owner.system_expert(SYSTEM_EXPERT_ID, SYSTEM_ID, USERNAME) values(dtm_owner.SYSTEM_EXPERT_ID.nextval, 141, 'jsmith');
 

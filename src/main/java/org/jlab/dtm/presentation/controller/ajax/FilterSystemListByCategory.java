@@ -17,6 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.SystemEntity;
+import org.jlab.dtm.persistence.enumeration.Include;
+import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 
 /**
@@ -48,8 +50,9 @@ public class FilterSystemListByCategory extends HttpServlet {
 
     try {
       BigInteger categoryId = ParamConverter.convertBigInteger(request, "categoryId");
+      Include archived = DtmParamConverter.convertInclude(request, "archived");
 
-      systemList = systemFacade.findWithCategory(categoryId);
+      systemList = systemFacade.findWithCategory(categoryId, archived);
 
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, "Unable to filter system list", e);

@@ -13,6 +13,8 @@ import org.jlab.dtm.business.session.CategoryFacade;
 import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.entity.SystemEntity;
+import org.jlab.dtm.persistence.enumeration.Include;
+import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 
 /**
@@ -39,9 +41,10 @@ public class SystemExpertSetup extends HttpServlet {
       throws ServletException, IOException {
     BigInteger categoryId = ParamConverter.convertBigInteger(request, "categoryId");
     BigInteger systemId = ParamConverter.convertBigInteger(request, "systemId");
+    Include archived = DtmParamConverter.convertInclude(request, "archived");
 
     Category categoryRoot = categoryFacade.findBranch(null);
-    List<SystemEntity> systemList = systemFacade.findWithCategory(categoryId);
+    List<SystemEntity> systemList = systemFacade.findWithCategory(categoryId, archived);
 
     String selectionMessage = null;
     Category selectedCategory = null;

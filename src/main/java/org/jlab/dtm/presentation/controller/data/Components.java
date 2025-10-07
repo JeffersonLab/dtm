@@ -17,6 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jlab.dtm.business.session.ComponentFacade;
 import org.jlab.dtm.persistence.entity.Component;
+import org.jlab.dtm.persistence.enumeration.Include;
+import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 
 /**
@@ -74,16 +76,18 @@ public class Components extends HttpServlet {
       BigInteger[] systemIdArray = ParamConverter.convertBigIntegerArray(request, "system_id");
       BigInteger componentId = ParamConverter.convertBigInteger(request, "component_id");
       String q = request.getParameter("q");
+      Include includeArchived = DtmParamConverter.convertInclude(request, "archived");
       Integer max = ParamConverter.convertInteger(request, "max");
       Integer offset = ParamConverter.convertInteger(request, "offset");
 
       componentList =
           componentFacade.findMustFilter(
-              categoryIdArray, systemIdArray, q, componentId, max, offset);
+              categoryIdArray, systemIdArray, q, componentId, includeArchived, max, offset);
 
       if (max != null) {
         totalRecords =
-            componentFacade.countMustFilter(categoryIdArray, systemIdArray, q, componentId, max);
+            componentFacade.countMustFilter(
+                categoryIdArray, systemIdArray, q, componentId, includeArchived, max);
       } else {
         totalRecords = Long.valueOf(componentList.size());
       }

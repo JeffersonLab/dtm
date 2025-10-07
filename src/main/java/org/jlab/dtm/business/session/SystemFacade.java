@@ -15,6 +15,7 @@ import java.util.*;
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.entity.Component;
 import org.jlab.dtm.persistence.entity.SystemEntity;
+import org.jlab.dtm.persistence.enumeration.Include;
 import org.jlab.smoothness.persistence.util.JPAUtil;
 
 /**
@@ -45,7 +46,7 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
   }
 
   @PermitAll
-  public List<SystemEntity> findWithCategory(BigInteger categoryId) {
+  public List<SystemEntity> findWithCategory(BigInteger categoryId, Include archived) {
     List<SystemEntity> systemList;
 
     if (categoryId == null) {
@@ -54,7 +55,7 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
       // Just load entire hierarchy of categories and cache in em
       categoryFacade.findAllViaCartesianProduct();
 
-      systemList = fetchHierarchy(categoryId);
+      systemList = fetchHierarchy(categoryId, archived);
     }
 
     return systemList;
@@ -62,7 +63,10 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
 
   @PermitAll
   public List<SystemEntity> findWithCategory(
-      BigInteger[] categoryIdArray, BigInteger componentId, BigInteger systemId) {
+      BigInteger[] categoryIdArray,
+      BigInteger componentId,
+      BigInteger systemId,
+      Include includeArchived) {
     List<SystemEntity> systemList = new ArrayList<>();
 
     // Just load entire hierarchy of categories and cache in em
@@ -80,7 +84,8 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
       // Zero or one (first) category are used if searching by componentId or systemId
       BigInteger categoryId = categoryIdArray == null ? null : categoryIdArray[0];
 
-      systemList = findByComponentCategoryAndSystem(componentId, categoryId, systemId);
+      systemList =
+          findByComponentCategoryAndSystem(componentId, categoryId, systemId, includeArchived);
     } else {
       // componentId == null && systemId == null && categoryId != null && recurse == true
       // Search for systems by category using recursion
@@ -88,7 +93,7 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
       Set<SystemEntity> systemSet = new LinkedHashSet<>(); // Prevent duplicates
       for (BigInteger categoryId : categoryIdArray) {
         if (categoryId != null) {
-          systemSet.addAll(fetchHierarchy(categoryId));
+          systemSet.addAll(fetchHierarchy(categoryId, includeArchived));
         }
       }
       systemList.addAll(systemSet);
@@ -99,7 +104,7 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
 
   @PermitAll
   public List<SystemEntity> findByComponentCategoryAndSystem(
-      BigInteger componentId, BigInteger categoryId, BigInteger systemId) {
+      BigInteger componentId, BigInteger categoryId, BigInteger systemId, Include archived) {
     CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
     CriteriaQuery<SystemEntity> cq = cb.createQuery(SystemEntity.class);
     Root<SystemEntity> root = cq.from(SystemEntity.class);
@@ -117,6 +122,13 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
     if (systemId != null) {
       filters.add(cb.equal(root.get("systemId"), systemId));
     }
+
+    if (archived == null) {
+      filters.add(cb.equal(root.get("archived"), false));
+    } else if (Include.EXCLUSIVELY == archived) {
+      filters.add(cb.equal(root.get("archived"), true));
+    } // else Include.YES, which means don't filter at all
+
     if (!filters.isEmpty()) {
       cq.where(cb.and(filters.toArray(new Predicate[] {})));
     }
@@ -130,12 +142,12 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
   }
 
   @PermitAll
-  public List<SystemEntity> fetchHierarchy(BigInteger categoryId) {
+  public List<SystemEntity> fetchHierarchy(BigInteger categoryId, Include includeArchived) {
     List<SystemEntity> systemList;
 
     Category category = categoryFacade.find(categoryId);
     if (category != null) {
-      systemList = gatherDescendents(category);
+      systemList = gatherDescendents(category, includeArchived);
       Collections.sort(systemList);
     } else {
       systemList = new ArrayList<>();
@@ -145,7 +157,7 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
   }
 
   @PermitAll
-  public List<SystemEntity> gatherDescendents(Category category) {
+  public List<SystemEntity> gatherDescendents(Category category, Include archived) {
     List<SystemEntity> systemList;
 
     if (category.getSystemList() == null || category.getSystemList().isEmpty()) {
@@ -153,13 +165,15 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
     } else {
       systemList = new ArrayList<>();
       for (SystemEntity system : category.getSystemList()) {
-        systemList.add(system);
+        if (system.include(archived)) {
+          systemList.add(system);
+        }
       }
     }
 
     if (category.getCategoryList() != null && !category.getCategoryList().isEmpty()) {
       for (Category child : category.getCategoryList()) {
-        systemList.addAll(gatherDescendents(child));
+        systemList.addAll(gatherDescendents(child, archived));
       }
     }
 

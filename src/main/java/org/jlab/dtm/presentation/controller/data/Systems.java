@@ -17,6 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.SystemEntity;
+import org.jlab.dtm.persistence.enumeration.Include;
+import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.presentation.util.ParamConverter;
 
 /**
@@ -72,8 +74,10 @@ public class Systems extends HttpServlet {
       BigInteger[] categoryIdArray = ParamConverter.convertBigIntegerArray(request, "category_id");
       BigInteger componentId = ParamConverter.convertBigInteger(request, "component_id");
       BigInteger systemId = ParamConverter.convertBigInteger(request, "system_id");
+      Include includeArchived = DtmParamConverter.convertInclude(request, "archived");
 
-      systemList = systemFacade.findWithCategory(categoryIdArray, componentId, systemId);
+      systemList =
+          systemFacade.findWithCategory(categoryIdArray, componentId, systemId, includeArchived);
 
     } catch (Exception e) {
       logger.log(Level.SEVERE, "Unable to obtain system list", e);

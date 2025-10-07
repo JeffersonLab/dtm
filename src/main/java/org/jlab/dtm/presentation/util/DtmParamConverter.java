@@ -12,14 +12,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.jlab.dtm.persistence.enumeration.AccMachineState;
-import org.jlab.dtm.persistence.enumeration.BinSize;
-import org.jlab.dtm.persistence.enumeration.FsdExceptionType;
-import org.jlab.dtm.persistence.enumeration.HallMachineState;
-import org.jlab.dtm.persistence.enumeration.IncidentSortKey;
-import org.jlab.dtm.persistence.enumeration.RootCause;
-import org.jlab.dtm.persistence.enumeration.RootCauseIncidentMask;
-import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
+import org.jlab.dtm.persistence.enumeration.*;
 import org.jlab.smoothness.business.util.TimeUtil;
 import org.jlab.smoothness.persistence.enumeration.Hall;
 
@@ -322,5 +315,16 @@ public final class DtmParamConverter {
     }
 
     return value;
+  }
+
+  public static Include convertInclude(HttpServletRequest request, String parameterName) {
+    String value = request.getParameter(parameterName);
+    Include result = null;
+
+    if (value != null && !value.isBlank()) {
+      result = Include.valueOf(value);
+    }
+
+    return result;
   }
 }
