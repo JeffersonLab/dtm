@@ -378,7 +378,7 @@ public class IncidentReportService {
     sql =
         sql
             + ") as frequency, a.missing_explanation, a.expert_acknowledged, a.root_cause, a.rar_id "
-            + "from (incident a left outer join dtm_owner.all_components d on a.component_id = d.component_id) inner join dtm_owner.system_alpha_category v on v.system_id = a.system_id inner join dtm_owner.category w on v.category_id = w.category_id inner join dtm_owner.event b on a.event_id = b.event_id inner join dtm_owner.system c on a.system_id = c.system_id inner join dtm_owner.event_type e on b.event_type_id = e.event_type_id ";
+            + "from (incident a left outer join dtm_owner.component d on a.component_id = d.component_id) inner join dtm_owner.system_alpha_category v on v.system_id = a.system_id inner join dtm_owner.category w on v.category_id = w.category_id inner join dtm_owner.event b on a.event_id = b.event_id inner join dtm_owner.system c on a.system_id = c.system_id inner join dtm_owner.event_type e on b.event_type_id = e.event_type_id ";
 
     IncidentFilter filter = new IncidentFilter(params);
     sql = sql + filter.getSqlWhereClause();
@@ -427,7 +427,7 @@ public class IncidentReportService {
 
     String sql =
         "select count(*) "
-            + "from (incident a left outer join dtm_owner.all_components d on a.component_id = d.component_id) inner join dtm_owner.system_alpha_category v on v.system_id = a.system_id inner join dtm_owner.category w on v.category_id = w.category_id inner join dtm_owner.event b on a.event_id = b.event_id inner join dtm_owner.system c on a.system_id = c.system_id inner join dtm_owner.event_type e on b.event_type_id = e.event_type_id ";
+            + "from (incident a left outer join dtm_owner.component d on a.component_id = d.component_id) inner join dtm_owner.system_alpha_category v on v.system_id = a.system_id inner join dtm_owner.category w on v.category_id = w.category_id inner join dtm_owner.event b on a.event_id = b.event_id inner join dtm_owner.system c on a.system_id = c.system_id inner join dtm_owner.event_type e on b.event_type_id = e.event_type_id ";
 
     IncidentFilter filter = new IncidentFilter(params);
     sql = sql + filter.getSqlWhereClause();
@@ -486,7 +486,7 @@ public class IncidentReportService {
     sql =
         sql
             + ")) / 60 / 60 "
-            + "from incident a left join dtm_owner.all_components d on a.component_id = d.component_id, event b "
+            + "from incident a left join dtm_owner.component d on a.component_id = d.component_id, event b "
             + "where a.event_id = b.event_id ";
 
     if (end != null) {
