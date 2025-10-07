@@ -353,18 +353,28 @@ CREATE TABLE DTM_OWNER.SYSTEM
     ARCHIVED_YN VARCHAR2(1 CHAR) DEFAULT 'N' NOT NULL
 );
 
+/*
+ * GRANT SELECT ON SRM_OWNER.SYSTEM_AUD TO DTM_OWNER;
+create view DTM_OWNER.DELETED_SYSTEMS as
+(
+select distinct(system_id), name, category_id, weight, 'N' as srm_yn
+from srm_owner.system_aud
+         inner join srm_owner.application_revision_info using (rev)
+where revtype = 2
+);
+ */
+
 /*grant select on srm_owner.system to dtm_owner;
 grant select on srm_owner.system_application to dtm_owner;
 create or replace view dtm_owner.system as
 (
-select SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT,
+select SYSTEM_ID, NAME, CATEGORY_ID, WEIGHT, 'N' as ARCHIVED_YN,
 CASE
   WHEN (select 'Y' from srm_owner.system_application where srm_owner.system_application.system_id = b.system_id and application_id = 1) IS NOT NULL THEN 'Y'
   ELSE 'N'
 END as SRM_YN
-from srm_owner.system b where system_id in (select system_id from srm_owner.system_application where application_id = 2),
-  'N' as ARCHIVED_YN
-  union select system_id, name, category_id, weight, 'Y' from srm_owner.all_systems
+from srm_owner.system b where system_id in (select system_id from srm_owner.system_application where application_id = 2)
+  union select system_id, name, category_id, weight, 'Y' as archived_yn,  srm_yn from dtm_owner.deleted_systems
 );*/
 
 -- Note: Region is used by FSD Trip reports to map to "area"
@@ -393,11 +403,21 @@ CREATE TABLE DTM_OWNER.COMPONENT
     CONSTRAINT COMPONENT_AK2 UNIQUE (SYSTEM_ID, COMPONENT_ID)
 );
 
+/*grant select on srm_owner.component_aud to dtm_owner;
+grant select on srm_owner.application_revision_info to dtm_owner;
+
+CREATE OR REPLACE VIEW DTM_OWNER.DELETED_COMPONENTS as
+(
+select distinct(component_id), name, system_id, region_id
+from srm_owner.component_aud inner join srm_owner.application_revision_info using(rev)
+where revtype = 2
+);*/
+
 /*grant select on srm_owner.component to dtm_owner;
 create or replace view dtm_owner.component as
 (
-select component_id, name, system_id, region_id, 'N' from srm_owner.component where system_id in (select system_id from srm_owner.system_application where application_id = 2)
-union select component_id, name, system_id, region_id 'Y' from srm_owner.all_components
+select component_id, name, system_id, region_id, 'N' as archived_yn from srm_owner.component where system_id in (select system_id from srm_owner.system_application where application_id = 2)
+union select component_id, name, system_id, region_id, 'Y' as archived_yn from dtm_owner.deleted_components
 );*/
 
 CREATE TABLE DTM_OWNER.WORKGROUP
@@ -450,54 +470,6 @@ create or replace view dtm_owner.cc_acc_hour as
 (
 select * from btm_owner.cc_acc_hour
 );*/
-
-CREATE OR REPLACE VIEW DTM_OWNER.ALL_COMPONENTS as
-(
-select component_id,
-       name,
-       system_id,
-       region_id
-from dtm_owner.component
-);
-
-/*grant select on srm_owner.component_aud to dtm_owner;
-grant select on srm_owner.application_revision_info to dtm_owner;
-
-CREATE OR REPLACE VIEW DTM_OWNER.ALL_COMPONENTS as
-(
-select distinct(component_id), name, system_id, region_id
-from srm_owner.component_aud inner join srm_owner.application_revision_info using(rev)
-where revtype = 2
-union
-select component_id,
-       name,
-       system_id,
-       region_id
-from dtm_owner.component
-);*/
-
-
-CREATE OR REPLACE VIEW DTM_OWNER.ALL_SYSTEMS AS (
-       select system_id, name, category_id, weight, srm_yn from dtm_owner.system
-);
-
-/*
- * GRANT SELECT ON SRM_OWNER.SYSTEM_AUD TO DTM_OWNER;
-create view DTM_OWNER.ALL_SYSTEMS as
-(
-select distinct(system_id), name, category_id, weight, 'N' as srm_yn
-from srm_owner.system_aud
-         inner join srm_owner.application_revision_info using (rev)
-where revtype = 2
-union
-select system_id,
-       name,
-       category_id,
-       weight,
-       srm_yn
-from dtm_owner.system
-);
- */
 
 
 CREATE TABLE DTM_OWNER.TYPE_CATEGORY (
