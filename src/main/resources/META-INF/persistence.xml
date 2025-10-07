@@ -11,6 +11,7 @@
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/>
             <property name="org.hibernate.envers.revision_on_collection_change" value="false"/>
             <property name="org.hibernate.envers.store_data_at_delete" value="true"/>
+            <property name="hibernate.id.db_structure_naming_strategy" value="single" />
         </properties>
         <class>org.jlab.smoothness.persistence.entity.Setting</class>
     </persistence-unit>
