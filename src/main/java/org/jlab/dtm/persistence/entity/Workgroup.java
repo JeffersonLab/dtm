@@ -2,11 +2,11 @@ package org.jlab.dtm.persistence.entity;
 
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigInteger;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import org.hibernate.envers.Audited;
 import org.jlab.smoothness.persistence.util.YnStringToBoolean;
 

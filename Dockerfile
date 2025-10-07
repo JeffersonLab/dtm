@@ -1,5 +1,5 @@
 ARG BUILD_IMAGE=gradle:9-jdk21
-ARG RUN_IMAGE=jeffersonlab/wildfly:1.6.2
+ARG RUN_IMAGE=jeffersonlab/wildfly:2.2.0
 ARG CUSTOM_CRT_URL=http://pki.jlab.org/JLabCA.crt
 
 ################## Stage 0

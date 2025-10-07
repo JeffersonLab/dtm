@@ -1,14 +1,14 @@
 package org.jlab.dtm.business.session;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.*;
 import java.math.BigInteger;
 import java.util.*;
-import javax.annotation.security.PermitAll;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
 import org.jlab.dtm.persistence.entity.Component;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.smoothness.business.util.IOUtil;
@@ -30,6 +30,25 @@ public class ComponentFacade extends AbstractFacade<Component> {
 
   public ComponentFacade() {
     super(Component.class);
+  }
+
+  @PermitAll
+  public List<Component> findByName(String componentName) {
+    CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+    CriteriaQuery<Component> cq = cb.createQuery(getEntityClass());
+    Root<Component> root = cq.from(getEntityClass());
+
+    List<Predicate> filters = new ArrayList<>();
+
+    filters.add(cb.equal(root.get("name"), componentName));
+
+    if (!filters.isEmpty()) {
+      cq.where(cb.and(filters.toArray(new Predicate[] {})));
+    }
+
+    cq.select(root);
+
+    return getEntityManager().createQuery(cq).getResultList();
   }
 
   @PermitAll
@@ -147,7 +166,7 @@ public class ComponentFacade extends AbstractFacade<Component> {
       }
 
       if (systemIdArray != null && systemIdArray.length > 0) {
-        filters.add(root.get("system").in((Object[]) systemIdArray));
+        filters.add(root.get("system").get("systemId").in((Object[]) systemIdArray));
       }
       if (q != null && !q.isEmpty()) {
         String searchString = q.toUpperCase();

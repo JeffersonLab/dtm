@@ -349,7 +349,8 @@ CREATE TABLE DTM_OWNER.SYSTEM
     NAME        VARCHAR2(128 CHAR) NOT NULL CONSTRAINT SYSTEM_AK1 UNIQUE,
     CATEGORY_ID NUMBER NOT NULL CONSTRAINT SYSTEM_FK1 REFERENCES DTM_OWNER.CATEGORY ON DELETE SET NULL,
     WEIGHT      NUMBER,
-    SRM_YN      CHAR(1 BYTE) DEFAULT 'N' NOT NULL CONSTRAINT SYSTEM_CK1 CHECK (SRM_YN IN ('Y', 'N'))
+    SRM_YN      CHAR(1 BYTE) DEFAULT 'N' NOT NULL CONSTRAINT SYSTEM_CK1 CHECK (SRM_YN IN ('Y', 'N')),
+    ARCHIVED_YN VARCHAR2(1 CHAR) DEFAULT 'N' NOT NULL
 );
 
 /*grant select on srm_owner.system to dtm_owner;
@@ -361,7 +362,9 @@ CASE
   WHEN (select 'Y' from srm_owner.system_application where srm_owner.system_application.system_id = b.system_id and application_id = 1) IS NOT NULL THEN 'Y'
   ELSE 'N'
 END as SRM_YN
-from srm_owner.system b where system_id in (select system_id from srm_owner.system_application where application_id = 2)
+from srm_owner.system b where system_id in (select system_id from srm_owner.system_application where application_id = 2),
+  'N' as ARCHIVED_YN
+  union select system_id, name, category_id, weight, 'Y' from srm_owner.all_systems
 );*/
 
 -- Note: Region is used by FSD Trip reports to map to "area"
@@ -385,6 +388,7 @@ CREATE TABLE DTM_OWNER.COMPONENT
     NAME                 VARCHAR2(128 char) NOT NULL CONSTRAINT COMPONENT_CK4 CHECK (INSTR(NAME, '*') = 0),
     SYSTEM_ID            NUMBER NOT NULL CONSTRAINT COMPONENT_FK2 REFERENCES DTM_OWNER.SYSTEM ON DELETE SET NULL,
     REGION_ID            NUMBER NOT NULL CONSTRAINT COMPONENT_FK1 REFERENCES DTM_OWNER.REGION,
+    ARCHIVED_YN          VARCHAR2(1 CHAR) DEFAULT 'N' NOT NULL,
     CONSTRAINT COMPONENT_AK1 UNIQUE (NAME, SYSTEM_ID),
     CONSTRAINT COMPONENT_AK2 UNIQUE (SYSTEM_ID, COMPONENT_ID)
 );
@@ -392,7 +396,8 @@ CREATE TABLE DTM_OWNER.COMPONENT
 /*grant select on srm_owner.component to dtm_owner;
 create or replace view dtm_owner.component as
 (
-select component_id, name, system_id, region_id from srm_owner.component where system_id in (select system_id from srm_owner.system_application where application_id = 2)
+select component_id, name, system_id, region_id, 'N' from srm_owner.component where system_id in (select system_id from srm_owner.system_application where application_id = 2)
+union select component_id, name, system_id, region_id 'Y' from srm_owner.all_components
 );*/
 
 CREATE TABLE DTM_OWNER.WORKGROUP

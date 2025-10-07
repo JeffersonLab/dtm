@@ -1,11 +1,11 @@
 package org.jlab.dtm.business.session;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Stateless;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.*;
-import javax.annotation.security.PermitAll;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import org.jlab.dtm.business.params.MultiTrendReportParams;
 import org.jlab.dtm.business.params.TrendReportParams;
 import org.jlab.dtm.business.params.TripParams;

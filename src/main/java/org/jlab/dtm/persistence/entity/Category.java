@@ -1,11 +1,11 @@
 package org.jlab.dtm.persistence.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import org.jlab.dtm.persistence.model.Node;
 
 /**
@@ -43,7 +43,7 @@ public class Category implements Serializable, Node {
   private List<Category> categoryList;
 
   @JoinColumn(name = "PARENT_ID", referencedColumnName = "CATEGORY_ID")
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private Category parentId;
 
   @OneToMany(mappedBy = "category")

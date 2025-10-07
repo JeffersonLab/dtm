@@ -1,8 +1,8 @@
 <%@tag description="Setup Navigation Tag" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@taglib prefix="s" uri="http://jlab.org/jsp/smoothness"%>
+<%@taglib prefix="c" uri="jakarta.tags.core"%>
+<%@taglib prefix="fn" uri="jakarta.tags.functions"%>
+<%@taglib prefix="fmt" uri="jakarta.tags.fmt"%>
+<%@taglib prefix="s" uri="jlab.tags.smoothness"%>
 <ul>
     <li${'/setup/settings' eq currentPath ? ' class="current-secondary"' : ''}>
         <a href="${pageContext.request.contextPath}/setup/settings">Settings</a>

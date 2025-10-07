@@ -1,27 +1,27 @@
 package org.jlab.dtm.business.session;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaBuilder.Coalesce;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Order;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaBuilder.Coalesce;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import org.jlab.dtm.business.params.IncidentParams;
 import org.jlab.dtm.persistence.entity.*;
 import org.jlab.dtm.persistence.enumeration.IncidentEditType;
@@ -46,7 +46,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
   private EntityManager em;
 
   @EJB EventFacade eventFacade;
-  @EJB EternalComponentFacade eternalComponentFacade;
+  @EJB ComponentFacade eternalComponentFacade;
   @EJB EventTypeFacade eventTypeFacade;
   @EJB IncidentFacade incidentFacade;
   @EJB LogbookFacade logbookFacade;
@@ -121,7 +121,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       throw new UserFriendlyException("Incident summary must not be empty");
     }
 
-    EternalComponent eternalComponent = null;
+    Component eternalComponent = null;
     if (componentId != null) {
       eternalComponent = eternalComponentFacade.find(componentId);
 
@@ -138,8 +138,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       // component name then componentId will be null
 
       // Attempt to find component by name, this might return multiple results.
-      List<EternalComponent> eternalComponentList =
-          eternalComponentFacade.findByName(componentName);
+      List<Component> eternalComponentList = eternalComponentFacade.findByName(componentName);
 
       if (eternalComponentList.isEmpty()) {
         throw new UserFriendlyException("Component not found with name: " + componentName);
@@ -164,7 +163,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
     }
 
-    EternalSystem system = eternalComponent.getSystem();
+    SystemEntity system = eternalComponent.getSystem();
 
     if (timeDown == null) {
       throw new UserFriendlyException("Incident time down must not be empty");
@@ -765,7 +764,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     }
 
     if (params.getEventTypeId() != null) {
-      filters.add(cb.equal(event.get("eventType"), params.getEventTypeId()));
+      filters.add(cb.equal(event.get("eventType").get("eventTypeId"), params.getEventTypeId()));
     }
 
     if (params.getEventId() != null) {
@@ -859,7 +858,7 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     }
 
     if (params.getEventTypeId() != null) {
-      filters.add(cb.equal(event.get("eventType"), params.getEventTypeId()));
+      filters.add(cb.equal(event.get("eventType").get("eventTypeId"), params.getEventTypeId()));
     }
 
     if (params.getEventId() != null) {

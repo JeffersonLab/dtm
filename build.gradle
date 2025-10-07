@@ -7,7 +7,7 @@ plugins {
 description = 'Down time manager app'
 group = 'org.jlab'
 version = new File("${projectDir}/VERSION").text.trim()
-ext.smoothnessVersion = '4.12.2'
+ext.smoothnessVersion = '5.0.2'
 ext.releaseDate = new Date().format('MMM dd yyyy')
 
 tasks.withType(JavaCompile).configureEach {
@@ -21,21 +21,22 @@ repositories {
 dependencies {
     // No matter what smoothness weblib MUST be included in WAR (https://github.com/JeffersonLab/smoothness/issues/4)
     implementation "org.jlab:smoothness-weblib:${smoothnessVersion}"
-    //'org.apache.httpcomponents:httpclient:4.5.14',
-    //'org.apache.httpcomponents:httpmime:4.5.14'
 
     // Smoothness setup should install these into Wildfly
-    providedCompile 'org.tuckey:urlrewritefilter:4.0.4',
-            'org.jlab:jlog:5.1.0',
-            'org.apache.poi:poi:5.2.3',
-            'org.apache.poi:poi-ooxml:5.2.3'
+    providedCompile 'org.tuckey:urlrewritefilter:5.1.3',
+            'org.jlab:jlog:5.2.0',
+            'org.apache.poi:poi:5.4.1',
+            'org.apache.poi:poi-ooxml:5.4.1'
 
-    // Wildfly 26.1.3.Final provides:
-    providedCompile 'javax:javaee-api:8.0.1',
-            'javax.servlet:jstl:1.2',
-            'org.hibernate:hibernate-core:5.3.28.Final',
-            'org.hibernate:hibernate-envers:5.3.28.Final',
-            'org.jsoup:jsoup:1.14.2'
+    // Wildfly 37.0.1.Final provides:
+    providedCompile 'jakarta.platform:jakarta.jakartaee-api:10.0.0',
+            'org.hibernate:hibernate-core:6.6.19.Final',
+            'org.hibernate:hibernate-envers:6.6.19.Final',
+            'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1',
+            'com.oracle.database.jdbc:ojdbc17:23.9.0.25.07'
+
+    // Latest Wildfly no longer includes...
+    implementation 'org.jsoup:jsoup:1.21.2'
 }
 tasks.named('jar') {
     enabled = false

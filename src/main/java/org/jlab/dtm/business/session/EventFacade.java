@@ -1,5 +1,19 @@
 package org.jlab.dtm.business.session;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Order;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,20 +22,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.security.PermitAll;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
 import org.jlab.dtm.business.params.AllEventsParams;
 import org.jlab.dtm.persistence.entity.Event;
 import org.jlab.dtm.persistence.entity.EventType;
@@ -98,7 +98,7 @@ public class EventFacade extends AbstractFacade<Event> {
 
     String w;
 
-    w = "e.eventTimeDown.timeDown < :end and nvl(e.timeUp, sysdate) >= :start";
+    w = "e.eventTimeDown.timeDown < :end and coalesce(e.timeUp, sysdate) >= :start";
     whereList.add(w);
 
     if (eventTypeId != null) {
@@ -347,7 +347,7 @@ public class EventFacade extends AbstractFacade<Event> {
               (cb.coalesce(event.get("timeUp"), new Date())), params.getStart()));
     }
     if (params.getEventTypeId() != null) {
-      filters.add(cb.equal(event.get("eventType"), params.getEventTypeId()));
+      filters.add(cb.equal(event.get("eventType").get("eventTypeId"), params.getEventTypeId()));
     }
     if (params.getEventId() != null) {
       filters.add(cb.equal(event.get("eventId"), params.getEventId()));
@@ -373,7 +373,9 @@ public class EventFacade extends AbstractFacade<Event> {
       Subquery<BigInteger> incidentSubquery = cq.subquery(BigInteger.class);
       Root<Incident> incidentSubRoot = incidentSubquery.from(Incident.class);
       incidentSubquery.select(incidentSubRoot.get("event"));
-      incidentSubquery.where(cb.equal(incidentSubRoot.get("system"), 616));
+      incidentSubquery.where(
+          cb.equal(
+              incidentSubRoot.get("system").get("systemId"), 616)); // TODO: Use category instead
 
       if (params.getBeamTransport()) {
         filters.add(event.get("eventId").in(incidentSubquery)); // 616 = 'Beam Transport'
@@ -432,7 +434,7 @@ public class EventFacade extends AbstractFacade<Event> {
               (cb.coalesce(event.get("timeUp"), new Date())), params.getStart()));
     }
     if (params.getEventTypeId() != null) {
-      filters.add(cb.equal(event.get("eventType"), params.getEventTypeId()));
+      filters.add(cb.equal(event.get("eventType").get("eventTypeId"), params.getEventTypeId()));
     }
     if (params.getEventId() != null) {
       filters.add(cb.equal(event.get("eventId"), params.getEventId()));
@@ -456,7 +458,9 @@ public class EventFacade extends AbstractFacade<Event> {
       Subquery<BigInteger> incidentSubquery = cq.subquery(BigInteger.class);
       Root<Incident> incidentSubRoot = incidentSubquery.from(Incident.class);
       incidentSubquery.select(incidentSubRoot.get("event"));
-      incidentSubquery.where(cb.equal(incidentSubRoot.get("system"), 616));
+      incidentSubquery.where(
+          cb.equal(
+              incidentSubRoot.get("system").get("systemId"), 616)); // TODO: Use category instead
 
       if (params.getBeamTransport()) {
         filters.add(event.get("eventId").in(incidentSubquery)); // 616 = 'Beam Transport'

@@ -1,15 +1,15 @@
 package org.jlab.dtm.persistence.entity.aud;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import org.hibernate.envers.RevisionType;
 import org.jlab.dtm.persistence.entity.ApplicationRevisionInfo;
-import org.jlab.dtm.persistence.entity.EternalComponent;
+import org.jlab.dtm.persistence.entity.Component;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.persistence.enumeration.SystemExpertAcknowledgement;
 
@@ -45,9 +45,9 @@ public class IncidentAud implements Serializable {
 
   @JoinColumn(name = "COMPONENT_ID", referencedColumnName = "COMPONENT_ID")
   @ManyToOne
-  private EternalComponent component;
+  private Component component;
 
-  @Enumerated(EnumType.ORDINAL)
+  // @Enumerated(EnumType.ORDINAL)
   @NotNull
   @Column(name = "REVTYPE")
   private RevisionType type;
@@ -149,11 +149,11 @@ public class IncidentAud implements Serializable {
     this.system = system;
   }
 
-  public EternalComponent getComponent() {
+  public Component getComponent() {
     return component;
   }
 
-  public void setComponent(EternalComponent component) {
+  public void setComponent(Component component) {
     this.component = component;
   }
 
