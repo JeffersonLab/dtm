@@ -69,18 +69,6 @@
                             </li>
                             <li>
                                 <div class="li-key">
-                                    <label for="hall">Hall</label>
-                                </div>
-                                <div class="li-value">
-                                    <select id="hall" name="hall" multiple="multiple">
-                                        <c:forEach items="${hallArray}" var="hall">
-                                            <option value="${hall.name()}"${s:inArray(paramValues.hall, hall.name()) ? ' selected="selected"' : ''}><c:out value="${hall.label}"/></option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="li-key">
                                     <label for="transport">Beam Transport</label>
                                 </div>
                                 <div class="li-value">
