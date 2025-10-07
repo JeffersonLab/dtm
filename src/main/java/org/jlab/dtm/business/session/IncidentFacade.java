@@ -30,7 +30,6 @@ import org.jlab.dtm.persistence.model.Period;
 import org.jlab.smoothness.business.exception.InternalException;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
 import org.jlab.smoothness.business.exception.WebApplicationException;
-import org.jlab.smoothness.persistence.enumeration.Hall;
 import org.jlab.smoothness.persistence.util.JPAUtil;
 import org.jlab.smoothness.presentation.filter.AuditContext;
 
@@ -233,31 +232,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
     validateAndSetRepairedBy(incident, repairedBy);
     validateAndSetExpertReviewedBy(incident, expertUsernameArray);
-  }
-
-  private void validateAndSetHallList(Incident incident, List<Hall> hallList)
-      throws UserFriendlyException {
-    if (incident.getIncidentId() != null) {
-      clearHallList(incident.getIncidentId());
-    }
-
-    if ("HL".equals(incident.getEvent().getEventType().getAbbreviation())) {
-      if (hallList == null || hallList.isEmpty()) {
-        throw new UserFriendlyException(
-            "Incidents in Event Type Hall must select at least one affected hall");
-      }
-    }
-
-    List<IncidentHall> incidentHallList = new ArrayList<>();
-
-    for (Hall hall : hallList) {
-      IncidentHall incidentHall = new IncidentHall();
-      incidentHall.setHall(hall);
-      incidentHall.setIncident(incident);
-      incidentHallList.add(incidentHall);
-    }
-
-    incident.setIncidentHallList(incidentHallList);
   }
 
   private void validateAndSetRepairedBy(Incident incident, BigInteger[] repairedByGroupIdArray) {
