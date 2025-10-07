@@ -23,11 +23,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jlab.dtm.business.params.AllEventsParams;
-import org.jlab.dtm.persistence.entity.Event;
-import org.jlab.dtm.persistence.entity.EventType;
-import org.jlab.dtm.persistence.entity.Incident;
-import org.jlab.dtm.persistence.entity.IncidentReview;
-import org.jlab.dtm.persistence.entity.Repair;
+import org.jlab.dtm.persistence.entity.*;
 import org.jlab.dtm.persistence.entity.aud.EventAud;
 import org.jlab.dtm.persistence.entity.view.EventTimeDown;
 import org.jlab.dtm.persistence.enumeration.IncidentEditType;
@@ -369,20 +365,28 @@ public class EventFacade extends AbstractFacade<Event> {
       filters.add(cb.in(incidentList.get("incidentId")).value(a));
     }
 
+    // beamTransport Y = only beam transport
+    // beamTransport N = everything but beam transport
+    // Null means don't filter beam transport specially
     if (params.getBeamTransport() != null) {
+      Subquery<BigInteger> categorySubquery = cq.subquery(BigInteger.class);
+      Root<Category> categorySubRoot = categorySubquery.from(Category.class);
+      categorySubquery.select(categorySubRoot.get("categoryId"));
+      categorySubquery.where(cb.equal(categorySubRoot.get("name"), "Beam Transport"));
+
       Subquery<BigInteger> incidentSubquery = cq.subquery(BigInteger.class);
       Root<Incident> incidentSubRoot = incidentSubquery.from(Incident.class);
       incidentSubquery.select(incidentSubRoot.get("event"));
       incidentSubquery.where(
-          cb.equal(
-              incidentSubRoot.get("system").get("systemId"), 616)); // TODO: Use category instead
+          incidentSubRoot.get("system").get("category").get("categoryId").in(categorySubquery));
 
       if (params.getBeamTransport()) {
-        filters.add(event.get("eventId").in(incidentSubquery)); // 616 = 'Beam Transport'
+        filters.add(event.get("eventId").in(incidentSubquery));
       } else {
         filters.add(cb.not(event.get("eventId").in(incidentSubquery)));
       }
     }
+
     if (params.getAcknowledgement() != null) {
       filters.add(cb.equal(incidentList.get("expertAcknowledged"), params.getAcknowledgement()));
     }
@@ -454,20 +458,29 @@ public class EventFacade extends AbstractFacade<Event> {
 
       filters.add(cb.in(incidentList.get("incidentId")).value(a));
     }
+
+    // beamTransport Y = only beam transport
+    // beamTransport N = everything but beam transport
+    // Null means don't filter beam transport specially
     if (params.getBeamTransport() != null) {
+      Subquery<BigInteger> categorySubquery = cq.subquery(BigInteger.class);
+      Root<Category> categorySubRoot = categorySubquery.from(Category.class);
+      categorySubquery.select(categorySubRoot.get("categoryId"));
+      categorySubquery.where(cb.equal(categorySubRoot.get("name"), "Beam Transport"));
+
       Subquery<BigInteger> incidentSubquery = cq.subquery(BigInteger.class);
       Root<Incident> incidentSubRoot = incidentSubquery.from(Incident.class);
       incidentSubquery.select(incidentSubRoot.get("event"));
       incidentSubquery.where(
-          cb.equal(
-              incidentSubRoot.get("system").get("systemId"), 616)); // TODO: Use category instead
+          incidentSubRoot.get("system").get("category").get("categoryId").in(categorySubquery));
 
       if (params.getBeamTransport()) {
-        filters.add(event.get("eventId").in(incidentSubquery)); // 616 = 'Beam Transport'
+        filters.add(event.get("eventId").in(incidentSubquery));
       } else {
         filters.add(cb.not(event.get("eventId").in(incidentSubquery)));
       }
     }
+
     if (params.getAcknowledgement() != null) {
       filters.add(cb.equal(incidentList.get("expertAcknowledged"), params.getAcknowledgement()));
     }
