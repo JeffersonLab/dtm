@@ -148,7 +148,9 @@ public class EventFacade extends AbstractFacade<Event> {
     Root<Event> root = cq.from(Event.class);
     cq.select(root);
     cq.where(
-        cb.and(cb.isNull(root.<Date>get("timeUp")), cb.equal(root.get("eventType").get("eventTypeId"), eventTypeId)));
+        cb.and(
+            cb.isNull(root.<Date>get("timeUp")),
+            cb.equal(root.get("eventType").get("eventTypeId"), eventTypeId)));
     List<Event> eventList = em.createQuery(cq).getResultList();
     Event event = null;
     if (eventList != null && !eventList.isEmpty()) {
