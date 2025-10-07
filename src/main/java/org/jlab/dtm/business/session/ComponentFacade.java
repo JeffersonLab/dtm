@@ -166,7 +166,7 @@ public class ComponentFacade extends AbstractFacade<Component> {
       }
 
       if (systemIdArray != null && systemIdArray.length > 0) {
-        filters.add(root.get("system").in((Object[]) systemIdArray));
+        filters.add(root.get("system").get("systemId").in((Object[]) systemIdArray));
       }
       if (q != null && !q.isEmpty()) {
         String searchString = q.toUpperCase();
