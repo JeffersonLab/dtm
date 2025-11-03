@@ -89,7 +89,7 @@ public class EventDowntimeReport extends HttpServlet {
 
       downtimeList =
           downtimeFacade.findByPeriodAndTypeSortByDuration(
-              params.getStart(), params.getEnd(), type, params.getBeamTransport(), null);
+              params.getStart(), params.getEnd(), type, params.getBeamTransport());
       eventCount = downtimeList.size();
 
       for (int i = 0; i < downtimeList.size(); i++) {

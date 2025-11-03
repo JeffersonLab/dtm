@@ -91,7 +91,7 @@ public class ExcelEventList extends HttpServlet {
     // time up for events which span the period boundary
 
     List<EventDowntime> eventList =
-        downtimeFacade.findByPeriodAndTypeSortByDuration(start, end, type, beamTransport, null);
+        downtimeFacade.findByPeriodAndTypeSortByDuration(start, end, type, beamTransport);
 
     response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
     response.setHeader("content-disposition", "attachment;filename=\"incident-list.xlsx\"");

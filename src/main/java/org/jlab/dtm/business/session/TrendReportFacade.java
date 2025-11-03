@@ -150,7 +150,7 @@ public class TrendReportFacade {
 
     // Machine Overall Event Downtime
     List<EventDowntime> eventList =
-        eventDowntimeFacade.findByPeriodAndTypeSortByDuration(start, end, type, null, null);
+        eventDowntimeFacade.findByPeriodAndTypeSortByDuration(start, end, type, null);
     record.eventCount = eventList.size();
 
     record.eventHours = 0;
