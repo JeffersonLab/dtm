@@ -36,7 +36,7 @@ public class EventDowntimeFacade extends AbstractFacade<Event> {
 
   @PermitAll
   public List<EventDowntime> findByPeriodAndTypeSortByDuration(
-      Date start, Date end, EventType type, Boolean beamTransport, Boolean research) {
+      Date start, Date end, EventType type, Boolean beamTransport) {
     String sql =
         "select x.event_id, (x.duration / 60 / 60) as downtime_hours, (nvl(y.restore_bounded, 0) / 60 / 60) as restore_hours_bounded, x.number_of_incidents, x.event_title as title, cast(x.time_down as date), cast(x.time_up as date), cast(x.time_down_bounded as date), cast(x.time_up_bounded as date), (x.duration_bounded / 60 / 60) as downtime_hours_bounded from "
             + "("
@@ -70,17 +70,6 @@ public class EventDowntimeFacade extends AbstractFacade<Event> {
       }
     }
 
-    // research Y = only program PHYSICS
-    // research N = only program INTERNAL
-    // Null means don't filter program specially
-    if (research != null) {
-      if (research) {
-        // todo
-      } else {
-        // todo
-      }
-    }
-
     sql = sql + "order by x.duration_bounded desc";
 
     LOGGER.log(Level.FINEST, "Query: {0}", sql);
@@ -97,9 +86,8 @@ public class EventDowntimeFacade extends AbstractFacade<Event> {
   }
 
   @PermitAll
-  public double blockedCEBAFPhysicsDowntimeTotal(Date start, Date end) {
-    List<EventDowntime> downtimeList =
-        findByPeriodAndTypeSortByDuration(start, end, EventType.BLOCKED, null, true);
+  public double downtimeTotal(Date start, Date end, EventType type) {
+    List<EventDowntime> downtimeList = findByPeriodAndTypeSortByDuration(start, end, type, null);
 
     double eventDowntime = 0;
 

@@ -228,8 +228,19 @@
                     <p>Time in which the Accelerator division provided the machine to the Physics division minus any downtime events during this time and plus any quality adjustment.</p>
                     <p class="equation">Research = Physics Hours [BTM] + Quality - Physics Downtime</p>
                     <p class="equation">Quality = Bonus hours adjustment for program difficulty such as hall multiplicity</p>
-                    <p class="equation">Physics Downtime = Event Down [DTM] - Internal Down [BTM]</p>
+                    <p class="equation">Physics Downtime = CEBAF Blocked Event Down [DTM] - Internal Down [BTM]</p>
                     <p><b>Note:</b> Downtime from FSD Trips are not subtracted from research time.</p>
+                    <c:url var="url" value="/reports/downtime-summary">
+                        <c:param name="type" value="1"/>
+                        <c:param name="start" value="${param.start}"/>
+                        <c:param name="end" value="${param.end}"/>
+                    </c:url>
+                    <p><b>See:</b> <a href="${url}">CEBAF Blocked Summary</a></p>
+                    <c:url var="url" value="${env['FRONTEND_SERVER_URL']}/btm/reports/beam-time-summary">
+                        <c:param name="start" value="${param.start}"/>
+                        <c:param name="end" value="${param.end}"/>
+                    </c:url>
+                    <p><b>See:</b> <a href="${url}">BTM Beam Summary</a></p>
                 </div>
             </div>
         </div>
@@ -250,9 +261,21 @@
                     <div class="definition-bubble-title">Delivered Tuning, Setup, &amp; Restore (TSR)</div>
                     <div class="definition-bubble-body">
                         <p>Time in which the Accelerator division used the machine for beam transport, program configuration setup (example: energy/pass), and initial machine restore.</p>
-                        <p class="equation">TSR = ACC [BTM] + NPES Restore [BTM]</p>
+                        <p class="equation">TSR = Tuning [DTM] + ACC [BTM] + NPES Restore [BTM]</p>
+                        <p><b>Note:</b> Tuning is capture in Event Type CEBAF Tuning.  Beam Transport incidents in CEBAF Degraded events are not included in TSR.</p>
                         <p><b>Note:</b> Recovery from downtime is included in downtime, not here.</p>
                         <p><b>Note:</b> TSR is converted to downtime if it is excessive - if it takes longer than limits negotiated in the Budget (NPES Long Term Schedule) schedule.</p>
+                        <c:url var="url" value="${env['FRONTEND_SERVER_URL']}/btm/reports/beam-time-summary">
+                            <c:param name="start" value="${param.start}"/>
+                            <c:param name="end" value="${param.end}"/>
+                        </c:url>
+                        <p><b>See:</b> <a href="${url}">BTM Beam Summary</a></p>
+                        <c:url var="url" value="/reports/downtime-summary">
+                            <c:param name="type" value="9"/>
+                            <c:param name="start" value="${param.start}"/>
+                            <c:param name="end" value="${param.end}"/>
+                        </c:url>
+                        <p><b>See:</b> <a href="${url}">Tuning Summary</a></p>
                     </div>
                 </div>
             </div>

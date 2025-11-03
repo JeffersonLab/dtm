@@ -24,6 +24,7 @@ import java.util.List;
 import org.jlab.dtm.business.params.JouleReportParams;
 import org.jlab.dtm.business.util.DtmDateIterator;
 import org.jlab.dtm.business.util.DtmTimeUtil;
+import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.model.BeamSummaryTotals;
 import org.jlab.smoothness.business.service.SettingsService;
 
@@ -125,7 +126,9 @@ public class JouleReportFacade {
 
     record.setBin(start);
 
-    double downtimeHours = eventDowntimeFacade.blockedCEBAFPhysicsDowntimeTotal(start, end);
+    double downtimeHours = eventDowntimeFacade.downtimeTotal(start, end, EventType.BLOCKED);
+
+    double tuningHours = eventDowntimeFacade.downtimeTotal(start, end, EventType.TUNING);
 
     BeamSummaryTotals beamSummary = accHourService.reportTotals(start, end);
 
@@ -167,7 +170,7 @@ public class JouleReportFacade {
     double deliveredBeamStudiesHours = beamSummary.getStudiesSeconds() / 3600.0;
 
     double deliveredTuningAndRestoreHours =
-        (beamSummary.getRestoreSeconds() + beamSummary.getAccSeconds()) / 3600.0;
+        tuningHours + ((beamSummary.getRestoreSeconds() + beamSummary.getAccSeconds()) / 3600.0);
 
     double totalDeliveredHours =
         deliveredResearchHours + deliveredBeamStudiesHours + deliveredTuningAndRestoreHours;

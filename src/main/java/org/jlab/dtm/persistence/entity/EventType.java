@@ -20,6 +20,7 @@ import org.jlab.smoothness.persistence.util.YnStringToBoolean;
 public class EventType implements Serializable {
   private static final long serialVersionUID = 1L;
   public static EventType BLOCKED = new EventType(BigInteger.ONE);
+  public static EventType TUNING = new EventType(BigInteger.valueOf(9L));
 
   // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these
   // annotations to enforce field validation
