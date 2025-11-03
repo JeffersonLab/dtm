@@ -9,6 +9,7 @@ insert into dtm_owner.event_type (event_type_id, name, description, weight, abbr
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(6, 'LERF', 'LERF Program', 8,  'LRF', 'N');
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(7, 'CEBAF Non-Program', 'CEBAF Program Unaffected', 3, 'NP', 'N');
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(8, 'CEBAF Degraded', 'CEBAF Program Degraded', 2, 'DGD', 'N');
+insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(9, 'CEBAF Tuning', 'CEBAF Tuning', 9, 'TUN', 'N');
 
 -- Populate Workgroup
 insert into DTM_OWNER.WORKGROUP (WORKGROUP_ID, NAME) values (1, 'Group 1');
@@ -127,7 +128,6 @@ insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (1, 1);
 insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (1, 3);
 insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (1, 4);
 insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (1, 5);
-insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (1, 381);
 -- DGD
 insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (8, 1);
 insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (8, 3);
@@ -159,6 +159,9 @@ insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (6, 3);
 insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (6, 4);
 insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (6, 5);
 insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (6, 381);
+
+-- TUN
+insert into DTM_OWNER.TYPE_CATEGORY (EVENT_TYPE_ID, CATEGORY_ID) values (9, 381);
 
 -- Populate Alpha_Categories
 -- Other
