@@ -63,10 +63,11 @@ public class EventDowntimeFacade extends AbstractFacade<Event> {
       if (beamTransport) {
         sql =
             sql
-                + "where x.event_id in (select event_id from incident where system_id = 616) "; // 616 = 'Beam Transport'
+                + "where x.event_id in (select event_id from incident where system_id in (select system_id from dtm_owner.system_alpha_category join dtm_owner.category using (category_id) where category.name = 'Beam Transport')) ";
       } else {
         sql =
-            sql + "where x.event_id not in (select event_id from incident where system_id = 616) ";
+            sql
+                + "where x.event_id not in (select event_id from incident where system_id in (select system_id from dtm_owner.system_alpha_category join dtm_owner.category using (category_id) where category.name = 'Beam Transport')) ";
       }
     }
 
