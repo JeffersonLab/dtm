@@ -111,4 +111,5 @@ At JLab this app is found at [ace.jlab.org/dtm](https://ace.jlab.org/dtm) and in
 **JLab Internal Docs**: [RHEL9 Wildfly](https://acgdocs.acc.jlab.org/en/ace/builds/rhel9-wildfly)
 
 ## See Also
+ - [System Downtime Management at 12 GeV CEBAF](https://misportal.jlab.org/sti/publications/13665), presented at [Accelerator Reliability Workshop 2015](https://neutrons2.ornl.gov/conf/arw2015/)
  - [JLab ACE management-app list](https://github.com/search?q=org%3Ajeffersonlab+topic%3Aace+topic%3Amanagement-app&type=repositories)
