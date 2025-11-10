@@ -157,7 +157,7 @@ public class JouleReportFacade {
 
     // System.out.println("physicsDownHours: " + physicsDownHours);
 
-    double deliveredResearchHours = physicsHours - physicsDownHours;
+    double deliveredResearchHours = (physicsHours - tuningHours) - physicsDownHours;
 
     if (quality != null) {
       deliveredResearchHours = deliveredResearchHours + quality;

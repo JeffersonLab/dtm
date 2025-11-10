@@ -226,7 +226,8 @@
                 <div class="definition-bubble-title">Delivered Research</div>
                 <div class="definition-bubble-body">
                     <p>Time in which the Accelerator division provided the machine to the Physics division minus any downtime events during this time and plus any quality adjustment.</p>
-                    <p class="equation">Research = Physics Hours [BTM] + Quality - Physics Downtime</p>
+                    <p class="equation">Research = Delivered Hours + Quality - Physics Downtime</p>
+                    <p class="equation">Delivered = Physics Hours [BTM] - Tuning Hours [DTM]</p>
                     <p class="equation">Quality = Bonus hours adjustment for program difficulty such as hall multiplicity</p>
                     <p class="equation">Physics Downtime = CEBAF Blocked Event Down [DTM] - Internal Down [BTM]</p>
                     <p><b>Note:</b> Downtime from FSD Trips are not subtracted from research time.</p>
