@@ -7,7 +7,7 @@ insert into dtm_owner.event_type (event_type_id, name, description, weight, abbr
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(4, 'Hall C', 'Hall C Physics Program', 6, 'HLC', 'N');
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(5, 'Hall D','Hall D Physics Program', 7, 'HLD', 'N');
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(6, 'LERF', 'LERF Program', 8,  'LRF', 'N');
-insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(7, 'CEBAF Non-Program', 'CEBAF Program Unaffected', 3, 'NP', 'N');
+insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(7, 'CEBAF Non-Program', 'CEBAF Program Unaffected', 3, 'NON', 'N');
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(8, 'CEBAF Degraded', 'CEBAF Program Degraded', 2, 'DGD', 'N');
 insert into dtm_owner.event_type (event_type_id, name, description, weight, abbreviation, archived_yn) values(9, 'CEBAF Tuning', 'CEBAF Tuning', 0, 'TUN', 'N');
 
