@@ -120,67 +120,59 @@ public final class FilterSelectionMessage {
 
     List<String> filters = new ArrayList<>();
 
-    // if (dateFormat == null) {
-    //    dateFormat = TimeUtil.getFriendlyDateTimePattern();
-    // }
-    // SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
-    String typeQualifier = "";
+    if (start != null || end != null) {
+      filters.add(TimeUtil.formatSmartRangeSeparateTime(start, end));
+    }
 
     if (selectedTypeList != null && !selectedTypeList.isEmpty()) {
-      typeQualifier =
+      filters.add(
           "Type \""
               + selectedTypeList.stream()
                   .map(EventType::getAbbreviation)
                   .collect(Collectors.joining(","))
-              + "\" ";
+              + "\"");
     }
 
-    String packedQualifier = "";
-
     if (packed) {
-      packedQualifier = "Non-Overlapping ";
+      filters.add("Non-Overlapping");
     }
 
     String dataQualifier = "";
 
     if ("downtime".equals(data)) {
-      dataQualifier = "Incident Downtime (Hours) ";
+      dataQualifier = "Incident Downtime (Hours)";
     } else if ("count".equals(data)) {
-      dataQualifier = "Incident Count ";
+      dataQualifier = "Incident Count";
     } else if ("mttr".equals(data)) {
-      dataQualifier = "Incident Mean Time to Recover (Hours) ";
+      dataQualifier = "Incident Mean Time to Recover (Hours)";
     } else if ("uptime".equals(data)) {
-      dataQualifier = "Incident Uptime (Hours) ";
+      dataQualifier = "Incident Uptime (Hours)";
     } else if ("mtbf".equals(data)) {
-      dataQualifier = "Incident Mean Time between Failures (Hours) ";
+      dataQualifier = "Incident Mean Time between Failures (Hours)";
     } else if ("failure".equals(data)) {
-      dataQualifier = "Hourly Failure Rate ";
+      dataQualifier = "Hourly Failure Rate";
     } else if ("availability".equals(data)) {
       dataQualifier = "Availability ";
     } else if ("restore".equals(data)) {
-      dataQualifier = "Restore (Hours) ";
+      dataQualifier = "Restore (Hours)";
     } else if ("incident".equals(data)) {
-      dataQualifier = "Incidents ";
+      dataQualifier = "Incidents";
     }
 
     String categoryQualifier = "";
 
     if (category != null) {
-      categoryQualifier = "for " + category.getName();
-
-      categoryQualifier = categoryQualifier + " ";
+      filters.add("Category \"" + category.getName() + "\"");
     }
 
     String systemQualifier = "";
 
     if (system != null) {
-      systemQualifier = "for " + system.getName();
-
-      systemQualifier = systemQualifier + " ";
+      filters.add("System \"" + system.getName() + "\"");
     }
 
     if (component != null && !component.trim().isEmpty()) {
-      filters.add("component matches \"" + component + "\"");
+      filters.add("Component \"" + component + "\"");
     }
 
     String transportQualifier = "";
@@ -193,47 +185,23 @@ public final class FilterSelectionMessage {
       }
     }
 
-    if (packed
-        && "Category"
-            .equals(grouping)) { // In Category reports - Can't filter by transport if packed
-      transportQualifier = "";
+    if (!transportQualifier.isEmpty()) {
+      filters.add(transportQualifier);
     }
 
-    String groupingQualifier = "";
-
-    // if(grouping != null) {
-    //    groupingQualifier = " by " + grouping + " ";
-    // }
-    String timeQualifier = "";
-
-    if (start != null && end != null) {
-      timeQualifier = "from " + TimeUtil.formatSmartRangeSeparateTime(start, end) + " ";
-    } else if (start != null) {
-      timeQualifier = "starting " + TimeUtil.formatSmartSingleTime(start) + " ";
-    } else if (end != null) {
-      timeQualifier = "before " + TimeUtil.formatSmartSingleTime(end) + " ";
+    if (!dataQualifier.isEmpty()) {
+      filters.add("Data \"" + dataQualifier + "\"");
     }
 
-    String message =
-        typeQualifier
-            + packedQualifier
-            + dataQualifier
-            + groupingQualifier
-            + timeQualifier
-            + categoryQualifier
-            + systemQualifier
-            + transportQualifier;
+    String message = "";
 
     if (!filters.isEmpty()) {
-      message = message + " where";
-      for (String filter : filters) {
-        message += " " + filter + " and";
+      message = filters.get(0);
+
+      for (int i = 1; i < filters.size(); i++) {
+        String filter = filters.get(i);
+        message += " and " + filter;
       }
-
-      // Remove trailing " and"
-      message = message.substring(0, message.length() - 4);
-
-      message = message + " "; // We have trailing space in case of append
     }
 
     return message;
