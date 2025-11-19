@@ -32,7 +32,7 @@
                                     <select id="event-type" name="type">
                                         <option value=""> </option>
                                         <c:forEach items="${eventTypeList}" var="eventType">
-                                            <option value="${eventType.eventTypeId}"${param.type eq eventType.eventTypeId ? ' selected="selected"' : ''}><c:out value="${eventType.name}"/> (<c:out value="${eventType.abbreviation}"/>): <c:out value="${eventType.description}"/></option>
+                                            <option value="${eventType.eventTypeId}"${param.type eq eventType.eventTypeId ? ' selected="selected"' : ''}><c:out value="${dtm:formatType(eventType)}"/></option>
                                         </c:forEach>
                                     </select>
                                 </div>

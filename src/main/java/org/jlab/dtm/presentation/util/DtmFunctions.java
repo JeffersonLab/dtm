@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.persistence.enumeration.BinSize;
 import org.jlab.smoothness.business.util.TimeUtil;
@@ -75,6 +76,10 @@ public final class DtmFunctions {
 
     encoded = URLEncoder.encode(str, StandardCharsets.UTF_8);
     return encoded;
+  }
+
+  public static String formatType(EventType type) {
+    return type.getName() + " (" + type.getAbbreviation() + ")";
   }
 
   public static String formatLogbookDate(Date date, int offsetHours) {
