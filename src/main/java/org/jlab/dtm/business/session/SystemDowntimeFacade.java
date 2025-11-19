@@ -64,7 +64,7 @@ public class SystemDowntimeFacade extends AbstractFacade<SystemEntity> {
     if (typeList != null && !typeList.isEmpty()) {
       String typeListString = typeList.get(0).getEventTypeId().toString();
       for (int i = 1; i < typeList.size(); i++) {
-        typeListString = "," + typeList.get(i).getEventTypeId().toString();
+        typeListString = typeListString + "," + typeList.get(i).getEventTypeId().toString();
       }
 
       sql = sql + "and event_type_id in (" + typeListString + ") ";
