@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.jlab.dtm.business.session.EventDowntimeFacade;
@@ -85,7 +86,15 @@ public class ExcelEventList extends HttpServlet {
 
     String filters =
         FilterSelectionMessage.getReportMessage(
-            start, end, type, null, null, null, null, beamTransport, false);
+            start,
+            end,
+            Collections.singletonList(type),
+            null,
+            null,
+            null,
+            null,
+            beamTransport,
+            false);
 
     // Note: Bounded means the selected time period boundaries are used as min and max time down and
     // time up for events which span the period boundary

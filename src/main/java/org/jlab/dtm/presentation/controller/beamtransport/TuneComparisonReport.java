@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.jlab.dtm.business.params.TuneComparisonReportParams;
@@ -92,7 +93,8 @@ public class TuneComparisonReport extends HttpServlet {
           (params.getEnd().getTime() - params.getStart().getTime()) / 1000.0 / 60.0 / 60.0;
 
       downtimeList =
-          downtimeFacade.findByPeriodAndType(params.getStart(), params.getEnd(), type, true, null);
+          downtimeFacade.findByPeriodAndType(
+              params.getStart(), params.getEnd(), Collections.singletonList(type), true, null);
 
       for (int i = 0; i < downtimeList.size(); i++) {
         ComponentDowntime downtime = downtimeList.get(i);
@@ -104,7 +106,7 @@ public class TuneComparisonReport extends HttpServlet {
         FilterSelectionMessage.getDateRangeReportMessage(
             params.getStart(),
             params.getEnd(),
-            type,
+            Collections.singletonList(type),
             null,
             null,
             null,

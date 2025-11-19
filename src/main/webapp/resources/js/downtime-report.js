@@ -599,4 +599,8 @@ $(function () {
         /*$("#data").change();*/
         jlab.doChartLoad();
     }
+
+    $("#type").select2({
+        width: 360
+    });
 });

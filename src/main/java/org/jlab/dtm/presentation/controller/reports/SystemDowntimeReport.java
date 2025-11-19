@@ -7,11 +7,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigInteger;
+import java.util.*;
 import org.jlab.dtm.business.params.SystemDowntimeReportParams;
 import org.jlab.dtm.business.service.FsdTripService;
 import org.jlab.dtm.business.session.CategoryDowntimeFacade;
@@ -78,10 +75,15 @@ public class SystemDowntimeReport extends HttpServlet {
       return;
     }
 
-    EventType type = null;
+    List<EventType> selectedTypeList = new ArrayList<>();
 
-    if (params.getEventTypeId() != null) {
-      type = eventTypeFacade.find(params.getEventTypeId());
+    if (params.getEventTypeIdArray() != null) {
+      for (BigInteger id : params.getEventTypeIdArray()) {
+        if (id != null) {
+          EventType type = eventTypeFacade.find(id);
+          selectedTypeList.add(type);
+        }
+      }
     }
 
     Category selectedCategory = null;
@@ -115,7 +117,7 @@ public class SystemDowntimeReport extends HttpServlet {
           downtimeFacade.findByPeriodAndType(
               params.getStart(),
               params.getEnd(),
-              type,
+              selectedTypeList,
               params.getBeamTransport(),
               params.getCategoryId(),
               false);
@@ -132,7 +134,7 @@ public class SystemDowntimeReport extends HttpServlet {
           downtimeFacade.findByPeriodAndType(
               params.getStart(),
               params.getEnd(),
-              type,
+              selectedTypeList,
               params.getBeamTransport(),
               params.getCategoryId(),
               true);
@@ -150,7 +152,7 @@ public class SystemDowntimeReport extends HttpServlet {
           categoryDowntimeFacade.findByPeriodAndType(
               params.getStart(),
               params.getEnd(),
-              type,
+              selectedTypeList,
               params.getBeamTransport(),
               true,
               params.getCategoryId());
@@ -163,7 +165,9 @@ public class SystemDowntimeReport extends HttpServlet {
 
       nonOverlappingCategoryDowntimeHours = grandTotalDuration * 24;
 
-      if (params.getEventTypeId() != null && params.getEventTypeId().intValue() == 1) {
+      if (params.getEventTypeIdArray() != null
+          && params.getEventTypeIdArray().length == 1
+          && params.getEventTypeIdArray()[0].intValue() == 1) {
         beamSummary = accHourService.reportTotals(params.getStart(), params.getEnd());
 
         programHours = (beamSummary.calculateProgramSeconds() / 3600.0);
@@ -174,7 +178,7 @@ public class SystemDowntimeReport extends HttpServlet {
         FilterSelectionMessage.getDateRangeReportMessage(
             params.getStart(),
             params.getEnd(),
-            type,
+            selectedTypeList,
             null,
             selectedCategory,
             null,
@@ -187,7 +191,6 @@ public class SystemDowntimeReport extends HttpServlet {
     request.setAttribute("programHours", programHours);
     request.setAttribute("tripAwareProgramHours", tripAwareProgramHours);
     request.setAttribute("fsdSummary", fsdSummary);
-    request.setAttribute("type", type);
     request.setAttribute("start", params.getStart());
     request.setAttribute("end", params.getEnd());
     request.setAttribute("eventTypeList", eventTypeList);

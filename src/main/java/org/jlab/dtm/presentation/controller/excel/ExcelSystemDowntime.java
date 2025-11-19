@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.jlab.dtm.business.session.*;
@@ -66,12 +67,17 @@ public class ExcelSystemDowntime extends HttpServlet {
       throw new ServletException("End date must not be null");
     }
 
-    BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
+    BigInteger[] typeIdArray = ParamConverter.convertBigIntegerArray(request, "type");
 
-    EventType type = null;
+    List<EventType> selectedTypeList = new ArrayList<>();
 
-    if (eventTypeId != null) {
-      type = eventTypeFacade.find(eventTypeId);
+    if (typeIdArray != null) {
+      for (BigInteger id : typeIdArray) {
+        if (id != null) {
+          EventType type = eventTypeFacade.find(id);
+          selectedTypeList.add(type);
+        }
+      }
     }
 
     BigInteger categoryId = ParamConverter.convertBigInteger(request, "category");
@@ -98,7 +104,15 @@ public class ExcelSystemDowntime extends HttpServlet {
 
     String filters =
         FilterSelectionMessage.getReportMessage(
-            start, end, type, null, selectedCategory, null, null, beamTransport, packed);
+            start,
+            end,
+            selectedTypeList,
+            null,
+            selectedCategory,
+            null,
+            null,
+            beamTransport,
+            packed);
 
     List<SystemDowntime> downtimeList = null;
     double grandTotalDuration = 0.0;
@@ -112,7 +126,8 @@ public class ExcelSystemDowntime extends HttpServlet {
       periodDurationHours = (end.getTime() - start.getTime()) / 1000.0 / 60.0 / 60.0;
 
       downtimeList =
-          downtimeFacade.findByPeriodAndType(start, end, type, beamTransport, categoryId, packed);
+          downtimeFacade.findByPeriodAndType(
+              start, end, selectedTypeList, beamTransport, categoryId, packed);
 
       for (int i = 0; i < downtimeList.size(); i++) {
         SystemDowntime downtime = downtimeList.get(i);
@@ -123,7 +138,9 @@ public class ExcelSystemDowntime extends HttpServlet {
     BeamSummaryTotals beamSummary = null;
     double programHours = 0.0;
 
-    if (EventType.BLOCKED.equals(type)) {
+    if (selectedTypeList != null
+        && selectedTypeList.size() == 1
+        && selectedTypeList.contains(EventType.BLOCKED)) {
       beamSummary = accHourService.reportTotals(start, end);
 
       programHours = (beamSummary.calculateProgramSeconds() / 3600.0);
@@ -138,7 +155,7 @@ public class ExcelSystemDowntime extends HttpServlet {
         filters.trim(),
         periodDurationHours,
         grandTotalDuration,
-        type,
+        selectedTypeList,
         programHours);
   }
 }

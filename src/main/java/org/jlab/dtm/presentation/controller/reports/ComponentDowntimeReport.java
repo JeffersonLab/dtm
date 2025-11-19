@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -76,10 +78,15 @@ public class ComponentDowntimeReport extends HttpServlet {
       return;
     }
 
-    EventType type = null;
+    List<EventType> selectedTypeList = new ArrayList<>();
 
-    if (params.getEventTypeId() != null) {
-      type = eventTypeFacade.find(params.getEventTypeId());
+    if (params.getEventTypeIdArray() != null) {
+      for (BigInteger id : params.getEventTypeIdArray()) {
+        if (id != null) {
+          EventType type = eventTypeFacade.find(id);
+          selectedTypeList.add(type);
+        }
+      }
     }
 
     SystemEntity selectedSystem = null;
@@ -110,7 +117,7 @@ public class ComponentDowntimeReport extends HttpServlet {
           downtimeFacade.findByPeriodAndType(
               params.getStart(),
               params.getEnd(),
-              type,
+              selectedTypeList,
               params.getBeamTransport(),
               params.getSystemId());
 
@@ -120,37 +127,20 @@ public class ComponentDowntimeReport extends HttpServlet {
         incidentCount = incidentCount + (int) downtime.getIncidentCount();
       }
 
-      if (params.getEventTypeId() != null && params.getEventTypeId().intValue() == 1) {
+      if (params.getEventTypeIdArray() != null
+          && params.getEventTypeIdArray().length == 1
+          && params.getEventTypeIdArray()[0].intValue() == 1) {
         beamSummary = accHourService.reportTotals(params.getStart(), params.getEnd());
 
         programHours = (beamSummary.calculateProgramSeconds() / 3600.0);
       }
-
-      /*FsdTripService tripService = new FsdTripService();
-      TripParams tripParams = new TripParams();
-      tripParams.setStart(params.getStart());
-      tripParams.setEnd(params.getEnd());
-      tripParams.setMaxDuration(BigInteger.valueOf(5l));
-      tripParams.setMaxDurationUnits("Minutes");
-      FsdTripFilter fsdFilter = new FsdTripFilter(tripParams);
-      try {
-          fsdSummary = tripService.filterSummary(fsdFilter);
-      } catch (SQLException e) {
-          throw new ServletException("Unable to query FSD data", e);
-      }
-
-      tripAwareProgramHours = programHours - fsdSummary.getHours();
-
-      if (tripAwareProgramHours < 0) {
-          tripAwareProgramHours = 0;
-      }*/
     }
 
     String selectionMessage =
         FilterSelectionMessage.getDateRangeReportMessage(
             params.getStart(),
             params.getEnd(),
-            type,
+            selectedTypeList,
             selectedSystem,
             null,
             null,
@@ -164,7 +154,6 @@ public class ComponentDowntimeReport extends HttpServlet {
     request.setAttribute("tripAwareProgramHours", tripAwareProgramHours);
     request.setAttribute("fsdSummary", fsdSummary);
     request.setAttribute("incidentCount", incidentCount);
-    request.setAttribute("type", type);
     request.setAttribute("start", params.getStart());
     request.setAttribute("end", params.getEnd());
     request.setAttribute("eventTypeList", eventTypeList);

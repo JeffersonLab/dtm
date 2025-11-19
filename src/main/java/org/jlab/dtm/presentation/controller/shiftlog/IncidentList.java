@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.jlab.dtm.business.params.IncidentDowntimeReportParams;
@@ -58,20 +59,16 @@ public class IncidentList extends HttpServlet {
       throw new ServletException("Unable to parse date", e);
     }
 
-    BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
+    BigInteger[] typeIdArray = ParamConverter.convertBigIntegerArray(request, "type");
 
-    if (eventTypeId == null
-        && request.getParameter("type") == null) { // null is different than empty string
-      eventTypeId = BigInteger.ONE;
-    }
+    List<EventType> selectedTypeList = new ArrayList<>();
 
-    EventType type = null;
-    BigInteger[] eventTypeIdArray = null;
-
-    if (eventTypeId != null) {
-      type = eventTypeFacade.find(eventTypeId);
-      if (type != null) {
-        eventTypeIdArray = new BigInteger[] {eventTypeId};
+    if (typeIdArray != null) {
+      for (BigInteger id : typeIdArray) {
+        if (id != null) {
+          EventType type = eventTypeFacade.find(id);
+          selectedTypeList.add(type);
+        }
       }
     }
 
@@ -99,7 +96,7 @@ public class IncidentList extends HttpServlet {
     IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeIdArray(eventTypeIdArray);
+    params.setEventTypeIdArray(typeIdArray);
     params.setSystemId(systemId);
     params.setComponent(component);
     params.setBeamTransport(beamTransport);
@@ -116,13 +113,20 @@ public class IncidentList extends HttpServlet {
 
     String filters =
         FilterSelectionMessage.getReportMessage(
-            start, end, type, selectedSystem, null, null, component, beamTransport, false);
+            start,
+            end,
+            selectedTypeList,
+            selectedSystem,
+            null,
+            null,
+            component,
+            beamTransport,
+            false);
 
     if (filters.length() > 0) {
       selectionMessage = selectionMessage + " in " + filters;
     }
 
-    request.setAttribute("type", type);
     request.setAttribute("start", start);
     request.setAttribute("end", end);
     request.setAttribute("selectionMessage", selectionMessage);

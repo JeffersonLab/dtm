@@ -33,7 +33,7 @@ public class ComponentDowntimeFacade extends AbstractFacade<Component> {
 
   @PermitAll
   public List<ComponentDowntime> findByPeriodAndType(
-      Date start, Date end, EventType type, Boolean beamTransport, BigInteger systemId) {
+      Date start, Date end, List<EventType> typeList, Boolean beamTransport, BigInteger systemId) {
     String sql =
         "select a.component_id, a.name, d.name as systemName, count(a.name) as incident_count, sum(interval_to_seconds(least(nvl(b.time_up, sysdate), :end) - greatest(b.time_down, :start))) / 60 / 60 / 24 as duration "
             + "from dtm_owner.component a, incident b, event c, dtm_owner.system d "
@@ -43,8 +43,13 @@ public class ComponentDowntimeFacade extends AbstractFacade<Component> {
             + "and b.time_down < :end "
             + "and nvl(b.time_up, sysdate) >= :start ";
 
-    if (type != null) {
-      sql = sql + "and c.event_type_id = " + type.getEventTypeId() + " ";
+    if (typeList != null && !typeList.isEmpty()) {
+      String typeListString = typeList.get(0).getEventTypeId().toString();
+      for (int i = 1; i < typeList.size(); i++) {
+        typeListString = "," + typeList.get(i).getEventTypeId().toString();
+      }
+
+      sql = sql + "and event_type_id in (" + typeListString + ") ";
     }
 
     // beamTransport Y = only beam transport

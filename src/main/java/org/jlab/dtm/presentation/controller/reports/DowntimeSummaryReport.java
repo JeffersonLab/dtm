@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.jlab.dtm.business.params.IncidentDowntimeReportParams;
@@ -316,7 +317,8 @@ public class DowntimeSummaryReport extends HttpServlet {
       selectionMessage = TimeUtil.formatSmartRangeSeparateTime(start, end);
 
       List<CategoryDowntime> catList =
-          categoryDowntimeFacade.findByPeriodAndType(start, end, type, null, true, null);
+          categoryDowntimeFacade.findByPeriodAndType(
+              start, end, Collections.singletonList(type), null, true, null);
 
       for (int i = 0; i < catList.size(); i++) {
         CategoryDowntime dt = catList.get(i);
@@ -324,7 +326,8 @@ public class DowntimeSummaryReport extends HttpServlet {
       }
 
       List<SystemDowntime> sysList =
-          systemDowntimeFacade.findByPeriodAndType(start, end, type, null, null, true);
+          systemDowntimeFacade.findByPeriodAndType(
+              start, end, Collections.singletonList(type), null, null, true);
 
       for (int i = 0; i < sysList.size(); i++) {
         SystemDowntime dt = sysList.get(i);

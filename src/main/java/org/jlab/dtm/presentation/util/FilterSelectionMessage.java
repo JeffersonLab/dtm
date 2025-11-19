@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.SystemEntity;
@@ -35,7 +36,7 @@ public final class FilterSelectionMessage {
   public static String getReportMessage(
       Date start,
       Date end,
-      EventType type,
+      List<EventType> typeList,
       SystemEntity system,
       Category category,
       String dateFormat,
@@ -63,8 +64,11 @@ public final class FilterSelectionMessage {
       filters.add("End Date \"" + formatter.format(end) + "\"");
     }
 
-    if (type != null) {
-      filters.add("Type \"" + type.getName() + "\"");
+    if (typeList != null && !typeList.isEmpty()) {
+      filters.add(
+          "Type \""
+              + typeList.stream().map(EventType::getAbbreviation).collect(Collectors.joining(","))
+              + "\"");
     }
 
     if (category != null) {
@@ -104,7 +108,7 @@ public final class FilterSelectionMessage {
   public static String getDateRangeReportMessage(
       Date start,
       Date end,
-      EventType type,
+      List<EventType> selectedTypeList,
       SystemEntity system,
       Category category,
       String dateFormat,
@@ -122,8 +126,13 @@ public final class FilterSelectionMessage {
     // SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
     String typeQualifier = "";
 
-    if (type != null) {
-      typeQualifier = type.getName() + " ";
+    if (selectedTypeList != null && !selectedTypeList.isEmpty()) {
+      typeQualifier =
+          "Type \""
+              + selectedTypeList.stream()
+                  .map(EventType::getAbbreviation)
+                  .collect(Collectors.joining(","))
+              + "\"";
     }
 
     String packedQualifier = "";
