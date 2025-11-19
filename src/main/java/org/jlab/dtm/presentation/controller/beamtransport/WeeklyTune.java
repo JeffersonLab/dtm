@@ -11,21 +11,21 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.jlab.dtm.business.params.IncidentDowntimeReportParams;
 import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
 import org.jlab.dtm.business.session.CategoryFacade;
+import org.jlab.dtm.business.session.EventTypeFacade;
 import org.jlab.dtm.business.session.IncidentReportService;
 import org.jlab.dtm.business.session.IncidentReportService.IncidentSummary;
 import org.jlab.dtm.business.session.ResponsibleGroupFacade;
 import org.jlab.dtm.persistence.entity.Category;
+import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.Workgroup;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.business.util.TimeUtil;
+import org.jlab.smoothness.presentation.util.ParamConverter;
 import org.jlab.smoothness.presentation.util.ParamUtil;
 import org.jlab.smoothness.presentation.util.ServletUtil;
 
@@ -40,6 +40,7 @@ public class WeeklyTune extends HttpServlet {
   @EJB IncidentReportService incidentReportService;
   @EJB ResponsibleGroupFacade groupFacade;
   @EJB CategoryFacade categoryFacade;
+  @EJB EventTypeFacade eventTypeFacade;
 
   /**
    * Handles the HTTP <code>GET</code> method.
@@ -91,6 +92,19 @@ public class WeeklyTune extends HttpServlet {
       }
     }
 
+    BigInteger[] typeIdArray = ParamConverter.convertBigIntegerArray(request, "type");
+
+    List<EventType> typeList = new ArrayList<>();
+
+    if (typeIdArray != null) {
+      for (BigInteger id : typeIdArray) {
+        if (id != null) {
+          EventType type = eventTypeFacade.find(id);
+          typeList.add(type);
+        }
+      }
+    }
+
     if (needRedirect) {
       response.sendRedirect(response.encodeRedirectURL(this.getCurrentUrl(request, start, max)));
       return;
@@ -107,15 +121,15 @@ public class WeeklyTune extends HttpServlet {
     long totalRecords = 0;
     double totalTuneTime = 0;
     double topDowntime = 0;
-    BigInteger eventTypeId = BigInteger.ONE;
 
     Category categoryRoot = categoryFacade.findBranch(BigInteger.valueOf(0L));
     List<Workgroup> groupList = groupFacade.findAll(new OrderDirective("name"));
+    List<EventType> eventTypeList = eventTypeFacade.findActiveWithCategories();
 
     IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeIdArray(new BigInteger[] {eventTypeId});
+    params.setEventTypeIdArray(typeIdArray);
 
     if (start != null && end != null) {
       periodDurationHours = (end.getTime() - start.getTime()) / 1000.0 / 60.0 / 60.0;
@@ -134,7 +148,7 @@ public class WeeklyTune extends HttpServlet {
       }
     }
 
-    String selectionMessage = TimeUtil.formatSmartRangeSeparateTime(start, end);
+    String selectionMessage = getSelectionMessage(start, end, typeList);
 
     request.setAttribute("start", start);
     request.setAttribute("end", end);
@@ -148,10 +162,37 @@ public class WeeklyTune extends HttpServlet {
     request.setAttribute("totalTuneTime", totalTuneTime);
     request.setAttribute("periodDurationHours", periodDurationHours);
     request.setAttribute("categoryRoot", categoryRoot);
+    request.setAttribute("eventTypeList", eventTypeList);
 
     request
         .getRequestDispatcher("/WEB-INF/views/beam-transport/weekly-tune.jsp")
         .forward(request, response);
+  }
+
+  public String getSelectionMessage(Date start, Date end, List<EventType> typeList) {
+    String selectionMessage = "All Tuning Incidents ";
+
+    List<String> filters = new ArrayList<>();
+
+    filters.add(TimeUtil.formatSmartRangeSeparateTime(start, end));
+
+    if (typeList != null && !typeList.isEmpty()) {
+      filters.add(
+          "Type \""
+              + typeList.stream().map(EventType::getAbbreviation).collect(Collectors.joining(","))
+              + "\"");
+    }
+
+    if (!filters.isEmpty()) {
+      selectionMessage = filters.get(0);
+
+      for (int i = 1; i < filters.size(); i++) {
+        String filter = filters.get(i);
+        selectionMessage += " and " + filter;
+      }
+    }
+
+    return selectionMessage;
   }
 
   private String getCurrentUrl(HttpServletRequest request, Date start, int max) {
