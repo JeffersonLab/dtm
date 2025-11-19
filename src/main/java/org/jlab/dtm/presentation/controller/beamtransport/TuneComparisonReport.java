@@ -7,9 +7,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.math.BigInteger;
+import java.util.*;
 import org.jlab.dtm.business.params.TuneComparisonReportParams;
 import org.jlab.dtm.business.session.AbstractFacade.OrderDirective;
 import org.jlab.dtm.business.session.ComponentDowntimeFacade;
@@ -21,6 +20,7 @@ import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.persistence.model.ComponentDowntime;
 import org.jlab.dtm.presentation.params.TuneComparisonReportUrlParamHandler;
 import org.jlab.dtm.presentation.util.FilterSelectionMessage;
+import org.jlab.smoothness.presentation.util.ParamConverter;
 
 /**
  * @author ryans
@@ -72,10 +72,17 @@ public class TuneComparisonReport extends HttpServlet {
       return;
     }
 
-    EventType type = null;
+    BigInteger[] typeIdArray = ParamConverter.convertBigIntegerArray(request, "type");
 
-    if (params.getEventTypeId() != null) {
-      type = eventTypeFacade.find(params.getEventTypeId());
+    List<EventType> selectedTypeList = new ArrayList<>();
+
+    if (typeIdArray != null) {
+      for (BigInteger id : typeIdArray) {
+        if (id != null) {
+          EventType type = eventTypeFacade.find(id);
+          selectedTypeList.add(type);
+        }
+      }
     }
 
     List<EventType> eventTypeList = eventTypeFacade.filterList(null);
@@ -92,7 +99,8 @@ public class TuneComparisonReport extends HttpServlet {
           (params.getEnd().getTime() - params.getStart().getTime()) / 1000.0 / 60.0 / 60.0;
 
       downtimeList =
-          downtimeFacade.findByPeriodAndType(params.getStart(), params.getEnd(), type, true, null);
+          downtimeFacade.findByPeriodAndType(
+              params.getStart(), params.getEnd(), selectedTypeList, true, null);
 
       for (int i = 0; i < downtimeList.size(); i++) {
         ComponentDowntime downtime = downtimeList.get(i);
@@ -104,7 +112,7 @@ public class TuneComparisonReport extends HttpServlet {
         FilterSelectionMessage.getDateRangeReportMessage(
             params.getStart(),
             params.getEnd(),
-            type,
+            selectedTypeList,
             null,
             null,
             null,
@@ -114,7 +122,6 @@ public class TuneComparisonReport extends HttpServlet {
             params.getData(),
             false);
 
-    request.setAttribute("type", type);
     request.setAttribute("start", params.getStart());
     request.setAttribute("end", params.getEnd());
     request.setAttribute("eventTypeList", eventTypeList);

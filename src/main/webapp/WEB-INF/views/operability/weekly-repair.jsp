@@ -62,7 +62,7 @@
                                 <div class="li-value">
                                     <select id="type" name="type" multiple="multiple">
                                         <c:forEach items="${eventTypeList}" var="type">
-                                            <option value="${type.eventTypeId}"${s:inArray(paramValues.type, type.eventTypeId.toString()) ? ' selected="selected"' : ''}><c:out value="${type.name}"/> (<c:out value="${type.abbreviation}"/>): <c:out value="${type.description}"/></option>
+                                            <option value="${type.eventTypeId}"${s:inArray(paramValues.type, type.eventTypeId.toString()) ? ' selected="selected"' : ''}><c:out value="${dtm:formatType(type)}"/></option>
                                         </c:forEach>
                                     </select>
                                 </div>

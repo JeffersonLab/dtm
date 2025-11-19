@@ -35,7 +35,7 @@ public class CategoryDowntimeFacade extends AbstractFacade<Category> {
   public List<CategoryDowntime> findByPeriodAndType(
       Date start,
       Date end,
-      EventType type,
+      List<EventType> typeList,
       Boolean beamTransport,
       boolean packed,
       BigInteger categoryId) {
@@ -58,8 +58,13 @@ public class CategoryDowntimeFacade extends AbstractFacade<Category> {
 
     sql = sql + "where b.time_down < :end " + "and nvl(b.time_up, sysdate) >= :start ";
 
-    if (type != null) {
-      sql = sql + "and event_type_id = " + type.getEventTypeId() + " ";
+    if (typeList != null && !typeList.isEmpty()) {
+      String typeListString = typeList.get(0).getEventTypeId().toString();
+      for (int i = 1; i < typeList.size(); i++) {
+        typeListString = typeListString + "," + typeList.get(i).getEventTypeId().toString();
+      }
+
+      sql = sql + "and event_type_id in (" + typeListString + ") ";
     }
 
     if (categoryId != null) {

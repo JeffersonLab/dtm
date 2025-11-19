@@ -26,7 +26,7 @@ public class ExcelSystemDowntimeService {
       String filters,
       double periodDurationHours,
       double grandTotalDuration,
-      EventType type,
+      List<EventType> selectedTypeList,
       double programHours)
       throws IOException {
     Workbook wb = new XSSFWorkbook();
@@ -42,7 +42,9 @@ public class ExcelSystemDowntimeService {
     row1.createCell(2).setCellValue("NUMBER OF INCIDENTS");
     row1.createCell(3).setCellValue("MEAN TIME TO RECOVER (HOURS)");
 
-    if (EventType.BLOCKED.equals(type)) {
+    if (selectedTypeList != null
+        && selectedTypeList.size() == 1
+        && selectedTypeList.contains(EventType.BLOCKED)) {
       row1.createCell(4).setCellValue("UPTIME (HOURS)");
       row1.createCell(5).setCellValue("MTBF (HOURS)");
       row1.createCell(6).setCellValue("HOURLY FAILURE RATE");
@@ -71,7 +73,9 @@ public class ExcelSystemDowntimeService {
       c.setCellStyle(numberStyle);
       c.setCellValue(downtime.getDuration() / downtime.getIncidentCount() * 24);
 
-      if (EventType.BLOCKED.equals(type)) {
+      if (selectedTypeList != null
+          && selectedTypeList.size() == 1
+          && selectedTypeList.contains(EventType.BLOCKED)) {
 
         double uptime = programHours - (downtime.getDuration() * 24);
         double mtbf = uptime / downtime.getIncidentCount();
@@ -112,7 +116,9 @@ public class ExcelSystemDowntimeService {
     sheet1.autoSizeColumn(2);
     sheet1.autoSizeColumn(3);
 
-    if (EventType.BLOCKED.equals(type)) {
+    if (selectedTypeList != null
+        && selectedTypeList.size() == 1
+        && selectedTypeList.contains(EventType.BLOCKED)) {
       sheet1.autoSizeColumn(4);
       sheet1.autoSizeColumn(5);
       sheet1.autoSizeColumn(6);

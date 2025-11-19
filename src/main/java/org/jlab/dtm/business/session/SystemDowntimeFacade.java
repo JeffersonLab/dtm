@@ -35,7 +35,7 @@ public class SystemDowntimeFacade extends AbstractFacade<SystemEntity> {
   public List<SystemDowntime> findByPeriodAndType(
       Date start,
       Date end,
-      EventType type,
+      List<EventType> typeList,
       Boolean beamTransport,
       BigInteger categoryId,
       boolean packed) {
@@ -61,8 +61,13 @@ public class SystemDowntimeFacade extends AbstractFacade<SystemEntity> {
             + "and nvl(b.time_up, sysdate) >= :start "
             + "and a.system_id = d.system_id ";
 
-    if (type != null) {
-      sql = sql + "and event_type_id = " + type.getEventTypeId() + " ";
+    if (typeList != null && !typeList.isEmpty()) {
+      String typeListString = typeList.get(0).getEventTypeId().toString();
+      for (int i = 1; i < typeList.size(); i++) {
+        typeListString = typeListString + "," + typeList.get(i).getEventTypeId().toString();
+      }
+
+      sql = sql + "and event_type_id in (" + typeListString + ") ";
     }
 
     // beamTransport Y = only beam transport

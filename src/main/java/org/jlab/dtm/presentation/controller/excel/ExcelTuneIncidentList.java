@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.jlab.dtm.business.params.IncidentDowntimeReportParams;
@@ -57,15 +58,16 @@ public class ExcelTuneIncidentList extends HttpServlet {
       throw new ServletException("Unable to parse date", e);
     }
 
-    BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
+    BigInteger[] typeIdArray = ParamConverter.convertBigIntegerArray(request, "type");
 
-    EventType type = null;
-    BigInteger[] eventTypeIdArray = null;
+    List<EventType> selectedTypeList = new ArrayList<>();
 
-    if (eventTypeId != null) {
-      type = eventTypeFacade.find(eventTypeId);
-      if (type != null) {
-        eventTypeIdArray = new BigInteger[] {type.getEventTypeId()};
+    if (typeIdArray != null) {
+      for (BigInteger id : typeIdArray) {
+        if (id != null) {
+          EventType type = eventTypeFacade.find(id);
+          selectedTypeList.add(type);
+        }
       }
     }
 
@@ -73,12 +75,12 @@ public class ExcelTuneIncidentList extends HttpServlet {
 
     String filters =
         FilterSelectionMessage.getReportMessage(
-            start, end, type, null, null, null, component, true, false);
+            start, end, selectedTypeList, null, null, null, component, true, false);
 
     IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeIdArray(eventTypeIdArray);
+    params.setEventTypeIdArray(typeIdArray);
     params.setComponent(component);
 
     long totalRecords = incidentReportService.countFilterList(params);

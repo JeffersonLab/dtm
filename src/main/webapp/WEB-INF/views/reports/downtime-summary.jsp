@@ -61,7 +61,7 @@
                                         <select id="type" name="type">
                                             <option value="">&nbsp;</option>
                                             <c:forEach items="${eventTypeList}" var="type">
-                                                <option value="${type.eventTypeId}"${(param.type eq type.eventTypeId) or (param.type eq null and type.eventTypeId eq 1) ? ' selected="selected"' : ''}><c:out value="${type.name}"/> (<c:out value="${type.abbreviation}"/>): <c:out value="${type.description}"/></option>
+                                                <option value="${type.eventTypeId}"${(param.type eq type.eventTypeId) or (param.type eq null and type.eventTypeId eq 1) ? ' selected="selected"' : ''}><c:out value="${dtm:formatType(type)}"/></option>
                                             </c:forEach>
                                         </select>                                
                                     </div>

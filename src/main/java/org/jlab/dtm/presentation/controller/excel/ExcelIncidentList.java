@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.jlab.dtm.business.params.IncidentDowntimeReportParams;
@@ -66,15 +67,16 @@ public class ExcelIncidentList extends HttpServlet {
       throw new ServletException("End date must not be null");
     }
 
-    BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
+    BigInteger[] typeIdArray = ParamConverter.convertBigIntegerArray(request, "type");
 
-    EventType type = null;
-    BigInteger[] eventTypeIdArray = null;
+    List<EventType> selectedTypeList = new ArrayList<>();
 
-    if (eventTypeId != null) {
-      type = eventTypeFacade.find(eventTypeId);
-      if (type != null) {
-        eventTypeIdArray = new BigInteger[] {type.getEventTypeId()};
+    if (typeIdArray != null) {
+      for (BigInteger id : typeIdArray) {
+        if (id != null) {
+          EventType type = eventTypeFacade.find(id);
+          selectedTypeList.add(type);
+        }
       }
     }
 
@@ -97,12 +99,20 @@ public class ExcelIncidentList extends HttpServlet {
 
     String filters =
         FilterSelectionMessage.getReportMessage(
-            start, end, type, selectedSystem, null, null, component, beamTransport, false);
+            start,
+            end,
+            selectedTypeList,
+            selectedSystem,
+            null,
+            null,
+            component,
+            beamTransport,
+            false);
 
     IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeIdArray(eventTypeIdArray);
+    params.setEventTypeIdArray(typeIdArray);
     params.setSystemId(systemId);
     params.setComponent(component);
     params.setBeamTransport(beamTransport);

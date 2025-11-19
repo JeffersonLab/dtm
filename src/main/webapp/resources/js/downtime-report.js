@@ -577,7 +577,7 @@ $(document).on("click", ".default-reset-panel", function () {
     $("#date-range").val('past7days').change();
     /*$("#start").val('');
      $("#end").val('');*/
-    $("#type").val('1');
+    $("#type").val([1]).trigger('change');
     $("#packed").val('Y');
     $("#transport").val('N');
     $("#chart").val('bar');
@@ -599,4 +599,8 @@ $(function () {
         /*$("#data").change();*/
         jlab.doChartLoad();
     }
+
+    $("#type").select2({
+        width: 360
+    });
 });

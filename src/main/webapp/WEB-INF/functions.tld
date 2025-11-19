@@ -30,6 +30,11 @@
         <function-signature>java.lang.String urlEncodeDateTime(java.util.Date)</function-signature>
     </function>
     <function>
+        <name>formatType</name>
+        <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
+        <function-signature>java.lang.String formatType(org.jlab.dtm.persistence.entity.EventType)</function-signature>
+    </function>
+    <function>
         <name>formatLogbookDate</name>
         <function-class>org.jlab.dtm.presentation.util.DtmFunctions</function-class>
         <function-signature>java.lang.String formatLogbookDate(java.util.Date, int)</function-signature>

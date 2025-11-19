@@ -61,7 +61,7 @@
                                 <div class="li-value">
                                     <select id="type" name="type" multiple="multiple">
                                         <c:forEach items="${eventTypeList}" var="type">
-                                            <option value="${type.eventTypeId}"${s:inArray(paramValues.type, type.eventTypeId.toString()) ? ' selected="selected"' : ''}><c:out value="${type.name}"/> (<c:out value="${type.abbreviation}"/>): <c:out value="${type.description}"/></option>
+                                            <option value="${type.eventTypeId}"${s:inArray(paramValues.type, type.eventTypeId.toString()) ? ' selected="selected"' : ''}><c:out value="${dtm:formatType(type)}"/></option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -179,7 +179,9 @@
         <form id="excel-form" method="get" action="${pageContext.request.contextPath}/excel/tune-incident-list.xlsx">
             <input type="hidden" name="start" value="${startFmt}"/>
             <input type="hidden" name="end" value="${endFmt}"/>
-            <input type="hidden" name="type" value="1"/>
+            <c:forEach items="${paramValues.type}" var="type">
+                <input type="hidden" name="type" value="${fn:escapeXml(type)}"/>
+            </c:forEach>
             <input type="hidden" name="component" value=""/>
             <button id="excel" type="submit" style="display: none;">Excel</button>
         </form>            

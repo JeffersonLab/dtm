@@ -63,20 +63,19 @@
                     </fieldset>
                     <fieldset id="taxonomy-fieldset">
                         <legend>Taxonomy</legend>
-                        <ul class="key-value-list">                         
+                        <ul class="key-value-list">
                             <li>
                                 <div class="li-key">
                                     <label for="type">Type</label>
                                 </div>
                                 <div class="li-value">
-                                    <select id="type" name="type">
-                                        <option value=""> </option>
+                                    <select id="type" name="type" multiple="multiple">
                                         <c:forEach items="${eventTypeList}" var="type">
-                                            <option value="${type.eventTypeId}"${(param.type eq type.eventTypeId) or (param.type eq null and type.eventTypeId eq 1) ? ' selected="selected"' : ''}><c:out value="${type.name}"/> (<c:out value="${type.abbreviation}"/>): <c:out value="${type.description}"/></option>
+                                            <option value="${type.eventTypeId}"${s:inArray(paramValues.type, type.eventTypeId.toString()) ? ' selected="selected"' : ''}><c:out value="${dtm:formatType(type)}"/></option>
                                         </c:forEach>
-                                    </select>                                
+                                    </select>
                                 </div>
-                            </li>                             
+                            </li>
                             <li>
                                 <div class="li-key">
                                     <label for="transport">Beam Transport</label>
@@ -169,7 +168,7 @@
                                     <th>Period Duration (Hours): </th>
                                     <td><fmt:formatNumber value="${periodDurationHours}" pattern="#,##0.0"/></td>
                                 </tr>
-                                <c:if test="${type.eventTypeId eq 1}">
+                                <c:if test="${fn:length(paramValues.type) eq 1 and param.type eq 1}">
                                     <tr>
                                         <th>Accelerator Program Time (Hours): </th>
                                             <c:url var="url" value="/reports/beam-time-summary" context="/btm">
@@ -193,7 +192,7 @@
                                         <th class="selected-column downtime">Downtime (Hours) <span class="sort-desc" title="Descending">▼</span></th>
                                         <th class="count">Number of Incidents <span class="sort-desc" title="Descending">▼</span></th>
                                         <th class="mttr">Mean Time to Recover (Hours) <span class="sort-desc" title="Descending">▼</span></th>
-                                            <c:if test="${type.eventTypeId eq 1}">
+                                            <c:if test="${fn:length(paramValues.type) eq 1 and param.type eq 1}">
                                             <th class="uptime">Uptime (Hours) <span class="sort-desc" title="Descending">▼</span></th>
                                             <th class="mtbf">Mean Time between Failures (Hours) <span class="sort-desc" title="Descending">▼</span></th>
                                             <th class="failure">Hourly Failure Rate <span class="sort-desc" title="Descending">▼</span></th>
@@ -210,7 +209,9 @@
                                                 <c:url var="url" value="/reports/system-downtime">
                                                     <c:param name="start" value="${param.start eq null ? sevenDaysAgoFmt : param.start}"/>
                                                     <c:param name="end" value="${param.end eq null ? todayFmt : param.end}"/>
-                                                    <c:param name="type" value="${param.type eq null ? '1' : param.type}"/>
+                                                    <c:forEach items="${paramValues.type}" var="type">
+                                                        <c:param name="type" value="${type}"/>
+                                                    </c:forEach>
                                                     <c:param name="transport" value=""/>
                                                     <c:param name="category" value="${downtime.id}"/>
                                                     <c:param name="chart" value="${param.chart}"/>
@@ -225,7 +226,7 @@
                                             <td class="downtime right-aligned"><fmt:formatNumber value="${downtime.duration * 24}" pattern="#,##0.0"/><br/>(<fmt:formatNumber value="${nonOverlappingDowntime.duration * 24}" pattern="#,##0.0"/>)</td>
                                             <td class="count right-aligned"><fmt:formatNumber value="${downtime.incidentCount}" pattern="#,##0"/><br/>(<fmt:formatNumber value="${nonOverlappingDowntime.incidentCount}" pattern="#,##0"/>)</td>
                                             <td class="mttr right-aligned"><fmt:formatNumber value="${downtime.duration / downtime.incidentCount * 24}" pattern="#,##0.0"/><br/>(<fmt:formatNumber value="${nonOverlappingDowntime.duration / nonOverlappingDowntime.incidentCount * 24}" pattern="#,##0.0"/>)</td>
-                                                <c:if test="${type.eventTypeId eq 1}">
+                                                <c:if test="${fn:length(paramValues.type) eq 1 and param.type eq 1}">
                                                     <c:set var="uptime" value="${programHours - (downtime.duration * 24)}"/>
                                                     <c:set var="uptime" value="${uptime < 0 ? 0 : uptime}"/>
                                                     <c:set var="nonOverlappingUptime" value="${programHours - (nonOverlappingDowntime.duration * 24)}"/>
@@ -254,7 +255,9 @@
         <form id="excel-form" method="get" action="${pageContext.request.contextPath}/excel/category-downtime.xlsx">
             <input type="hidden" name="start" value="${startFmt}"/>
             <input type="hidden" name="end" value="${endFmt}"/>
-            <input type="hidden" name="type" value="${type.eventTypeId}"/>
+            <c:forEach items="${paramValues.type}" var="type">
+                <input type="hidden" name="type" value="${fn:escapeXml(type)}"/>
+            </c:forEach>
             <input type="hidden" name="transport" value="${fn:escapeXml(param.transport)}"/>
             <input type="hidden" name="packed" value="${fn:escapeXml(param.packed)}"/>
             <button id="excel" type="submit" style="display: none;">Excel</button>
@@ -262,7 +265,9 @@
         <form id="csv-form" method="get" action="${pageContext.request.contextPath}/csv/category-downtime.csv">
             <input type="hidden" name="start" value="${startFmt}"/>
             <input type="hidden" name="end" value="${endFmt}"/>
-            <input type="hidden" name="type" value="${type.eventTypeId}"/>
+            <c:forEach items="${paramValues.type}" var="type">
+                <input type="hidden" name="type" value="${fn:escapeXml(type)}"/>
+            </c:forEach>
             <input type="hidden" name="transport" value="${fn:escapeXml(param.transport)}"/>
             <input type="hidden" name="packed" value="${fn:escapeXml(param.packed)}"/>
             <button id="csv" type="submit" style="display: none;">CSV</button>

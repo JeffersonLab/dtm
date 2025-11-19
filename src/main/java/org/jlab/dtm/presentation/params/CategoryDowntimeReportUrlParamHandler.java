@@ -40,7 +40,8 @@ public class CategoryDowntimeReportUrlParamHandler
       throw new RuntimeException("Unable to parse date", e);
     }
 
-    BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
+    BigInteger[] typeIdArray = ParamConverter.convertBigIntegerArray(request, "type");
+
     Boolean beamTransport = null;
 
     try {
@@ -64,7 +65,7 @@ public class CategoryDowntimeReportUrlParamHandler
 
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeId(eventTypeId);
+    params.setEventTypeIdArray(typeIdArray);
     params.setBeamTransport(beamTransport);
     params.setChart(chart);
     params.setData(data);
@@ -97,7 +98,7 @@ public class CategoryDowntimeReportUrlParamHandler
 
     session.setAttribute("start[]", new Date[] {params.getStart()});
     session.setAttribute("end[]", new Date[] {params.getEnd()});
-    session.setAttribute("eventTypeId[]", new BigInteger[] {params.getEventTypeId()});
+    session.setAttribute("eventTypeId[]", params.getEventTypeIdArray());
     session.setAttribute("transport[]", new Boolean[] {params.getBeamTransport()});
     session.setAttribute("chart[]", new String[] {params.getChart()});
     session.setAttribute("data[]", new String[] {params.getData()});
@@ -110,7 +111,7 @@ public class CategoryDowntimeReportUrlParamHandler
 
     defaultParams.setStart(sevenDaysAgo);
     defaultParams.setEnd(today);
-    defaultParams.setEventTypeId(BigInteger.ONE);
+    defaultParams.setEventTypeIdArray(new BigInteger[] {BigInteger.ONE});
     defaultParams.setBeamTransport(false);
     defaultParams.setChart("bar");
     defaultParams.setData("downtime");
@@ -129,7 +130,7 @@ public class CategoryDowntimeReportUrlParamHandler
     HttpSession session = request.getSession(true);
     Date[] startArray = (Date[]) session.getAttribute("start[]");
     Date[] endArray = (Date[]) session.getAttribute("end[]");
-    BigInteger[] eventTypeIdArray = (BigInteger[]) session.getAttribute("eventTypeId[]");
+    BigInteger[] eventTypeIdArraySession = (BigInteger[]) session.getAttribute("eventTypeId[]");
     Boolean[] transportArray = (Boolean[]) session.getAttribute("transport[]");
     String[] chartArray = (String[]) session.getAttribute("chart[]");
     String[] dataArray = (String[]) session.getAttribute("data[]");
@@ -137,7 +138,7 @@ public class CategoryDowntimeReportUrlParamHandler
 
     Date start = defaultValues.getStart();
     Date end = defaultValues.getEnd();
-    BigInteger eventTypeId = defaultValues.getEventTypeId();
+    BigInteger[] eventTypeIdArray = defaultValues.getEventTypeIdArray();
     Boolean transport = defaultValues.getBeamTransport();
     String chart = defaultValues.getChart();
     String data = defaultValues.getData();
@@ -151,8 +152,8 @@ public class CategoryDowntimeReportUrlParamHandler
       end = endArray[0];
     }
 
-    if (eventTypeIdArray != null && eventTypeIdArray.length > 0) {
-      eventTypeId = eventTypeIdArray[0];
+    if (eventTypeIdArraySession != null && eventTypeIdArraySession.length > 0) {
+      eventTypeIdArray = eventTypeIdArraySession;
     }
 
     if (transportArray != null && transportArray.length > 0) {
@@ -175,7 +176,7 @@ public class CategoryDowntimeReportUrlParamHandler
 
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeId(eventTypeId);
+    params.setEventTypeIdArray(eventTypeIdArray);
     params.setBeamTransport(transport);
     params.setChart(chart);
     params.setData(data);
@@ -212,7 +213,7 @@ public class CategoryDowntimeReportUrlParamHandler
 
     builder.add("start", IOUtil.nullOrFormat(params.getStart(), dateFormat));
     builder.add("end", IOUtil.nullOrFormat(params.getEnd(), dateFormat));
-    builder.add("type", IOUtil.nullOrString(params.getEventTypeId()));
+    builder.add("type", params.getEventTypeIdArray());
     builder.add("transport", IOUtil.nullOrBoolean(params.getBeamTransport()));
     builder.add("chart", IOUtil.nullOrString(params.getChart()));
     builder.add("data", IOUtil.nullOrString(params.getData()));

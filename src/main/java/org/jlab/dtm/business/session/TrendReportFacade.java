@@ -106,9 +106,10 @@ public class TrendReportFacade {
     return recordList;
   }
 
-  private void fillInTrendCategories(TrendRecord record, Date start, Date end, EventType type) {
+  private void fillInTrendCategories(
+      TrendRecord record, Date start, Date end, List<EventType> typeList) {
     record.categoryDowntimeList =
-        categoryDowntimeFacade.findByPeriodAndType(start, end, type, null, true, null);
+        categoryDowntimeFacade.findByPeriodAndType(start, end, typeList, null, true, null);
 
     if (record.categoryDowntimeList != null) {
       for (CategoryDowntime cd : record.categoryDowntimeList) {
@@ -163,7 +164,7 @@ public class TrendReportFacade {
     record.downtimeMap = new HashMap<>();
 
     if (includeCategories) {
-      fillInTrendCategories(record, start, end, type);
+      fillInTrendCategories(record, start, end, Collections.singletonList(type));
     }
 
     FsdTripService tripService = new FsdTripService();

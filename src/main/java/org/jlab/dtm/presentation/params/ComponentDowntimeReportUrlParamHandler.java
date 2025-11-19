@@ -40,7 +40,7 @@ public class ComponentDowntimeReportUrlParamHandler
       throw new RuntimeException("Unable to parse date", e);
     }
 
-    BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
+    BigInteger[] typeIdArray = ParamConverter.convertBigIntegerArray(request, "type");
     Boolean beamTransport = null;
 
     try {
@@ -58,7 +58,7 @@ public class ComponentDowntimeReportUrlParamHandler
 
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeId(eventTypeId);
+    params.setEventTypeIdArray(typeIdArray);
     params.setBeamTransport(beamTransport);
     params.setSystemId(systemId);
     params.setChart(chart);
@@ -91,7 +91,7 @@ public class ComponentDowntimeReportUrlParamHandler
 
     session.setAttribute("start[]", new Date[] {params.getStart()});
     session.setAttribute("end[]", new Date[] {params.getEnd()});
-    session.setAttribute("eventTypeId[]", new BigInteger[] {params.getEventTypeId()});
+    session.setAttribute("eventTypeId[]", params.getEventTypeIdArray());
     session.setAttribute("transport[]", new Boolean[] {params.getBeamTransport()});
     session.setAttribute("systemId[]", new BigInteger[] {params.getSystemId()});
     session.setAttribute("chart[]", new String[] {params.getChart()});
@@ -104,7 +104,7 @@ public class ComponentDowntimeReportUrlParamHandler
 
     defaultParams.setStart(sevenDaysAgo);
     defaultParams.setEnd(today);
-    defaultParams.setEventTypeId(BigInteger.ONE);
+    defaultParams.setEventTypeIdArray(new BigInteger[] {BigInteger.ONE});
     defaultParams.setBeamTransport(false);
     defaultParams.setChart("bar");
     defaultParams.setData("downtime");
@@ -122,7 +122,7 @@ public class ComponentDowntimeReportUrlParamHandler
     HttpSession session = request.getSession(true);
     Date[] startArray = (Date[]) session.getAttribute("start[]");
     Date[] endArray = (Date[]) session.getAttribute("end[]");
-    BigInteger[] eventTypeIdArray = (BigInteger[]) session.getAttribute("eventTypeId[]");
+    BigInteger[] eventTypeIdArraySession = (BigInteger[]) session.getAttribute("eventTypeId[]");
     Boolean[] transportArray = (Boolean[]) session.getAttribute("transport[]");
     BigInteger[] systemIdArray = (BigInteger[]) session.getAttribute("systemId[]");
     String[] chartArray = (String[]) session.getAttribute("chart[]");
@@ -130,7 +130,7 @@ public class ComponentDowntimeReportUrlParamHandler
 
     Date start = defaultValues.getStart();
     Date end = defaultValues.getEnd();
-    BigInteger eventTypeId = defaultValues.getEventTypeId();
+    BigInteger[] eventTypeIdArray = defaultValues.getEventTypeIdArray();
     Boolean transport = defaultValues.getBeamTransport();
     BigInteger systemId = defaultValues.getSystemId();
     String chart = defaultValues.getChart();
@@ -144,8 +144,8 @@ public class ComponentDowntimeReportUrlParamHandler
       end = endArray[0];
     }
 
-    if (eventTypeIdArray != null && eventTypeIdArray.length > 0) {
-      eventTypeId = eventTypeIdArray[0];
+    if (eventTypeIdArraySession != null && eventTypeIdArraySession.length > 0) {
+      eventTypeIdArray = eventTypeIdArraySession;
     }
 
     if (transportArray != null && transportArray.length > 0) {
@@ -168,7 +168,7 @@ public class ComponentDowntimeReportUrlParamHandler
 
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeId(eventTypeId);
+    params.setEventTypeIdArray(eventTypeIdArray);
     params.setBeamTransport(transport);
     params.setSystemId(systemId);
     params.setChart(chart);
@@ -205,7 +205,7 @@ public class ComponentDowntimeReportUrlParamHandler
 
     builder.add("start", IOUtil.nullOrFormat(params.getStart(), dateFormat));
     builder.add("end", IOUtil.nullOrFormat(params.getEnd(), dateFormat));
-    builder.add("type", IOUtil.nullOrString(params.getEventTypeId()));
+    builder.add("type", params.getEventTypeIdArray());
     builder.add("transport", IOUtil.nullOrBoolean(params.getBeamTransport()));
     builder.add("system", IOUtil.nullOrString(params.getSystemId()));
     builder.add("chart", IOUtil.nullOrString(params.getChart()));

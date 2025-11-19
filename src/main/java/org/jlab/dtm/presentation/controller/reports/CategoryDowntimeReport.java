@@ -7,11 +7,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigInteger;
+import java.util.*;
 import org.jlab.dtm.business.params.CategoryDowntimeReportParams;
 import org.jlab.dtm.business.service.FsdTripService;
 import org.jlab.dtm.business.session.CategoryDowntimeFacade;
@@ -72,10 +69,15 @@ public class CategoryDowntimeReport extends HttpServlet {
       return;
     }
 
-    EventType type = null;
+    List<EventType> selectedTypeList = new ArrayList<>();
 
-    if (params.getEventTypeId() != null) {
-      type = eventTypeFacade.find(params.getEventTypeId());
+    if (params.getEventTypeIdArray() != null) {
+      for (BigInteger id : params.getEventTypeIdArray()) {
+        if (id != null) {
+          EventType type = eventTypeFacade.find(id);
+          selectedTypeList.add(type);
+        }
+      }
     }
 
     List<EventType> eventTypeList = eventTypeFacade.filterList(null);
@@ -98,7 +100,12 @@ public class CategoryDowntimeReport extends HttpServlet {
 
       downtimeList =
           downtimeFacade.findByPeriodAndType(
-              params.getStart(), params.getEnd(), type, params.getBeamTransport(), false, null);
+              params.getStart(),
+              params.getEnd(),
+              selectedTypeList,
+              params.getBeamTransport(),
+              false,
+              null);
 
       double grandTotalDuration = 0.0;
       for (int i = 0; i < downtimeList.size(); i++) {
@@ -110,7 +117,12 @@ public class CategoryDowntimeReport extends HttpServlet {
 
       nonOverlappingCategoryDowntimeList =
           downtimeFacade.findByPeriodAndType(
-              params.getStart(), params.getEnd(), type, params.getBeamTransport(), true, null);
+              params.getStart(),
+              params.getEnd(),
+              selectedTypeList,
+              params.getBeamTransport(),
+              true,
+              null);
 
       grandTotalDuration = 0.0;
       for (int i = 0; i < nonOverlappingCategoryDowntimeList.size(); i++) {
@@ -121,7 +133,9 @@ public class CategoryDowntimeReport extends HttpServlet {
 
       nonOverlappingCategoryDowntimeHours = grandTotalDuration * 24;
 
-      if (params.getEventTypeId() != null && params.getEventTypeId().intValue() == 1) {
+      if (params.getEventTypeIdArray() != null
+          && params.getEventTypeIdArray().length == 1
+          && params.getEventTypeIdArray()[0].intValue() == 1) {
         beamSummary = accHourService.reportTotals(params.getStart(), params.getEnd());
 
         programHours = (beamSummary.calculateProgramSeconds() / 3600.0);
@@ -132,7 +146,7 @@ public class CategoryDowntimeReport extends HttpServlet {
         FilterSelectionMessage.getDateRangeReportMessage(
             params.getStart(),
             params.getEnd(),
-            type,
+            selectedTypeList,
             null,
             null,
             null,
@@ -145,7 +159,6 @@ public class CategoryDowntimeReport extends HttpServlet {
     request.setAttribute("programHours", programHours);
     request.setAttribute("tripAwareProgramHours", tripAwareProgramHours);
     request.setAttribute("fsdSummary", fsdSummary);
-    request.setAttribute("type", type);
     request.setAttribute("start", params.getStart());
     request.setAttribute("end", params.getEnd());
     request.setAttribute("eventTypeList", eventTypeList);

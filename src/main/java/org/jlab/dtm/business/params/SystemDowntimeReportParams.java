@@ -6,7 +6,7 @@ import java.util.Date;
 public class SystemDowntimeReportParams {
   private Date start;
   private Date end;
-  BigInteger eventTypeId;
+  BigInteger[] eventTypeIdArray;
   Boolean beamTransport;
   BigInteger categoryId;
   String chart;
@@ -29,12 +29,12 @@ public class SystemDowntimeReportParams {
     this.end = end;
   }
 
-  public BigInteger getEventTypeId() {
-    return eventTypeId;
+  public BigInteger[] getEventTypeIdArray() {
+    return eventTypeIdArray;
   }
 
-  public void setEventTypeId(BigInteger eventTypeId) {
-    this.eventTypeId = eventTypeId;
+  public void setEventTypeIdArray(BigInteger[] eventTypeIdArray) {
+    this.eventTypeIdArray = eventTypeIdArray;
   }
 
   public Boolean getBeamTransport() {
