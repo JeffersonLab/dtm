@@ -158,8 +158,8 @@
                                 <tr>
                                     <th>Incident Count: </th>
                                     <td><fmt:formatNumber value="${incidentCount}" pattern="#,##0"/></td>
-                                </tr>    
-                                <c:if test="${type.eventTypeId eq 1}">
+                                </tr>
+                                <c:if test="${fn:length(paramValues.type) eq 1 and param.type eq 1}">
                                     <tr>
                                         <th>Accelerator Program Time (Hours): </th>
                                             <c:url var="url" value="/reports/beam-time-summary" context="/btm">
@@ -182,7 +182,7 @@
                                         <th class="selected-column downtime">Downtime (Hours) <span class="sort-desc" title="Descending">▼</span></th>
                                         <th class="count">Number of Incidents <span class="sort-desc" title="Descending">▼</span></th>
                                         <th class="mttr">Mean Time to Recover (Hours) <span class="sort-desc" title="Descending">▼</span></th>
-                                            <c:if test="${type.eventTypeId eq 1}">
+                                            <c:if test="${fn:length(paramValues.type) eq 1 and param.type eq 1}">
                                             <th class="uptime">Uptime (Hours) <span class="sort-desc" title="Descending">▼</span></th>
                                             <th class="mtbf">Mean Time between Failures (Hours) <span class="sort-desc" title="Descending">▼</span></th>
                                             <th class="failure">Hourly Failure Rate <span class="sort-desc" title="Descending">▼</span></th>
@@ -198,7 +198,9 @@
                                                 <c:url var="url" value="/reports/incident-downtime">
                                                     <c:param name="start" value="${param.start eq null ? sevenDaysAgoFmt : param.start}"/>
                                                     <c:param name="end" value="${param.end eq null ? todayFmt : param.end}"/>
-                                                    <c:param name="type" value="${param.type eq null ? '1' : param.type}"/>
+                                                    <c:forEach items="${paramValues.type}" var="type">
+                                                        <c:param name="type" value="${type}"/>
+                                                    </c:forEach>
                                                     <c:param name="transport" value="${param.transport eq null ? 'N' : param.transport}"/>
                                                     <c:param name="system" value="${param.system eq null ? '' : param.system}"/>
                                                     <c:param name="component" value="${downtime.name}"/>
@@ -211,7 +213,7 @@
                                             <td class="downtime right-aligned"><fmt:formatNumber value="${downtime.duration * 24}" pattern="#,##0.0"/></td>
                                             <td class="count right-aligned"><fmt:formatNumber value="${downtime.incidentCount}" pattern="#,##0"/></td>
                                             <td class="mttr right-aligned"><fmt:formatNumber value="${downtime.duration / downtime.incidentCount * 24}" pattern="#,##0.0"/></td>
-                                            <c:if test="${type.eventTypeId eq 1}">
+                                            <c:if test="${fn:length(paramValues.type) eq 1 and param.type eq 1}">
                                                 <c:set var="uptime" value="${programHours - (downtime.duration * 24)}"/>
                                                 <c:set var="uptime" value="${uptime < 0 ? 0 : uptime}"/>
                                                 <td class="uptime right-aligned"><fmt:formatNumber value="${uptime}" pattern="#,##0.0"/></td>

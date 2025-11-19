@@ -280,7 +280,9 @@
                                 <form id="shift-log-form" method="get" action="${pageContext.request.contextPath}/shiftlog/incident-list.html">
                                     <input type="hidden" name="start" value="${startFmt}"/>
                                     <input type="hidden" name="end" value="${endFmt}"/>
-                                    <input type="hidden" name="type" value="${fn:escapeXml(param.type)}"/>
+                                    <c:forEach items="${paramValues.type}" var="type">
+                                        <input type="hidden" name="type" value="${fn:escapeXml(type)}"/>
+                                    </c:forEach>
                                     <input type="hidden" name="system" value="${fn:escapeXml(param.system)}"/>
                                     <input type="hidden" name="component" value="${fn:escapeXml(param.component)}"/>
                                     <input type="hidden" name="transport" value="${fn:escapeXml(param.transport)}"/>
@@ -289,7 +291,9 @@
                                 <form id="excel-form" method="get" action="${pageContext.request.contextPath}/excel/incident-list.xlsx">
                                     <input type="hidden" name="start" value="${startFmt}"/>
                                     <input type="hidden" name="end" value="${endFmt}"/>
-                                    <input type="hidden" name="type" value="${fn:escapeXml(param.type)}"/>
+                                    <c:forEach items="${paramValues.type}" var="type">
+                                        <input type="hidden" name="type" value="${fn:escapeXml(type)}"/>
+                                    </c:forEach>
                                     <input type="hidden" name="system" value="${fn:escapeXml(param.system)}"/>
                                     <input type="hidden" name="component" value="${fn:escapeXml(param.component)}"/>
                                     <input type="hidden" name="transport" value="${fn:escapeXml(param.transport)}"/>
