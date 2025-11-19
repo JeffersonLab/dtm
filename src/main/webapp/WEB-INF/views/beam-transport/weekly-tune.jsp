@@ -179,7 +179,9 @@
         <form id="excel-form" method="get" action="${pageContext.request.contextPath}/excel/tune-incident-list.xlsx">
             <input type="hidden" name="start" value="${startFmt}"/>
             <input type="hidden" name="end" value="${endFmt}"/>
-            <input type="hidden" name="type" value="1"/>
+            <c:forEach items="${paramValues.type}" var="type">
+                <input type="hidden" name="type" value="${fn:escapeXml(type)}"/>
+            </c:forEach>
             <input type="hidden" name="component" value=""/>
             <button id="excel" type="submit" style="display: none;">Excel</button>
         </form>            
