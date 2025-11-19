@@ -132,7 +132,7 @@ public final class FilterSelectionMessage {
               + selectedTypeList.stream()
                   .map(EventType::getAbbreviation)
                   .collect(Collectors.joining(","))
-              + "\"";
+              + "\" ";
     }
 
     String packedQualifier = "";
