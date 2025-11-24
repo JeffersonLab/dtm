@@ -551,6 +551,28 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
     boolean wasPreviouslyClosed = incident.getTimeUp() != null;
 
+    List<Event> eventList =
+        eventFacade.findEventListWithIncidents(
+            timeDown.before(event.getTimeDown()) ? timeDown : event.getTimeDown(),
+            event.getTimeUp() == null ? new Date() : event.getTimeUp(),
+            event.getEventType().getEventTypeId());
+
+    List<Event> differentEventList = new ArrayList<>();
+
+    for (Event e : eventList) {
+      if (!e.getEventId().equals(event.getEventId())) {
+        differentEventList.add(e);
+      }
+    }
+
+    if (!differentEventList.isEmpty()) {
+      throw new UserFriendlyException(
+          "Incident modification results in event type "
+              + event.getEventType().getAbbreviation()
+              + " time period collision with existing event named: "
+              + eventList.get(0).getTitle());
+    }
+
     validateAndPopulateIncident(
         incident,
         title,
@@ -652,6 +674,28 @@ public class IncidentFacade extends AbstractFacade<Incident> {
         event);
 
     event.setTitle(eventTitle);
+
+    List<Event> eventList =
+        eventFacade.findEventListWithIncidents(
+            timeDown.before(event.getTimeDown()) ? timeDown : event.getTimeDown(),
+            event.getTimeUp() == null ? new Date() : event.getTimeUp(),
+            event.getEventType().getEventTypeId());
+
+    List<Event> differentEventList = new ArrayList<>();
+
+    for (Event e : eventList) {
+      if (!e.getEventId().equals(event.getEventId())) {
+        differentEventList.add(e);
+      }
+    }
+
+    if (!differentEventList.isEmpty()) {
+      throw new UserFriendlyException(
+          "Incident modification results in event type "
+              + event.getEventType().getAbbreviation()
+              + " time period collision with existing event named: "
+              + eventList.get(0).getTitle());
+    }
 
     em.flush();
 

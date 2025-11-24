@@ -199,6 +199,28 @@ public class EventFacade extends AbstractFacade<Event> {
 
     List<Incident> closedIncidents = new ArrayList<Incident>();
 
+    List<Event> eventList =
+        this.findEventListWithIncidents(
+            event.getTimeDown(),
+            timeUp == null ? new Date() : timeUp,
+            event.getEventType().getEventTypeId());
+
+    List<Event> differentEventList = new ArrayList<>();
+
+    for (Event e : eventList) {
+      if (!e.getEventId().equals(event.getEventId())) {
+        differentEventList.add(e);
+      }
+    }
+
+    if (!differentEventList.isEmpty()) {
+      throw new UserFriendlyException(
+          "Event modification results in event of type "
+              + event.getEventType().getAbbreviation()
+              + " time period collision with existing event named: "
+              + eventList.get(0).getTitle());
+    }
+
     if (timeUp == null) { // Reopen or keep open
       Event openEvent = findOpenEvent(event.getEventType().getEventTypeId());
 
