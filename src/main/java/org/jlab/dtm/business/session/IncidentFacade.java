@@ -408,7 +408,8 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       throw new UserFriendlyException(
           "An event of type "
               + type.getName()
-              + " is already open (cannot add another open event of same type)");
+              + " is already open (cannot add another open event of same type).  The existing event name: "
+              + event.getTitle());
     }
 
     /* we must ensure that an incident has a timeUp if the event is closed*/
@@ -418,6 +419,18 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
     if (eventTimeUp != null && timeUp != null && timeUp.after(eventTimeUp)) {
       throw new UserFriendlyException("Incident time up can not come after event time up");
+    }
+
+    List<Event> eventList =
+        eventFacade.findEventListWithIncidents(
+            timeDown, eventTimeUp == null ? new Date() : eventTimeUp, type.getEventTypeId());
+
+    if (!eventList.isEmpty()) {
+      throw new UserFriendlyException(
+          "Existing event of type "
+              + type.getAbbreviation()
+              + " found in same time period named: "
+              + eventList.get(0).getTitle());
     }
 
     // Enforce restrictions on closed events.  Operators must work with open events if they wish to
