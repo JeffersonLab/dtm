@@ -210,7 +210,9 @@ public class EventFacade extends AbstractFacade<Event> {
       throw new UserFriendlyException(
           "Event modification results in event of type "
               + type.getAbbreviation()
-              + " time period collision with existing event named: "
+              + " time period collision with existing event "
+              + eventList.get(0).getEventId()
+              + " named: "
               + eventList.get(0).getTitle());
     }
 

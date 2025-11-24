@@ -427,9 +427,11 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
     if (!eventList.isEmpty()) {
       throw new UserFriendlyException(
-          "Existing event of type "
+          "Event addition results in type "
               + type.getAbbreviation()
-              + " found in same time period named: "
+              + " time period collision with existing event "
+              + eventList.get(0).getEventId()
+              + " named: "
               + eventList.get(0).getTitle());
     }
 
@@ -569,7 +571,9 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       throw new UserFriendlyException(
           "Incident modification results in event type "
               + event.getEventType().getAbbreviation()
-              + " time period collision with existing event named: "
+              + " time period collision with existing event "
+              + eventList.get(0).getEventId()
+              + " named: "
               + eventList.get(0).getTitle());
     }
 
@@ -693,7 +697,9 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       throw new UserFriendlyException(
           "Incident modification results in event type "
               + event.getEventType().getAbbreviation()
-              + " time period collision with existing event named: "
+              + " time period collision with existing event "
+              + eventList.get(0).getEventId()
+              + " named: "
               + eventList.get(0).getTitle());
     }
 
