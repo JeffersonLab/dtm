@@ -194,6 +194,28 @@ public class EventFacade extends AbstractFacade<Event> {
       throw new InternalException("EventType with ID " + eventTypeId + " not found");
     }
 
+    List<Event> eventList =
+        this.findEventListWithIncidents(
+            event.getTimeDown(), timeUp == null ? new Date() : timeUp, type.getEventTypeId());
+
+    List<Event> differentEventList = new ArrayList<>();
+
+    for (Event e : eventList) {
+      if (!e.getEventId().equals(event.getEventId())) {
+        differentEventList.add(e);
+      }
+    }
+
+    if (!differentEventList.isEmpty()) {
+      throw new UserFriendlyException(
+          "Event modification results in event of type "
+              + type.getAbbreviation()
+              + " time period collision with existing event "
+              + eventList.get(0).getEventId()
+              + " named: "
+              + eventList.get(0).getTitle());
+    }
+
     event.setTitle(title);
     event.setEventType(type);
 
