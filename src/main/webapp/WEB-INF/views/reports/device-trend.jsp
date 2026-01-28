@@ -7,17 +7,19 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> 
 <jsp:useBean id="now" class="java.util.Date"/>
 <c:set var="title" value="Faulted FSD Device Trend <EXPERIMENTAL>"/>
+<c:set var="smoothnessCdn" value="${settings.is('SMOOTHNESS_CDN_ENABLED')}"/>
+<c:set var="smoothnessServer" value="${settings.get('SMOOTHNESS_SERVER')}"/>
 <t:reports-page title="${title}">  
     <jsp:attribute name="stylesheets">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/trend-report.css"/>
     </jsp:attribute>
     <jsp:attribute name="scripts">
         <c:choose>
-            <c:when test="${'CDN' eq resourceLocation}">
-                <script src="//${env['CDN_SERVER']}/jquery-plugins/flot/0.8.3/jquery.flot.min.js"></script>
-                <script src="//${env['CDN_SERVER']}/jquery-plugins/flot/0.8.3/jquery.flot.stack.min.js"></script>
-                <script src="//${env['CDN_SERVER']}/jquery-plugins/flot/0.8.3/jquery.flot.time.min.js"></script>
-                <script src="//${env['CDN_SERVER']}/jquery-plugins/flot/0.8.3/jquery.flot.resize.min.js"></script>
+            <c:when test="${smoothnessCdn}">
+                <script src="//${smoothnessServer}/jquery-plugins/flot/0.8.3/jquery.flot.min.js"></script>
+                <script src="//${smoothnessServer}/jquery-plugins/flot/0.8.3/jquery.flot.stack.min.js"></script>
+                <script src="//${smoothnessServer}/jquery-plugins/flot/0.8.3/jquery.flot.time.min.js"></script>
+                <script src="//${smoothnessServer}/jquery-plugins/flot/0.8.3/jquery.flot.resize.min.js"></script>
             </c:when>
             <c:otherwise><!-- LOCAL -->
                 <script src="${pageContext.request.contextPath}/resources/jquery-plugins/flot/0.8.3/jquery.flot.min.js"></script>

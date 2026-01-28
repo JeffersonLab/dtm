@@ -7,11 +7,13 @@
 <jsp:useBean id="categoryList" scope="request" type="java.util.List"/>
 <jsp:useBean id="typeList" scope="request" type="java.util.List"/>
 <c:set var="title" value="Categories"/>
+<c:set var="smoothnessCdn" value="${settings.is('SMOOTHNESS_CDN_ENABLED')}"/>
+<c:set var="smoothnessServer" value="${settings.get('SMOOTHNESS_SERVER')}"/>
 <s:setup-page title="${title}">
     <jsp:attribute name="stylesheets">
         <c:choose>
-            <c:when test="${'CDN' eq resourceLocation}">
-                <link rel="stylesheet" type="text/css" href="${cdnContextPath}/jquery-plugins/jstree/3.3.8/themes/classic/style.min.css"/>
+            <c:when test="${smoothnessCdn}">
+                <link rel="stylesheet" type="text/css" href="//${smoothnessServer}/jquery-plugins/jstree/3.3.8/themes/classic/style.min.css"/>
             </c:when>
             <c:otherwise><!-- LOCAL -->
                 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/jstree/3.3.8/themes/classic/style.min.css"/>
@@ -56,8 +58,8 @@
     </jsp:attribute>
     <jsp:attribute name="scripts">
         <c:choose>
-            <c:when test="${'CDN' eq resourceLocation}">
-                <script src="${cdnContextPath}/jquery-plugins/jstree/3.3.8/jstree.min.js"></script>
+            <c:when test="${smoothnessCdn}">
+                <script src="//${smoothnessServer}/jquery-plugins/jstree/3.3.8/jstree.min.js"></script>
             </c:when>
             <c:otherwise><!-- LOCAL -->
                 <script src="${pageContext.request.contextPath}/resources/jstree/3.3.8/jstree.min.js"></script>

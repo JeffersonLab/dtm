@@ -1,4 +1,7 @@
 <%@taglib prefix="c" uri="jakarta.tags.core"%>
+<c:set var="smoothnessCdn" value="${settings.is('SMOOTHNESS_CDN_ENABLED')}"/>
+<c:set var="smoothnessServer" value="${settings.get('SMOOTHNESS_SERVER')}"/>
+<c:set var="smoothnessVersion" value="${initParam.smoothnessVersion}"/>
 <!DOCTYPE html>
 <html>
     <head>        
@@ -6,12 +9,12 @@
         <title>DTM - Wall Display</title>
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/img/favicon.ico"/>
         <c:choose>
-            <c:when test="${'CDN' eq resourceLocation}">
-                <link rel="stylesheet" type="text/css" href="//${env['CDN_SERVER']}/jquery-ui/1.13.2/theme/smoothness/jquery-ui.min.css"/>
-                <link rel="stylesheet" type="text/css" href="//${env['CDN_SERVER']}/jlab-theme/smoothness/${env['CDN_VERSION']}/css/smoothness.min.css"/>
+            <c:when test="${smoothnessCdn}">
+                <link rel="stylesheet" type="text/css" href="//${smoothnessServer}/jquery-ui/1.14.1/theme/smoothness/jquery-ui.min.css"/>
+                <link rel="stylesheet" type="text/css" href="//${smoothnessServer}/jlab-theme/smoothness/${smoothnessVersion}/css/smoothness.min.css"/>
             </c:when>
             <c:otherwise><!-- LOCAL -->
-                <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/jquery-ui-1.13.2/jquery-ui.min.css"/>
+                <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/jquery-ui-1.14.1/jquery-ui.min.css"/>
                 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/css/smoothness.css"/>
             </c:otherwise>
         </c:choose>
@@ -37,13 +40,13 @@
             </footer>
         </div>
         <c:choose>
-            <c:when test="${'CDN' eq resourceLocation}">
-                <script src="//${env['CDN_SERVER']}/jquery/3.6.1.min.js"></script>
-                <script src="//${env['CDN_SERVER']}/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+            <c:when test="${smoothnessCdn}">
+                <script src="//${smoothnessServer}/jquery/3.7.1.min.js"></script>
+                <script src="//${smoothnessServer}/jquery-ui/1.14.1/jquery-ui.min.js"></script>
             </c:when>
             <c:otherwise><!-- LOCAL -->
-                <script src="${pageContext.request.contextPath}/resources/js/jquery-3.6.1.min.js"></script>
-                <script src="${pageContext.request.contextPath}/resources/jquery-ui-1.13.2/jquery-ui.min.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.min.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/jquery-ui-1.14.1/jquery-ui.min.js"></script>
             </c:otherwise>
         </c:choose>
         <script type="text/javascript" src="${pageContext.request.contextPath}/resources/v${initParam.releaseNumber}/js/wall.js"></script>
