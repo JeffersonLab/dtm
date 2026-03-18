@@ -19,6 +19,10 @@
             #no-experts-defined {
                 margin-top: 1em;
             }
+            .warning{
+                color: red;
+                margin-bottom: 1em;
+            }
         </style>
     </jsp:attribute>
     <jsp:attribute name="scripts"> 
@@ -53,6 +57,9 @@
                         </s:filter-flyout-widget>
                         <h2 class="page-header-title"><c:out value="${title}"/></h2>
                         <div class="message-box"><c:out value="${selectionMessage}"/></div>
+                        <c:if test="${selectedSystem.archived}">
+                            <div class="warning">This system is archived!</div>
+                        </c:if>
                         <s:editable-row-table-controls excludeEdit="true"/>
                         <table id="expert-table" class="data-table stripped-table uniselect-table editable-row-table">
                             <thead>
