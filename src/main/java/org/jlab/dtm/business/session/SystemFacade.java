@@ -193,7 +193,7 @@ public class SystemFacade extends AbstractFacade<SystemEntity> {
 
   @PermitAll
   public List<SystemEntity> findAllWithExpertList() {
-    List<SystemEntity> systemList = this.findAll(new OrderDirective("name"));
+    List<SystemEntity> systemList = this.findByComponentCategoryAndSystem(null, null, null, null);
 
     for (SystemEntity s : systemList) {
       JPAUtil.initialize(s.getSystemExpertList());
