@@ -1194,11 +1194,11 @@ $(function () {
         $("#accordion h3").click();
     }
 
-    $("#edit-expert-review-dialog").dialog("option", "height", 500);
+    $("#edit-expert-review-dialog").dialog("option", "height", 550);
     $("#edit-expert-review-dialog").dialog("option", "width", 550);
     $("#edit-expert-review-dialog").dialog("option", "resizable", false);
 
-    $("#review-dialog").dialog("option", "height", 500);
+    $("#review-dialog").dialog("option", "height", 550);
     $("#review-dialog").dialog("option", "width", 550);
     $("#review-dialog").dialog("option", "resizable", false);
 

@@ -469,3 +469,8 @@ th.incident-log-entries-header {
 .invisible {
     visibility: hidden;
 }
+
+#edit-expert-reviewers {
+    max-height: 75px;
+    overflow: auto;
+}
