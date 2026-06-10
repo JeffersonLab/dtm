@@ -13,7 +13,7 @@ services:
       - ./container/oracle/initdb.d:/container-entrypoint-initdb.d
 
   keycloak:
-    image: jeffersonlab/keycloak:2.2.0
+    image: jeffersonlab/keycloak:2.6.0
     hostname: keycloak
     container_name: keycloak
     ports:
@@ -25,8 +25,11 @@ services:
       KC_HTTP_RELATIVE_PATH: '/auth'
       KC_BOOTSTRAP_ADMIN_USERNAME: 'admin'
       KC_BOOTSTRAP_ADMIN_PASSWORD: 'admin'
+      KC_CLIENT_NAME: dtm
+      KC_RESOURCE: dtm
+      KC_REDIRECT_URIS: '["https://localhost:8443/dtm/*"]'
     volumes:
-      - ./container/keycloak/initdb.d:/container-entrypoint-initdb.d
+      - ./container/keycloak/initdb.d/03_customize.sh:/container-entrypoint-initdb.d/03_customize.sh
 
   puppet:
     image: slominskir/puppet-show:2.1.1
