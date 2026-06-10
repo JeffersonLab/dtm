@@ -87,12 +87,15 @@
             <url-pattern>/reports/activity-audit/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>dtm-reviewer</role-name>
+            <role-name>dtm-admin</role-name>
         </auth-constraint>
     </security-constraint>
     <login-config>
         <auth-method>OIDC</auth-method>
     </login-config>
+    <security-role>
+        <role-name>dtm-admin</role-name>
+    </security-role>
     <security-role>
         <role-name>dtm-reviewer</role-name>
     </security-role>
