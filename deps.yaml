@@ -32,7 +32,7 @@ services:
       - ./container/keycloak/initdb.d/03_customize.sh:/container-entrypoint-initdb.d/03_customize.sh
 
   puppet:
-    image: slominskir/puppet-show:2.1.1
+    image: jeffersonlab/puppet-show:3.0.2
     hostname: puppet
     container_name: puppet
     ports:
