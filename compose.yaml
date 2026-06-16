@@ -3,25 +3,29 @@ services:
     extends:
       file: deps.yaml
       service: oracle
+    container_name: dtm-oracle
 
   keycloak:
     extends:
       file: deps.yaml
       service: keycloak
+    container_name: dtm-keycloak
 
   puppet:
     extends:
       file: deps.yaml
       service: puppet
+    container_name: dtm-puppet
 
   mailhog:
     extends:
       file: deps.yaml
       service: mailhog
+    container_name: dtm-mailhog
 
   dtm:
     hostname: dtm
-    container_name: dtm
+    container_name: dtm-dev
     ports:
       - "8443:8443"
       - "8080:8080"

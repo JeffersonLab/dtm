@@ -1,0 +1,30 @@
+name: dtm-devcontainers
+services:
+  oracle:
+    extends:
+      file: ../compose.yaml
+      service: oracle
+    container_name: dtm-oracle-devc
+
+  keycloak:
+    extends:
+      file: ../compose.yaml
+      service: keycloak
+    container_name: dtm-keycloak-devc
+
+  mailhog:
+    extends:
+      file: ../compose.yaml
+      service: mailhog
+    container_name: dtm-mailhog-devc
+
+  puppet:
+    extends:
+      file: ../compose.yaml
+      service: puppet
+    container_name: dtm-puppet-devc
+
+  dev:
+    image: jeffersonlab/dtm:latest
+    hostname: dev
+    container_name: dtm-dev-devc

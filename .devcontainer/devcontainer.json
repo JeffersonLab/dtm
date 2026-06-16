@@ -1,0 +1,49 @@
+{
+  "dockerComposeFile": "dev.yaml",
+  "service": "dev",
+  "workspaceFolder": "/home/dev/dtm",
+  "runServices": [
+    "dev",
+    "oracle",
+    "keycloak",
+    "mailhog",
+    "puppet"
+  ],
+  "remoteUser": "dev",
+  "customizations": {
+    "jetbrains": {
+      "backend": "IntelliJ"
+    },
+    "vscode": {
+      "extensions": ["vscjava.vscode-java-pack","redhat.vscode-server-connector"],
+      "settings": {
+        "server-connector.server.parameters": {
+          "args.override.boolean": "false",
+          "args.program.override.string": "-mp \"/opt/wildfly/current/modules\" org.jboss.as.standalone -b localhost --server-config=standalone.xml",
+          "args.vm.override.string": "\"-Dprogram.name=rsp:WildFly 27+\" -Xms64m -Xmx512m -Dorg.jboss.resolver.warning=true -Djava.net.preferIPv4Stack=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true \"-Dorg.jboss.boot.log.file=/opt/wildfly/current/standalone/log/boot.log\" \"-Dlogging.configuration=file:/opt/wildfly/current/standalone/configuration/logging.properties\" \"-Djboss.home.dir=/opt/wildfly/current\" \"-Djboss.server.base.dir=/opt/wildfly/current/standalone\" -Dorg.jboss.logmanager.nocolor=true -Djboss.bind.address.management=localhost --add-exports=java.desktop/sun.awt=ALL-UNNAMED --add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED --add-exports=java.naming/com.sun.jndi.url.ldap=ALL-UNNAMED --add-exports=java.naming/com.sun.jndi.url.ldaps=ALL-UNNAMED --add-exports=jdk.naming.dns/com.sun.jndi.dns=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.security=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.management/javax.management=ALL-UNNAMED --add-opens=java.naming/javax.naming=ALL-UNNAMED -Djboss.http.port=\"8080\"",
+          "id": "WildFly 27+",
+          "id-set": "true",
+          "jboss.server.host": "localhost",
+          "jboss.server.port": "8080",
+          "org.jboss.tools.rsp.server.typeId": "org.jboss.ide.eclipse.as.wildfly.270",
+          "server.autopublish.enabled": "true",
+          "server.autopublish.inactivity.limit": "1000",
+          "server.base.dir": "standalone",
+          "server.home.dir": "/opt/wildfly/current",
+          "server.timeout.shutdown": "120000",
+          "server.timeout.startup": "120000",
+          "wildfly.publish.restart.pattern": "\\.class$|\\.jar$",
+          "wildfly.server.config.file": "standalone.xml",
+          "wildfly.server.deploy.directory": "",
+          "deployables": {
+            "/workspaces/dtm/build/libs/dtm.war": {
+              "label": "/workspaces/dtm/build/libs/dtm.war",
+              "path": "/workspaces/dtm/build/libs/dtm.war",
+              "options": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}
