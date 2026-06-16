@@ -1,6 +1,5 @@
 ARG BUILD_IMAGE=gradle:9-jdk21
-ARG RUN_IMAGE=jeffersonlab/wildfly:2.2.0
-ARG CUSTOM_CRT_URL=http://pki.jlab.org/JLabCA.crt
+ARG RUN_IMAGE=jeffersonlab/wildfly:3.0.1
 
 ################## Stage 0
 FROM ${BUILD_IMAGE} AS builder
@@ -26,6 +25,31 @@ RUN /server-setup.sh /app-setup.env wildfly_start_and_wait \
      && /server-setup.sh /app-setup.env config_email \
      && /server-setup.sh /app-setup.env wildfly_reload \
      && /server-setup.sh /app-setup.env wildfly_stop \
-     && rm -rf /opt/jboss/wildfly/standalone/configuration/standalone_xml_history \
-USER jboss:jboss
-COPY --from=builder /app/build/libs/* /opt/jboss/wildfly/standalone/deployments
+     && rm -rf /opt/wildfly/current/standalone/configuration/standalone_xml_history \
+USER dev
+COPY --from=builder /app/build/libs/* /opt/wildfly/current/standalone/deployments
+
+ENV TZ='America/New_York'
+
+# Used by app runtime smoothness weblib User Directory Cache
+ENV KEYCLOAK_FRONTEND_SERVER_URL='http://localhost:8081/auth'
+ENV KEYCLOAK_BACKEND_SERVER_URL='http://keycloak:8080/auth'
+ENV KEYCLOAK_REALM='test-realm'
+ENV KEYCLOAK_RESOURCE='dtm'
+ENV KEYCLOAK_SECRET='yHi6W2raPmLvPXoxqMA7VWbLAA2WN0eB'
+
+# Used by container-entrypoint.sh
+ENV ORACLE_DATASOURCE='dtm'
+ENV ORACLE_SERVER='oracle:1521'
+ENV ORACLE_USER='DTM_OWNER'
+ENV ORACLE_PASS='password'
+ENV ORACLE_SERVICE='xepdb1'
+
+# Used by app for path building
+ENV PUPPET_SHOW_SERVER_URL='http://puppet:3000'
+ENV BACKEND_SERVER_URL='http://dtm:8080'
+ENV FRONTEND_SERVER_URL='https://localhost:8443'
+
+# App specific (prob should be moved to DB Settings table)
+ENV LOGBOOK_SERVER_URL='https://logbooks.jlab.org'
+ENV RAR_DIR='/tmp'
