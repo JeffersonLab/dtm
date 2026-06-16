@@ -10,6 +10,7 @@
     "puppet"
   ],
   "remoteUser": "dev",
+  "updateRemoteUserUID": false,
   "customizations": {
     "jetbrains": {
       "backend": "IntelliJ"
