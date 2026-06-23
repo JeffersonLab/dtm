@@ -47,3 +47,7 @@ KC_ROLE_NAME=${KC_RESOURCE}-user
 assign_role
 KC_ROLE_NAME=testlead
 assign_role
+
+KC_USERNAME=jdoe
+KC_ROLE_NAME=${KC_RESOURCE}-reviewer
+assign_role
