@@ -229,17 +229,7 @@ public class EventFacade extends AbstractFacade<Event> {
             "An event of type " + event.getEventType().getName() + " is already open");
       }
 
-      // if(event.getTimeUp() != null) { // The event is being re-opened
-      // }
       validateEventTimeUp(event, new Date());
-
-      // Clear reviewed by field of all incidents as not supposed to be able to review incidents in
-      // an open event
-      for (Incident incident : event.getIncidentList()) {
-        if (incident.getReviewedUsername() != null) {
-          incident.setReviewedUsername(null);
-        }
-      }
 
       event.setTimeUp(timeUp);
 

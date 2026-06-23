@@ -190,12 +190,6 @@ public class IncidentFacade extends AbstractFacade<Incident> {
       if (!reviewer) {
         throw new UserFriendlyException("You must be a reviewer to set the reviewed by field");
       }
-
-      if (!incident.getEvent().isClosed()) {
-        throw new UserFriendlyException(
-            "You cannot review an incident belonging to an open event (Reviewed By field must be empty)");
-      } // NOTE: if you re-open an event we clear all reviewed by fields of sibling incidents
-      // automatically
     }
 
     if (incident.getExpertAcknowledged() == null) {
