@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
-
 import org.jlab.dtm.business.session.CategoryFacade;
 import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.Category;
@@ -23,8 +22,7 @@ import org.jlab.smoothness.presentation.util.ParamConverter;
     name = "ExpertReport",
     urlPatterns = {"/reports/expert"})
 public class ExpertReport extends HttpServlet {
-  @EJB
-  CategoryFacade categoryFacade;
+  @EJB CategoryFacade categoryFacade;
   @EJB SystemFacade systemFacade;
 
   /**
@@ -52,7 +50,7 @@ public class ExpertReport extends HttpServlet {
 
     String selectionMessage = "All Experts";
 
-    if(selectedCategory != null) {
+    if (selectedCategory != null) {
       selectionMessage = "Category \"" + selectedCategory.getName() + "\"";
     }
 
