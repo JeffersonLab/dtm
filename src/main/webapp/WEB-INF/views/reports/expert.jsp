@@ -12,7 +12,35 @@
     </jsp:attribute>        
     <jsp:body>
         <section>
-            <h2><c:out value="${title}"/></h2>
+            <s:filter-flyout-widget>
+                <form class="filter-form" method="get" action="expert">
+                    <div id="filter-form-panel">
+                        <fieldset>
+                            <legend>Taxonomy</legend>
+                            <ul class="key-value-list">
+                                <li>
+                                    <div class="li-key">
+                                        <label for="category">Category</label>
+                                    </div>
+                                    <div class="li-value">
+                                        <select id="category" name="category">
+                                            <option value=""> </option>
+                                            <c:forEach items="${categoryList}" var="category">
+                                                <option value="${category.categoryId}" ${category.categoryId eq param.category ? 'selected="selected"' : ''}><c:out value="${category.name}"/></option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </li>
+                            </ul>
+                        </fieldset>
+                    </div>
+                    <input class="filter-form-submit-button" type="submit" value="Apply"/>
+                </form>
+            </s:filter-flyout-widget>
+            <h2 class="page-header-title"><c:out value="${title}"/></h2>
+            <div class="message-box">
+                <c:out value="${selectionMessage}"/>
+            </div>
             <div>                  
                 <c:forEach items="${systemList}" var="system">
                     <h3><c:out value="${system.name}"/></h3>
