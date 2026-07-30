@@ -63,7 +63,18 @@
                                         <option value="table"${param.chart eq 'table' ? ' selected="selected"' : ''}>Table</option>
                                     </select>
                                 </div>
-                            </li> 
+                            </li>
+                            <li>
+                                <div class="li-key">
+                                    <label for="zeroDowntime">Zero Downtime</label>
+                                </div>
+                                <div class="li-value">
+                                    <select id="zeroDowntime" name="zeroDowntime">
+                                        <option value="show"${param.zeroDowntime eq 'show' ? ' selected="selected"' : ''}>Show</option>
+                                        <option value="hide"${param.zeroDowntime eq 'hide' ? ' selected="selected"' : ''}>Hide</option>
+                                    </select>
+                                </div>
+                            </li>
                         </ul>
                     </fieldset>
                     <input class="filter-form-submit-button" type="submit" value="Apply"/>

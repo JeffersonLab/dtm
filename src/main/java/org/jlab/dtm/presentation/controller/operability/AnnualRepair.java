@@ -11,14 +11,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.jlab.dtm.business.service.AnnualRepairReportService;
+import org.jlab.dtm.business.session.CategoryFacade;
 import org.jlab.dtm.business.session.CcAccHourService;
+import org.jlab.dtm.persistence.entity.Category;
 import org.jlab.dtm.persistence.model.AnnualRepairReportRecord;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.business.util.TimeUtil;
@@ -33,6 +30,7 @@ import org.jlab.smoothness.presentation.util.ServletUtil;
 public class AnnualRepair extends HttpServlet {
 
   @EJB CcAccHourService accHourService;
+  @EJB CategoryFacade categoryFacade;
 
   /**
    * Handles the HTTP <code>GET</code> method.
@@ -53,6 +51,8 @@ public class AnnualRepair extends HttpServlet {
     } catch (ParseException e) {
       throw new ServletException("Unable to parse date", e);
     }
+
+    String zeroDowntime = request.getParameter("zeroDowntime");
 
     Calendar c = Calendar.getInstance();
     // Date now = c.getTime();
@@ -99,6 +99,31 @@ public class AnnualRepair extends HttpServlet {
       try {
         AnnualRepairReportService reportService = new AnnualRepairReportService();
         recordList = reportService.find(start, end);
+
+        // Add in any categories (groups) that are missing as zero valued to explicitly celebrate
+        // they're zero
+        if ("hide".equals(zeroDowntime)) {
+          // Do nothing (if there was downtime in category, and it rounds down to zero percent, so
+          // be it)
+          // We could forcibly hide downtime that rounds to zero, but we don't right now.
+        } else { // show: forcibly show all categories, even if zero downtime
+          Date lastMonthStart = TimeUtil.startOfMonth(end, Calendar.getInstance());
+
+          List<Category> allAlphaCategoryList = categoryFacade.findAlphaCategoryList();
+          Set<String> representedCategorySet = new HashSet<>();
+          for (AnnualRepairReportRecord record : recordList) {
+            representedCategorySet.add(record.getCategory());
+          }
+
+          for (Category cat : allAlphaCategoryList) {
+            if (!representedCategorySet.contains(cat.getName())) {
+              AnnualRepairReportRecord record =
+                  new AnnualRepairReportRecord(
+                      cat.getName(), cat.getCategoryId(), lastMonthStart, 0);
+              recordList.add(record);
+            }
+          }
+        }
       } catch (SQLException e) {
         throw new ServletException("Unable to query report database", e);
       }
