@@ -45,7 +45,7 @@
                 <form class="filter-form" method="get" action="joule">
                     <fieldset>
                         <legend>Time</legend>
-                        <s:date-range required="${true}" datetime="${true}" sevenAmOffset="{true}"/>
+                        <s:date-range required="${true}" datetime="${true}" sevenAmOffset="${true}"/>
                     </fieldset>
                     <fieldset>
                         <legend>Chart</legend>
