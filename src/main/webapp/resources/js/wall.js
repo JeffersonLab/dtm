@@ -1,6 +1,5 @@
 var jlab = jlab || {};
 
-jlab.eventTypes = ['', 'ACC', 'HLA', 'HLB', 'HLC', 'HLD'];
 jlab.triCharMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -75,7 +74,7 @@ jlab.refreshEvents = function() {
                     }
                 }
 
-                $("#event-list").append('<li class="ui-accordion-header ui-helper-reset ui-corner-top ui-state-default ui-corner-bottom"><div class="event-type">' + jlab.eventTypes[this.event_type_id] + '</div><div class="event-title">' + this.title + incidentIndicator + '</div><div class="event-down">' + fmtDate + '</div><div class="event-duration"><div class="event-duration-panel ' + escalationClass + '">' + fmtDuration + '</div></div></li>');
+                $("#event-list").append('<li class="ui-accordion-header ui-helper-reset ui-corner-top ui-state-default ui-corner-bottom"><div class="event-type">' + this.event_type_abbreviation + '</div><div class="event-title">' + this.title + incidentIndicator + '</div><div class="event-down">' + fmtDate + '</div><div class="event-duration"><div class="event-duration-panel ' + escalationClass + '">' + fmtDuration + '</div></div></li>');
             });
             $("#event-block").append("</ul>");
         } else {

@@ -79,6 +79,8 @@ public class Events extends HttpServlet {
               "duration", DtmFunctions.millisToHumanReadable(event.getElapsedMillis(), false));
           evtBld.add("escalation", escalationService.getEscalationLevel(event));
           evtBld.add("event_type_id", event.getEventType().getEventTypeId());
+          String abbreviation = event.getEventType().getAbbreviation();
+          evtBld.add("event_type_abbreviation", abbreviation == null ? "" : abbreviation);
           evtBld.add("time_down", formatter.format(event.getTimeDown()));
           evtBld.add(
               "time_up", event.getTimeUp() == null ? "" : formatter.format(event.getTimeUp()));
