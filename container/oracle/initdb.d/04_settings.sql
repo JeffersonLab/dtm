@@ -25,7 +25,7 @@ insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('NOTIFI
 -- OPTIONAL: Help Page
 insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('HELP_CONTENT_CONTACT', 'John Doe (jdoe)', 'STRING', 'Content Contact for help page', 'HELP', 1);
 insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('HELP_TECHNICAL_CONTACT', 'John Doe (jdoe)', 'STRING', 'Technical Contact for help page', 'HELP', 2);
-insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('HELP_DOC_CSV', 'https://github.com/JeffersonLab/dtm|Home', 'CSV', 'CSV of documentation items where each item is a URL and a Label separated with the pipe symbol', 'HELP', 3);
+insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT) values ('HELP_DOC_CSV', 'https://github.com/JeffersonLab/dtm/blob/main/docs/user-guide/README.md|User Guide,https://github.com/JeffersonLab/dtm|Home', 'CSV', 'CSV of documentation items where each item is a URL and a Label separated with the pipe symbol', 'HELP', 3);
 
 -- OPTIONAL: Email
 insert into SETTING (KEY, VALUE, TYPE, DESCRIPTION, TAG, WEIGHT, CHANGE_ACTION_JNDI) values ('EMAIL_ENABLED', 'N', 'BOOLEAN', 'Email integration enabled?', 'EMAIL', 0, 'java:global/dtm/ScheduledEmailer');
