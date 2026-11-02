@@ -48,10 +48,10 @@ and `IP_READ_URL_PATTERN` always need a redeploy.
 | `HELP_DOC_CSV` | The Help tab's documentation links: `URL\|Label` items separated by commas (neither can contain a comma). |
 | `ADMIN_ROLE_NAME` | The role whose members are listed on the Help tab and get the feedback form's emails. |
 | `EMAIL_ENABLED` | Turns on the daily expert emails and the Help tab's feedback emails. |
-| `EMAIL_TESTING_ENABLED` | Sends emails to the members of the `testlead` role instead, for testing. If that role has no members, expert emails still go to the experts. |
+| `EMAIL_TESTING_ENABLED` | Sends emails to the members of the `testlead` role instead, for testing. If no member of that role has an email address, expert emails are not sent. |
 | `EMAIL_EXPERT_CC_LIST` | Addresses copied on every expert email. |
-| `EMAIL_SENDER_ADDRESS` | The sender of feedback emails. Expert emails always come from `dtm@jlab.org` and go to `<username>@jlab.org`. |
-| `EMAIL_DOMAIN_NAME` | Not used. |
+| `EMAIL_SENDER_ADDRESS` | The sender of feedback emails, and the sender and from address of expert emails. |
+| `EMAIL_DOMAIN_NAME` | Added to an expert's username to make the address their emails go to, such as `@jlab.org`. |
 | `LOGBOOK_ENABLED`, `LOGBOOK_LIST` | Logbook entries for incidents, and the logbooks they go to; see [Logbook entries](recording-downtime.md#logbook-entries). |
 | `SRM_DOWNGRADE_ENABLED`, `SRM_DOWNGRADE_URL` | The **Downgrade Readiness** link on incidents of systems that SRM tracks. |
 | `NPES_SCHEDULE_ENABLED`, `NPES_SCHEDULE_URL` | The NPES schedule's budgeted hours on the Joule report. Off, they are 0. |
