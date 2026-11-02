@@ -111,8 +111,7 @@ Operators can't edit, add to or delete:
 - an incident that has been OPR reviewed, or an event that contains one;
 - an event that was closed more than 10 hours ago.
 
-The buttons are hidden in those cases; ask a reviewer. (The error message for the second case
-says "over 4 hours", but the limit is 10 hours.)
+The buttons are hidden in those cases; ask a reviewer.
 
 ## Hall events
 

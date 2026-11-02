@@ -436,12 +436,11 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     boolean reviewer = "REVIEWER".equals(auditCtx.getExtra("EffectiveRole"));
     // boolean reviewer = context.isCallerInRole("REVIEWER");
 
-    final long MILLIS_PER_10_HOURS = 36000000;
-
     if (!reviewer
         && eventTimeUp != null
-        && eventTimeUp.getTime() < ((new Date()).getTime() - MILLIS_PER_10_HOURS)) {
-      throw new UserFriendlyException("Only a reviewer can add events over 10 hours old");
+        && eventTimeUp.getTime() < ((new Date()).getTime() - Event.OPERATOR_EDIT_MILLIS)) {
+      throw new UserFriendlyException(
+          "Only a reviewer can add events over " + Event.OPERATOR_EDIT_HOURS + " hours old");
     }
 
     event = new Event();

@@ -41,6 +41,11 @@ public class Event implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  /** Hours after an event closes during which an operator (not a reviewer) may still change it. */
+  public static final int OPERATOR_EDIT_HOURS = 10;
+
+  public static final long OPERATOR_EDIT_MILLIS = OPERATOR_EDIT_HOURS * 60L * 60L * 1000L;
+
   @Id
   @SequenceGenerator(name = "EventId", sequenceName = "EVENT_ID", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EventId")
@@ -201,8 +206,7 @@ public class Event implements Serializable {
   }
 
   public boolean closedLongAgo() {
-    final long MILLIS_PER_10_HOURS = 36000000;
-    return (timeUp != null && timeUp.getTime() < (new Date()).getTime() - MILLIS_PER_10_HOURS);
+    return (timeUp != null && timeUp.getTime() < (new Date()).getTime() - OPERATOR_EDIT_MILLIS);
   }
 
   public Date getMaxIncidentTimeUp() {
