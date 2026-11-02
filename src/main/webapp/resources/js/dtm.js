@@ -299,10 +299,16 @@ $(function () {
         }
     };
 
+    /*The datepicker triggers focus on the field it is open for whenever typing completes a date,
+      and on focus the mask clears an incomplete value, so keep those focus events from the mask*/
     $(".date-field").datetimepicker({
         dateFormat: 'dd-M-yy',
         controlType: myControl,
         timeFormat: 'HH:mm'
+    }).on("focus", function (e) {
+        if (e.isTrigger && document.activeElement === this) {
+            e.stopImmediatePropagation();
+        }
     }).mask("99-aaa-9999 99:99", {placeholder: " "});
 
     /*Now Button Support 2 of 2*/
