@@ -15,7 +15,7 @@ availability figures, which come from BTM.
   and **Clear** links.
 - **Date Range** offers presets (fiscal years and their quarters, calendar years, months, weeks
   starting Wednesday, crew chief shifts, the past 3, 7 or 10 days, yesterday, today) and
-  **Custom...**. On most reports the days start at 7:00. Custom start dates are inclusive and end
+  **Custom...**. The presets' days start at 7:00. Custom start dates are inclusive and end
   dates exclusive. Most reports default to the past 7 days.
 - The address bar always holds the report's full settings, so you can bookmark it or send the
   link. Many reports share your last choices during your session, so a date range you pick on
