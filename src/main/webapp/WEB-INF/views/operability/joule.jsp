@@ -58,6 +58,7 @@
                                     <select id="type" name="type">
                                         <option value="table"${'table' eq param.type ? ' selected="selected"' : ''}>Table</option>
                                         <option value="point"${'point' eq param.type ? ' selected="selected"' : ''}>Reliability Trend</option>
+                                        <option value="accumulated"${'accumulated' eq param.type ? ' selected="selected"' : ''}>Reliability with Accumulated Average</option>
                                         <option value="line"${'line' eq param.type ? ' selected="selected"' : ''}>Delivered vs Budgeted Progress</option>
                                         <option value="bar"${'bar' eq param.type ? ' selected="selected"' : ''}>Delivered vs Failures History</option>
                                     </select>
