@@ -49,6 +49,8 @@ public class MonthlyNoteFacade extends AbstractFacade<MonthlyNote> {
   @PermitAll
   public void save(Date month, String note, Float machineGoal, Float tripGoal, Float eventGoal)
       throws UserFriendlyException {
+    checkReviewer();
+
     MonthlyNote mn = find(month);
 
     if (mn == null) {

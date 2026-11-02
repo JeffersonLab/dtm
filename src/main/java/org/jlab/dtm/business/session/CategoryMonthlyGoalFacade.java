@@ -58,6 +58,8 @@ public class CategoryMonthlyGoalFacade extends AbstractFacade<CategoryMonthlyGoa
 
   @PermitAll
   public void save(Date month, Long[] catIdArray, Float[] catGoalArray) {
+    checkReviewer();
+
     Map<Long, CategoryMonthlyGoal> goalMap = findMap(month);
 
     if (catIdArray != null && catGoalArray != null) {

@@ -144,6 +144,17 @@ public abstract class AbstractFacade<T> {
   }
 
   @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+  protected void checkReviewer() {
+    checkAuthenticated();
+
+    AuditContext auditCtx = AuditContext.getCurrentInstance();
+
+    if (!"REVIEWER".equals(auditCtx.getExtra("EffectiveRole"))) {
+      throw new EJBAccessException("Only a reviewer may perform the requested operation");
+    }
+  }
+
+  @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
   protected void checkCanEditIncidentOrEvent(boolean reviewed, Event event) {
 
     AuditContext auditCtx = AuditContext.getCurrentInstance();
