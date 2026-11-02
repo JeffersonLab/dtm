@@ -8,9 +8,9 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.*;
 import jakarta.mail.MessagingException;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
@@ -159,34 +159,79 @@ public class ScheduledEmailer implements SettingChangeAction {
       String html = doc.outerHtml();
 
       String subject = "DTM - SME " + username + " Action Needed";
-      String toCsv = username + "@jlab.org";
 
       boolean emailTesting = SettingsService.cachedSettings.is("EMAIL_TESTING_ENABLED");
+
+      List<User> testers = null;
 
       if (emailTesting) {
         LOGGER.log(Level.INFO, "EMAIL_TESTING_ENABLED=Y (using testlead role)");
         UserAuthorizationService auth = UserAuthorizationService.getInstance();
-        List<User> userList = auth.getUsersInRole("testlead");
+        testers = auth.getUsersInRole("testlead");
+      }
 
-        Set<String> addressList = new HashSet<>();
+      String toCsv =
+          expertRecipientCsv(
+              username,
+              emailTesting,
+              SettingsService.cachedSettings.get("EMAIL_DOMAIN_NAME"),
+              testers);
 
-        if (userList != null) {
-          for (User user : userList) {
-            addressList.add(user.getEmail());
-          }
-        }
+      String sender = SettingsService.cachedSettings.get("EMAIL_SENDER_ADDRESS");
 
-        if (!addressList.isEmpty()) {
-          toCsv = IOUtil.toCsv(addressList.toArray());
-        }
+      if (sender == null || sender.isBlank()) {
+        throw new UserFriendlyException("No sender configured (EMAIL_SENDER_ADDRESS)");
       }
 
       EmailService emailService = new EmailService();
 
       String ccCsv = SettingsService.cachedSettings.get("EMAIL_EXPERT_CC_LIST");
 
-      emailService.sendEmail("dtm@jlab.org", "dtm@jlab.org", toCsv, ccCsv, subject, html, true);
+      emailService.sendEmail(sender, sender, toCsv, ccCsv, subject, html, true);
     }
+  }
+
+  /**
+   * Returns the addresses an expert email goes to: in testing mode, those of the testlead role's
+   * members, and otherwise the expert's username followed by the email domain.
+   *
+   * @param username The expert's username
+   * @param emailTesting Whether EMAIL_TESTING_ENABLED is on
+   * @param domain The EMAIL_DOMAIN_NAME setting, such as "@jlab.org"
+   * @param testers The testlead role's members, or null when not testing
+   * @return The recipients as CSV
+   * @throws UserFriendlyException If the domain is not set, or if testing and no tester has an
+   *     address, so that the email is not sent at all
+   */
+  static String expertRecipientCsv(
+      String username, boolean emailTesting, String domain, List<User> testers)
+      throws UserFriendlyException {
+    if (emailTesting) {
+      Set<String> addressList = new TreeSet<>();
+
+      if (testers != null) {
+        for (User user : testers) {
+          String email = user.getEmail();
+
+          if (email != null && !email.isBlank()) {
+            addressList.add(email.trim());
+          }
+        }
+      }
+
+      if (addressList.isEmpty()) {
+        throw new UserFriendlyException(
+            "Email testing is on and no member of the testlead role has an email address");
+      }
+
+      return IOUtil.toCsv(addressList.toArray());
+    }
+
+    if (domain == null || domain.isBlank()) {
+      throw new UserFriendlyException("No email domain configured (EMAIL_DOMAIN_NAME)");
+    }
+
+    return username + domain.trim();
   }
 
   @PermitAll

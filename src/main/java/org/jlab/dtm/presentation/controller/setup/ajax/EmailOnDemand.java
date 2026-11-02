@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jlab.dtm.business.session.ScheduledEmailer;
 import org.jlab.smoothness.business.exception.UserFriendlyException;
+import org.jlab.smoothness.business.util.IOUtil;
 
 /**
  * @author ryans
@@ -48,7 +49,7 @@ public class EmailOnDemand extends HttpServlet {
       LOGGER.log(Level.WARNING, "Not authorized", e);
       errorReason = "Not authorized";
     } catch (UserFriendlyException e) {
-      errorReason = "Invalid User Input";
+      errorReason = e.getUserMessage();
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, "Unable to send email", e);
       errorReason = "Internal Error";
@@ -66,7 +67,7 @@ public class EmailOnDemand extends HttpServlet {
       xml =
           "<response><span class=\"status\">Error</span><span "
               + "class=\"reason\">"
-              + errorReason
+              + IOUtil.escapeXml(errorReason)
               + "</span></response>";
     }
 
