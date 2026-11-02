@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.*;
 import java.math.BigInteger;
+import java.util.Locale;
+import java.util.Set;
 import org.jlab.dtm.business.session.IncidentFacade;
 import org.jlab.dtm.persistence.entity.Incident;
 import org.jlab.smoothness.presentation.util.ParamConverter;
@@ -19,11 +21,16 @@ import org.jlab.smoothness.presentation.util.ParamConverter;
 @WebServlet(
     name = "RARUpload",
     urlPatterns = {"/ajax/rar-upload"})
-@MultipartConfig()
-// @MultipartConfig(fileSizeThreshold = 1024 * 1024, // 1 MB, then cache on disk
-//        maxFileSize = 1024 * 1024 * 10, // 10 MB
-//        maxRequestSize = 1024 * 1024 * 10) // 10 MB
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024, // 1 MB, then cache on disk
+    maxFileSize = RARUpload.MAX_FILE_BYTES,
+    maxRequestSize = RARUpload.MAX_FILE_BYTES + 1024 * 1024) // file plus form fields
 public class RARUpload extends HttpServlet {
+  static final long MAX_FILE_BYTES = 1024 * 1024 * 10; // 10 MB
+
+  /** The file types RARDownload knows how to serve. */
+  static final Set<String> ALLOWED_EXTENSIONS = Set.of(".pdf", ".docx", ".doc", ".txt");
+
   @EJB IncidentFacade incidentFacade;
 
   /**
@@ -39,11 +46,23 @@ public class RARUpload extends HttpServlet {
       throws ServletException, IOException {
 
     String error = null;
-    String dirPath = System.getenv("RAR_DIR");
+    int status = HttpServletResponse.SC_BAD_REQUEST;
+    String dirPath = getRarDir();
 
     // System.err.println("path: " + dirPath);
 
     try {
+      // Check before reading any of the multipart request
+      if (request.getRemoteUser() == null) {
+        status = HttpServletResponse.SC_UNAUTHORIZED;
+        throw new IllegalArgumentException("You must be logged in to upload a RAR");
+      }
+
+      try {
+        request.getParts(); // Parses the request, so a file over the size limit fails here
+      } catch (IllegalStateException e) {
+        throw new IllegalArgumentException("File must be no larger than 10 MB");
+      }
 
       if (dirPath == null) {
         throw new RuntimeException("Internal Server Configuration Error: RAR directory undefined");
@@ -79,8 +98,8 @@ public class RARUpload extends HttpServlet {
 
         String ext = getFileExtension(submittedFilename);
 
-        if (ext == null) {
-          throw new RuntimeException("File must have an extension");
+        if (ext == null || !ALLOWED_EXTENSIONS.contains(ext)) {
+          throw new IllegalArgumentException("File must be a PDF, Word (.docx, .doc) or text file");
         }
 
         String filename = incidentId + ext;
@@ -107,7 +126,8 @@ public class RARUpload extends HttpServlet {
     }
 
     if (error != null) {
-      response.setStatus(400);
+      response.setStatus(status);
+      response.setContentType("application/json");
 
       try (JsonGenerator gen = Json.createGenerator(response.getOutputStream())) {
         gen.writeStartObject();
@@ -117,9 +137,17 @@ public class RARUpload extends HttpServlet {
     }
   }
 
+  String getRarDir() {
+    return System.getenv("RAR_DIR");
+  }
+
   String getFileExtension(String name) {
+    if (name == null) {
+      return null;
+    }
+
     int i = name.lastIndexOf('.');
-    String ext = i > 0 ? "." + name.substring(i + 1) : null;
+    String ext = i > 0 ? "." + name.substring(i + 1).toLowerCase(Locale.ROOT) : null;
     return ext;
   }
 }

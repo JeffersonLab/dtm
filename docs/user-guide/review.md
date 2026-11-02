@@ -65,7 +65,7 @@ action level table above. Administrators can preview it, or send it to one perso
 3. Fill in what the incident's level needs:
    - **Acknowledged (Level Ⅰ)**: Yes, or **Reassign** if it was assigned to the wrong expert.
    - **Root Cause (Level Ⅱ)**: what caused the failure, up to 512 characters.
-   - **Repair Assessment Report [RAR] (Level Ⅲ+)**: choose the report file (PDF, up to 10 MB).
+   - **Repair Assessment Report [RAR] (Level Ⅲ+)**: choose the report file (PDF, Word or text, up to 10 MB).
      It uploads as soon as you choose it; uploading again replaces it.
 4. Select **Save**.
 

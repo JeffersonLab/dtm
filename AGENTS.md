@@ -18,9 +18,10 @@ project is, its settings, and how to set it up.
 - On every change, run `./gradlew build` (a few seconds). It compiles for Java 17, runs
   `spotlessCheck` (`./gradlew spotlessApply` formats) and builds `build/libs/dtm.war`. CI runs
   the same build.
-- There are no tests yet: `build` runs none. Where a change's risk warrants a test, add JUnit 5
-  unit tests in `src/test/java`, with the dependencies and `useJUnitPlatform()` in
-  `build.gradle`, and check that `./gradlew build` runs them.
+- `build` runs the JUnit 5 unit tests in `src/test/java` (with Mockito); there are only a few.
+  Where a change's risk warrants a test, add one there and check that `./gradlew build` runs it.
+  Facade tests set the effective role through a subclass of Smoothness's `AuditContext`, as in
+  `AbstractFacadeTest`.
 - Before opening a pull request, for a change to behavior or pages, rebuild and restart the app,
   since the container runs the image and not your working tree:
   `docker compose -f build.yaml up -d --build dtm`. Then check the change in a browser at

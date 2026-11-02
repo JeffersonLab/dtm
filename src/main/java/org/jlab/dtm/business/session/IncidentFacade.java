@@ -996,6 +996,8 @@ public class IncidentFacade extends AbstractFacade<Incident> {
 
   @PermitAll
   public void rarUploaded(BigInteger incidentId, String ext) {
+    checkAuthenticated();
+
     Incident incident = find(incidentId);
 
     if (incident != null) {

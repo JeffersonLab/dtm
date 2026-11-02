@@ -23,7 +23,8 @@ jlab.uploadRARFile = function(incidentId, form) {
 
     promise.fail(function(xhr, textStatus){
         window.console && console.log('Unable to upload file: Text Status: ' + textStatus + ', Ready State: ' + xhr.readyState + ', HTTP Status Code: ' + xhr.status);
-        alert('Unable to upload file: server did not handle request');
+        var reason = (xhr.responseJSON && xhr.responseJSON.error) || 'server did not handle request';
+        alert('Unable to upload file: ' + reason);
     });
 
     return promise;
