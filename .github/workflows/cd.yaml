@@ -2,6 +2,7 @@ name: CD
 
 on:
   push:
+    branches: [ main ]
     paths:
       - 'VERSION'
 
@@ -9,7 +10,7 @@ jobs:
   release:
     permissions:
       contents: write
-    uses: jeffersonlab/java-workflows/.github/workflows/gh-release.yaml@v2
+    uses: jeffersonlab/java-workflows/.github/workflows/gh-release.yaml@v3
     with:
       files: build/libs/dtm.war
     secrets: inherit
