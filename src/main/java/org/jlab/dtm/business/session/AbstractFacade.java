@@ -159,7 +159,9 @@ public abstract class AbstractFacade<T> {
 
       if (event.closedLongAgo()) {
         throw new EJBAccessException(
-            "Only a reviewer may modify events which have been closed for over 4 hours");
+            "Only a reviewer may modify events which have been closed for over "
+                + Event.OPERATOR_EDIT_HOURS
+                + " hours");
       }
     }
   }
