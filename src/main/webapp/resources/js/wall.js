@@ -74,7 +74,13 @@ jlab.refreshEvents = function() {
                     }
                 }
 
-                $("#event-list").append('<li class="ui-accordion-header ui-helper-reset ui-corner-top ui-state-default ui-corner-bottom"><div class="event-type">' + this.event_type_abbreviation + '</div><div class="event-title">' + this.title + incidentIndicator + '</div><div class="event-down">' + fmtDate + '</div><div class="event-duration"><div class="event-duration-panel ' + escalationClass + '">' + fmtDuration + '</div></div></li>');
+                /* Set the values as text so a title shows exactly as entered */
+                var $item = $('<li class="ui-accordion-header ui-helper-reset ui-corner-top ui-state-default ui-corner-bottom"><div class="event-type"></div><div class="event-title"></div><div class="event-down"></div><div class="event-duration"><div class="event-duration-panel"></div></div></li>');
+                $item.find(".event-type").text(this.event_type_abbreviation);
+                $item.find(".event-title").text(this.title).append(incidentIndicator);
+                $item.find(".event-down").text(fmtDate);
+                $item.find(".event-duration-panel").addClass(escalationClass).text(fmtDuration);
+                $("#event-list").append($item);
             });
             $("#event-block").append("</ul>");
         } else {
