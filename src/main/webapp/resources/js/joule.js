@@ -89,6 +89,104 @@ jlab.doPointChart = function() {
     jlab.addYAxisLabel("Reliability (%)");
 };
 
+jlab.getAccumulatedData = function(xAxisInfo) {
+    var data1 = [],
+        data2 = [],
+        data3 = [],
+        series1 = {label: xAxisInfo.binLabel + ' Reliability', color: 'rgb(68,114,196)', lines: {show: true}, points: {show: true, fill: true, fillColor: 'white'}, data: data1},
+        series2 = {label: 'Accumulated Average Reliability', color: 'rgb(112,173,71)', dashes: {show: true, lineWidth: 3, dashLength: [3, 5]}, data: data2},
+        series3 = {label: 'DOE Min', color: 'black', dashes: {show: true}, data: data3},
+        deliveredTotal = 0,
+        scheduledTotal = 0;
+
+    $("#source-table tbody tr").each(function(index, value){
+        var timestamp = $("td:first-child", value).attr("data-date-utc") * 1,
+            delivered = $("td:nth-child(5)", value).text().replace(/,/g, ''),
+            scheduled = $("td:nth-child(9)", value).text().replace(/,/g, ''),
+            reliability = $("td:last-child", value).text().replace(/%/g, '');
+
+        /*Bins with no scheduled time, such as future bins, have no reliability*/
+        if(reliability === '') {
+            return;
+        }
+
+        reliability = reliability * 1;
+
+        deliveredTotal = deliveredTotal + (delivered * 1);
+        scheduledTotal = scheduledTotal + (scheduled * 1);
+
+        data1.push([timestamp, reliability]);
+
+        /*Weighted by scheduled hours, so the last point matches the reliability of the whole range*/
+        data2.push([timestamp, scheduledTotal > 0 ? deliveredTotal / scheduledTotal * 100 : reliability]);
+    });
+
+    if(data1.length > 0) {
+        data3.push([xAxisInfo.minX, 80]);
+        data3.push([xAxisInfo.maxX, 80]);
+    }
+
+    /*Order controls stack order*/
+    return ds = [series3, series2, series1];
+};
+
+jlab.addValueLabels = function(plot, binData, accumulatedData) {
+    var $placeholder = plot.getPlaceholder();
+
+    $placeholder.find(".value-label").remove();
+
+    /*Label each bin above its point, or below when it falls under the accumulated average; skip when too crowded to read*/
+    $.each(plot.width() / binData.length >= 40 ? binData : [], function(index, point) {
+        var offset = plot.pointOffset({x: point[0], y: point[1]}),
+            below = point[1] < accumulatedData[index][1];
+
+        $('<div class="value-label bin-value-label"></div>')
+            .text(point[1].toFixed(1) + '%')
+            .css({left: offset.left, top: below ? offset.top + 8 : offset.top - 22})
+            .appendTo($placeholder);
+    });
+
+    if(accumulatedData.length > 0) {
+        var last = accumulatedData[accumulatedData.length - 1],
+            offset = plot.pointOffset({x: last[0], y: last[1]});
+
+        $('<div class="value-label accumulated-value-label"></div>')
+            .text(last[1].toFixed(1) + '%')
+            .css({left: offset.left + 8, top: offset.top - 8})
+            .appendTo($placeholder);
+    }
+};
+
+jlab.doAccumulatedChart = function() {
+    var xAxisInfo = jlab.getXAxisInfo(),
+        ds = jlab.getAccumulatedData(xAxisInfo),
+        options = jlab.defaultChartOptions,
+        binData = ds[2].data,
+        accumulatedData = ds[1].data;
+
+    options.legend.labelBoxBorderColor = 'transparent';
+    options.legend.noColumns = 3;
+    /*Room for the value labels above the highest and below the lowest point*/
+    options.yaxes[0].autoscaleMargin = 0.1;
+    /*Redraw labels whenever the plot is drawn, such as on resize*/
+    options.hooks = {draw: [function(plot) {
+        jlab.addValueLabels(plot, binData, accumulatedData);
+    }]};
+
+    /*Tick each bin start, skipping some when there are too many to fit*/
+    var step = Math.max(1, Math.ceil(binData.length / 12));
+    options.xaxis.ticks = $.grep($.map(binData, function(point) {
+        return point[0];
+    }), function(timestamp, index) {
+        return index % step === 0;
+    });
+    options.xaxis.timeformat = '%b %d';
+
+    jlab.doChart(ds, options, xAxisInfo);
+
+    jlab.addYAxisLabel("Reliability (%)", $(".chart-placeholder"));
+};
+
 jlab.getLineData = function(xAxisInfo) {
     var data1 = [],
         data2 = [],
@@ -271,6 +369,10 @@ $(function(){
         case 'point':
             jlab.doPointChart();
             $(".chart-placeholder").addClass("point-chart");
+            break;
+        case 'accumulated':
+            jlab.doAccumulatedChart();
+            $(".chart-placeholder").addClass("accumulated-chart");
             break;
         case 'line':
             jlab.doLineChart();

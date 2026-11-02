@@ -46,4 +46,40 @@
     background-position: center;
     background-size: 16px 4px;
     background-repeat: repeat-x;
+}.accumulated-chart .legend tr td:first-child > div > div {
+    border: 2px solid rgb(68,114,196) !important;
+    width: 16px !important;
+    height: 0 !important;
+    background-color: rgb(68,114,196);
+}
+.accumulated-chart .legend tr td:nth-child(3) > div > div {
+    border: none !important;
+    height: 5px !important;
+    width: 32px !important;
+    background-image: linear-gradient(to right, rgb(112,173,71) 40%, white 40%);
+    background-position: center;
+    background-size: 8px 4px;
+    background-repeat: repeat-x;
+}
+.accumulated-chart .legend tr td:nth-child(5) > div > div {
+    border: none !important;
+    height: 5px !important;
+    width: 32px !important;
+    background-image: linear-gradient(to right, black 50%, white 50%);
+    background-position: center;
+    background-size: 16px 4px;
+    background-repeat: repeat-x;
+}
+.value-label {
+    position: absolute;
+    white-space: nowrap;
+    font-size: 12px;
+}
+.bin-value-label {
+    transform: translateX(-50%);
+    color: rgb(68,114,196);
+}
+.accumulated-value-label {
+    font-weight: bold;
+    color: rgb(112,173,71);
 }
