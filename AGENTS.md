@@ -47,7 +47,7 @@ project is, its settings, and how to set it up.
   dependencies; don't bundle them in the war. The smoothness weblib must stay `implementation`,
   in the war (JeffersonLab/smoothness#4).
 
-<!-- BEGIN coding-agents shared rules 7.0.0 (generated: edit in acc/iac/docs/coding-agents) -->
+<!-- BEGIN coding-agents shared rules 7.2.0 (generated: edit in acc/iac/docs/coding-agents) -->
 
 ## Shared rules
 
@@ -95,6 +95,13 @@ the pull request's required checks.
 - Imperative summary line, then a body explaining what changed and why. Name the issue the
   change is for: `Fixes #<issue>`, or `Part of #<issue>` if some of it stays open; work you were
   asked to do needs no issue.
+- A closing verb (such as fix, close, resolve or implement, in any form) before an issue
+  reference closes that issue when the merge request merges or the commit reaches the default
+  branch, wherever it appears in a commit message or a merge request's description. Name the
+  issues a change closes only on their own `Fixes #<issue>` line, and mention any other without
+  such a verb before it: `the race in #6`, not `would fix #6`. After a merge, check that only the
+  intended issues closed, and reopen any other, saying why. An agent VM's commit hook and `glab`
+  wrapper warn about a closing verb elsewhere.
 - Trailers come last, in one paragraph with no blank line among them, since git reads trailers
   only from the last paragraph: the release trailers this file asks for, if any (such as
   `Changelog:`), then attribution. Every agent-written commit, including follow-ups and a
@@ -129,6 +136,11 @@ the pull request's required checks.
   that vendor, agent and model are not credited yet; routine edits need none. Keep all
   attribution at the end, and in a release merge request under its own heading after "Release
   notes".
+- Start every comment you post on an issue or merge request, replies and review threads
+  included, with a role line: your role in the session (planner, builder, reviewer, or the one
+  the person gave you) in bold, then the vendor, agent and model as in the `Prepared-by` footer,
+  such as `**Builder** · OpenAI Codex:GPT-6`. Every session on a project posts as the same bot,
+  so this line is what tells them apart.
 - After pushing, wait for your last commit's pipeline to finish before reporting the merge
   request ready: read a failed job's log and fix the cause, never skip or weaken a check, and
   report how it ended with its link, saying if it failed for a reason outside your change. On
