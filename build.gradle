@@ -7,7 +7,7 @@ plugins {
 description = 'Down time manager app'
 group = 'org.jlab'
 version = new File("${projectDir}/VERSION").text.trim()
-ext.smoothnessVersion = '5.0.2'
+ext.smoothnessVersion = '5.3.0'
 ext.releaseDate = new Date().format('MMM dd yyyy')
 
 tasks.withType(JavaCompile).configureEach {
