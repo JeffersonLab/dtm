@@ -379,6 +379,11 @@ $(function () {
                 application_id: 2
             };
 
+            /*Show only the first few matches of a search; the list button (%%) still lists all of a system's components*/
+            if (request.term !== '%%') {
+                params.max = 10;
+            }
+
             if(categoryId != null) {
                 params.category_id = categoryId;
             }
@@ -401,6 +406,10 @@ $(function () {
                             system_id: item.system_id
                         };
                     }));
+
+                    if (json.total_records > json.data.length) {
+                        $("#component").autocomplete("widget").append($("<li class=\"plus-more\">Plus " + jlab.integerWithCommas(json.total_records - json.data.length) + " more...</li>"));
+                    }
                 }
             });
         },
