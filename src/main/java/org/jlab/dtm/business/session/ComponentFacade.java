@@ -72,51 +72,12 @@ public class ComponentFacade extends AbstractFacade<Component> {
         && componentId == null) {
       count = 0L; // Return zero if no filter provided
     } else {
-
       CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
       CriteriaQuery<Long> cq = cb.createQuery(Long.class);
       Root<Component> root = cq.from(Component.class);
 
-      List<Predicate> filters = new ArrayList<>();
-
-      if (categoryIdArray != null && categoryIdArray.length > 0) {
-        Set<BigInteger> systemSet = new LinkedHashSet<>();
-        for (BigInteger categoryId : categoryIdArray) {
-          List<SystemEntity> systemList = systemFacade.fetchHierarchy(categoryId, archived);
-          for (SystemEntity entity : systemList) {
-            systemSet.add(entity.getSystemId());
-          }
-        }
-
-        if (!systemSet.isEmpty()) {
-          if (systemIdArray != null) {
-            systemSet.addAll(Arrays.asList(systemIdArray));
-          }
-
-          systemIdArray = systemSet.toArray(new BigInteger[] {});
-        }
-      }
-
-      if (systemIdArray != null && systemIdArray.length > 0) {
-        filters.add(root.get("system").in((Object[]) systemIdArray));
-      }
-      if (q != null && !q.isEmpty()) {
-        String searchString = q.toUpperCase();
-
-        // auto wild
-        searchString = "%" + searchString + "%";
-
-        filters.add(cb.like(cb.upper(root.get("name")), searchString));
-      }
-      if (componentId != null) {
-        filters.add(cb.equal(root.get("componentId"), componentId));
-      }
-
-      if (archived == null) {
-        filters.add(cb.equal(root.get("archived"), false));
-      } else if (Include.EXCLUSIVELY == archived) {
-        filters.add(cb.equal(root.get("archived"), true));
-      } // else Include.YES, which means don't filter at all
+      List<Predicate> filters =
+          getFilters(cb, root, categoryIdArray, systemIdArray, q, componentId, archived);
 
       if (!filters.isEmpty()) {
         cq.where(cb.and(filters.toArray(new Predicate[] {})));
@@ -155,48 +116,8 @@ public class ComponentFacade extends AbstractFacade<Component> {
       Root<Component> root = cq.from(Component.class);
       cq.select(root);
 
-      List<Predicate> filters = new ArrayList<>();
-
-      if (categoryIdArray != null && categoryIdArray.length > 0) {
-        Set<BigInteger> systemSet = new LinkedHashSet<>();
-        for (BigInteger categoryId : categoryIdArray) {
-          List<SystemEntity> systemList = systemFacade.fetchHierarchy(categoryId, archived);
-          for (SystemEntity entity : systemList) {
-            systemSet.add(entity.getSystemId());
-          }
-        }
-
-        if (!systemSet.isEmpty()) {
-          if (systemIdArray != null) {
-            systemSet.addAll(Arrays.asList(systemIdArray));
-          }
-
-          systemIdArray = systemSet.toArray(new BigInteger[] {});
-        }
-      }
-
-      if (systemIdArray != null && systemIdArray.length > 0) {
-        filters.add(root.get("system").get("systemId").in((Object[]) systemIdArray));
-      }
-      if (q != null && !q.isEmpty()) {
-        String searchString = q.toUpperCase();
-
-        // auto wild
-        searchString = "%" + searchString + "%";
-
-        Predicate p1 = cb.like(cb.upper(root.get("name")), searchString);
-
-        filters.add(p1);
-      }
-      if (componentId != null) {
-        filters.add(cb.equal(root.get("componentId"), componentId));
-      }
-
-      if (archived == null) {
-        filters.add(cb.equal(root.get("archived"), false));
-      } else if (Include.EXCLUSIVELY == archived) {
-        filters.add(cb.equal(root.get("archived"), true));
-      } // else Include.YES, which means don't filter at all
+      List<Predicate> filters =
+          getFilters(cb, root, categoryIdArray, systemIdArray, q, componentId, archived);
 
       if (!filters.isEmpty()) {
         cq.where(cb.and(filters.toArray(new Predicate[] {})));
@@ -221,5 +142,61 @@ public class ComponentFacade extends AbstractFacade<Component> {
     }
 
     return componentList;
+  }
+
+  /**
+   * Builds the filters that countMustFilter and findMustFilter share, so the count always matches
+   * the list it counts.
+   */
+  private List<Predicate> getFilters(
+      CriteriaBuilder cb,
+      Root<Component> root,
+      BigInteger[] categoryIdArray,
+      BigInteger[] systemIdArray,
+      String q,
+      BigInteger componentId,
+      Include archived) {
+    List<Predicate> filters = new ArrayList<>();
+
+    if (categoryIdArray != null && categoryIdArray.length > 0) {
+      Set<BigInteger> systemSet = new LinkedHashSet<>();
+      for (BigInteger categoryId : categoryIdArray) {
+        List<SystemEntity> systemList = systemFacade.fetchHierarchy(categoryId, archived);
+        for (SystemEntity entity : systemList) {
+          systemSet.add(entity.getSystemId());
+        }
+      }
+
+      if (!systemSet.isEmpty()) {
+        if (systemIdArray != null) {
+          systemSet.addAll(Arrays.asList(systemIdArray));
+        }
+
+        systemIdArray = systemSet.toArray(new BigInteger[] {});
+      }
+    }
+
+    if (systemIdArray != null && systemIdArray.length > 0) {
+      filters.add(root.get("system").get("systemId").in((Object[]) systemIdArray));
+    }
+    if (q != null && !q.isEmpty()) {
+      String searchString = q.toUpperCase();
+
+      // auto wild
+      searchString = "%" + searchString + "%";
+
+      filters.add(cb.like(cb.upper(root.get("name")), searchString));
+    }
+    if (componentId != null) {
+      filters.add(cb.equal(root.get("componentId"), componentId));
+    }
+
+    if (archived == null) {
+      filters.add(cb.equal(root.get("archived"), false));
+    } else if (Include.EXCLUSIVELY == archived) {
+      filters.add(cb.equal(root.get("archived"), true));
+    } // else Include.YES, which means don't filter at all
+
+    return filters;
   }
 }
