@@ -112,3 +112,7 @@ body .me-button {
 .filter-flyout-panel {
     width: 600px;
 }
+#rar-link .button-indicator {
+    display: inline-block;
+    vertical-align: middle;
+}
