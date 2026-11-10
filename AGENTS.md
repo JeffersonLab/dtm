@@ -10,11 +10,12 @@ project is, its settings, and how to set it up.
   and 5500), Keycloak (8081 and 9991), Puppet Show (3000), MailHog (1025 and 8025), and dtm built
   from the working tree (8080, 8443 and 9990), all by `build.yaml`:
   `docker compose -f build.yaml up -d --build` (about two minutes the first time, with the image
-  build and Oracle's setup). The ports and container names (`dtm-oracle`,
-  `dtm-dev`, ...) are fixed, so only one stack runs per VM, and other projects use some of the
-  same ports: check `ss -ltnp` and `docker ps` first, and if a port is taken, ask the person
-  you work with rather than stopping what holds it. `deps.yaml` alone names its containers
-  `oracle`, `keycloak`, ..., which other projects' `deps.yaml` use too; prefer `build.yaml`.
+  build and Oracle's setup). Compose names the containers after the worktree's directory, and
+  every host port has a `DTM_*_PORT` setting, listed in README's [Ports](README.md#ports)
+  section; other projects use the same defaults. Give each worktree free ports in its own
+  `.env` (ignored by git): check `ss -ltnp` and `docker ps` first, and never stop what holds a
+  port. The app's and Keycloak's login URLs follow `DTM_HTTPS_PORT` and `DTM_KEYCLOAK_PORT`.
+  Use the same directory, files and `.env` for tests and cleanup.
 - On every change, run `./gradlew build` (a few seconds). It compiles for Java 17, runs
   `spotlessCheck` (`./gradlew spotlessApply` formats) and builds `build/libs/dtm.war`. CI runs
   the same build.
@@ -25,7 +26,8 @@ project is, its settings, and how to set it up.
 - Before opening a pull request, for a change to behavior or pages, rebuild and restart the app,
   since the container runs the image and not your working tree:
   `docker compose -f build.yaml up -d --build dtm`. Then check the change in a browser at
-  `https://localhost:8443/dtm`, and look for errors in `docker compose -f build.yaml logs dtm`.
+  `https://localhost:<DTM_HTTPS_PORT>/dtm` (default 8443), and look for errors in
+  `docker compose -f build.yaml logs dtm`.
 - Test data: `container/oracle/initdb.d` builds the schema, default data and settings when the
   Oracle container is created. `docker compose -f build.yaml down -v` deletes it; the next `up`
   rebuilds it. Schema and settings changes go there; there are no migrations, so give the SQL

@@ -2,10 +2,9 @@ services:
   oracle:
     image: gvenzl/oracle-xe:21.3.0
     hostname: oracle
-    container_name: oracle
     ports:
-      - "1521:1521"
-      - "5500:5500"
+      - "127.0.0.1:${DTM_ORACLE_PORT:-1521}:1521"
+      - "127.0.0.1:${DTM_ORACLE_EM_PORT:-5500}:5500"
     environment:
       ORACLE_PASSWORD: testing
       TZ: 'America/New_York'
@@ -15,28 +14,26 @@ services:
   keycloak:
     image: jeffersonlab/keycloak:3
     hostname: keycloak
-    container_name: keycloak
     ports:
-      - "8081:8080"
-      - "9991:9990"
+      - "127.0.0.1:${DTM_KEYCLOAK_PORT:-8081}:8080"
+      - "127.0.0.1:${DTM_KEYCLOAK_MANAGEMENT_PORT:-9991}:9990"
     environment:
-      KC_FRONTEND_URL: 'http://localhost:8081/auth'
+      KC_FRONTEND_URL: 'http://localhost:${DTM_KEYCLOAK_PORT:-8081}/auth'
       KC_BACKEND_URL: 'http://keycloak:8080/auth'
       KC_HTTP_RELATIVE_PATH: '/auth'
       KC_BOOTSTRAP_ADMIN_USERNAME: 'admin'
       KC_BOOTSTRAP_ADMIN_PASSWORD: 'admin'
       KC_CLIENT_NAME: dtm
       KC_RESOURCE: dtm
-      KC_REDIRECT_URIS: '["https://localhost:8443/dtm/*"]'
+      KC_REDIRECT_URIS: '["https://localhost:${DTM_HTTPS_PORT:-8443}/dtm/*"]'
     volumes:
       - ./container/keycloak/initdb.d/03_customize.sh:/container-entrypoint-initdb.d/03_customize.sh
 
   puppet:
     image: jeffersonlab/puppet-show:3.0.2
     hostname: puppet
-    container_name: puppet
     ports:
-      - "3000:3000"
+      - "127.0.0.1:${DTM_PUPPET_PORT:-3000}:3000"
     privileged: true
     environment:
       TZ: 'America/New_York'
@@ -44,9 +41,8 @@ services:
   mailhog:
     image: mailhog/mailhog:v1.0.1
     hostname: mailhog
-    container_name: mailhog
     ports:
-      - "1025:1025"
-      - "8025:8025"
+      - "127.0.0.1:${DTM_SMTP_PORT:-1025}:1025"
+      - "127.0.0.1:${DTM_MAILHOG_PORT:-8025}:8025"
     environment:
       TZ: 'America/New_York'

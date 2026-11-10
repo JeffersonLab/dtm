@@ -3,30 +3,29 @@ services:
     extends:
       file: deps.yaml
       service: oracle
-    container_name: dtm-oracle
 
   keycloak:
     extends:
       file: deps.yaml
       service: keycloak
-    container_name: dtm-keycloak
 
   puppet:
     extends:
       file: deps.yaml
       service: puppet
-    container_name: dtm-puppet
 
   mailhog:
     extends:
       file: deps.yaml
       service: mailhog
-    container_name: dtm-mailhog
 
   dtm:
     hostname: dtm
-    container_name: dtm-dev
     ports:
-      - "8443:8443"
-      - "8080:8080"
-      - "9990:9990"
+      - "127.0.0.1:${DTM_HTTPS_PORT:-8443}:8443"
+      - "127.0.0.1:${DTM_HTTP_PORT:-8080}:8080"
+      - "127.0.0.1:${DTM_MANAGEMENT_PORT:-9990}:9990"
+    environment:
+      # The browser reaches Keycloak and the app on the host's ports
+      KEYCLOAK_FRONTEND_SERVER_URL: 'http://localhost:${DTM_KEYCLOAK_PORT:-8081}/auth'
+      FRONTEND_SERVER_URL: 'https://localhost:${DTM_HTTPS_PORT:-8443}'
