@@ -2,9 +2,20 @@ var jlab = jlab || {};
 jlab.rarLink = '/ajax/rar-download?incidentId=';
 jlab.uploadRARFile = function(incidentId, form) {
 
-    var data = new FormData(form);
+    /* Build the form data before disabling the file input: FormData skips disabled inputs */
+    var data = new FormData(form),
+        $form = $(form),
+        $fileInput = $form.find("input[type=file]"),
+        /* Save (or Done) reloads the page, which would cancel the upload */
+        $finishButtons = $form.closest(".dialog").find(".dialog-submit, .reload-button"),
+        $link = $("#rar-link"),
+        previousLink = $link.html();
 
     data.append("incidentId", incidentId);
+
+    $fileInput.prop("disabled", true);
+    $finishButtons.prop("disabled", true);
+    $link.html('<span class="button-indicator"></span> <span class="rar-upload-status">Uploading</span>');
 
     var promise = $.ajax({
         type: "POST",
@@ -13,18 +24,37 @@ jlab.uploadRARFile = function(incidentId, form) {
         data: data,
         processData: false,
         contentType: false,
-        cache: false
+        cache: false,
+        xhr: function() {
+            var xhr = $.ajaxSettings.xhr();
+
+            if (xhr.upload) {
+                xhr.upload.addEventListener("progress", function(e) {
+                    if (e.lengthComputable && e.total > 0) {
+                        $link.find(".rar-upload-status").text("Uploading " + Math.floor(e.loaded * 100 / e.total) + "%");
+                    }
+                });
+            }
+
+            return xhr;
+        }
     });
 
     promise.done(function(data){
-        $("#rar-link").empty();
-        $("#rar-link").append('<a href="' + String(jlab.contextPath + jlab.rarLink + incidentId).encodeXml() + '">RAR Document</a>');
+        $link.empty();
+        $link.append('<a href="' + String(jlab.contextPath + jlab.rarLink + incidentId).encodeXml() + '">RAR Document</a>');
     });
 
     promise.fail(function(xhr, textStatus){
+        $link.html(previousLink);
         window.console && console.log('Unable to upload file: Text Status: ' + textStatus + ', Ready State: ' + xhr.readyState + ', HTTP Status Code: ' + xhr.status);
         var reason = (xhr.responseJSON && xhr.responseJSON.error) || 'server did not handle request';
         alert('Unable to upload file: ' + reason);
+    });
+
+    promise.always(function(){
+        $fileInput.prop("disabled", false);
+        $finishButtons.prop("disabled", false);
     });
 
     return promise;
