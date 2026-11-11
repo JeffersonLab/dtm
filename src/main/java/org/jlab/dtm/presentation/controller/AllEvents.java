@@ -103,6 +103,7 @@ public class AllEvents extends HttpServlet {
     request.setAttribute("eventList", eventList);
     request.setAttribute("eventTypeList", eventTypeList);
     request.setAttribute("paginator", paginator);
+    request.setAttribute("max", params.getMax());
     request.setAttribute("selectionMessage", selectionMessage);
     request.setAttribute("groupList", groupList);
 

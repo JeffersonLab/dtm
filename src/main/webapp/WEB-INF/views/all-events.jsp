@@ -98,6 +98,7 @@
                     </fieldset>
                     <input type="hidden" name="qualified" value=""/>            
                     <input type="hidden" class="offset-input" name="offset" value="0"/>
+                    <input type="hidden" id="max-input" name="max" value="${max}"/>
                     <input class="filter-form-submit-button" type="submit" value="Apply"/>
                 </form> 
                 <div style="display: none;" id="incident-add-template"><div class="incident-id-wrap"><input type="number" id="incident-id" name="incidentId" value=""/><button class="remove-incident-id-button" type="button" title="Remove Incident ID">X</button></div></div>
@@ -119,6 +120,14 @@
                     <div class="event-controls">
                         <button class="previous-button" type="button" data-offset="${paginator.previousOffset}" value="Previous"${paginator.previous ? '' : ' disabled="disabled"'}>Previous</button>
                         <button class="next-button" type="button" data-offset="${paginator.nextOffset}" value="Next"${paginator.next ? '' : ' disabled="disabled"'}>Next</button>
+                        <div id="max-select-div" style="float: right;">
+                            <select id="max-select">
+                                <option ${max eq 10 ? ' selected="selected"' : ''}>10</option>
+                                <option ${max eq 25 ? ' selected="selected"' : ''}>25</option>
+                                <option ${max eq 100 ? ' selected="selected"' : ''}>100</option>
+                            </select>
+                            <label for="max-select">per page</label>
+                        </div>
                     </div>
                 </c:if>
             </div>                    
