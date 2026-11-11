@@ -29,10 +29,9 @@
                                     <label for="event-type">Type</label>
                                 </div>
                                 <div class="li-value">
-                                    <select id="event-type" name="type">
-                                        <option value=""> </option>
+                                    <select id="event-type" name="type" multiple="multiple">
                                         <c:forEach items="${eventTypeList}" var="eventType">
-                                            <option value="${eventType.eventTypeId}"${param.type eq eventType.eventTypeId ? ' selected="selected"' : ''}><c:out value="${dtm:formatType(eventType)}"/></option>
+                                            <option value="${eventType.eventTypeId}"${s:inArray(paramValues.type, eventType.eventTypeId.toString()) ? ' selected="selected"' : ''}><c:out value="${dtm:formatType(eventType)}"/></option>
                                         </c:forEach>
                                     </select>
                                 </div>

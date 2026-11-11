@@ -41,7 +41,7 @@ public class AllEventsUrlParamHandler implements UrlParamHandler<AllEventsParams
       throw new RuntimeException("Unable to parse date", e);
     }
 
-    BigInteger eventTypeId = ParamConverter.convertBigInteger(request, "type");
+    BigInteger[] eventTypeIdArray = ParamConverter.convertBigIntegerArray(request, "type");
     Boolean beamTransport = null;
 
     try {
@@ -65,7 +65,7 @@ public class AllEventsUrlParamHandler implements UrlParamHandler<AllEventsParams
 
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeId(eventTypeId);
+    params.setEventTypeIdArray(eventTypeIdArray);
     params.setBeamTransport(beamTransport);
     params.setEventId(eventId);
     params.setIncidentIdArray(incidentIdArray);
@@ -89,7 +89,9 @@ public class AllEventsUrlParamHandler implements UrlParamHandler<AllEventsParams
 
     session.setAttribute("allEventsStart[]", new Date[] {params.getStart()});
     session.setAttribute("allEventsEnd[]", new Date[] {params.getEnd()});
-    session.setAttribute("allEventsEventTypeId[]", new BigInteger[] {params.getEventTypeId()});
+    session.setAttribute(
+        "allEventsEventTypeId[]",
+        params.getEventTypeIdArray() == null ? new BigInteger[0] : params.getEventTypeIdArray());
     session.setAttribute("allEventsTransport[]", new Boolean[] {params.getBeamTransport()});
     session.setAttribute("allEventsEventId[]", new BigInteger[] {params.getEventId()});
     session.setAttribute(
@@ -130,7 +132,6 @@ public class AllEventsUrlParamHandler implements UrlParamHandler<AllEventsParams
 
     Date start = defaultValues.getStart();
     Date end = defaultValues.getEnd();
-    BigInteger eventTypeId = defaultValues.getEventTypeId();
     Boolean transport = defaultValues.getBeamTransport();
     BigInteger eventId = defaultValues.getEventId();
     String smeUsername = defaultValues.getSmeUsername();
@@ -145,8 +146,8 @@ public class AllEventsUrlParamHandler implements UrlParamHandler<AllEventsParams
       end = endArray[0];
     }
 
-    if (eventTypeIdArray != null && eventTypeIdArray.length > 0) {
-      eventTypeId = eventTypeIdArray[0];
+    if (eventTypeIdArray == null) {
+      eventTypeIdArray = defaultValues.getEventTypeIdArray();
     }
 
     if (transportArray != null && transportArray.length > 0) {
@@ -177,7 +178,7 @@ public class AllEventsUrlParamHandler implements UrlParamHandler<AllEventsParams
 
     params.setStart(start);
     params.setEnd(end);
-    params.setEventTypeId(eventTypeId);
+    params.setEventTypeIdArray(eventTypeIdArray);
     params.setBeamTransport(transport);
     params.setEventId(eventId);
     params.setIncidentIdArray(incidentIdArray);
@@ -197,12 +198,6 @@ public class AllEventsUrlParamHandler implements UrlParamHandler<AllEventsParams
   public String message(AllEventsParams params) {
     List<String> filters = new ArrayList<>();
 
-    EventType type = null;
-
-    if (params.getEventTypeId() != null) {
-      type = eventTypeFacade.find(params.getEventTypeId());
-    }
-
     if (params.getStart() != null && params.getEnd() != null) {
       filters.add(TimeUtil.formatSmartRangeSeparateTime(params.getStart(), params.getEnd()));
     } else if (params.getStart() != null) {
@@ -211,8 +206,23 @@ public class AllEventsUrlParamHandler implements UrlParamHandler<AllEventsParams
       filters.add("Before " + TimeUtil.formatSmartSingleTime(params.getEnd()));
     }
 
-    if (type != null) {
-      filters.add("Type \"" + type.getName() + "\"");
+    BigInteger[] eventTypeIdArray =
+        IOUtil.removeNullValues(params.getEventTypeIdArray(), BigInteger.class);
+
+    if (eventTypeIdArray != null && eventTypeIdArray.length > 0) {
+      List<String> typeNames = new ArrayList<>();
+
+      for (BigInteger id : eventTypeIdArray) {
+        EventType type = eventTypeFacade.find(id);
+
+        if (type != null) {
+          typeNames.add("\"" + type.getName() + "\"");
+        }
+      }
+
+      if (!typeNames.isEmpty()) {
+        filters.add("Type " + String.join(", ", typeNames));
+      }
     }
 
     if (params.getAcknowledgement() != null) {
@@ -272,7 +282,7 @@ public class AllEventsUrlParamHandler implements UrlParamHandler<AllEventsParams
 
     builder.add("start", IOUtil.nullOrFormat(params.getStart(), dateFormat));
     builder.add("end", IOUtil.nullOrFormat(params.getEnd(), dateFormat));
-    builder.add("type", IOUtil.nullOrString(params.getEventTypeId()));
+    builder.add("type", params.getEventTypeIdArray());
     builder.add("transport", IOUtil.nullOrBoolean(params.getBeamTransport()));
     builder.add("acknowledged", IOUtil.nullOrString(params.getAcknowledgement()));
     builder.add("eventId", IOUtil.nullOrString(params.getEventId()));
