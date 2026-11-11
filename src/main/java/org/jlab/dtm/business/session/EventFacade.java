@@ -355,8 +355,11 @@ public class EventFacade extends AbstractFacade<Event> {
           cb.greaterThanOrEqualTo(
               (cb.coalesce(event.get("timeUp"), new Date())), params.getStart()));
     }
-    if (params.getEventTypeId() != null) {
-      filters.add(cb.equal(event.get("eventType").get("eventTypeId"), params.getEventTypeId()));
+    BigInteger[] eventTypeIdArray =
+        IOUtil.removeNullValues(params.getEventTypeIdArray(), BigInteger.class);
+
+    if (eventTypeIdArray != null && eventTypeIdArray.length > 0) {
+      filters.add(event.get("eventType").get("eventTypeId").in(Arrays.asList(eventTypeIdArray)));
     }
     if (params.getEventId() != null) {
       filters.add(cb.equal(event.get("eventId"), params.getEventId()));

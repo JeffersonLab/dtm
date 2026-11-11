@@ -1146,7 +1146,7 @@ $(document).on("click", ".default-clear-panel", function () {
     $("#date-range").val('custom').change();
     $("#start").val('');
     $("#end").val('');
-    $("#event-type").val('');
+    $("#event-type").val(null).trigger('change');
     $("#transport").val('');
     $("#event-id").val('');
     $("form .incident-id-wrap").remove();
@@ -1165,6 +1165,10 @@ $(document).on("click", ".me-button", function () {
     $(this).prevAll(".username-autocomplete").first().val(username);
 });
 $(function () {
+
+    $("select#event-type[multiple]").select2({
+        width: 290
+    });
 
     $("#accordion")
             /*.addClass("ui-accordion ui-accordion-icons ui-widget ui-helper-reset")*/
