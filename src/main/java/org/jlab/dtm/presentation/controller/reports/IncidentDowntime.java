@@ -97,7 +97,6 @@ public class IncidentDowntime extends HttpServlet {
       periodDurationHours =
           (params.getEnd().getTime() - params.getStart().getTime()) / 1000.0 / 60.0 / 60.0;
 
-      params.setSortByDuration(true);
       incidentList = incidentReportService.filterList(params);
       totalRecords = incidentReportService.countFilterList(params);
 

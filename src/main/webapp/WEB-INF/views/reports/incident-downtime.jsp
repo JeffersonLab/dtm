@@ -29,6 +29,10 @@
                 return false;
             });
 
+            $(document).on("change", "#sort-select", function () {
+                $("#incident-downtime-filter-form").submit();
+            });
+
             $(function () {
                 $("#type").select2({
                 width: 360
@@ -55,7 +59,7 @@
                 </div>
             </div>            
             <s:filter-flyout-widget  requiredMessage="true" resetButton="true">
-                <form class="filter-form" method="get" action="incident-downtime">
+                <form id="incident-downtime-filter-form" class="filter-form" method="get" action="incident-downtime">
                     <fieldset>
                         <legend>Time</legend>
                         <s:date-range required="${true}" datetime="${true}" sevenAmOffset="${true}"/>
@@ -246,16 +250,23 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <h3>Incidents</h3>
+                            <c:set var="sortByTimeDown" value="${param.sort eq 'TIME_DOWN'}"/>
+                            <h3 id="incident-detail-header">Incidents</h3>
+                            <span id="sort-controls"><label for="sort-select">Sort: </label>
+                                <select form="incident-downtime-filter-form" id="sort-select" name="sort">
+                                    <option value="DURATION"${sortByTimeDown ? '' : ' selected="selected"'}>Downtime</option>
+                                    <option value="TIME_DOWN"${sortByTimeDown ? ' selected="selected"' : ''}>Time Down</option>
+                                </select>
+                            </span>
                             <table class="data-table stripped-table">
                                 <thead>
                                     <tr>
                                         <th>Type</th>
                                         <th>Title</th>
                                         <th>Summary</th>
-                                        <th>Downtime (Hours) <span title="Descending">▼</span></th>
-                                        <th>System</th>
-                                        <th>Component</th>
+                                        <th>Time Down<c:if test="${sortByTimeDown}"> <span title="Descending">▼</span></c:if></th>
+                                        <th>Downtime (Hours)<c:if test="${not sortByTimeDown}"> <span title="Descending">▼</span></c:if></th>
+                                        <th>System / Component</th>
                                         <th>Repaired By</th>
                                     </tr>
                                 </thead>
@@ -266,9 +277,14 @@
                                             <td><a href="${pageContext.request.contextPath}/incidents/${incident.incidentId}" title="Incident Detail"><c:out value="${incident.title}"/></a></td>
                                                 <fmt:formatNumber value="${incident.downtimeHours}" var="formattedUnbounded" pattern="#,##0.0"/>
                                             <td><c:out value="${incident.summary}"/></td>
+                                            <td class="time-down-cell"><fmt:formatDate value="${incident.timeDown}" pattern="${s:getFriendlyDateTimePattern()}"/></td>
                                             <td title="Not Bounded: ${formattedUnbounded}" class="right-aligned"><fmt:formatNumber value="${incident.downtimeHoursBounded}" pattern="#,##0.0"/></td>
-                                            <td><c:out value="${incident.systemName}"/></td>
-                                            <td><c:out value="${incident.componentName}"/></td>
+                                            <td>
+                                                <div><c:out value="${incident.systemName}"/></div>
+                                                <c:if test="${not empty incident.componentName}">
+                                                    <div class="component-name"><c:out value="${incident.componentName}"/></div>
+                                                </c:if>
+                                            </td>
                                             <td><c:out value="${incident.repairedByNameCsv}"/></td>
                                         </tr>
                                     </c:forEach>
