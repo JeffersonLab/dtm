@@ -60,7 +60,7 @@ and `IP_READ_URL_PATTERN` always need a redeploy.
 
 Server settings, such as where RAR files are stored (`RAR_DIR`), the logbook server and the
 bulletin board for escalations, are environment variables; see the
-[README](../../README.md#configure).
+[README](https://github.com/JeffersonLab/dtm#configure).
 
 ## Help tab
 

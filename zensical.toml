@@ -1,0 +1,56 @@
+# The user guide's website, built with Zensical (https://zensical.org) from the Markdown in
+# docs/user-guide, which stays readable on GitHub too. `uv run zensical serve` previews it, and
+# `uv run zensical build --strict` builds it into site/, as CI does. Each release publishes it to
+# GitHub Pages in a folder of its own (.github/workflows/cd.yaml).
+[project]
+site_name = "Downtime Manager User Guide"
+site_description = "How to record, review and report accelerator downtime with Downtime Manager (DTM)"
+repo_url = "https://github.com/JeffersonLab/dtm"
+repo_name = "JeffersonLab/dtm"
+edit_uri = "edit/main/docs/user-guide/"
+docs_dir = "docs/user-guide"
+site_dir = "site"
+# No site_url: each release is published in a folder of its own (v1.2.3/), so the pages link to
+# each other relatively.
+nav = [
+  { "Home" = "README.md" },
+  { "Concepts" = "concepts.md" },
+  { "Recording downtime" = "recording-downtime.md" },
+  { "Reviewing incidents" = "review.md" },
+  { "Trips" = "trips.md" },
+  { "Reports" = "reports.md" },
+  { "Administration" = "administration.md" },
+]
+
+[project.theme]
+language = "en"
+features = [
+  "content.action.edit",
+  "navigation.footer",
+  "navigation.top",
+  "search.highlight",
+]
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Switch to light mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to system preference"
+
+[project.markdown_extensions]
+admonition = {}
+attr_list = {}
+md_in_html = {}
+tables = {}
+toc.permalink = true
