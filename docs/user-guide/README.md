@@ -9,8 +9,9 @@ DTM also shows the Fast ShutDown (FSD) **trips** it gets from the FSD system.
 At JLab, DTM is at [ace.jlab.org/dtm](https://ace.jlab.org/dtm). You can view it without logging
 in; log in to make changes.
 
-This guide describes the version on the `main` branch, which may be newer than the one you are
-using: the Help tab shows yours.
+The [guide's website](https://jeffersonlab.github.io/dtm/) has a copy for each release; pick the
+version the Help tab shows. On GitHub, this guide describes the `main` branch, which may be newer
+than the version you are using.
 
 ## Contents
 
