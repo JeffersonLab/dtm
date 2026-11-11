@@ -1,5 +1,5 @@
 ARG BUILD_IMAGE=gradle:9-jdk21
-ARG RUN_IMAGE=jeffersonlab/wildfly:4.0.0
+ARG RUN_IMAGE=jeffersonlab/wildfly:4
 
 ################## Stage 0
 FROM ${BUILD_IMAGE} AS builder
