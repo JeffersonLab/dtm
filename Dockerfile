@@ -1,5 +1,5 @@
 ARG BUILD_IMAGE=gradle:9-jdk21
-ARG RUN_IMAGE=jeffersonlab/wildfly:3.1.1
+ARG RUN_IMAGE=jeffersonlab/wildfly:4.0.0
 
 ################## Stage 0
 FROM ${BUILD_IMAGE} AS builder
@@ -19,12 +19,8 @@ RUN cd /app && gradle build -x test --no-watch-fs $OPTIONAL_CERT_ARG
 FROM ${RUN_IMAGE} AS runner
 COPY --from=builder /app/container/app/app-setup.env /
 USER root
-RUN /server-setup.sh /app-setup.env wildfly_start_and_wait \
-     && /app-setup.sh /app-setup.env config_keycloak_client \
-     && /app-setup.sh /app-setup.env config_oracle_client \
-     && /server-setup.sh /app-setup.env config_email \
-     && /server-setup.sh /app-setup.env wildfly_reload \
-     && /server-setup.sh /app-setup.env wildfly_stop \
+RUN /wildfly-lib.sh -e /app-setup.env wildfly_start_and_wait config_keycloak_client config_oracle_client \
+       config_email wildfly_reload wildfly_stop \
      && rm -rf /opt/wildfly/current/standalone/configuration/standalone_xml_history \
 USER dev
 COPY --from=builder /app/build/libs/* /opt/wildfly/current/standalone/deployments
