@@ -3,4 +3,5 @@
 /build
 /dtm.iml
 /out
-/.vscode.env
+/.vscode
+.env
