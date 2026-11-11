@@ -18,6 +18,7 @@ import org.jlab.dtm.business.session.SystemFacade;
 import org.jlab.dtm.persistence.entity.EventType;
 import org.jlab.dtm.persistence.entity.SystemEntity;
 import org.jlab.dtm.persistence.entity.Workgroup;
+import org.jlab.dtm.persistence.enumeration.IncidentSortKey;
 import org.jlab.dtm.presentation.util.DtmParamConverter;
 import org.jlab.smoothness.business.util.IOUtil;
 import org.jlab.smoothness.business.util.TimeUtil;
@@ -87,6 +88,12 @@ public class IncidentDowntimeReportUrlParamHandler
     String maxDurationUnits = request.getParameter("maxDurationUnits");
     String minDurationUnits = request.getParameter("minDurationUnits");
 
+    IncidentSortKey sort = DtmParamConverter.convertIncidentSortKey(request, "sort");
+
+    if (sort != null && sort != IncidentSortKey.DURATION && sort != IncidentSortKey.TIME_DOWN) {
+      throw new RuntimeException("sort must be DURATION or TIME_DOWN");
+    }
+
     IncidentDowntimeReportParams params = new IncidentDowntimeReportParams();
 
     params.setStart(start);
@@ -104,6 +111,7 @@ public class IncidentDowntimeReportUrlParamHandler
     params.setMaxDurationUnits(maxDurationUnits);
     params.setMinDuration(minDuration);
     params.setMinDurationUnits(minDurationUnits);
+    params.setSortByDuration(sort != IncidentSortKey.TIME_DOWN);
 
     return params;
   }
@@ -157,6 +165,7 @@ public class IncidentDowntimeReportUrlParamHandler
     defaultParams.setData("downtime");
     defaultParams.setMaxDurationUnits("Minutes");
     defaultParams.setMinDurationUnits("Minutes");
+    defaultParams.setSortByDuration(true);
 
     return defaultParams;
   }
@@ -263,6 +272,7 @@ public class IncidentDowntimeReportUrlParamHandler
     params.setMinDuration(minDuration);
     params.setMaxDurationUnits(maxDurationUnits);
     params.setMinDurationUnits(minDurationUnits);
+    params.setSortByDuration(defaultValues.isSortByDuration());
 
     return params;
   }
@@ -397,6 +407,9 @@ public class IncidentDowntimeReportUrlParamHandler
     builder.add("minDuration", IOUtil.nullOrString(params.getMinDuration()));
     builder.add("maxDurationUnits", IOUtil.nullOrString(params.getMaxDurationUnits()));
     builder.add("minDurationUnits", IOUtil.nullOrString(params.getMinDurationUnits()));
+    builder.add(
+        "sort",
+        (params.isSortByDuration() ? IncidentSortKey.DURATION : IncidentSortKey.TIME_DOWN).name());
     builder.add("qualified", "");
 
     String url = ServletUtil.getCurrentUrlAdvanced(request, builder.getParams());
