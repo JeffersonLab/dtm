@@ -21,7 +21,7 @@ COPY --from=builder /app/container/app/app-setup.env /
 USER root
 RUN /wildfly-lib.sh -e /app-setup.env wildfly_start_and_wait config_keycloak_client config_oracle_client \
        config_email wildfly_reload wildfly_stop \
-     && rm -rf /opt/wildfly/current/standalone/configuration/standalone_xml_history \
+     && rm -rf /opt/wildfly/current/standalone/configuration/standalone_xml_history
 USER dev
 COPY --from=builder /app/build/libs/* /opt/wildfly/current/standalone/deployments
 
