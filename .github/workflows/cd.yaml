@@ -44,37 +44,6 @@ jobs:
       contents: write
     needs:
       - release
-    runs-on: ubuntu-latest
-    concurrency:
-      group: user-guide-pages
-      cancel-in-progress: false
-    env:
-      SEMVERTAG: ${{ needs.release.outputs.semvertag }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-      - name: Setup uv
-        uses: astral-sh/setup-uv@v10.3.3
-      - name: Build the user guide
-        run: uv run --locked zensical build --strict
-      # Replaces latest/ as a whole, so a page removed in this release goes from it too
-      - name: Publish it as the latest
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: site
-          target-folder: latest
-          commit-message: Publish the ${{ env.SEMVERTAG }} user guide as the latest
-      # Adds this release's folder and the front page, and keeps the other releases' folders
-      - name: Stage this release's folder and the front page
-        run: |
-          mkdir pages
-          cp -r site "pages/$SEMVERTAG"
-          git fetch --depth=1 origin gh-pages
-          mapfile -t published < <(git ls-tree -d --name-only FETCH_HEAD)
-          python3 .github/scripts/user-guide-index.py pages "$SEMVERTAG" "${published[@]}"
-      - name: Publish this release's guide
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: pages
-          clean: false
-          commit-message: Publish the ${{ env.SEMVERTAG }} user guide
+    uses: jeffersonlab/general-workflows/.github/workflows/user-guide-publish.yaml@v2
+    with:
+      semvertag: ${{ needs.release.outputs.semvertag }}
