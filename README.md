@@ -19,7 +19,7 @@ A [Jakarta EE 10](https://en.wikipedia.org/wiki/Jakarta_EE) web application for 
 ## Overview
 The Downtime application allows Operators to log machine downtime events.  Downtime events are caused by one or more incidents, and incidents may occur concurrently.  The machine requires time to recover after all incidents are resolved, and this time is also part of an event.  Short temporary "trips" caused by Fast Shutdown System (FSD) faults, are also recorded.   A trip that lasts longer than five minutes is considered eligible to be a downtime event.  Most downtime events start off as trips.
 
-See the [User Guide](https://github.com/JeffersonLab/dtm/blob/main/docs/user-guide/README.md) for how to use it.
+See the [User Guide]([https://github.com/JeffersonLab/dtm/blob/main/docs/user-guide/README.md](https://jeffersonlab.github.io/dtm/latest/)) for how to use it.
 
 ## Quick Start with Compose
 1. Grab project
