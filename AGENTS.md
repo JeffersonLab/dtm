@@ -44,7 +44,9 @@ project is, its settings, and how to set it up.
 - User guide (`docs/user-guide`): it is also a Zensical website (`zensical.toml`, tools pinned by
   `uv.lock`). On a change to it, run `uv run --locked zensical build --strict`, as CI's
   `user-guide` job does; link within the guide by relative path, and outside it by full URL.
-  Releases publish it to GitHub Pages (`cd.yaml`).
+  Releases publish it to GitHub Pages (`cd.yaml`). Both jobs call JeffersonLab/general-workflows'
+  `user-guide-build.yaml` and `user-guide-publish.yaml`, which hold the steps and the front
+  page's script: a change to how the website is built or published goes there.
 - UI changes: there are no browser tests or screenshot script; look at the page in a browser
   (forward the ports from the VM, or drive one) and say in the pull request what you checked.
 - Compile for Java 17 (`options.release = 17`). Wildfly 37 provides the `providedCompile`
