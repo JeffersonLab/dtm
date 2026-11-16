@@ -415,7 +415,8 @@ th.incident-log-entries-header {
     resize: none;
 }
 /*Matches the Solution column of the weekly reports, so line breaks look the same*/
-#solution {
+#solution,
+.solution-input {
     width: 285px;
     height: 75px;
     resize: none;
@@ -425,10 +426,10 @@ th.incident-log-entries-header {
     font-size: 0.8em;
     color: #595959;
 }
-#solution-count {
+.solution-count {
     display: block;
 }
-#solution-count.over-suggested,
+.solution-count.over-suggested,
 .field-warning {
     color: #b35900;
     font-weight: bold;

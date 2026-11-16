@@ -84,6 +84,10 @@ and fill in:
 - **Repairer**: the groups that repaired it,
 - **Solution**: how it was fixed.
 
+On the incident's page, **Edit OPR Review** edits just these three fields. Operators see it too,
+to fill in the Repairer and Solution, until the incident has been OPR reviewed or its event
+closed more than 10 hours ago.
+
 Incidents can be OPR reviewed while their event is still open, which helps with long degraded
 events.
 
