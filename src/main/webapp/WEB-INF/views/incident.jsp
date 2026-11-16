@@ -99,6 +99,17 @@
                         </c:if>
                         <h3>Review</h3>
                         <h4>Operability (OPR)</h4>
+                        <c:if test="${(pageContext.request.userPrincipal ne null) and ((incident.reviewedUsername == null and !incident.event.closedLongAgo()) || sessionScope.effectiveRole eq 'REVIEWER')}">
+                            <table>
+                                <tbody>
+                                <tr data-incident-id="${incident.incidentId}" data-solution="${fn:escapeXml(incident.resolution)}" data-repaired-by-id-csv="${incident.repairedByIdCsv}" data-reviewed-by="${fn:escapeXml(incident.reviewedUsername)}">
+                                    <td>
+                                        <button type="button" class="open-edit-opr-review-dialog-button">Edit OPR Review</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </c:if>
                         <dl class="indented-dl">
                             <dt>Reviewer:</dt>
                             <dd><c:out value="${s:formatUsername(incident.reviewedUsername)}"/></dd>
@@ -170,5 +181,54 @@
             </div>                    
         </section>
         <t:event-list-dialogs eventTypeList="${eventTypeList}" systemList="${systemList}"/>
+        <div id="edit-opr-review-dialog" class="dialog" title="Edit Operability Review">
+            <section>
+                <ul class="key-value-list">
+                    <li>
+                        <div class="li-key">
+                            <label for="opr-review-reviewed-by">Reviewer</label>
+                        </div>
+                        <div class="li-value">
+                            <input type="text" id="opr-review-reviewed-by" class="username-autocomplete" maxlength="128" placeholder="username"/>
+                            <span> </span>
+                            <button type="button" class="me-button">Me</button>
+                            <c:if test="${sessionScope.effectiveRole ne 'REVIEWER'}">
+                                <div class="field-hint">Only a reviewer can set the reviewer.</div>
+                            </c:if>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="li-key">
+                            <label for="opr-review-repaired-by">Repairer</label>
+                        </div>
+                        <div class="li-value">
+                            <select id="opr-review-repaired-by" multiple="multiple">
+                                <c:forEach items="${groupList}" var="group">
+                                    <option value="${group.workgroupId}"><c:out value="${group.name}"/></option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="li-key">
+                            <label for="opr-review-solution">Solution</label>
+                        </div>
+                        <div class="li-value">
+                            <textarea id="opr-review-solution" class="solution-input" maxlength="2048" placeholder="Brief: what fixed it" aria-describedby="opr-review-solution-hint"></textarea>
+                            <div id="opr-review-solution-hint" class="field-hint">
+                                <span id="opr-review-solution-count" class="solution-count"></span>
+                                Keep it brief: the weekly reports show this in a narrow column. Put details in a log entry that references this incident.
+                                <span id="opr-review-solution-url-warning" class="field-warning" style="display: none;">Instead of a URL, put the details in a log entry that references this incident.</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            <div class="dialog-button-panel">
+                <button id="edit-opr-review-button" class="dialog-submit" type="button">Save</button>
+                <button class="dialog-close-button" type="button">Cancel</button>
+            </div>
+            <input type="hidden" id="opr-review-dialog-incident-id"/>
+        </div>
     </jsp:body>         
 </s:page>

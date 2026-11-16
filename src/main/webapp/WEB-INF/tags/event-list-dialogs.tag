@@ -235,9 +235,9 @@
                                 <label for="solution">Solution</label>
                             </div>
                             <div class="li-value">
-                                <textarea id="solution" maxlength="2048" placeholder="Brief: what fixed it" aria-describedby="solution-hint"></textarea>
+                                <textarea id="solution" class="solution-input" maxlength="2048" placeholder="Brief: what fixed it" aria-describedby="solution-hint"></textarea>
                                 <div id="solution-hint" class="field-hint">
-                                    <span id="solution-count"></span>
+                                    <span id="solution-count" class="solution-count"></span>
                                     Keep it brief: the weekly reports show this in a narrow column. Put details in a log entry that references this incident.
                                     <span id="solution-url-warning" class="field-warning" style="display: none;">Instead of a URL, put the details in a log entry that references this incident.</span>
                                 </div>

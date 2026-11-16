@@ -365,6 +365,61 @@ jlab.dtm.editSystemExpertReview = function () {
         }
     });
 };
+jlab.dtm.editOperabilityReview = function () {
+
+    if (jlab.isRequest()) {
+        window.console && console.log("Ajax already in progress");
+        return;
+    }
+
+    jlab.requestStart();
+
+    var incidentId = $("#opr-review-dialog-incident-id").val(),
+            reviewedBy = $("#opr-review-reviewed-by").val(),
+            repairedByArray = $("#opr-review-repaired-by").val(),
+            solution = $("#opr-review-solution").val(),
+            $saveButton = $("#edit-opr-review-button");
+
+    $saveButton.html("<span class=\"button-indicator\"></span>");
+    $saveButton.attr("disabled", "disabled");
+
+    var leaveSpinning = false;
+
+    var request = jQuery.ajax({
+        url: "/dtm/ajax/edit-operability-review",
+        type: "POST",
+        data: {
+            incidentId: incidentId,
+            reviewedBy: reviewedBy,
+            'repairedBy[]': repairedByArray,
+            solution: solution
+        },
+        dataType: "html"
+    });
+
+    request.done(function (data) {
+        if ($(".status", data).html() !== "Success") {
+            alert('Unable to update operability review: ' + $(".reason", data).html());
+        } else {
+            /* Success */
+            leaveSpinning = true;
+            document.location.reload(true);
+        }
+    });
+
+    request.fail(function (xhr, textStatus) {
+        window.console && console.log('Unable to update operability review: Text Status: ' + textStatus + ', Ready State: ' + xhr.readyState + ', HTTP Status Code: ' + xhr.status);
+        alert('Unable to update operability review: server did not handle request');
+    });
+
+    request.always(function () {
+        jlab.requestEnd();
+        if (!leaveSpinning) {
+            $saveButton.html("Save");
+            $saveButton.removeAttr("disabled");
+        }
+    });
+};
 jlab.dtm.prepareIncidentFormForEdit = function (skipSystemListLoad) {
     var $table = $(this).closest("table"),
             $tr = $(this).closest("tr"),
@@ -554,19 +609,26 @@ jlab.dtm.loadLogbookReference = function () {
 };
 /* The weekly reports show the Solution in a narrow column, so it should stay brief; this is a hint, not a limit */
 jlab.dtm.solutionSuggestedMax = 200;
-jlab.dtm.updateSolutionHint = function () {
-    var solution = $("#solution").val() || '',
+/* Each .solution-input textarea has a "<id>-count" and a "<id>-url-warning" element */
+jlab.dtm.updateSolutionHint = function (textarea) {
+    var solution = $(textarea).val() || '',
             length = solution.length,
             over = length > jlab.dtm.solutionSuggestedMax;
 
-    $("#solution-count")
+    $("#" + textarea.id + "-count")
             .text(length + ' of ' + jlab.dtm.solutionSuggestedMax + ' suggested characters' + (over ? ': please shorten' : ''))
             .toggleClass("over-suggested", over);
 
-    $("#solution-url-warning").toggle(/https?:\/\/|www\./i.test(solution));
+    $("#" + textarea.id + "-url-warning").toggle(/https?:\/\/|www\./i.test(solution));
 };
-$(document).on("input", "#solution", jlab.dtm.updateSolutionHint);
-$(document).on("dialogopen", "#incident-dialog", jlab.dtm.updateSolutionHint);
+$(document).on("input", ".solution-input", function () {
+    jlab.dtm.updateSolutionHint(this);
+});
+$(document).on("dialogopen", ".dialog", function () {
+    $(this).find(".solution-input").each(function () {
+        jlab.dtm.updateSolutionHint(this);
+    });
+});
 jlab.dtm.filterSystemSelect = function (setToSystemId) {
     if (jlab.isRequest()) {
         window.console && console.log("Ajax already in progress");
@@ -941,6 +1003,20 @@ $(document).on("click", ".open-edit-expert-review-dialog-button", function () {
 $(document).on("click", "#edit-expert-review-button", function () {
     jlab.dtm.editSystemExpertReview();
 });
+$(document).on("click", ".open-edit-opr-review-dialog-button", function () {
+    var $tr = $(this).closest("tr"),
+            repairedByIdCsv = $tr.attr("data-repaired-by-id-csv") || '';
+
+    $("#opr-review-dialog-incident-id").val($tr.attr("data-incident-id"));
+    $("#opr-review-reviewed-by").val($tr.attr("data-reviewed-by"));
+    $("#opr-review-repaired-by").val(repairedByIdCsv === '' ? null : repairedByIdCsv.split(",")).trigger("change");
+    $("#opr-review-solution").val($tr.attr("data-solution"));
+
+    $("#edit-opr-review-dialog").dialog("open");
+});
+$(document).on("click", "#edit-opr-review-button", function () {
+    jlab.dtm.editOperabilityReview();
+});
 $(document).on("click", "#incident-action-button", function () {
     jlab.dtm.doIncidentAction($(".reload-after-edit").length > 0);
 });
@@ -1227,6 +1303,14 @@ $(function () {
 
     $("#repaired-by").select2({
         width: 405
+    });
+
+    $("#edit-opr-review-dialog").dialog("option", "height", 400);
+    $("#edit-opr-review-dialog").dialog("option", "width", 550);
+    $("#edit-opr-review-dialog").dialog("option", "resizable", false);
+
+    $("#opr-review-repaired-by").select2({
+        width: 285
     });
 
     $("#incident-form-tabs").tabs();

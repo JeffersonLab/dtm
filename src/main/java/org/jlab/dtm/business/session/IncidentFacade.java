@@ -961,6 +961,52 @@ public class IncidentFacade extends AbstractFacade<Incident> {
     forceAcknowledgeIfCompletedLevelIIPlus(incident);
   }
 
+  /**
+   * Edit only the Operability (OPR) review fields of an incident: its solution, repairers and OPR
+   * reviewer. The same rules apply as when editing the whole incident: only a reviewer may set the
+   * OPR reviewer, or edit an incident that is already OPR reviewed or whose event closed long ago.
+   *
+   * @param incidentId The incident ID
+   * @param solution The solution
+   * @param repairedBy The repairing workgroup IDs
+   * @param reviewedBy The OPR reviewer username, or null or blank for none
+   * @throws UserFriendlyException If the incident is not found or a non-reviewer sets the reviewer
+   */
+  @PermitAll
+  public void editOperabilityReview(
+      BigInteger incidentId, String solution, BigInteger[] repairedBy, String reviewedBy)
+      throws UserFriendlyException {
+    checkAuthenticated();
+
+    if (incidentId == null) {
+      throw new UserFriendlyException("Incident ID must not be empty");
+    }
+
+    Incident incident = find(incidentId);
+
+    if (incident == null) {
+      throw new UserFriendlyException("Incident with ID " + incidentId + " not found");
+    }
+
+    checkCanEditIncidentOrEvent(incident.getReviewedUsername() != null, incident.getEvent());
+
+    if (reviewedBy != null && reviewedBy.trim().isEmpty()) {
+      reviewedBy = null;
+    }
+
+    AuditContext auditCtx = AuditContext.getCurrentInstance();
+    boolean reviewer = "REVIEWER".equals(auditCtx.getExtra("EffectiveRole"));
+
+    if (reviewedBy != null && !reviewer) {
+      throw new UserFriendlyException("You must be a reviewer to set the reviewed by field");
+    }
+
+    incident.setResolution(solution);
+    incident.setReviewedUsername(reviewedBy);
+
+    validateAndSetRepairedBy(incident, repairedBy);
+  }
+
   @SuppressWarnings("unchecked")
   @PermitAll
   public List<String> findAllExpertsWithRecentUnreviewedIncidents(int numberOfHours) {
