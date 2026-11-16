@@ -106,8 +106,55 @@ $(document).on("click", "#open-edit-selected-dialog-button", function() {
     
     $("#incident-dialog").dialog("open");
 });
+/* Link the log entries that reference each incident under its Solution, where the details go */
+jlab.dtm.loadSolutionLogEntries = function() {
+    var $container = $(this),
+            incidentId = $container.closest("tr").attr("data-incident-id");
+
+    var request = jQuery.ajax({
+        url: jlab.contextPath + "/data/references",
+        type: "GET",
+        data: {
+            'id': incidentId
+        },
+        dataType: "json"
+    });
+
+    request.done(function(json) {
+        if (json.stat === "fail") {
+            window.console && console.log('Unable to load log entries: ' + json.error);
+            $container.html('<span class="solution-log-entries-error">Log entries: unable to load</span>');
+            return;
+        }
+
+        var references = jlab.dtm.filterGeneratedLogReferences(json.data);
+
+        if (references.length > 0) {
+            $container.append('Details: ');
+            $(references).each(function(index) {
+                if (index > 0) {
+                    $container.append(', ');
+                }
+                $('<a target="_blank"></a>')
+                        .attr("href", jlab.logbookServerUrl + '/entry/' + encodeURIComponent(this.lognumber))
+                        .attr("title", this.title)
+                        .text(this.lognumber)
+                        .appendTo($container);
+            });
+        }
+    });
+
+    request.fail(function(xhr, textStatus) {
+        window.console && console.log('Unable to load log entries: Text Status: ' + textStatus + ', HTTP Status Code: ' + xhr.status);
+        $container.html('<span class="solution-log-entries-error">Log entries: unable to load</span>');
+    });
+};
 $(function() {
     $("#open-edit-selected-dialog-button, #fullscreen-button, #exit-fullscreen-button").button();
+
+    if (jlab.logbookEnabled) {
+        $(".solution-log-entries").each(jlab.dtm.loadSolutionLogEntries);
+    }
 
     $("#open-edit-selected-dialog-button").button("option", "disabled", "disabled");
 

@@ -497,6 +497,13 @@ jlab.dtm.loadPanelLogbookReferences = function () {
     });
 };
 
+/* Drop the entries DTM itself posts when an incident is created, closed or revised */
+jlab.dtm.filterGeneratedLogReferences = function (references) {
+    return $.grep(references || [], function (reference) {
+        return !(reference.title.startsWith('Downtime Incident CREATED: ') || reference.title.startsWith('Downtime Incident CLOSED: ') || reference.title.startsWith('Downtime Incident REVISED: '));
+    });
+};
+
 jlab.dtm.loadLogbookReference = function () {
 
     var $tr = $(this),
@@ -524,16 +531,7 @@ jlab.dtm.loadLogbookReference = function () {
             /* Success */
             $td.html(''); // clear indicator
 
-            /* Filter out DTM generated logs */
-            var filteredData = [];
-            if (json.data.length > 0) {
-                $(json.data).each(function () {
-                    if (this.title.startsWith('Downtime Incident CREATED: ') || this.title.startsWith('Downtime Incident CLOSED: ') || this.title.startsWith('Downtime Incident REVISED: ')) {
-                        return true; // continue
-                    }
-                    filteredData.push(this);
-                });
-            }
+            var filteredData = jlab.dtm.filterGeneratedLogReferences(json.data);
 
             if (filteredData.length > 0) {
                 $td.append('<ul class="table-cell-list"></ul>');
@@ -554,6 +552,21 @@ jlab.dtm.loadLogbookReference = function () {
     request.always(function () {
     });
 };
+/* The weekly reports show the Solution in a narrow column, so it should stay brief; this is a hint, not a limit */
+jlab.dtm.solutionSuggestedMax = 200;
+jlab.dtm.updateSolutionHint = function () {
+    var solution = $("#solution").val() || '',
+            length = solution.length,
+            over = length > jlab.dtm.solutionSuggestedMax;
+
+    $("#solution-count")
+            .text(length + ' of ' + jlab.dtm.solutionSuggestedMax + ' suggested characters' + (over ? ': please shorten' : ''))
+            .toggleClass("over-suggested", over);
+
+    $("#solution-url-warning").toggle(/https?:\/\/|www\./i.test(solution));
+};
+$(document).on("input", "#solution", jlab.dtm.updateSolutionHint);
+$(document).on("dialogopen", "#incident-dialog", jlab.dtm.updateSolutionHint);
 jlab.dtm.filterSystemSelect = function (setToSystemId) {
     if (jlab.isRequest()) {
         window.console && console.log("Ajax already in progress");

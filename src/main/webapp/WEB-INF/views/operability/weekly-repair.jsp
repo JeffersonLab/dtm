@@ -127,7 +127,7 @@
                                                     </c:choose>
                                                 </div>
                                             </td>
-                                            <td class="resolution-field"><span class="read-field"><c:out value="${incident.resolution}"/></span><span style="display: none;" class="write-field"><textarea><c:out value="${incident.resolution}"/></textarea></span></td>
+                                            <td class="resolution-field"><span class="read-field"><c:out value="${incident.resolution}"/></span><span style="display: none;" class="write-field"><textarea><c:out value="${incident.resolution}"/></textarea></span><c:if test="${settings.is('LOGBOOK_ENABLED')}"><div class="solution-log-entries"></div></c:if></td>
                                                         <c:url var="url" value="/reports/incident-downtime">
                                                             <c:param name="start" value="${fourWeeksAgoInclusiveFmt}"/>
                                                             <c:param name="end" value="${endFmt}"/>
