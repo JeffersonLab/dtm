@@ -24,6 +24,16 @@ body.print,
     resize: none;
     width: 250px;
 }
+.solution-log-entries {
+    margin-top: 0.5em;
+    font-size: 0.8em;
+}
+.solution-log-entries:empty {
+    display: none;
+}
+.solution-log-entries-error {
+    color: #595959;
+}
 .div-cell {
     display: table-cell;
     padding: 0.5em;

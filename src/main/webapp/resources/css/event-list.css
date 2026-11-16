@@ -409,11 +409,32 @@ th.incident-log-entries-header {
 #elog-note-panel {
     float: left;
 }
-#summary,
-#solution {
+#summary {
     width: 400px;
     height: 75px;
     resize: none;
+}
+/*Matches the Solution column of the weekly reports, so line breaks look the same*/
+#solution {
+    width: 285px;
+    height: 75px;
+    resize: none;
+}
+.field-hint {
+    width: 285px;
+    font-size: 0.8em;
+    color: #595959;
+}
+#solution-count {
+    display: block;
+}
+#solution-count.over-suggested,
+.field-warning {
+    color: #b35900;
+    font-weight: bold;
+}
+.field-warning {
+    display: block;
 }
 #start-with-panel {
     float: right;
