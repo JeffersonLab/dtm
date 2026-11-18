@@ -7,6 +7,7 @@ A [Jakarta EE 10](https://en.wikipedia.org/wiki/Jakarta_EE) web application for 
  - [Overview](https://github.com/JeffersonLab/dtm#overview)
  - [User Guide](https://github.com/JeffersonLab/dtm/blob/main/docs/user-guide/README.md)
  - [Quick Start with Compose](https://github.com/JeffersonLab/dtm#quick-start-with-compose)
+ - [Dependencies](https://github.com/JeffersonLab/dtm#dependencies)
  - [Install](https://github.com/JeffersonLab/dtm#install) 
  - [Configure](https://github.com/JeffersonLab/dtm#configure)
  - [Build](https://github.com/JeffersonLab/dtm#build)
@@ -59,6 +60,44 @@ The app and Keycloak are set up for the ports you choose, so log in at `https://
 Compose names the containers, network, and images after the project's directory, such as `dtm-oracle-1`, so a copy in another directory, such as a git worktree, gets its own.
 
 See: [Docker Compose Strategy](https://gist.github.com/slominskir/a7da801e8259f5974c978f9c3091d52c)
+
+## Dependencies
+What dtm depends on: what each is used for, where it comes from, its license, and how it is maintained, as of November 2026.  Library versions are pinned in [build.gradle](https://github.com/JeffersonLab/dtm/blob/main/build.gradle), and the container images are named in [deps.yaml](https://github.com/JeffersonLab/dtm/blob/main/deps.yaml) and the [Dockerfile](https://github.com/JeffersonLab/dtm/blob/main/Dockerfile).
+
+### To run it
+
+| Dependency | Used for | Source | License | Maintenance |
+|---|---|---|---|---|
+| Java 17 or later | Runs the application server | [Eclipse Temurin](https://adoptium.net/) or another OpenJDK build | GPL-2.0 with Classpath Exception | Active (Eclipse Adoptium) |
+| [WildFly](https://www.wildfly.org/) 37.0.1 | Jakarta EE 10 application server; provides the Jakarta EE API, JSTL, and Hibernate ORM with Envers, which keeps the audit history, to the app | [wildfly.org](https://www.wildfly.org/downloads/) | Apache-2.0; the Hibernate ORM 6.6 in it is LGPL-2.1 | Active; the project's latest is 42.0.0 (October 2026) |
+| Oracle Database 19 or later | Stores the downtime events | Oracle | Commercial | Supported by Oracle |
+| Oracle JDBC driver | WildFly's datasource for the database | [Maven Central](https://central.sonatype.com/artifact/com.oracle.database.jdbc/ojdbc17) | Oracle Free Use Terms and Conditions | Active (Oracle) |
+| [Keycloak](https://www.keycloak.org/) | Login with OpenID Connect, and the user directory | [keycloak.org](https://www.keycloak.org/downloads); tested with 26.6 | Apache-2.0 | Active; latest is 26.8.2 (November 2026) |
+| [Puppet Show](https://github.com/JeffersonLab/puppet-show) | PDF and image export of pages | [Docker Hub](https://hub.docker.com/r/jeffersonlab/puppet-show) | MIT | JLab's own; last release 3.0.2 (December 2024) |
+| SMTP server | Sends email | Any | | |
+| [Smoothness weblib](https://github.com/JeffersonLab/smoothness) | Page layout, login, settings and setup pages, and the shared scripts, such as Flot for charts; in the war | [Maven Central](https://central.sonatype.com/artifact/org.jlab/smoothness-weblib) | MIT | JLab's own; active, latest is 5.3.0 (October 2026) |
+| [jLog](https://github.com/JeffersonLab/jlog) | Posts incidents to the JLab logbook; installed in WildFly | [Maven Central](https://central.sonatype.com/artifact/org.jlab/jlog) | MIT | JLab's own; last release 5.2.0 (August 2025) |
+| [Apache POI](https://poi.apache.org/) | Excel exports of the reports; installed in WildFly | [Maven Central](https://central.sonatype.com/artifact/org.apache.poi/poi) | Apache-2.0 | Active; latest is 6.0.0 (October 2026) |
+| [jsoup](https://jsoup.org/) | Reads the app's own email pages to send them; in the war | [Maven Central](https://central.sonatype.com/artifact/org.jsoup/jsoup) | MIT | Active; latest is 1.24.1 (November 2026) |
+| [UrlRewriteFilter](https://github.com/paultuckey/urlrewritefilter) | Rewrites versioned resource links and incident addresses; installed in WildFly | [Maven Central](https://central.sonatype.com/artifact/org.tuckey/urlrewritefilter) | BSD | Dormant: 5.1.3 (October 2023) is the latest release, and the repository last changed in February 2024 |
+| [jsTree](https://github.com/vakata/jstree) 3.3.8 | The category tree | Copied into [resources/jstree](https://github.com/JeffersonLab/dtm/tree/main/src/main/webapp/resources/jstree) | MIT | Latest is 3.3.17 (September 2024), the repository's last change |
+| [Flot](https://github.com/flot/flot) plugins: dashes, growraf, and a changed copy of the time plugin | Dashed lines, animation and time axes in the charts | Copied into [resources/js](https://github.com/JeffersonLab/dtm/tree/main/src/main/webapp/resources/js) | MIT for growraf and time; the dashes file states none | Maintained here: Flot's last release was 0.8.3 (April 2014) |
+
+With their settings on, dtm also posts to the JLab logbook, and reads SRM and the NPES schedule on JLab's servers: see the [Settings](https://github.com/JeffersonLab/dtm/blob/main/container/oracle/initdb.d/04_settings.sql).
+
+### To build and test it
+
+| Dependency | Used for | Source | License | Maintenance |
+|---|---|---|---|---|
+| [Gradle](https://gradle.org/) 9 | Builds the war | The wrapper in this repository; the `gradle:9-jdk21` image for the Docker build | Apache-2.0 | Active |
+| [JUnit](https://junit.org/) 5 | Unit tests | Maven Central | EPL-2.0 | Active; the project's current line is JUnit 6 |
+| [Mockito](https://site.mockito.org/) | Stand-ins for collaborators in the unit tests | Maven Central | MIT | Active; latest is 5.24.0 (September 2026) |
+| [Eclipse Parsson](https://github.com/eclipse-ee4j/parsson) | JSON-P for the tests; WildFly provides it to the app | Maven Central | EPL-2.0 or GPL-2.0 with Classpath Exception | Active |
+| [Spotless](https://github.com/diffplug/spotless) with google-java-format | Checks formatting | Gradle Plugin Portal | Apache-2.0 | Active |
+| [gvenzl/oracle-xe](https://github.com/gvenzl/oci-oracle-xe) image | Oracle database for development and tests | Docker Hub | Image scripts Apache-2.0; Oracle Database XE under Oracle's terms | Repository last changed in December 2024 |
+| [jeffersonlab/wildfly](https://github.com/JeffersonLab/wildfly) and [jeffersonlab/keycloak](https://github.com/JeffersonLab/keycloak) images, tag `4` | WildFly and Keycloak, set up for development, tests and the demo image | Docker Hub | MIT | JLab's own; active, latest is 4.1.0 (November 2026) |
+| [MailHog](https://github.com/mailhog/MailHog) image | Catches email in development and tests | Docker Hub | MIT | Unmaintained: last release 1.0.1 (August 2020) |
+| [Zensical](https://zensical.org/) | Builds the user guide website | PyPI, pinned by `uv.lock` | MIT | Active |
 
 ## Install
 This application requires a Java 17+ JVM and standard library to run, plus a Jakarta EE 10 application server (developed with Wildfly).
